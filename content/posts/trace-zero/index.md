@@ -13,7 +13,7 @@ categories:
 tags:
   - trace
 # nolastmod: true
-draft: true
+draft: false
 ---
 A new year is approaching. I can't believe it's 2025 already. I mean, my memory is still stuck in 2020. But yeah, what can we do except celebrate? <!--more--> Hence, I've decided to get my favorite hobby back on track again and selectively share my perspectives publicly with those who might be interested.
 
