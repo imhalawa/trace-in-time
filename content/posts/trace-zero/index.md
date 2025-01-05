@@ -7,7 +7,7 @@ avatar: /img/mohamed-halawa.png
 authorlink: https://traceintime.com
 cover: cover.png
 images:
-  - cover.jpg
+  - cover.png
 categories:
   - traces
 tags:
