@@ -18,4 +18,4 @@ draft: false
 ---
 Some random snapshots my friend and I captured during our last trip to Amsterdam! 🌍📸
 <!--more-->
-{{< slider dir="images/amsterdam-may-2024">}}
+{{< slider dir="gallery/amsterdam-may-2024">}}
