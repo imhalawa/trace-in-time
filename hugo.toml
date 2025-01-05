@@ -1,0 +1,74 @@
+baseurl = "https://traceintime.com"
+defaultContentLanguage = "en"
+languageCode = "en"
+title = "Trace in Time"
+theme = "dream"
+
+[services]
+[services.disqus]
+shortname = "trace-in-time"
+[services.googleAnalytics]
+ID = "G-1YC6XZCNZP"
+
+[params]
+# zenMode = true
+
+lightTheme = "emerald"
+darkTheme = "forest"
+
+# backgroundImage = "me/background.jpg"
+# backgroundImageDark = ""
+
+author = "Mohamed Halawa"
+# description = ""
+avatar = "img/logo.png"
+headerTitle = "Trace in Time"
+motto = "A moment to reflect"
+
+# footerBottomText = ""
+
+rss = true
+
+# utterancesRepo = ""
+
+# valine = true
+# LEANCLOUD_APP_ID = ""
+# LEANCLOUD_APP_KEY = ""
+
+# waline = true
+# walineServer = ""
+
+email = "imhalawa@outlook.com"
+
+siteStartYear = 2024
+
+favicon = "favicon.ico"
+
+# Syntax highlighting
+# customSyntaxHighlighting = true
+
+# options
+stickyNav = true
+reorderNavItems = ["search", "posts", "categories", "tags", "rss"]
+collapseNavItems = ["posts", "categories", "tags"]
+# noDefaultSummaryCover = true
+showTableOfContents = true
+showSummaryCoverInPost = true
+imageZoomableInPost = true
+showPrevNextPost = true
+# reorderShares = ["x", "facebook", "whatsapp"]
+
+# [params.navItems]
+
+[params.advanced]
+customCSS = [
+    "css/glightbox.css",
+    "css/swiper-bundle.css",
+    "css/gallery-slider.css",
+]
+customJS = ["js/glightbox.js", "js/swiper-bundle.js", "js/gallery-slider.js"]
+
+[params.experimental]
+jsDate = true
+jsDateFormat = "yyyy-MM-dd"
+enableRobotsTXT = true

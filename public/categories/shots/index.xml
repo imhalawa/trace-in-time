@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Shots on Trace in Time</title>
+    <link>http://localhost:55629/categories/shots/</link>
+    <description>Recent content in Shots on Trace in Time</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Sun, 05 Jan 2025 01:03:48 +0100</lastBuildDate>
+    <atom:link href="http://localhost:55629/categories/shots/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Amsterdam 2024, May</title>
+      <link>http://localhost:55629/posts/amsterdam-may-2024/</link>
+      <pubDate>Sun, 05 Jan 2025 01:03:48 +0100</pubDate>
+      <guid>http://localhost:55629/posts/amsterdam-may-2024/</guid>
+      <description>&lt;p&gt;Some random snapshots my friend and I captured during our last trip to Amsterdam! 🌍📸&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

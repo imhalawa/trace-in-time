@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="en"
+  x-data
+  :class="$store.darkMode.class()"
+  :data-theme="$store.darkMode.theme()">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=55629&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trace Zero | Trace in Time</title>
+
+    
+<link href="/favicon.ico" rel="icon" type="image/x-icon" />
+
+
+<link rel="canonical" href="http://localhost:55629/posts/trace-zero/" />
+
+
+
+<meta name="author" content="Mohamed Halawa" />
+<meta name="description" content="A new year is approaching. I can&rsquo;t believe it&rsquo;s 2025 already. I mean, my memory is still stuck in 2020. But yeah, what can we do except celebrate?
+" />
+
+
+<meta name="keywords" content="Trace">
+
+
+
+<meta name="generator" content="Hugo 0.140.2">
+
+
+<meta property="og:url" content="http://localhost:55629/posts/trace-zero/">
+  <meta property="og:site_name" content="Trace in Time">
+  <meta property="og:title" content="Trace Zero">
+  <meta property="og:description" content="A new year is approaching. I can’t believe it’s 2025 already. I mean, my memory is still stuck in 2020. But yeah, what can we do except celebrate?">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2024-12-01T00:54:17+01:00">
+    <meta property="article:modified_time" content="2024-12-01T00:54:17+01:00">
+    <meta property="article:tag" content="Trace">
+    <meta property="og:image" content="http://localhost:55629/cover.jpg">
+
+
+
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="http://localhost:55629/cover.jpg">
+  <meta name="twitter:title" content="Trace Zero">
+  <meta name="twitter:description" content="A new year is approaching. I can’t believe it’s 2025 already. I mean, my memory is still stuck in 2020. But yeah, what can we do except celebrate?">
+
+
+
+
+<link rel="stylesheet" href="/css/output.css" />
+
+
+
+    
+
+
+<style>
+  pre {
+    padding: 1em;
+    overflow: auto;
+  }
+</style>
+
+
+
+
+
+
+
+
+
+    
+    <link rel="stylesheet" href="/css/glightbox.css" />
+    
+    <link rel="stylesheet" href="/css/swiper-bundle.css" />
+    
+    <link rel="stylesheet" href="/css/gallery-slider.css" />
+    
+
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  </head>
+
+  <body x-data="{
+    flip: false,
+  }">
+    
+    <div id="dream-global-bg"></div>
+
+    
+<nav x-data="{ isSticky: false }"
+  x-init="window.addEventListener('scroll', () => { isSticky = window.scrollY > 30 })"
+  class="sticky top-0 z-30 mt-4 lg:mt-8 py-4"
+  :class="{ 'bg-base-100 shadow-lg dark:border-b dark:border-base-content/30': isSticky }">
+
+  
+  <div class="container flex justify-between px-4">
+  
+    <section class="flex items-center gap-4">
+      <div class="avatar cursor-pointer hover:online" @click="flip = !flip" title="Flip it!">
+        <div class="h-10 rounded-full">
+          <img src="/img/logo.png" alt="Trace in Time" />
+        </div>
+      </div>
+
+      
+      <div>
+        
+        <a href="http://localhost:55629/" class="text-lg font-semibold cursor-pointer">
+          Trace in Time
+        </a>
+        
+        
+        <div class="text-base-content/60 text-sm">A moment to reflect</div>
+        
+      </div>
+      
+    </section>
+
+    <div class="dropdown dropdown-end sm:hidden">
+      <div tabindex="0" role="button" class="btn btn-ghost btn-square" aria-label="Select an option">
+        <ion-icon name="menu" class="text-2xl"></ion-icon>
+      </div>
+      <ul tabindex="0" class="dropdown-content menu w-36 bg-base-100 rounded-box z-[1] shadow-md">
+        
+
+
+<li>
+  <div role="link" tabindex="0" class="inline-flex items-center p-2 cursor-pointer" @click="flip = !flip" title="About">
+    <ion-icon name="information-circle"></ion-icon>About</div>
+</li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<li>
+  <a class="inline-flex items-center p-2 cursor-pointer" href="/posts" title="Archives">
+    <ion-icon name="archive"></ion-icon>
+    Archives
+  </a>
+</li>
+
+
+
+
+<li>
+  <a class="inline-flex items-center p-2 cursor-pointer" href="/categories" title="All Categories">
+    <ion-icon name="grid"></ion-icon>
+    All Categories
+  </a>
+</li>
+
+
+
+
+<li>
+  <a class="inline-flex items-center p-2 cursor-pointer" href="/tags" title="All Tags">
+    <ion-icon name="pricetags"></ion-icon>
+    All Tags
+  </a>
+</li>
+
+
+
+
+<li>
+  <a class="inline-flex items-center p-2 cursor-pointer" href="/index.xml" title="RSS">
+    <ion-icon name="logo-rss"></ion-icon>
+    RSS
+  </a>
+</li>
+
+
+
+
+
+
+      </ul>
+    </div>
+    <section class="hidden sm:flex sm:items-center sm:gap-2 md:gap-4">
+      
+      
+      
+      <div role="link" tabindex="0"
+        class="text-sm font-semibold cursor-pointer hover:underline"
+        @click="flip = !flip"
+        title="About"
+      >About</div>
+      
+      
+
+      
+      
+        
+      
+
+      
+
+      
+      
+      
+      
+
+
+
+
+
+      
+      
+<a class="group inline-flex items-center p-2 rounded-full cursor-pointer hover:bg-primary" href="/index.xml" title="RSS">
+  <ion-icon class="group-hover:text-primary-content" name="logo-rss"></ion-icon>
+</a>
+
+
+      
+
+      <div class="dropdown dropdown-end dropdown-hover">
+        <div tabindex="0" role="button" class="group inline-flex items-center p-2 rounded-full cursor-pointer hover:bg-primary" aria-label="Select an option">
+          <ion-icon class="group-hover:text-primary-content text-xl" name="menu"></ion-icon>
+        </div>
+        <ul tabindex="0" class="dropdown-content menu w-36 bg-base-100 rounded-box z-[1] shadow-xl">
+          
+          
+<li>
+  <a class="inline-flex items-center p-2 cursor-pointer" href="/posts" title="Archives">
+    <ion-icon name="archive"></ion-icon>
+    Archives
+  </a>
+</li>
+
+
+          
+          
+<li>
+  <a class="inline-flex items-center p-2 cursor-pointer" href="/categories" title="All Categories">
+    <ion-icon name="grid"></ion-icon>
+    All Categories
+  </a>
+</li>
+
+
+          
+          
+<li>
+  <a class="inline-flex items-center p-2 cursor-pointer" href="/tags" title="All Tags">
+    <ion-icon name="pricetags"></ion-icon>
+    All Tags
+  </a>
+</li>
+
+
+          
+
+          
+        </ul>
+      </div>
+      
+    </section>
+  </div>
+</nav>
+
+
+    <div class="flip-container" :class="{ 'flip-it': flip }">
+      <div class="flipper">
+        <div class="front">
+          <div class="container">
+            
+<div class="lg:grid lg:grid-cols-4 gap-4 mt-4 px-4">
+  <div class="hidden lg:block"></div>
+
+  <div class="lg:col-span-2">
+    <article class="mx-auto prose prose-quoteless dark:prose-invert" id="dream-single-post-main" itemscope
+      itemtype="http://schema.org/Article">
+      
+  <meta itemprop="name" content="Trace Zero">
+  <meta itemprop="description" content="A new year is approaching. I can’t believe it’s 2025 already. I mean, my memory is still stuck in 2020. But yeah, what can we do except celebrate?">
+  <meta itemprop="datePublished" content="2024-12-01T00:54:17+01:00">
+  <meta itemprop="dateModified" content="2024-12-01T00:54:17+01:00">
+  <meta itemprop="wordCount" content="1028">
+  <meta itemprop="image" content="http://localhost:55629/cover.jpg">
+  <meta itemprop="keywords" content="Trace">
+
+      <header>
+        <h1 itemprop="headline">Trace Zero</h1>
+        <p class="text-sm">
+          
+          <span data-format="luxon">2024-12-01T00:54:17&#43;01:00</span>
+          
+
+          | <span>5 minute read</span>
+
+          
+          | <span>Updated at
+            
+            <span data-format="luxon">2024-12-01T00:54:17&#43;01:00</span>
+            </span>
+          
+        </p>
+        <div class="flex justify-between">
+          <div class="flex items-center">
+  
+  <div class="avatar mr-1">
+    <div class="w-8 rounded-full">
+      <img class="my-0" src="/img/mohamed-halawa.png" alt="Mohamed Halawa" />
+    </div>
+  </div>
+  
+
+  <span itemprop="author" itemscope itemtype="https://schema.org/Person">
+  
+    
+      <a itemprop="url" href="https://traceintime.com" target="_blank">
+        <span itemprop="name">Mohamed Halawa</span>
+      </a>
+    
+  
+  </span>
+</div>
+
+
+          <div class="flex items-center gap-2">
+  
+  
+
+  
+  
+  
+  
+  
+    <a class="group inline-flex items-center p-2 rounded-full cursor-pointer hover:bg-primary"
+      href="https://x.com/intent/post?text=Trace%20Zero&amp;url=http://localhost:55629/posts/trace-zero/" target="_blank" rel="noopener noreferrer"
+      title="Share on X">
+      <ion-icon class="group-hover:text-primary-content" name="logo-x"></ion-icon>
+    </a>
+  
+    <a class="group inline-flex items-center p-2 rounded-full cursor-pointer hover:bg-primary"
+      href="https://facebook.com/sharer/sharer.php?u=http://localhost:55629/posts/trace-zero/" target="_blank" rel="noopener noreferrer"
+      title="Share on Facebook">
+      <ion-icon class="group-hover:text-primary-content" name="logo-facebook"></ion-icon>
+    </a>
+  
+    <a class="group inline-flex items-center p-2 rounded-full cursor-pointer hover:bg-primary"
+      href="https://wa.me/?text=Trace%20Zero%20http://localhost:55629/posts/trace-zero/" target="_blank" rel="noopener noreferrer"
+      title="Share on WhatsApp">
+      <ion-icon class="group-hover:text-primary-content" name="logo-whatsapp"></ion-icon>
+    </a>
+  
+
+  
+  
+</div>
+
+        </div>
+      </header>
+
+      <section id="dream-single-post-content" itemprop="articleBody">
+        
+        <img src="cover.png" alt="Trace Zero" />
+        
+
+        <p>A new year is approaching. I can&rsquo;t believe it&rsquo;s 2025 already. I mean, my memory is still stuck in 2020. But yeah, what can we do except celebrate?</p>
+<p>Hence, I&rsquo;ve decided to get my favorite hobby back on track again and selectively share my perspectives publicly with those who might be interested.</p>
+<h2 id="a-flashback">A Flashback</h2>
+<p>A couple of years ago, I started <a href="https://www.halawa.dev/" target="_blank">Halawa.dev</a>
+. The main theme was to provide fine-tuned articles on various technical subjects. I&rsquo;ll admit this was an unrealistic perspective and felt like a burden, as I&rsquo;d spend days and days reviewing a single article. Eventually, I&rsquo;d press the remove button because I was never satisfied. There are a few key points that led to this.</p>
+<h3 id="perfectionism-curse">Perfectionism Curse!</h3>
+<p>It will never happen. No matter how much you tune your creation, it will always have flaws as the environment changes, various circumstances occur, and the content becomes outdated at some point. One thing I learned this year is to favor pragmatism, efficiency, and simplicity over premature complexity. If someone asked me to build something that adds numbers, I&rsquo;d give them an <a href="https://en.wikipedia.org/wiki/Abacus" target="_blank">Abacus</a>
+! But requirements are always the main ruler. Avoiding unnecessary spices is what gives you a delicious meal.</p>
+<h3 id="the-ecosystem">The Ecosystem</h3>
+<p>Starting as a simple blog created by <a href="https://mohamedhalawa.hashnode.dev/" target="_blank">Hashnode.com</a>
+, I later moved to <a href="https://chatgpt.com/c/halawadev.wordpress.com" target="_blank">WordPress.com</a>
+. That&rsquo;s where the time waste increased exponentially. It was like cutting a cake with a sword. The system is fully-fledged and easy to customize, but for someone like me, it&rsquo;s a curse! I would change the overall site identity over and over, deviating from the original goal, which means none of them fit my use case given my personality.</p>
+<h3 id="bloated-perspectives">Bloated Perspectives</h3>
+<p>The internet is bloated. If I counted how many blogs have unique and non-repetitive perspectives these days, my fingers might be enough to do the job. The sad truth is, I found myself going this way, and it was pointless. It&rsquo;s okay to write about something that millions have written about, but the perspective matters.</p>
+<p>The world needs different perspectives around original ideas. It&rsquo;s happening—there are multiple manufacturers for the same product categories. I used to ask myself a question: wasn&rsquo;t a single calculator manufacturer enough? But guess what? We need this variety. Every single manufacturer has a different perspective and feature set that suits some of us while not being the best for others.</p>
+<p>The same case applies to textual content. I was under the impression that rewriting something differently while adding my perspective was pointless, but it&rsquo;s not. That&rsquo;s due to what readers favor.</p>
+<p>Since birth, we&rsquo;ve been on an undeclared mission to discover the world. Explaining matters from a different point of view was necessary, and that&rsquo;s due to how our minds work. We mix ideas to form new ones, and the feed is necessary. Curiosity is inevitable—it&rsquo;s our blessing as humankind. Bloating this process with repetitive perspectives makes it a boring and mild journey. Your mind might lose its creative power eventually.</p>
+<h3 id="the-ideas-flow">The Ideas Flow</h3>
+<p>The flow of ideas was kind of broken in my head. That&rsquo;s due to personal circumstances. I recently moved to the Netherlands, a country I loved with all my heart. I didn&rsquo;t have an easy start. As a Middle Eastern guy, the cultural difference gave me a bit of in-confidence. But it was a matter of time until I understood the basics and tamed myself to the environment and the cold weather. Yes, it&rsquo;s freezing here most of the time. It&rsquo;s still an ongoing journey, and I&rsquo;m grateful for everything I&rsquo;ve learned so far.</p>
+<p>Reshaping your mind and having a variety of cultural traits makes many things clearer about human beings. This exposure taught me how to think more effectively. I can recall that my whole idea about writing blog posts was writing things over and over while attempting to simplify matters for others. That was my initial goal of writing. But it&rsquo;s not. Sometimes, you have to go back and forth, ask yourself many questions, and attempt to have reasonable answers. Make more paths clearer, even for yourself, before attempting to share them with others.</p>
+<p>Dealing with ideas and concepts as a solid template that will never change is an ugly limitation. Preventing your mind from interpreting these concepts, understanding the main reason they exist, and how they solve specific problems—or not even understanding the problem—is even uglier. In the era of Generative AI, what differentiates you from an agent is your ability to creatively and consciously answer, explain, or invent. Otherwise, you&rsquo;re just another minion or agent in a swarm. It&rsquo;s not easy, but the attempt is required. With humility, I&rsquo;d claim that I was a minion. I&rsquo;m still one in some contexts.</p>
+<h2 id="an-attempt">An Attempt</h2>
+<p>Learning from mistakes is inevitable. It&rsquo;s my way of interpreting this world. I can&rsquo;t call myself a smart guy by any means. I&rsquo;m an ignorant person trying to understand What, How, and Why in every single aspect of my life. While retrospectively recalling my attempts, I found the previous highlights.</p>
+<h3 id="changes-over-time">Changes Over Time</h3>
+<p>As I&rsquo;m assured that my understanding of some ideas is reshaped repeatedly as I learn more, I tended to call them traces. That&rsquo;s where the name <a href="https://www.traceintime.com/" target="_blank">Trace In Time</a>
+ came from.</p>
+<h3 id="no-promises">No Promises</h3>
+<p>I can&rsquo;t guarantee 100% correctness in what I&rsquo;m sharing. It&rsquo;s rather perspectives on different matters. But I promise that I&rsquo;ll do my best to validate all the information I share. However, I&rsquo;d suggest that you revisit any references or resources that I&rsquo;ll leave beneath each article.</p>
+<h3 id="criticism-first">Criticism First</h3>
+<p>Constructive criticism is the main driver. I used to fear it sometimes, but experience taught me it&rsquo;s the best way to refine your learning. Meanwhile, sharing these perspectives is my way of leaving a trace of my previous understanding of some concepts. Think of it as version control for ideas. That&rsquo;s why I&rsquo;d highly encourage any passenger passing by to drop a question or comment. And please avoid praising unless you have something more to elaborate on.</p>
+<h2 id="green-light">Green light</h2>
+<p>Having explained my previous attempt, and the shape of the new one, I more than ready and so enthusiastic to kick off this attempt. So, Let that party begin! 🎉</p>
+      </section>
+
+      
+      <div class="divider"></div>
+      <div class="flex flex-col md:flex-row justify-between gap-4 py-4">
+        
+        <a class="group btn btn-outline" href="/posts/amsterdam-may-2024/" title="Amsterdam 2024, May">
+          <ion-icon name="chevron-back"></ion-icon>
+          <div class="inline-flex flex-col items-start">
+            <span class="text-base-content/60 group-hover:text-neutral-content/60 text-xs font-normal">Previous page</span>
+            <span class="max-w-48 truncate">Amsterdam 2024, May</span>
+          </div>
+        </a>
+        
+
+        
+        <div></div>
+        
+      </div>
+      
+
+      
+      <div class="divider"></div>
+
+      <section class="space-y-4">
+        
+<article>
+  <div id="disqus_thread"></div>
+<script>
+    window.disqus_config = function () {
+        this.page.identifier = '\/posts\/trace-zero\/';
+        this.page.title = 'Trace Zero';
+        this.page.url = 'http:\/\/localhost:55629\/posts\/trace-zero\/';
+
+        
+    };
+    function initDisqus() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "trace-in-time" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    };
+    setTimeout(() => {
+        initDisqus();
+    }, 3000);
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</article>
+
+
+
+
+
+
+
+
+      </section>
+      
+    </article>
+  </div>
+
+  <div class="hidden lg:flex lg:flex-col lg:items-end">
+    
+
+    
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#a-flashback">A Flashback</a>
+      <ul>
+        <li><a href="#perfectionism-curse">Perfectionism Curse!</a></li>
+        <li><a href="#the-ecosystem">The Ecosystem</a></li>
+        <li><a href="#bloated-perspectives">Bloated Perspectives</a></li>
+        <li><a href="#the-ideas-flow">The Ideas Flow</a></li>
+      </ul>
+    </li>
+    <li><a href="#an-attempt">An Attempt</a>
+      <ul>
+        <li><a href="#changes-over-time">Changes Over Time</a></li>
+        <li><a href="#no-promises">No Promises</a></li>
+        <li><a href="#criticism-first">Criticism First</a></li>
+      </ul>
+    </li>
+    <li><a href="#green-light">Green light</a></li>
+  </ul>
+</nav>
+    
+  </div>
+</div>
+
+
+            
+<footer class="flex justify-between items-center gap-2 px-4 py-12">
+
+  <div>
+  
+  <p>
+    © 2024 - 2025 Trace in Time
+  </p>
+  
+
+  
+  <p class="text-sm">
+    🌱
+    <span class="text-base-content/60">
+      Powered by <a class="hover:underline" href="https://gohugo.io/" target="_blank">Hugo</a> with theme
+      <a class="hover:underline" href="https://github.com/g1eny0ung/hugo-theme-dream" target="_blank">Dream</a>.</span
+    >
+  </p>
+  
+</div>
+
+  <div
+  x-data="{ icons: [
+    { name: 'moon', status: 'y' },
+    { name: 'sunny', status: 'n' },
+    { name: 'desktop', status: 'auto' }
+  ] }"
+  class="flex items-center gap-2 h-[32px] px-2 bg-base-100 border border-base-content/30 rounded-full"
+>
+  <template x-for="icon in icons">
+    <div
+      role="button"
+      tabindex="0"
+      :aria-label="'Select ' + icon.name + ' mode'"
+      class="group inline-flex justify-center items-center p-1 rounded-full cursor-pointer hover:bg-primary"
+      :class="$store.darkMode.icon() === icon.name && 'bg-primary'"
+      @click="$store.darkMode.toggle(icon.status)"
+    >
+      <ion-icon
+        :name="`${icon.name}-outline`"
+        class="group-hover:text-primary-content"
+        :class="$store.darkMode.icon() === icon.name && 'text-primary-content'"
+      >
+      </ion-icon>
+    </div>
+  </template>
+</div>
+
+</footer>
+
+          </div>
+        </div>
+        <div class="back">
+          <div class="container">
+            
+            <div class="dream-grid dream-grid-about">
+  
+  
+  
+  <div class="w-full md:w-1/2 lg:w-1/3 xl:w-1/4 p-4 dream-column">
+    <article
+      class="card card-compact bg-base-100 hover:bg-base-content/10 shadow-xl dark:border dark:border-base-content/30"
+    >
+      <div class="card-body">
+        <div class="card-title">Hey Passerby! 👋</div>
+
+        <div class="prose dark:prose-invert">
+          <p>Welcome to <strong>Mohamed Halawa</strong>&rsquo;s blog!</p>
+<p>Online, you’ll usually find me as <code>imhalawa</code> though not on Instagram. No need to check; I’m inactive on most social media platforms.</p>
+<p>I’m a software engineer by profession, but that’s just one aspect of who I am. I strongly believe that a person’s identity is better reflected through their thoughts, interests, and personality rather than their job title.</p>
+<p>In my free time, I’m likely exploring my favorite spots in town, reading, listening to music, working out, playing video games, or catching up with friends. As for my favorite meal—don’t ask! I’m terrible at remembering names.</p>
+<p>Want to reach out? Feel free to email me at <a href="mailto:imhalawa@outlook.com" target="_blank">imhalawa@outlook.com</a>
+ or drop a message on my <a href="https://instagram.com/im.halawa" target="_blank">Instagram</a>
+.</p>
+
+        </div>
+      </div>
+    </article>
+  </div>
+  
+  <div class="w-full md:w-1/2 lg:w-1/3 xl:w-1/4 p-4 dream-column">
+    <article
+      class="card card-compact bg-base-100 hover:bg-base-content/10 shadow-xl dark:border dark:border-base-content/30"
+    >
+      <div class="card-body">
+        <div class="card-title">Social Media Detox 🧪</div>
+
+        <div class="prose dark:prose-invert">
+          <p>I&rsquo;ve been on a long journey to distance myself from the toxicity of social media, and I’m envisioning this space as my peaceful refuge—a place where I can share freely with a smaller, more intentional audience who genuinely cares, rather than just passive scrollers.</p>
+<h2 id="why-i-avoid-social-media">Why I Avoid Social Media?</h2>
+<p>Social media represents the modern-day equivalent of a slavery industry. People become ensnared by forces that provoke feelings like envy, anger, and low self-esteem, leading to impulsive reactions. Constructive discussions often seem impossible without damaging each other&rsquo;s mental well-being.</p>
+<p>In essence, I’m striving to maintain a healthy and balanced mind.</p>
+
+        </div>
+      </div>
+    </article>
+  </div>
+  
+  <div class="w-full md:w-1/2 lg:w-1/3 xl:w-1/4 p-4 dream-column">
+    <article
+      class="card card-compact bg-base-100 hover:bg-base-content/10 shadow-xl dark:border dark:border-base-content/30"
+    >
+      <div class="card-body">
+        <div class="card-title">I often share this 📃</div>
+
+        <div class="prose dark:prose-invert">
+          <p>This blog is highly opinionated, so don’t expect it to fit into a specific category. Think of it as a glimpse into my personal diaries and PKMs. While you’ll often come across software engineering content, it’s not limited to that—don’t be surprised if you stumble upon a recipe! 😋</p>
+<p>Here are some general categories you can expect:</p>
+<ul>
+<li>Technical Notes 📝</li>
+<li>Random Snapshots 📸</li>
+<li>Recipes 🍔</li>
+<li>Reflections &amp; Meditations 🧘‍♂️📔</li>
+<li>Movie/Book Reviews 🎥📚</li>
+<li>Music Playlists (I enjoy music of all kinds! 🎧)</li>
+<li>Random Thoughts inspired by daily events</li>
+</ul>
+<p>It’s a little bit of everything, just like life.</p>
+
+        </div>
+      </div>
+    </article>
+  </div>
+  
+  
+
+  
+
+  
+</div>
+
+            
+
+            
+<footer class="flex justify-between items-center gap-2 px-4 py-12">
+
+  <div>
+  
+  <p>
+    © 2024 - 2025 Trace in Time
+  </p>
+  
+
+  
+  <p class="text-sm">
+    🌱
+    <span class="text-base-content/60">
+      Powered by <a class="hover:underline" href="https://gohugo.io/" target="_blank">Hugo</a> with theme
+      <a class="hover:underline" href="https://github.com/g1eny0ung/hugo-theme-dream" target="_blank">Dream</a>.</span
+    >
+  </p>
+  
+</div>
+
+  <div
+  x-data="{ icons: [
+    { name: 'moon', status: 'y' },
+    { name: 'sunny', status: 'n' },
+    { name: 'desktop', status: 'auto' }
+  ] }"
+  class="flex items-center gap-2 h-[32px] px-2 bg-base-100 border border-base-content/30 rounded-full"
+>
+  <template x-for="icon in icons">
+    <div
+      role="button"
+      tabindex="0"
+      :aria-label="'Select ' + icon.name + ' mode'"
+      class="group inline-flex justify-center items-center p-1 rounded-full cursor-pointer hover:bg-primary"
+      :class="$store.darkMode.icon() === icon.name && 'bg-primary'"
+      @click="$store.darkMode.toggle(icon.status)"
+    >
+      <ion-icon
+        :name="`${icon.name}-outline`"
+        class="group-hover:text-primary-content"
+        :class="$store.darkMode.icon() === icon.name && 'text-primary-content'"
+      >
+      </ion-icon>
+    </div>
+  </template>
+</div>
+
+</footer>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+  window.lightTheme = "emerald"
+  window.darkTheme = "forest"
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/imagesloaded@5.0.0/imagesloaded.pkgd.min.js"
+  integrity="sha256-htrLFfZJ6v5udOG+3kNLINIKh2gvoKqwEhHYfTTMICc=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js"
+  integrity="sha256-Nn1q/fx0H7SNLZMQ5Hw5JLaTRZp0yILA/FRexe19VdI=" crossorigin="anonymous"></script>
+
+
+
+<script src="/js/grid.js"></script>
+
+
+
+
+<script src="/js/main.js"></script>
+    
+
+
+<script
+  src="https://cdn.jsdelivr.net/npm/luxon@1.26.0"
+  integrity="sha256-4sbTzmCCW9LGrIh5OsN8V5Pfdad1F1MwhLAOyXKnsE0="
+  crossorigin="anonymous"
+></script>
+<script>
+  format()
+
+  function format() {
+    document.querySelectorAll('span[data-format="luxon"]').forEach(el => {
+      const date = el.textContent
+
+      el.textContent = luxon.DateTime.fromISO(date, { locale: "en" }).toFormat("yyyy-MM-dd")
+    })
+  }
+</script>
+
+
+
+
+
+
+
+<script type="module">
+  import mediumZoom from 'https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/+esm';
+  mediumZoom('#dream-single-post-content img')
+</script>
+
+
+
+
+
+    
+
+    
+    <script src="/js/glightbox.js"></script>
+    
+    <script src="/js/swiper-bundle.js"></script>
+    
+    <script src="/js/gallery-slider.js"></script>
+    
+
+    
+    
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-1YC6XZCNZP"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-1YC6XZCNZP');
+        }
+      </script>
+    
+
+    <script type="module" src="https://unpkg.com/ionicons@7.4.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.4.0/dist/ionicons/ionicons.js"></script>
+  </body>
+</html>

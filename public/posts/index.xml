@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Archives on Trace in Time</title>
+    <link>http://localhost:55629/posts/</link>
+    <description>Recent content in Archives on Trace in Time</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Sun, 05 Jan 2025 01:03:48 +0100</lastBuildDate>
+    <atom:link href="http://localhost:55629/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Amsterdam 2024, May</title>
+      <link>http://localhost:55629/posts/amsterdam-may-2024/</link>
+      <pubDate>Sun, 05 Jan 2025 01:03:48 +0100</pubDate>
+      <guid>http://localhost:55629/posts/amsterdam-may-2024/</guid>
+      <description>&lt;p&gt;Some random snapshots my friend and I captured during our last trip to Amsterdam! 🌍📸&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Trace Zero</title>
+      <link>http://localhost:55629/posts/trace-zero/</link>
+      <pubDate>Sun, 01 Dec 2024 00:54:17 +0100</pubDate>
+      <guid>http://localhost:55629/posts/trace-zero/</guid>
+      <description>&lt;p&gt;A new year is approaching. I can&amp;rsquo;t believe it&amp;rsquo;s 2025 already. I mean, my memory is still stuck in 2020. But yeah, what can we do except celebrate?&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

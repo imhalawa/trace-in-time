@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tags on Trace in Time</title>
+    <link>http://localhost:55629/tags/</link>
+    <description>Recent content in Tags on Trace in Time</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Sun, 05 Jan 2025 01:03:48 +0100</lastBuildDate>
+    <atom:link href="http://localhost:55629/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Amsterdam</title>
+      <link>http://localhost:55629/tags/amsterdam/</link>
+      <pubDate>Sun, 05 Jan 2025 01:03:48 +0100</pubDate>
+      <guid>http://localhost:55629/tags/amsterdam/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Shots</title>
+      <link>http://localhost:55629/tags/shots/</link>
+      <pubDate>Sun, 05 Jan 2025 01:03:48 +0100</pubDate>
+      <guid>http://localhost:55629/tags/shots/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Trace</title>
+      <link>http://localhost:55629/tags/trace/</link>
+      <pubDate>Sun, 01 Dec 2024 00:54:17 +0100</pubDate>
+      <guid>http://localhost:55629/tags/trace/</guid>
+      <description></description>
+    </item>
+  </channel>
+</rss>

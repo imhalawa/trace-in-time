@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Traces on Trace in Time</title>
+    <link>http://localhost:55629/categories/traces/</link>
+    <description>Recent content in Traces on Trace in Time</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Sun, 01 Dec 2024 00:54:17 +0100</lastBuildDate>
+    <atom:link href="http://localhost:55629/categories/traces/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Trace Zero</title>
+      <link>http://localhost:55629/posts/trace-zero/</link>
+      <pubDate>Sun, 01 Dec 2024 00:54:17 +0100</pubDate>
+      <guid>http://localhost:55629/posts/trace-zero/</guid>
+      <description>&lt;p&gt;A new year is approaching. I can&amp;rsquo;t believe it&amp;rsquo;s 2025 already. I mean, my memory is still stuck in 2020. But yeah, what can we do except celebrate?&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>
