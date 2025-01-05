@@ -1,6 +1,10 @@
 #output
 /public/
 
+# themes
+themes/*
+!themes/.gitkeep
+
 # hugo
 resources
 .hugo_build.lock
