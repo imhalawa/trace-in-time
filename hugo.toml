@@ -3,6 +3,7 @@ defaultContentLanguage = "en"
 languageCode = "en"
 title = "Trace in Time"
 theme = "dream"
+timeout = "60s"
 
 enableRobotsTXT = true
 enableGitInfo = true

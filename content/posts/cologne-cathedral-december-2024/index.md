@@ -24,4 +24,3 @@ My top picks from exploring the stunning Cologne Cathedral in Germany – Decemb
 It's worth noting that Cologne Cathedral is the largest Gothic church in Northern Europe, crowned by its towering twin spires, each reaching an impressive 515 feet (157 meters) high. 🏰
 
 {{< slider dir="gallery/cologne-cathedral-december-2024">}}
-
