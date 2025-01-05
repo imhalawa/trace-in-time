@@ -4,6 +4,24 @@ languageCode = "en"
 title = "Trace in Time"
 theme = "dream"
 
+enableRobotsTXT = true
+enableGitInfo = true
+
+[markup]
+[markup.goldmark.parser]
+wrapStandAloneImageWithinParagraph = false
+[markup.goldmark.parser.attribute]
+block = true
+[markup.goldmark.renderer]
+unsafe = true
+[markup.highlight]
+noClasses = false
+
+[taxonomies]
+category = "categories"
+tag = "tags"
+series = "series"
+
 [services]
 [services.disqus]
 shortname = "trace-in-time"
@@ -71,4 +89,3 @@ customJS = ["js/glightbox.js", "js/swiper-bundle.js", "js/gallery-slider.js"]
 [params.experimental]
 jsDate = true
 jsDateFormat = "yyyy-MM-dd"
-enableRobotsTXT = true
