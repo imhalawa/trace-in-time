@@ -18,7 +18,7 @@ tags:
   - git
   - version-control
 # nolastmod: true
-draft: true
+draft: false
 ---
 
 Commit messages are an essential part of version control systems, providing a historical overview of a project's changes. <!--more--> However, poorly written commit messages can cause headaches for developers trying to understand past changes, leading to wasted time and effort. In this article, we'll explore the art of writing good commit messages and why it's important to enforce or validate them. We'll also introduce Conventional Commits, a specification designed to achieve consistent, automated, and validated commit messages, and show how to validate commit messages using the commit-msg git hook.
