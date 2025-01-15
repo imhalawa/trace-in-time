@@ -1,0 +1,15 @@
+media_folder: static/media
+public_folder: /media
+collections:
+  - name: posts
+    label: Posts
+    create: true
+    folder: content/posts/
+    media_folder: /static/uploads # start with a slash
+    public_folder: /media/uploads
+
+backend:
+  name: github # or gitlab
+  repo: imhalawa/trace-in-time
+  branch: main
+  base_url: https://sveltia-cms-auth.imhalawa.workers.dev/
