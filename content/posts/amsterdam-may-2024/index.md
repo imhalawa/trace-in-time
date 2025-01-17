@@ -1,5 +1,5 @@
 ---
-title: Amsterdam 2024, May
+title: Amsterdam
 date: 2024-05-12T01:03:48+01:00
 lastmod: 2024-05-12T01:03:48+01:00
 author: Mohamed Halawa
@@ -18,4 +18,4 @@ draft: false
 ---
 Some random snapshots my friend and I captured during our last trip to Amsterdam! 🌍📸
 <!--more-->
-{{< slider dir="gallery/amsterdam-may-2024">}}
+{{< gallery dir="gallery/amsterdam-may-2024">}}

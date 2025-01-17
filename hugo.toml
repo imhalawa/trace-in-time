@@ -67,8 +67,8 @@ favicon = "favicon.ico"
 # customSyntaxHighlighting = true
 
 # options
-stickyNav = true
-reorderNavItems = ["search", "posts", "categories", "tags", "rss"]
+stickyNav = false
+reorderNavItems = ["about", "search", "posts", "categories", "tags", "rss"]
 collapseNavItems = ["posts", "categories", "tags"]
 # noDefaultSummaryCover = true
 showTableOfContents = true
@@ -80,12 +80,8 @@ showPrevNextPost = true
 # [params.navItems]
 
 [params.advanced]
-customCSS = [
-    "css/glightbox.css",
-    "css/swiper-bundle.css",
-    "css/gallery-slider.css",
-]
-customJS = ["js/glightbox.js", "js/swiper-bundle.js", "js/gallery-slider.js"]
+customCSS = []
+customJS = []
 
 [params.experimental]
 jsDate = true
