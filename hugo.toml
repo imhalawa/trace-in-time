@@ -47,6 +47,8 @@ motto = "A moment to reflect"
 # footerBottomText = ""
 
 rss = true
+about = true
+resume = true
 
 # utterancesRepo = ""
 
