@@ -1,11 +1,29 @@
 ---
 section: experience
-company: Cegedim
+company: 
+    name: Cegedim, Vision Health Team
+    url: https://cegedimrx.co.uk/
+role: Software Engineer
 from: Jul. 2021
 to: Jan. 2023
 present: false
 location: Cairo, Egypt
 draft: false
+skills:
+  - C#
+  - SQL
+  - WPF
+  - LINQ
+  - SQLCipher
+  - React
+  - TypeScript
+  - SoapUI
+  - BDD
+  - SpecFlow
+  - Feature Toggles
+  - ASP.NET Core
+  - Azure Pipelines
+  - AWS
 ---
 
 - Crafted Repeat Dispensing and Therapy Plans features in VisionAnywhere,

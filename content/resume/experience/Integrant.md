@@ -1,11 +1,24 @@
 ---
 section: experience
-company: Integrant Inc.
+company: 
+    name: Integrant Inc.
+    url: https://integrant.com/
+role: Software Engineer II
 from: Jan. 2023
 to: Jan. 2024
 present: false
 location: Maadi, Egypt
-draft: false
+draft: 
+skills: 
+    - C#
+    - T-SQL
+    - WPF
+    - LINQ
+    - Entity Framework
+    - Unit Testing
+    - Debugging
+    - Azure Pipelines
+
 ---
 
 - Resolved issues, delivered exceptional support for seamless functionality of

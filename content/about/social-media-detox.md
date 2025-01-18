@@ -1,6 +1,6 @@
 ---
 title: Social Media Detox 🧪
-date: 2025-01-04T23:42:41+01:00
+date: 2025-01-04T23:46:41+01:00
 draft: false
 ---
 

@@ -1,11 +1,27 @@
 ---
 section: experience
-company: Lumin Soft
+company: 
+    name: Lumin Soft
+    url: https://luminsoft.net
+role: Full-Stack Web Developer
 from: Nov. 2020
 to: Jul. 2021
 present: false
 location: Giza, Egypt
 draft: false
+skills: 
+    - C#
+    - T-SQL 
+    - LINQ 
+    - Angular
+    - HTML
+    - CSS
+    - Bootstrap
+    - JavaScript
+    - TypeScript
+    - ASP.NET Core
+    - RESTful APIs
+    - Azure Pipelines
 ---
 
 - Created 3 impactful projects: real estate tax authority app, online wallet POC,

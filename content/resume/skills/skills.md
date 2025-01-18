@@ -1,6 +1,6 @@
 ---
 section: skills
-title: Skills
+title: Skill Board
 skills:
   - "C#"
   - "SQL"
