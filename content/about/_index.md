@@ -6,5 +6,5 @@ cascade:
     list: local
     publishResources: false
     render: never
-title: Glossarys
+title: About
 ---
