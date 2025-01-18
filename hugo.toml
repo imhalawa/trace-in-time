@@ -73,7 +73,7 @@ collapseNavItems = ["posts", "categories", "tags"]
 # noDefaultSummaryCover = true
 showTableOfContents = true
 showSummaryCoverInPost = true
-imageZoomableInPost = true
+imageZoomableInPost = false
 showPrevNextPost = true
 # reorderShares = ["x", "facebook", "whatsapp"]
 
