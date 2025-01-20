@@ -6,6 +6,8 @@ author: Mohamed Halawa
 avatar: /img/mohamed-halawa.png
 authorlink: https://traceintime.com
 cover: cover.jpg
+gallery: true
+gallery_dir: "gallery/amsterdam-may-2024"
 images:
   - cover.jpg
 categories:
@@ -17,5 +19,3 @@ tags:
 draft: false
 ---
 Some random snapshots my friend and I captured during our last trip to Amsterdam! 🌍📸
-<!--more-->
-{{< gallery dir="gallery/amsterdam-may-2024">}}
