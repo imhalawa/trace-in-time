@@ -17,7 +17,7 @@ $(document).ready(function () {
       itemSelector: ".masonry-item",
       percentPosition: true,
       gutter: 10,
-      horizontalOrder: true
+      horizontalOrder: true,
     });
 
     $gallery.imagesLoaded().progress(function () {

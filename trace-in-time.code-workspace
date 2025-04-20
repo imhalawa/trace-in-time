@@ -5,11 +5,7 @@
     }
   ],
   "settings": {
-    "cSpell.words": [
-      "Halawa’s",
-      "Mansoura",
-      "Xpense"
-    ],
+    "cSpell.words": ["Halawa’s", "Mansoura", "Xpense"],
     "[markdown]": {
       "editor.fontSize": 14,
       "editor.lineHeight": 26,

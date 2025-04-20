@@ -3,7 +3,7 @@ layout: post
 title: Cologne Cathedral, December 2024
 description: My top picks from exploring the stunning Cologne Cathedral in Germany
 date: 2024-12-26T22:55:13+01:00
-tags: ['shots', 'germany']
+tags: ["shots", "germany"]
 categories: shots
 giscus_comments: true
 slug: cologne-cathedral-december-2024
