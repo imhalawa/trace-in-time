@@ -3,5 +3,12 @@
         {
             "path": "."
         }
-    ]
+    ],
+    "settings": {
+        "cSpell.words": [
+            "Halawa’s",
+            "Mansoura",
+            "Xpense"
+        ]
+    }
 }

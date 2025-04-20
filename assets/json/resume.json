@@ -1,200 +1,222 @@
 {
   "basics": {
-    "name": "Albert Einstein",
-    "label": "Scientist",
+    "name": "Mohamed Halawa",
+    "profession": "Backend Software Engineer",
     "image": "",
-    "email": "albert@einstein.de",
-    "phone": "(912) 123-4567",
-    "url": "https://alshedivat.github.io/al-folio/",
-    "summary": "A German-born theoretical physicist, widely ranked among the greatest and most influential scientists of all time",
+    "email": "imhalawa@outlook.com",
+    "phone": "+31 6 22904452",
+    "website": "https://www.traceintime.com",
+    "summary": "",
     "location": {
-      "address": "2712 Broadway St",
-      "postalCode": "CA 94115",
-      "city": "San Francisco",
-      "countryCode": "US",
-      "region": "California"
+      "address": "",
+      "postalCode": "",
+      "city": "Rotterdam",
+      "countryCode": "NL",
+      "region": "South Holland"
     },
     "profiles": [
       {
-        "network": "Twitter",
-        "username": "AlbertEinstein",
-        "url": "https://twitter.com/AlbertEinstein"
+        "network": "LinkedIn",
+        "username": "imhalawa",
+        "url": "https://linkedin.com/in/imhalawa"
+      },
+      {
+        "network": "GitHub",
+        "username": "imhalawa",
+        "url": "https://github.com/imhalawa"
       }
     ]
   },
   "work": [
     {
-      "name": "Institute for Advanced Study, Princeton University",
-      "position": "Professor of Theoretical Physics",
-      "url": "https://example.com",
-      "startDate": "1933-01-01",
-      "endDate": "1955-01-01",
-      "summary": "Teaching at Palmer Physical Laboratory (now 302 Frist Campus Center). While not a professor at Princeton, I associated with the physics professors and continued to give lectures on campus.",
-      "highlights": ["Relativity"]
-    }
-  ],
-  "volunteer": [
+      "name": "Coolblue.nl",
+      "position": "NET Backend Developer ",
+      "url": "https://coolblue.nl",
+      "startDate": "2024-02-01",
+      "endDate": "",
+      "summary": "I design and maintain backend systems in the Payments domain—owning services that handle payments, refunds, and insurance. I build customer-facing features, modernize legacy flows, and enhance system reliability across high-volume transaction pipelines.",
+      "highlights": [
+        "Designed and owned the Payment Session Service to unify the tracking of multi-provider payments across Checkout and Invite to Pay flows, enabling seamless handling of split.",
+        "Delivered PIN refund capability via Adyen, enabling in-store refund and enhancing customer experience at physical locations.",
+        "Contributed to Buckaroo PayPerEmail integration for German customers, supporting direct debit flows that increased subscription rates for white goods.",
+        "Contributed to integrating Cover Genius, replacing a legacy insurance provider with tailored insurance and warranty offerings at checkout, unlocking new revenue streams.",
+        "Configured a data pipeline to power analytics on insurance uptake, enabling cross-team insights into product insurability.",
+        "Led the refactoring of the back-office service managing legacy payment tables with 103M+ records, enhancing data accuracy and enabling advanced analytics.",
+        "Enhanced logging and diagnostics in the back-office service, enabling swift resolution of a critical Black Friday issue involving duplicate payment prompts.",
+        "Introduced Dockerized Oracle and DynamoDB integration tests into CI pipelines (TeamCity), improving test coverage and preventing regressions in critical flows.",
+        "Led the first micro front-end migration in the domain, moving My Discounts Page from legacy PHP to Next.js/React, enabling users to view product vouchers via a modern UI.",
+        "Actively contributed to code quality by performing thorough code reviews, ensuring adherence to companywide development guidelines, and resolving technical debt in multiple services to prevent bugs and accelerate delivery."
+      ]
+    },
     {
-      "organization": "People's Climate March",
-      "location": "Zurich, Switzerland",
-      "position": "Lead Organizer",
-      "url": "https://example.com",
-      "startDate": "2014-04-01",
-      "endDate": "2015-07-01",
-      "summary": "Lead organizer for the New York City branch of the People's Climate March, the largest climate march in history.",
-      "highlights": ["Awarded 'Climate Hero' award by Greenpeace for my efforts organizing the march.", "Men of the year 2014 by Time magazine"]
+      "name": "Integrant, Inc.",
+      "position": "Software Engineer II",
+      "url": "https://integrant.com/",
+      "startDate": "2023-01-01",
+      "endDate": "2024-02-01",
+      "summary": "I improved two legacy healthcare systems—BD.ASTA, used by Alaris device technicians, and VisionRx, a pharmacy dispensing platform. I shipped practical features, reduced lag in daily workflows, and fixed stability issues across the UI, database, and hardware integrations. The goal was simple: make tools that professionals could trust and use without friction.",
+      "highlights": [
+        "Implemented a hierarchical tree view UI in ASTA with direct links to device maintenance actions, improving navigation and usability.",
+        "Reduced report export time in ASTA by optimizing SQL joins and transformation logic for large datasets.",
+        "Delivered sealed package dispensing in VisionRx by integrating existing OpenCV logic with WCF services to coordinate hardware, inventory, and UI state.",
+        "Resolved GPU-bound rendering bottleneck in VisionRx, improving performance on low-end clinic devices.",
+        "Created concise architecture documentation in VisionRx to align remote teams on system design and decisions."
+      ]
+    },
+    {
+      "name": "Cegedim",
+      "position": "Software Engineer",
+      "url": "https://cegedimrx.co.uk/",
+      "startDate": "2021-06-01",
+      "endDate": "2023-01-01",
+      "summary": "Worked on VisionAnywhere, a clinical desktop app used by NHS general practitioners. Implemented Repeat Dispensing and Therapy Plans to streamline long-term medication handling. Maintained integrations with Optum and OptimiseRx APIs to support in-consultation decision logic. Introduced a feature toggle system for controlled deployment, coordinated with leadership during planning to align with release workflows. Gave an internal talk on Conventional Commits that standardized change tracking across teams.",
+      "highlights": [
+        "Crafted Repeat Dispensing and Therapy Plans features in VisionAnywhere, elevating patient care for chronic diseases.",
+        "Extended and maintained Optum and OptimiseRx API integrations to enhance clinical decision support.",
+        "Co-designed a company-wide feature toggle system to enable controlled rollouts and improve release agility.",
+        "Collaborated with the PM and Head of R&D during pre-design discussions to ensure feature toggles were planned early and aligned with delivery strategy.",
+        "Delivered a tech talk to over 100 attendees on adopting Conventional Commits for consistent versioning and change tracking."
+      ]
+    },
+    {
+      "name": "Lumin Soft",
+      "position": "Jr. Fullstack Web Developer",
+      "url": "https://luminsoft.net/",
+      "startDate": "2020-03-01",
+      "endDate": "2021-06-01",
+      "summary": "Built and delivered full-stack features for internal and client-facing systems in a lean product team using .NET Core and Angular. Shipped real estate and supply chain modules, and prototyped a digital wallet MVP. Integrated Cowpay for secure payments. Improved deployment stability with IIS tuning, standardized workflows with Git Flow, and introduced Swagger-based API documentation to streamline handovers and testing.",
+      "highlights": [
+        "Built backend and frontend for real estate and supply chain products and developed an MVP for a digital wallet application.",
+        "Integrated the Cowpay payment gateway to enable secure in-app transactions.",
+        "Adopted Git Flow, wrote Swagger-based API docs, and improved manual deployment reliability using IIS."
+      ]
+    },
+    {
+      "name": "ERTAQY",
+      "position": "Intern. .NET Developer",
+      "url": "https://ertaqy.com/",
+      "startDate": "2019-07-01",
+      "endDate": "2020-03-01",
+      "summary": "Built and delivered full-stack features for internal and client-facing systems in a lean product team using .NET Core and Angular. Shipped real estate and supply chain modules, and prototyped a digital wallet MVP. Integrated Cowpay for secure payments. Improved deployment stability with IIS tuning, standardized workflows with Git Flow, and introduced Swagger-based API documentation to streamline handovers and testing.",
+      "highlights": [
+        "Contributed to the delivery of an HR system using raw SQL and .NET to support attendance tracking.",
+        "Maintained existing features built in a CMS to improve usability."
+      ]
     }
   ],
   "education": [
     {
-      "institution": "University of Zurich, Zurich, Switzerland",
-      "location": "Zurich, Switzerland",
-      "url": "https://www.uzh.ch/",
-      "area": "Software Development",
-      "studyType": "PhD",
-      "startDate": "1905-01-01",
-      "endDate": "1905-01-01",
-      "score": "10",
-      "courses": ["Theory of Relativity"]
-    }
-  ],
-  "awards": [
-    {
-      "title": "Nobel Prize in Physics",
-      "date": "1921-11-01",
-      "awarder": "Royal Swedish Academy of Sciences",
-      "url": "https://www.nobelprize.org/prizes/physics/1921/einstein/biographical/",
-      "summary": "The Nobel Prizes are five separate prizes that, according to Alfred Nobel's will of 1895, are awarded to 'those who, during the preceding year, have conferred the greatest benefit to humankind.'"
-    }
-  ],
-  "certificates": [
-    {
-      "name": "Machine Learning",
-      "date": "2018-01-01",
-      "issuer": "Stanford University",
-      "url": "https://example.com",
-      "icon": "fa-solid fa-location-dot"
-    },
-    {
-      "name": "Quantum Computing",
-      "date": "2018-01-01",
-      "issuer": "Stanford University",
-      "url": "https://example.com",
-      "icon": "fa-solid fa-tag"
-    },
-    {
-      "name": "Quantum Information",
-      "date": "2018-01-01",
-      "issuer": "Stanford University",
-      "url": "https://example.com",
-      "icon": "fa-solid fa-envelope"
-    },
-    {
-      "name": "Quantum Cryptography",
-      "date": "2018-01-01",
-      "issuer": "Stanford University",
-      "url": "https://example.com",
-      "icon": "fa-solid fa-hashtag"
-    },
-    {
-      "name": "Quantum Communication",
-      "date": "2018-01-01",
-      "issuer": "Stanford University",
-      "url": "https://example.com",
-      "icon": "fa-solid fa-calendar"
-    },
-    {
-      "name": "Quantum Teleportation",
-      "date": "2018-01-01",
-      "issuer": "Stanford University",
-      "url": "https://example.com",
-      "icon": "fa-solid fa-clipboard-check"
-    }
-  ],
-  "publications": [
-    {
-      "name": "Zur Elektrody/namik bewegter Körper",
-      "publisher": "Annalen der Physik",
-      "releaseDate": "1905-06-30",
-      "url": "https://en.wikisource.org/wiki/Translation:On_the_Electrodynamics_of_Moving_Bodies",
-      "summary": "It concerned an interpretation of the Michelson–Morley experiment and the properties of light and time. Special relativity incorporates the principle that the speed of light is the same for all inertial observers regardless of the state of motion of the source."
-    },
-    {
-      "name": "Über einen die Erzeugung und Verwandlung des Lichtes betreffenden heuristischen Gesichtspunkt",
-      "publisher": "Annalen der Physik",
-      "releaseDate": "1905-03-18",
-      "url": "https://de.wikisource.org/wiki/Über_einen_die_Erzeugung_und_Verwandlung_des_Lichtes_betreffenden_heuristischen_Gesichtspunkt",
-      "summary": "In the second paper, he applied the quantum theory to light to explain the photoelectric effect. In particular, he used the idea of light quanta (photons) to explain experimental results, but stressed the importance of the experimental results. The importance of his work on the photoelectric effect earned him the Nobel Prize in Physics in 1921."
-    },
-    {
-      "name": "Die Grundlage der allgemeinen Relativitätstheorie",
-      "publisher": "Annalen der Physik",
-      "releaseDate": "1916-03-20",
-      "url": "https://de.wikisource.org/wiki/Die_Grundlage_der_allgemeinen_Relativitätstheorie",
-      "summary": "The publication of the theory of general relativity made him internationally famous. He was professor of physics at the universities of Zurich (1909–1911) and Prague (1911–1912), before he returned to ETH Zurich (1912–1914)."
+      "institution": "Faculty of Computer Science",
+      "location": "Mansoura, Egypt",
+      "area": "Computer Science",
+      "studyType": "BSc",
+      "startDate": "2014-09-01",
+      "endDate": "2018-07-12"
     }
   ],
   "skills": [
     {
-      "name": "Physics",
-      "level": "Master",
-      "icon": "fa-solid fa-hashtag",
+      "name": "Languages",
+      "level": "Advanced",
+      "icon": "fa-solid fa-code",
       "keywords": [
-        "Quantum Mechanics",
-        "Quantum Computing",
-        "Quantum Information",
-        "Quantum Cryptography",
-        "Quantum Communication",
-        "Quantum Teleportation"
+        "C#",
+        "JavaScript",
+        "TypeScript",
+        "SQL"
+      ]
+    },
+    {
+      "name": "Frameworks & Libraries",
+      "level": "Advanced",
+      "icon": "fa-solid fa-cubes",
+      "keywords": [
+        ".NET Core",
+        "ASP.NET Core",
+        "GraphQL",
+        "XUnit",
+        "NUnit",
+        "Serilog",
+        "Entity Framework",
+        "LINQ",
+        "Dapr",
+        "Refit",
+        "React.js",
+        "Fluent Assertions"
+      ]
+    },
+    {
+      "name": "Cloud & Infrastructure",
+      "level": "Proficient",
+      "icon": "fa-solid fa-cloud",
+      "keywords": [
+        "AWS (CDK, Lambda, DynamoDB, SQS, SNS, EC2)",
+        "Docker",
+        "CI/CD",
+        "Azure Pipelines"
+      ]
+    },
+    {
+      "name": "Architectural Styles",
+      "level": "Proficient",
+      "icon": "fa-solid fa-diagram-project",
+      "keywords": [
+        "Clean Architecture",
+        "Domain-Driven Design (DDD)",
+        "N-tier Architecture",
+        "MVC",
+        "MVVM"
+      ]
+    },
+    {
+      "name": "Development Practices",
+      "level": "Proficient",
+      "icon": "fa-solid fa-screwdriver-wrench",
+      "keywords": [
+        "Agile/Scrum",
+        "Test-Driven Development (TDD)",
+        "Code Reviews",
+        "Technical Debt Resolution",
+        "Integration Testing",
+        "Logging & Diagnostics"
+      ]
+    },
+    {
+      "name": "Familiar With",
+      "level": "Intermediate",
+      "icon": "fa-solid fa-lightbulb",
+      "keywords": [
+        "Java",
+        "Python",
+        "Kafka",
+        "Big Query",
+        "Oracle"
       ]
     }
   ],
   "languages": [
     {
-      "language": "German",
-      "fluency": "Native speaker",
+      "language": "Arabic",
+      "fluency": "Native proficiency",
       "icon": ""
     },
     {
       "language": "English",
-      "fluency": "Fluent",
+      "fluency": "Professional working proficiency",
       "icon": ""
-    }
-  ],
-  "interests": [
-    {
-      "name": "Physics",
-      "icon": "fa-solid fa-tag",
-      "keywords": [
-        "Quantum Mechanics",
-        "Quantum Computing",
-        "Quantum Information",
-        "Quantum Cryptography",
-        "Quantum Communication",
-        "Quantum Teleportation"
-      ]
-    }
-  ],
-  "references": [
-    {
-      "name": "Professor John Doe",
-      "icon": "fa-solid fa-laptop",
-      "reference": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam condimentum, diam quis convallis euismod, arcu mi ullamcorper lorem, a vestibulum nunc magna at sem. Sed in risus ac felis varius blandit. D"
-    },
-    {
-      "name": "Professor John Doe",
-      "icon": "fa-solid fa-thumbtack",
-      "reference": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam condimentum, diam quis convallis euismod, arcu mi ullamcorper lorem, a vestibulum nunc magna at sem. Sed in risus ac felis varius blandit. D"
     }
   ],
   "projects": [
     {
-      "name": "Quantum Computing",
-      "summary": "Quantum computing is the use of quantum-mechanical phenomena such as superposition and entanglement to perform computation. Computers that perform quantum computations are known as quantum computers.",
-      "highlights": ["Quantum Teleportation", "Quantum Cryptography"],
-      "startDate": "2018-01-01",
-      "endDate": "2018-01-01",
-      "url": "https://example.com"
+      "name": "Xpense",
+      "summary": "Financial Tracker and Advisor.",
+      "highlights": [
+        "Track expenses",
+        "Manage budgets"
+      ],
+      "startDate": "2024-07-01",
+      "endDate": "2024-07-12",
+      "url": "https://github.com/imhalawa/Xpense.Web"
     }
   ]
 }
