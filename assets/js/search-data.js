@@ -16,13 +16,6 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/blog/";
           },
-        },{id: "nav-gallery",
-          title: "gallery",
-          description: "A collection of my snapshots",
-          section: "Navigation",
-          handler: () => {
-            window.location.href = "/gallery/";
-          },
         },{id: "nav-repositories",
           title: "repositories",
           description: "Showcase of my public repositories — note that the experience level here isn&#39;t fully representative 😜. For a more accurate information, please refer to my resume.",
@@ -51,7 +44,51 @@ ninja.data = [{
               handler: () => {
                 window.location.href = "/books/";
               },
-            },{
+            },{id: "post-utrecht-afghaana-jan-2025",
+        
+          title: "Utrecht Afghaana, Jan 2025",
+        
+        description: "Snapshots I captured during my last visit to Utrecht!",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2025/utrecht-afghaana-jan-2025/";
+          
+        },
+      },{id: "post-denhaag-mauritshuis-jan-2025",
+        
+          title: "Denhaag Mauritshuis, Jan 2025",
+        
+        description: "Snapshots I captured during my last visit to Denhaag!",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2025/denhaag-mauritshuis-jan-2025/";
+          
+        },
+      },{id: "post-cologne-cathedral-december-2024",
+        
+          title: "Cologne Cathedral, December 2024",
+        
+        description: "My top picks from exploring the stunning Cologne Cathedral in Germany",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2024/cologne-cathedral-december-2024/";
+          
+        },
+      },{id: "post-amsterdam-may-2024",
+        
+          title: "Amsterdam, May 2024",
+        
+        description: "Snapshots my friend and I captured during our last trip to Amsterdam!",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2024/amsterdam-may-2024/";
+          
+        },
+      },{
         id: 'social-email',
         title: 'email',
         section: 'Socials',
