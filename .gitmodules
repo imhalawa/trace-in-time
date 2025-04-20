@@ -1,6 +1,0 @@
-[submodule "themes/hugo-theme-monochrome"]
-	path = themes/hugo-theme-monochrome
-	url = https://github.com/imhalawa/hugo-theme-monochrome
-[submodule "themes/hugo-theme-console"]
-	path = themes/hugo-theme-console
-	url = https://github.com/imhalawa/hugo-theme-console.git
