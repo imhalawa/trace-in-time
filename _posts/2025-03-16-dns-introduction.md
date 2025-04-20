@@ -5,11 +5,11 @@ description: The phone book of the internet is basically a DNS.
 date: 2025-03-16
 draft: true
 tags:
-    - dns
-    - system-design
-    - networks
+  - dns
+  - system-design
+  - networks
 categories:
-    - DNS
+  - DNS
 ---
 
 ## What is DNS?
