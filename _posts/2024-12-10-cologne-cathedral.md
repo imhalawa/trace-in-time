@@ -1,13 +1,14 @@
 ---
 layout: post
 title: Cologne Cathedral, December 2024
-date: 2024-12-10 21:01:00
-description: this is what included images could look like
-tags: formatting images
-categories: photos
+description: My top picks from exploring the stunning Cologne Cathedral in Germany
+date: 2024-12-26T22:55:13+01:00
+tags: shots germany
+categories: shots
 giscus_comments: true
 slug: cologne-cathedral-december-2024
 ---
 
+Cologne Cathedral is the largest Gothic church in Northern Europe, crowned by its towering twin spires, each reaching an impressive 515 feet (157 meters) high. 🏰
 
 {% gallery %}
