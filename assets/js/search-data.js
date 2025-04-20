@@ -88,6 +88,17 @@ ninja.data = [{
             window.location.href = "/blog/2024/cologne-cathedral-december-2024/";
           
         },
+      },{id: "post-trace-zero",
+        
+          title: "Trace Zero",
+        
+        description: "A new year is approaching—hard to believe it’s already 2025. My mind still lingers in 2020, but here we are. So, why not celebrate?",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2024/trace-zero/";
+          
+        },
       },{id: "post-amsterdam-may-2024",
         
           title: "Amsterdam, May 2024",
