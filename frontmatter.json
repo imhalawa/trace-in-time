@@ -48,7 +48,7 @@
   ],
   "frontMatter.framework.id": "jekyll",
   "frontMatter.content.publicFolder": "assets",
-  "frontMatter.preview.host": "http://localhost:4000",
+  "frontMatter.preview.host": "http://localhost:8080",
   "frontMatter.content.pageFolders": [
     {
       "title": "drafts",
@@ -59,15 +59,8 @@
       "path": "[[workspace]]/_posts"
     },
     {
-      "path": "[[workspace]]/.samples/posts"
-    },
-    {
-      "title": "_pages",
-      "path": "[[workspace]]/_pages"
-    },
-    {
-      "title": "_galleries",
-      "path": "[[workspace]]/_galleries"
+      "title": "_projects",
+      "path": "[[workspace]]/_projects"
     }
   ],
   "frontMatter.git.enabled": false
