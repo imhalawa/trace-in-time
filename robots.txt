@@ -1,0 +1,4 @@
+User-agent: *
+Disallow:
+
+Sitemap: https://imhalawa.github.io/trace-in-time/sitemap.xml
