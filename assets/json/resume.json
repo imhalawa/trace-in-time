@@ -119,12 +119,7 @@
       "name": "Languages",
       "level": "Advanced",
       "icon": "fa-solid fa-code",
-      "keywords": [
-        "C#",
-        "JavaScript",
-        "TypeScript",
-        "SQL"
-      ]
+      "keywords": ["C#", "JavaScript", "TypeScript", "SQL"]
     },
     {
       "name": "Frameworks & Libraries",
@@ -149,24 +144,13 @@
       "name": "Cloud & Infrastructure",
       "level": "Proficient",
       "icon": "fa-solid fa-cloud",
-      "keywords": [
-        "AWS (CDK, Lambda, DynamoDB, SQS, SNS, EC2)",
-        "Docker",
-        "CI/CD",
-        "Azure Pipelines"
-      ]
+      "keywords": ["AWS (CDK, Lambda, DynamoDB, SQS, SNS, EC2)", "Docker", "CI/CD", "Azure Pipelines"]
     },
     {
       "name": "Architectural Styles",
       "level": "Proficient",
       "icon": "fa-solid fa-diagram-project",
-      "keywords": [
-        "Clean Architecture",
-        "Domain-Driven Design (DDD)",
-        "N-tier Architecture",
-        "MVC",
-        "MVVM"
-      ]
+      "keywords": ["Clean Architecture", "Domain-Driven Design (DDD)", "N-tier Architecture", "MVC", "MVVM"]
     },
     {
       "name": "Development Practices",
@@ -185,13 +169,7 @@
       "name": "Familiar With",
       "level": "Intermediate",
       "icon": "fa-solid fa-lightbulb",
-      "keywords": [
-        "Java",
-        "Python",
-        "Kafka",
-        "Big Query",
-        "Oracle"
-      ]
+      "keywords": ["Java", "Python", "Kafka", "Big Query", "Oracle"]
     }
   ],
   "languages": [
@@ -210,10 +188,7 @@
     {
       "name": "Xpense",
       "summary": "Financial Tracker and Advisor.",
-      "highlights": [
-        "Track expenses",
-        "Manage budgets"
-      ],
+      "highlights": ["Track expenses", "Manage budgets"],
       "startDate": "2024-07-01",
       "endDate": "2024-07-12",
       "url": "https://github.com/imhalawa/Xpense.Web"

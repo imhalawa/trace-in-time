@@ -1,14 +1,10 @@
 {
-    "folders": [
-        {
-            "path": "."
-        }
-    ],
-    "settings": {
-        "cSpell.words": [
-            "Halawa’s",
-            "Mansoura",
-            "Xpense"
-        ]
+  "folders": [
+    {
+      "path": "."
     }
+  ],
+  "settings": {
+    "cSpell.words": ["Halawa’s", "Mansoura", "Xpense"]
+  }
 }
