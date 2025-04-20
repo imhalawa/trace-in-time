@@ -44,7 +44,18 @@ ninja.data = [{
               handler: () => {
                 window.location.href = "/books/";
               },
-            },{id: "post-utrecht-afghaana-jan-2025",
+            },{id: "post-introduction-to-dns",
+        
+          title: "Introduction to DNS",
+        
+        description: "The phone book of the internet is basically a DNS.",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2025/dns-introduction/";
+          
+        },
+      },{id: "post-utrecht-afghaana-jan-2025",
         
           title: "Utrecht Afghaana, Jan 2025",
         
