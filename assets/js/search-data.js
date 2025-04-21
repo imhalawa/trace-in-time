@@ -106,6 +106,17 @@ ninja.data = [{
             window.location.href = "/blog/2024/amsterdam-may-2024/";
           
         },
+      },{id: "post-commit-literature-in-an-enterprise-setup",
+        
+          title: "Commit literature in an Enterprise Setup",
+        
+        description: "Commit in a reasonable way my dear!",
+        section: "Posts",
+        handler: () => {
+          
+            window.location.href = "/blog/2022/conventional-commits/";
+          
+        },
       },{id: "bricks-bubble-sort",
           title: 'Bubble Sort',
           description: "The Sorting Algorithm That Sorts... Eventually!",
