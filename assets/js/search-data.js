@@ -16,12 +16,19 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/blog/";
           },
-        },{id: "nav-repositories",
-          title: "repositories",
-          description: "Showcase of my public repositories — note that the experience level here isn&#39;t fully representative 😜. For a more accurate information, please refer to my resume.",
+        },{id: "nav-bricks",
+          title: "bricks",
+          description: "Because Writing Code Was Only the Easy Part",
           section: "Navigation",
           handler: () => {
-            window.location.href = "/repositories/";
+            window.location.href = "/bricks/";
+          },
+        },{id: "nav-bookshelf",
+          title: "bookshelf",
+          description: "",
+          section: "Navigation",
+          handler: () => {
+            window.location.href = "/books/";
           },
         },{id: "nav-projects",
           title: "projects",
@@ -30,6 +37,13 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/projects/";
           },
+        },{id: "nav-repositories",
+          title: "repositories",
+          description: "Showcase of my public repositories — note that the experience level here isn&#39;t fully representative 😜. For a more accurate information, please refer to my resume.",
+          section: "Navigation",
+          handler: () => {
+            window.location.href = "/repositories/";
+          },
         },{id: "nav-resume",
           title: "resume",
           description: "",
@@ -37,25 +51,7 @@ ninja.data = [{
           handler: () => {
             window.location.href = "/resume/";
           },
-        },{id: "dropdown-bookshelf",
-              title: "bookshelf",
-              description: "",
-              section: "Dropdown",
-              handler: () => {
-                window.location.href = "/books/";
-              },
-            },{id: "post-introduction-to-dns",
-        
-          title: "Introduction to DNS",
-        
-        description: "The phone book of the internet is basically a DNS.",
-        section: "Posts",
-        handler: () => {
-          
-            window.location.href = "/blog/2025/dns-introduction/";
-          
-        },
-      },{id: "post-utrecht-afghaana-jan-2025",
+        },{id: "post-utrecht-afghaana-jan-2025",
         
           title: "Utrecht Afghaana, Jan 2025",
         
@@ -110,7 +106,32 @@ ninja.data = [{
             window.location.href = "/blog/2024/amsterdam-may-2024/";
           
         },
-      },{
+      },{id: "bricks-bubble-sort",
+          title: 'Bubble Sort',
+          description: "The Sorting Algorithm That Sorts... Eventually!",
+          section: "Bricks",handler: () => {
+              window.location.href = "/bricks/algorithms/bubble-sort/";
+            },},{id: "bricks-queue",
+          title: 'Queue',
+          description: "Because Waiting in Line Should Be a Data Structure, Too",
+          section: "Bricks",handler: () => {
+              window.location.href = "/bricks/data-structures/queue/";
+            },},{id: "bricks-stack",
+          title: 'Stack',
+          description: "When You Can’t Remember Anything Except the Last Thing You Did",
+          section: "Bricks",handler: () => {
+              window.location.href = "/bricks/data-structures/stack/";
+            },},{id: "bricks-introduction-to-dns",
+          title: 'Introduction to DNS',
+          description: "The phone book of the internet is basically a DNS.",
+          section: "Bricks",handler: () => {
+              window.location.href = "/bricks/dns/dns-introduction/";
+            },},{id: "bricks-introduction",
+          title: 'Introduction',
+          description: "Introduction to graph theory",
+          section: "Bricks",handler: () => {
+              window.location.href = "/bricks/graph-theory/introduction/";
+            },},{
         id: 'social-email',
         title: 'email',
         section: 'Socials',
