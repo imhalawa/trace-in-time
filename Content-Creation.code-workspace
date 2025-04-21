@@ -1,7 +1,28 @@
 {
   "folders": [
     {
-      "path": "."
+      "path": "_bibliography"
+    },
+    {
+      "path": "_books"
+    },
+    {
+      "path": "_news"
+    },
+    {
+      "path": "_pages"
+    },
+    {
+      "path": "_posts"
+    },
+    {
+      "path": "_projects"
+    },
+    {
+      "path": "_bricks"
+    },
+    {
+      "path": "assets/img"
     }
   ],
   "settings": {

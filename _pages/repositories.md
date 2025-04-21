@@ -4,7 +4,7 @@ permalink: /repositories/
 title: repositories
 description: Showcase of my public repositories — note that the experience level here isn't fully representative 😜. For a more accurate information, please refer to my resume.
 nav: true
-nav_order: 4
+nav_order: 5
 ---
 
 {% if site.data.repositories.github_users %}
