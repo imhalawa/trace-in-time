@@ -121,9 +121,29 @@ Perceived lack of ownership (unless you’re lucky enough to have leads who get 
 
 It’s basically a butterfly effect.
 
-### Is there a common standard?
+### Choosing a Standard Format?
 
-Yes, [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/#examples) are now widely supported. If you're convinced so far, please consider adopting this approach.
+Nowadays [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/#examples) are now widely adopted. If you're convinced so far.
+
+Although, You might expect a thorough explanation about conventional commits, but luckily it's straight forward and easy to understand.
+
+The general format for most places i've worked at or convinced to adopt is something like this:
+
+```text
+Key-TicketNumber <action>: short descriptive message
+```
+
+For example,
+
+```text
+WC-1234 feat: added apple seeds payments method
+or 
+[WC-1234] feat: added apple seeds payments method
+or (Incase of a single board, keep it simple)
+[1234] feat: added apple seeds payments method
+```
+
+It's totally up to you :wink:.
 
 ## Validating the chosen format
 
