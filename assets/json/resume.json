@@ -54,7 +54,7 @@
       "url": "https://integrant.com/",
       "startDate": "2023-01-01",
       "endDate": "2024-02-01",
-      "summary": "I improved two legacy healthcare systems—BD.ASTA, used by Alaris device technicians, and VisionRx, a pharmacy dispensing platform. I shipped practical features, reduced lag in daily workflows, and fixed stability issues across the UI, database, and hardware integrations. The goal was simple: make tools that professionals could trust and use without friction.",
+      "summary": "Delivered enhancements to BD.ASTA and VisionRx; optimized workflow performance; remediated UI, database, and hardware integration stability issues; and enabled trusted, frictionless healthcare tools.",
       "highlights": [
         "Implemented a hierarchical tree view UI in ASTA with direct links to device maintenance actions, improving navigation and usability.",
         "Reduced report export time in ASTA by optimizing SQL joins and transformation logic for large datasets.",
@@ -69,11 +69,11 @@
       "url": "https://cegedimrx.co.uk/",
       "startDate": "2021-06-01",
       "endDate": "2023-01-01",
-      "summary": "Worked on VisionAnywhere, a clinical desktop app used by NHS general practitioners. Implemented Repeat Dispensing and Therapy Plans to streamline long-term medication handling. Maintained integrations with Optum and OptimiseRx APIs to support in-consultation decision logic. Introduced a feature toggle system for controlled deployment, coordinated with leadership during planning to align with release workflows. Gave an internal talk on Conventional Commits that standardized change tracking across teams.",
+      "summary": "Delivered VisionAnywhere Repeat Dispensing & Therapy Plans; maintained Optum & OptimiseRx API integrations; implemented feature toggles; aligned release planning with leadership; and championed Conventional Commits.",
       "highlights": [
         "Crafted Repeat Dispensing and Therapy Plans features in VisionAnywhere, elevating patient care for chronic diseases.",
         "Extended and maintained Optum and OptimiseRx API integrations to enhance clinical decision support.",
-        "Co-designed a company-wide feature toggle system to enable controlled rollouts and improve release agility.",
+        "Designed a company-wide feature toggle system to enable controlled rollout and improve release agility.",
         "Collaborated with the PM and Head of R&D during pre-design discussions to ensure feature toggles were planned early and aligned with delivery strategy.",
         "Delivered a tech talk to over 100 attendees on adopting Conventional Commits for consistent versioning and change tracking."
       ]
@@ -84,7 +84,7 @@
       "url": "https://luminsoft.net/",
       "startDate": "2020-03-01",
       "endDate": "2021-06-01",
-      "summary": "Built and delivered full-stack features for internal and client-facing systems in a lean product team using .NET Core and Angular. Shipped real estate and supply chain modules, and prototyped a digital wallet MVP. Integrated Cowpay for secure payments. Improved deployment stability with IIS tuning, standardized workflows with Git Flow, and introduced Swagger-based API documentation to streamline handovers and testing.",
+      "summary": "Delivered .NET Core/Angular real-estate & supply-chain modules, a digital-wallet MVP with Cowpay; optimized IIS deployments, standardized Git Flow, and deployed Swagger API docs.",
       "highlights": [
         "Built backend and frontend for real estate and supply chain products and developed an MVP for a digital wallet application.",
         "Integrated the Cowpay payment gateway to enable secure in-app transactions.",
@@ -97,7 +97,7 @@
       "url": "https://ertaqy.com/",
       "startDate": "2019-07-01",
       "endDate": "2020-03-01",
-      "summary": "Built and delivered full-stack features for internal and client-facing systems in a lean product team using .NET Core and Angular. Shipped real estate and supply chain modules, and prototyped a digital wallet MVP. Integrated Cowpay for secure payments. Improved deployment stability with IIS tuning, standardized workflows with Git Flow, and introduced Swagger-based API documentation to streamline handovers and testing.",
+      "summary": "Delivered a raw SQL/.NET HR attendance-tracking system and optimized CMS usability through targeted feature maintenance.",
       "highlights": [
         "Contributed to the delivery of an HR system using raw SQL and .NET to support attendance tracking.",
         "Maintained existing features built in a CMS to improve usability."
