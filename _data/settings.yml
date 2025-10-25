@@ -27,16 +27,16 @@ menu_settings:
       url: '/'
     - title: 'Videos'
       url: '/videos/'
-    - title: 'Archive'
-      url: '/archive/'
+    - title: 'Books'
+      url: '/books/'
+    - url: '/about/'
+      title: 'About'
     - title: 'Pages'
       submenu:
-      - url: '/about/'
-        title: 'About'
       - url: '/contact/'
         title: 'Contact'
-      - url: '/elements/'
-        title: 'Elements'
+      - title: 'Archive'
+        url: '/archive/'
 
 
 #-------------------------------
@@ -51,15 +51,15 @@ author:
 hero:
   enable: true
   hero_avatar: /images/author/profile.png
-  hero_title: Hi! I’m Mohamed👋
+  hero_title: Hi! I’m Mohamed
   hero_subtitle: Software engineer, hobbyist photographer, and explorer of meaning and systems
   hero_description: |
-    I build systems that make sense — in code, in thought, and sometimes through a lens.
+    I build systems that make sense — turning ideas into structure, and structure into results.
 
-    Here, I share what I build, photograph, and learn along the way — thoughts on keeping creativity alive inside a structured life. You’ll find reflections, tools, and methods that help me stay focused without losing curiosity. Dive in, and maybe you’ll find something that resonates.
-  hero_image: /images/01.jpg # TODO: change image to my own desktop setup
-  hero_image_caption: My creative space, where masterpieces are born
-  hero_button_text: Let’s Work Together
+    Here, I share what I build, photograph, and learn — notes on finding clarity, staying creative, and making progress one step at a time.
+  hero_image: /images/site_identity/hero.png # TODO: change image to my own desktop setup
+  hero_image_caption: This space is a trace in time — fragments of systems and reflections
+  hero_button_text: Let’s Connect!
   hero_button_link: '/contact/'
 
 
@@ -84,37 +84,31 @@ hero:
 # Section Blog Settings
 blog:
   enable: true
-  blog_title: Stories
+  blog_title: Traces
 
 
 #-------------------------------
 # Tags Section Settings
-tags_section:
-  enable: true
-  tags_section_title: Hacker’s Haven
+tags_section: # TODO: enable tags section later when we launch the first series of posts
+  enable: false
+  tags_section_title: Threads
   tags:
-    - tag: "Programming"
+    - tag: "Structures"
       image: "/images/20.jpg"
-    - tag: "Linux"
-      image: "/images/21.jpg"
-    - tag: "Productivity"
-      image: "/images/22.jpg"
-    - tag: "Security"
-      image: "/images/23.jpg"
 
 
 #-------------------------------
 # Videos Section Settings
 videos_section:
-  enable: true
+  enable: false
   videos_section_title: Latest Videos
 
 
 #-------------------------------
 # Gallery Section Settings
 gallery_section:
-  enable: true
-  gallery_section_title: Byte Frame
+  enable: false # TODO: enable gallery section later when we have more footages
+  gallery_section_title: Footages
   gallery:
     gallery_images:
       - alt: 'Rest'
@@ -137,7 +131,7 @@ gallery_section:
 #-------------------------------
 # Newsletter Settings
 mailchimp:
-  enable: true
+  enable: false
   mailchimp_title: Stay inspired weekly ✌️
   mailchimp_description: Every Sunday, I deliver actionable tips for enhancing productivity, practical life advice, and top-notch insights gathered from various sources, right to your email inbox.
   mailchimp_identifier: gmail.us21.list-manage.com/subscribe/post?u=8aeb9c31a5c97a3a5f9ff2740&amp;id=0e31fd7793&amp # Add your MailChimp form identifier. For example - gmail.us21.list-manage.com/subscribe/post?u=8aeb9c31a5c97a3a5f9ff2740&amp;id=0e31fd7793&amp
@@ -147,17 +141,19 @@ mailchimp:
 
 #-------------------------------
 # Footer Settings
-footer_description: Here, I share ideas, tools, and methods that help me balance productivity with creativity while keeping control over my digital world. Dive in, get inspired, and feel free to share your thoughts!
+footer_description: Here, I share what I build, photograph, and learn along the way — thoughts on keeping creativity alive inside a structured life. You’ll find reflections, tools, and methods that help me stay focused without losing curiosity. Dive in, and maybe you’ll find something that resonates.
 
 
 #-------------------------------
 # Social Settings
 social:
-- {icon: "fa-brands fa-x-twitter", name: "Twitter", link: "https://twitter.com"}
-- {icon: "fa-brands fa-facebook", name: "Facebook", link: "https://facebook.com"}
-- {icon: "fa-brands fa-mastodon", name: "Mastodon", link: "https://mastodon.social"}
-- {icon: "fa-brands fa-reddit-alien", name: "Reddit", link: "https://reddit.com"}
-- {icon: "fa-brands fa-github", name: "Github", link: "https://github.com"}
+# - {icon: "fa-brands fa-x-twitter", name: "Twitter", link: "https://twitter.com"}
+# - {icon: "fa-brands fa-facebook", name: "Facebook", link: "https://facebook.com"}
+# - {icon: "fa-brands fa-mastodon", name: "Mastodon", link: "https://mastodon.social"}
+# - {icon: "fa-brands fa-reddit-alien", name: "Reddit", link: "https://reddit.com"}
+- {icon: "fa-brands fa-linkedin", name: "LinkedIn", link: "https://linkedin.com/in/imhalawa"}
+- {icon: "fa-brands fa-github", name: "Github", link: "https://github.com/imhalawa"}
+- {icon: "fa-brands fa-instagram", name: "Instagram", link: "https://instagram.com/im.halawa"}
 - {icon: "fa-solid fa-rss", name: "Rss", link: "/feed.xml"}
 
 # Example of adding a new link to the sidebar and footer - {icon: "fa-brands fa-youtube", name: "Youtube", link: https://youtube.com"}
@@ -167,7 +163,7 @@ social:
 #-------------------------------
 # Contact Settings
 contact:
-  form_id: your@email.com # Add your form_id
+  form_id: xeopjzgw # Add your form_id
   button_text: Send Now
 
 # NOTE
