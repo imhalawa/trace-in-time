@@ -2,7 +2,7 @@
 layout: page
 title: About Me
 permalink: /about/
-image: '/images/01-2.jpg'
+# image: '/images/01-2.jpg'
 ---
 
 I’m Mohamed Halawa — a backend software engineer who sees software as a form of art, and code as the way I draw.  
