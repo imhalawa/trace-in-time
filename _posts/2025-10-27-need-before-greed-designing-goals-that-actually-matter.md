@@ -4,12 +4,12 @@ title: 'Need Before Greed: Designing Goals That Actually Matter'
 description: Exploring how awareness of need transforms the way we plan, act, and live.
 date: 2025-10-27 22:43 +0100
 tags: [Productivity]
+tags_color: '#D99A2B'
 image: /images/posts/2025-10-27/2025-10-27-need-before-greed-designing-goals-that-actually-matter.png
 ---
 
 ## When Goals Lose Their Meaning
 
-![When Goals Lose Their Meaning](/images/posts/2025-10-27/when-goals-lose-their-meaning.jpg)
 I’ve lost count of how many times I’ve set goals. Those tidy little sentences that spark a rush of excitement — the kind that makes everything feel possible. For a moment, you can see it all: the fitter body, the mastered craft, the calmer, wiser version of yourself. The future feels close enough to touch.
 
 That early rush feels good because it tricks the mind into thinking change has already begun. We fall in love with the idea of progress — the fantasy of becoming who we want to be. But fantasies don’t lift weights, write drafts, or wake up early. Reality arrives with its quiet demands, the thrill starts to fade, and what once inspired begins to feel like effort.
@@ -25,8 +25,6 @@ To explore that, let’s return to a shape you’ve seen before — the famous p
 
 ## The Pyramid We All Climb
 
-![The Pyramid We All Climb](/images/posts/2025-10-27/the-pyramid-we-all-climb.jpg)
-
 You’ve seen it before — Maslow’s Hierarchy of Needs. Five colored bands stacked neatly: food and shelter at the base, then safety, belonging, esteem, and finally, at the glowing tip, self-actualization.
 
 We tend to treat it like a staircase, as if life were a steady climb from one level to the next. But the heart doesn’t climb; it sways. Our needs move like tides — overlapping, arguing, changing order without warning.
@@ -40,8 +38,6 @@ Maslow never said the pyramid was a race. He meant it as a mirror — a reminder
 So rather than asking how high to climb, ask which part of your own pyramid is calling for attention.
 
 ## What DO We Actually Need?
-
-![What DO We Actually Need?](/images/posts/2025-10-27/what-do-we-actually-need.jpg)
 
 The word need sounds simple, but it’s slipperier than it looks. We toss around want, need, and desire as if they’re interchangeable — yet they pull from very different depths.
 
@@ -64,8 +60,6 @@ What ambition is really covering for an unmet need?
 
 ## Letting Needs Lead the Way
 
-![Letting Needs Lead the Way](/images/posts/2025-10-27/letting-needs-lead-the-way.jpg)
-
 When a goal grows from a real need, effort stops feeling forced and begins to feel like a response. You’re no longer pushing yourself toward an image of success; you’re tending to what keeps life steady.  
 
 Discipline becomes a kind of alignment. You don’t have to argue yourself into resting when you’re tired or connecting when you’ve been alone too long. Action starts to flow from what already asks to be healed. It feels less like striving and more like returning.  
@@ -81,8 +75,6 @@ You notice it in small things. You write, not to produce more, but to express wh
 Need-driven goals don’t make life easier — they make it make sense.
 
 ## Designing Goals That Serve You
-
-![Designing Goals That Serve You](/images/posts/2025-10-27/desinging-goals-that-serve-you.jpg)
 
 Recognizing your needs is only the beginning. The real shift happens when you start designing your goals around them — when every plan or habit becomes a quiet form of care, not a system of control.  
 
