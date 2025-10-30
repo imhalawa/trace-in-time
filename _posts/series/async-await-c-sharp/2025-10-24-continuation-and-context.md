@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "5. Continuation and Context"
-series: "The Art of Not Waiting"
+series: async-await
 part: 5
 description: "How C# resumes work after an await—the idea of continuation, context, and why it matters for UI and server code."
 date: 2025-10-24

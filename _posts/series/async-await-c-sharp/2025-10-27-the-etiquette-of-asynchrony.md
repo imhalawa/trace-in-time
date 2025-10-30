@@ -2,7 +2,7 @@
 
 layout: post
 title: "8. The Habits of Asynchrony"
-series: "The Art of Not Waiting"
+series: async-await
 part: 8
 description: "Practical habits for writing graceful asynchronous code in C#—from safe awaits to consistent patterns that keep systems smooth."
 date: 2025-10-27

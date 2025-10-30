@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "4. Asynchronous vs Parallel Programming"
-series: "The Art of Not Waiting"
+series: async-await
 part: 4
 description: "Understanding the difference between asynchronous and parallel programming in C#—timing, teamwork, and how they complement each other."
 date: 2025-10-23

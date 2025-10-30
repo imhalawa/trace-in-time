@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "1. The Art of Not Waiting"
-series: "The Art of Not Waiting"
+series: async-await
 part: 1
 description: "An introduction to asynchronous thinking—and why waiting isn’t stopping."
 date: 2025-10-20

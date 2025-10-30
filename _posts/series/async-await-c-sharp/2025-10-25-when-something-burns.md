@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "6. When Something Burns"
-series: "The Art of Not Waiting"
+series: async-await
 part: 6
 description: "Understanding how exceptions work in asynchronous code—where they go, how to catch them, and why context matters."
 date: 2025-10-25

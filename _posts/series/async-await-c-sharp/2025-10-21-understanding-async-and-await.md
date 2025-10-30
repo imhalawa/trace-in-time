@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "2. Understanding Async and Await"
-series: "The Art of Not Waiting"
+series: async-await
 part: 2
 description: "Demystifying how C# pauses and resumes work - the state machine, continuation, and why async/await reads like plain code."
 date: 2025-10-21

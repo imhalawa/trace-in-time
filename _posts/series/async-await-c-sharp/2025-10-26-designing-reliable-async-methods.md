@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "7. Designing Reliable Async Methods"
-series: "The Art of Not Waiting"
+series: async-await
 part: 7
 description: "Building predictable asynchronous methods in C#—avoiding pitfalls, ensuring consistency, and writing code that never loses track."
 date: 2025-10-26
