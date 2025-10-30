@@ -96,7 +96,7 @@ public static T RunSync<T>(Func<Task<T>> asyncOp) =>
 
 * In libraries, use `ConfigureAwait(false)` to avoid capturing a context you don't own.
 * For console apps, prefer `static async Task Main(string[] args)` to avoid sync-over-async.
-* Avoid `Task.Run` as a scalability crutch on ASP.NET Core hot paths; use it only for truly CPU-bound work.
+* Avoid `Task.Run` as a scalability crutch on ASP.NET Core [hot paths](/glossary/hot-path/); use it only for truly CPU-bound work.
 
 ## Mental model: bookmarks in time
 
