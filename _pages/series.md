@@ -4,7 +4,7 @@ title: Series
 permalink: /series/
 ---
 
-## Async/Await in C #
+## Async/Await in Csharp
 
 A reflective, hands-on journey through asynchronous programming in C#.
 
