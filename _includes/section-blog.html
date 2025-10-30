@@ -20,6 +20,11 @@
             </div>
           </div>
         </div>
+        {% if site.data.settings.blog.blog_intro %}
+        <div class="section__intro">
+          <p>{{ site.data.settings.blog.blog_intro }} <a href="{{ '/series/' | relative_url }}">Explore series →</a></p>
+        </div>
+        {% endif %}
       </div>
     </div>
 
@@ -27,9 +32,61 @@
       <div class="col col-8 col-d-12">
         <div class="row grid">
           {% if site.posts.size > 0 %}
-            {% for post in paginator.posts %}
-              {% include article.html class="article--flexible col col-6 col-t-12 grid__post animate" %}
-            {% endfor %}
+
+          {% assign displayed_series = "" | split: "," %}
+
+          {% for post in paginator.posts %}
+
+          {% comment %}On page 1, check if any unshown series should appear before this post{% endcomment %}
+          {% if paginator.page == 1 %}
+          {% for series_info in site.data.series %}
+          {% assign already_shown = false %}
+          {% for shown in displayed_series %}
+          {% if shown == series_info.slug %}
+          {% assign already_shown = true %}
+          {% break %}
+          {% endif %}
+          {% endfor %}
+
+          {% unless already_shown %}
+          {% assign series_posts = site.posts | where: "series", series_info.slug %}
+          {% assign most_recent = series_posts.first %}
+
+          {% if most_recent %}
+          {% if most_recent.date >= post.date %}
+          {% include series-card.html series=series_info class="article--flexible col col-6 col-t-12 grid__post animate"
+          %}
+          {% assign displayed_series = displayed_series | push: series_info.slug %}
+          {% endif %}
+          {% endif %}
+          {% endunless %}
+          {% endfor %}
+          {% endif %}
+
+          {% comment %}Show standalone post{% endcomment %}
+          {% unless post.series %}
+          {% include article.html class="article--flexible col col-6 col-t-12 grid__post animate" %}
+          {% endunless %}
+          {% endfor %}
+
+          {% comment %}Show any remaining series that haven't been displayed yet{% endcomment %}
+          {% if paginator.page == 1 %}
+          {% for series_info in site.data.series %}
+          {% assign already_shown = false %}
+          {% for shown in displayed_series %}
+          {% if shown == series_info.slug %}
+          {% assign already_shown = true %}
+          {% break %}
+          {% endif %}
+          {% endfor %}
+
+          {% unless already_shown %}
+          {% include series-card.html series=series_info class="article--flexible col col-6 col-t-12 grid__post animate"
+          %}
+          {% endunless %}
+          {% endfor %}
+          {% endif %}
+
           {% endif %}
         </div>
         {% include pagination.html %}
