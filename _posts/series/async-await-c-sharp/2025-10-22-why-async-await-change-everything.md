@@ -1,29 +1,29 @@
 ---
 layout: post
 title: "Why Async/Await Changes Everything"
-series: "async-await"
+series: "The Art of Not Waiting"
 part: 3
-description: "Why async/await exists at all: eliminating wasted wait time to unlock responsiveness and throughput."
+description: "Why async/await exists at all—eliminating wasted wait time to unlock responsiveness and throughput."
 date: 2025-10-22
-tags: [dotnet, "async/await", series]
+tags: [dotnet, async-await, series]
 tags_color: "#4122aa"
 image: /images/series/async-await/async-await.png
 permalink: /series/async-await/why-async-await-change-everything/
 ---
 
-In the [previous part](/series/async-await/understanding-async-and-await/), we learned how `async`/`await` lets code pause and resume without losing its place. This part answers *why it matters*: because waiting burns your most precious resource — threads. Async/await turns that dead time into space the system can reuse.
+In the [previous part](/series/async-await/understanding-async-and-await/), we learned how `async`/`await` lets code pause and resume without losing its place. This part answers *why it matters*: because waiting burns your most precious resource—threads. Async/await turns that dead time into space the system can reuse.
 
 ## Time is the bottleneck, not the CPU
 
-Think of a small kitchen at dinner rush. One pot is boiling, another tray is in the oven. If the cook stands there staring at the timer, no one is chopping, plating, or greeting guests. Nothing cooks faster, yet everything finishes later. That’s synchronous I/O.
+Think of a small kitchen at dinner rush. One pot is boiling, another tray is in the oven. If the cook stands there staring at the timer, no one is chopping, plating, or greeting guests. Nothing cooks faster, yet everything finishes later. That's blocking on I/O.
 
 Software used to treat *waiting* as work. A thread would block on the network or disk, holding memory and a stack frame, doing nothing while counting the seconds. In a desktop app, that freezes the UI. In a server, that caps throughput long before the CPU is the limiting factor.
 
 ## The shift: cooperative time-sharing for I/O
 
-Async/await is not about going faster; it’s about *not hogging the thread while you wait*. When an awaited I/O starts, the method yields. The thread goes back to the pool to serve other work. When the result arrives, the continuation resumes exactly where it paused.
+Async/await is not about going faster; it's about *not hogging the thread while you wait*. When an awaited I/O starts, the method yields. The thread goes back to the pool (or UI loop) to serve other work. When the result arrives, the continuation resumes exactly where it paused.
 
-Under the hood, the compiler rewrites your method into a state machine. The runtime wires that state machine to a scheduler (e.g., the thread pool, the UI message pump, or a SynchronizationContext). The result is cooperative time-sharing:
+Under the hood, the compiler rewrites your method into a state machine. Continuations are scheduled via the captured synchronization context (UI) or the thread pool (ASP.NET Core). The result is cooperative time-sharing:
 
 * **I/O-bound work**: frees threads during waits, dramatically improving *throughput*.
 * **UI-bound work**: keeps the message loop free, preserving *responsiveness*.
@@ -55,6 +55,8 @@ public async Task<IActionResult> GetOrder(int id)
 }
 ```
 
+> Note: In real apps, reuse `HttpClient` (e.g., via `IHttpClientFactory`) rather than creating a new instance per request.
+
 ### Desktop & mobile (responsiveness)
 
 UI frameworks marshal updates onto a single UI thread. Any blocking call on that thread starves input, painting, and animations. Await keeps the loop breathing.
@@ -82,13 +84,18 @@ var data = await FetchAsync();
 
 **Guidelines:**
 
-* Prefer *async all the way up* to the top boundary (controller action, event handler, or console `Main`).
+* Prefer async-all-the-way to the top boundary (controller action, event handler, or console `Main`).
 * If you must bridge sync↔async, isolate it at the *edge* on a thread-pool thread and avoid context capture.
 
 ```csharp
 // Sync facade at the boundary — do NOT sprinkle this everywhere
-public static T RunSync<T>(Func<Task<T>> asyncOp) => Task.Run(async () => await asyncOp().ConfigureAwait(false)).GetAwaiter().GetResult();
+public static T RunSync<T>(Func<Task<T>> asyncOp) =>
+    Task.Run(async () => await asyncOp().ConfigureAwait(false)).GetAwaiter().GetResult();
 ```
+
+* In libraries, use `ConfigureAwait(false)` to avoid capturing a context you don't own.
+* For console apps, prefer `static async Task Main(string[] args)` to avoid sync-over-async.
+* Avoid `Task.Run` as a scalability crutch on ASP.NET Core hot paths; use it only for truly CPU-bound work.
 
 ## Mental model: bookmarks in time
 
