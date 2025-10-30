@@ -55,7 +55,8 @@ public async Task<IActionResult> GetOrder(int id)
 }
 ```
 
-> Note: In real apps, reuse `HttpClient` (e.g., via `IHttpClientFactory`) rather than creating a new instance per request.
+{: .note }
+ In real apps, reuse `HttpClient` (e.g., via `IHttpClientFactory`) rather than creating a new instance per request.
 
 ### Desktop & mobile (responsiveness)
 
