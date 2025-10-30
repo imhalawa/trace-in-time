@@ -1,0 +1,13 @@
+{
+    "zenMode.centerLayout": true,
+    "zenMode.hideLineNumbers": true,
+    "[markdown]": {
+        "editor.quickSuggestions": {
+            "other": true,
+            "comments": false,
+            "strings": false
+        },
+        "editor.wordWrap": "wordWrapColumn",
+        "editor.wordWrapColumn": 80,
+    },
+}
