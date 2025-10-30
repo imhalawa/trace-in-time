@@ -1,0 +1,6 @@
+# One entry per series
+- slug: async-await
+  title: "Async/Await in C#"
+  description: "A reflective, hands-on journey through asynchronous programming in C#."
+  image: "/images/series/async-await/async-await.png"
+  link: "/series/async-await/"
