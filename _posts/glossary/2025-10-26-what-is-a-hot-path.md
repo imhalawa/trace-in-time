@@ -1,64 +1,115 @@
 ---
 layout: post
-title: "What Is a Hot Path?"
-description: "A clear, practical definition of a hot path—how to spot it, why it matters, and how to treat it in .NET."
+title: "Hot Path"
+description: "A practical definition of a hot path—how to identify, measure, and optimize it in .NET."
 date: 2025-10-26
+image: /images/glossary/hot-path.png
 tags: [dotnet, performance, glossary]
 tags_color: "#4122aa"
 permalink: /glossary/hot-path/
 draft: false
 ---
 
-## What Is a Hot Path?
+## Definition
 
-A hot path is the stretch of code that runs so frequently—or is so central to a workload—that even small inefficiencies have a big impact. It’s the busy pass in a kitchen: every plate goes through here, so every second (and allocation) counts.
+A hot path is code that runs very often or sits on the critical path of a request. Tiny costs here become visible. An extra allocation, work done twice, or a branch the CPU keeps guessing wrong will show up as slower responses and higher CPU.
 
-Hot paths are not about “fast for the sake of fast.” They’re about keeping critical flows smooth and predictable under load: request handling, tight render loops, serialization in a pipeline, or the inner body of a high‑RPS endpoint.
+## Impact
 
-## Why It Matters
+Hot paths change how the system feels under load. Small work repeated many times becomes large. Slow outliers get slower (p95/p99 are the slowest 5% and 1% of requests — see [percentiles](https://en.wikipedia.org/wiki/Percentile)). CPU and [GC](https://learn.microsoft.com/dotnet/standard/garbage-collection/fundamentals) spend time on overhead instead of useful work.
 
-- Small costs add up: an extra allocation or lock in a hot path repeats millions of times.
-- Latency variance grows: jitter in a hot path becomes user‑visible stutter or tail latency.
-- Throughput drops: CPU and GC burn on overhead instead of useful work.
+## Identify (Measure)
 
-## How To Spot One (Measure)
+Measure first. Use a profiler to see where time and memory go ([dotnet‑trace](https://learn.microsoft.com/dotnet/core/diagnostics/dotnet-trace), [PerfView](https://github.com/microsoft/perfview), or [Visual Studio Profiler](https://learn.microsoft.com/visualstudio/profiling/?view=vs-2022)). For tight loops or small methods, use [BenchmarkDotNet](https://benchmarkdotnet.org/).
 
-- Profile representative runs (e.g., dotnet-trace, PerfView, Visual Studio Profiler, BenchmarkDotNet microbenchmarks for focused cases).
-- Look for methods dominating CPU time or allocation flame graphs.
-- Watch steady‑state behavior: high request rates, long sessions, or tight loops.
-- Confirm with counters: GC collections/sec, LOH/SOH allocation rates, thread pool starvation, tail latency (p95/p99).
+Read [flame graphs](http://www.brendangregg.com/flamegraphs.html) — the stacked chart of where CPU time is spent — and allocation views. Look for methods near the top. Watch steady state: high request rates, tight loops, long‑running sessions. Check counters: GC/sec (how often GC runs), allocation rate (MB/s), [thread‑pool starvation](https://learn.microsoft.com/en-us/dotnet/core/diagnostics/debug-threadpool-starvation) (threads can’t keep up), and p95/p99 latency (slow tail).
 
-If you didn’t measure it, it’s not a hot path yet—it’s just a hunch.
+{: .tip }
+Percentiles (p95/p99) tell you about the slow tail. Improving the hot path often reduces that tail more than it changes the average.
 
-## Typical .NET Hot Paths
+{: .note }
+Further reading on percentiles and tail latency: [Percentile (Wikipedia)](https://en.wikipedia.org/wiki/Percentile), [The Tail at Scale (ACM Queue)](https://queue.acm.org/detail.cfm?id=1814327).
 
-- High‑RPS web endpoints before awaiting I/O (validation, routing, serialization, header parsing).
-- Serialization/deserialization loops and formatters.
-- Per‑frame update/render loops (games, realtime dashboards).
-- Tight data transforms: hashing, compression, and parsers.
+> ThreadPool starvation occurs when the pool has no available threads to process new work items and it often causes applications to respond slowly.
 
-## How To Treat Hot Paths
+As a simple rule of thumb: if one method uses ~10% or more of CPU or allocations, treat it as hot.
 
-- Minimize allocations: reuse buffers; prefer span‑based APIs; cache immutable data.
-- Avoid unnecessary abstraction layers in the inner loop; keep call chains shallow.
-- Prefer struct enumerators/value types only when they measurably reduce allocations and don’t complicate correctness.
-- Keep locks off the hot path; prefer lock‑free or partitioned state when possible.
-- Avoid blocking (I/O or `.Result`/`.Wait()`); use true async I/O and compose work with `Task.WhenAll` where appropriate.
-- Keep branches predictable; precompute decisions outside the loop.
+{: .important }
+If you haven’t measured it, it isn’t a hot path. It’s a guess.
 
-## `ValueTask` And Hot Paths
+## Backend Example: High‑RPS JSON endpoint
 
-- Default to `Task`/`Task<T>` for async APIs—they compose well and are simple.
-- Consider `ValueTask` only after profiling shows it reduces allocations in a hot path where calls complete synchronously most of the time (e.g., cache hits). Document the trade‑offs:
-  - A `ValueTask` can be awaited only once and is more awkward to compose.
-  - Misuse can be slower than `Task`; measure end‑to‑end, not just microbenchmarks.
+{: .note }
+RPS means requests per second.
 
-## Quick Checklist
+Imagine an endpoint that fetches two services, merges the result, and returns JSON. A slow version creates new objects on every request and waits for the calls one by one:
 
-- Is this code on the critical path of high‑frequency or high‑volume work?
-- Do profiles show it dominating CPU time or allocations?
-- Can I remove an allocation, a lock, or a virtual/indirect call here?
-- Did I validate improvements with before/after measurements and tail latency?
+```csharp
+// Naive: extra allocations + sequential I/O
+static readonly Uri Svc1 = new("https://svc1/api");
+static readonly Uri Svc2 = new("https://svc2/api");
 
-Hot paths deserve care—but also restraint. Optimize what you’ve measured, keep the code clear, and prove every change with numbers.
+public async Task<IActionResult> Get()
+{
+    using var http = new HttpClient(); // per-request instance
+    var json1 = await http.GetStringAsync(Svc1);
+    var json2 = await http.GetStringAsync(Svc2);
 
+    var options = new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
+    var a = JsonSerializer.Deserialize<A>(json1, options);
+    var b = JsonSerializer.Deserialize<B>(json2, options);
+    return Results.Json(Combine(a, b), options);
+}
+```
+
+A faster, cleaner version reuses what can be reused and runs I/O concurrently:
+
+```csharp
+// Improved: reuse + concurrent I/O
+static readonly JsonSerializerOptions JsonOpts = new() { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
+
+public async Task<IActionResult> Get(HttpClient http) // injected via IHttpClientFactory
+{
+    var t1 = http.GetStringAsync(Svc1);
+    var t2 = http.GetStringAsync(Svc2);
+    var (json1, json2) = (await t1, await t2);
+
+    var a = JsonSerializer.Deserialize<A>(json1, JsonOpts);
+    var b = JsonSerializer.Deserialize<B>(json2, JsonOpts);
+    return Results.Json(Combine(a, b), JsonOpts);
+}
+```
+
+The difference is simple: less allocation and no unnecessary waiting.
+
+## Backend Example: Cache‑backed call
+
+Consider a method that first checks a cache and, only on a miss, queries a database. With `Task<T>` it’s fine:
+
+```csharp
+public Task<User> GetUserAsync(string id)
+    => cache.TryGet(id, out var user)
+       ? Task.FromResult(user)
+       : FetchFromDbAsync(id);
+```
+
+If most calls hit the cache, switching to `ValueTask<User>` can remove some allocations:
+
+```csharp
+public ValueTask<User> GetUserAsync(string id)
+    => cache.TryGet(id, out var user)
+       ? ValueTask.FromResult(user)
+       : new ValueTask<User>(FetchFromDbAsync(id));
+```
+
+Only do this when profiles show real savings, and keep the rule in mind: await a `ValueTask` once, and prefer `Task` when composing with APIs that expect `Task`. See [`ValueTask`](https://learn.microsoft.com/dotnet/api/system.threading.tasks.valuetask) for details.
+
+## Practices (ASP.NET Core)
+
+Keep the hot path short and quiet. Reuse `HttpClient` via [`IHttpClientFactory`](https://learn.microsoft.com/aspnet/core/fundamentals/http-requests?view=aspnetcore-8.0). Reuse serializer options and large buffers. Avoid doing the same work twice per request. Prefer true async I/O and avoid `.Result` and `.Wait()`. If you need multiple I/O calls, start them, then await them together with `Task.WhenAll`. Don’t wrap I/O with `Task.Run`; use it only to move CPU‑bound work off the request thread. When many requests need to update shared data, avoid a single bottleneck; split the work by key or move it out of the hot path.
+
+## ValueTask and hot paths
+
+Start with `Task`—it’s simple and composes well. Reach for `ValueTask` only when a profiler shows the hot path is allocation‑heavy and often completes synchronously (like cache hits). If you convert a `ValueTask` to `Task`, you pay an allocation; measure end‑to‑end to make sure it’s worth it.
+
+Optimize what you’ve measured. Keep the path clear. Let numbers justify every change.
