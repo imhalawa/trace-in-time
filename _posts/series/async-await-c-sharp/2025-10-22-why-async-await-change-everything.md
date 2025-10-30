@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Why Async/Await Changes Everything"
+title: "3. Why Async/Await Changes Everything"
 series: "The Art of Not Waiting"
 part: 3
 description: "Why async/await exists at all—eliminating wasted wait time to unlock responsiveness and throughput."
