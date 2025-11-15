@@ -15,10 +15,5 @@ install:
 serve:
 	@echo 'To start serving Jekyll use: make serve'
 	@echo ''
-	jekyll serve -w -l --force_polling
+	bundle exec jekyll serve -w -l --force_polling --trace	
 
-.PHONY: build
-build:
-	@echo 'To build the Jekyll site use: make build'
-	@echo ''
-	jekyll build

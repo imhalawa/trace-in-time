@@ -1,8 +1,8 @@
+---
 #-------------------------------
 # General Site Settings
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
-
 
 #-------------------------------
 # Build Settings
@@ -12,16 +12,15 @@ plugins:
   - jekyll-paginate
   - jekyll-sitemap
 
-paginate: 4
+paginate: 10
 paginate_path: "/page/:num"
 
 # Pages Path
 defaults:
   - scope:
-      path: '_pages'
+      path: "_pages"
     values:
       permalink: /:basename:output_ext
-
 
 include:
   - _pages
