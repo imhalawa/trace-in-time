@@ -5,7 +5,6 @@ description: Most relationship trouble doesn’t start in reality — it starts 
 date: 2025-11-14 18:00 +0100
 tags: [Reflections]
 tags_color: '#6B8C9A'
-image: /images/posts/2025-11-14/games-people-play.png
 ---
 
 Most of the tension in human relationships doesn’t come from conflict. It comes from the quiet stories people create when they don’t say what they really mean. We’re quick to interpret, slow to ask, and far too comfortable with the narratives we invent. This piece looks at the subtle games people play — not out of malice, but out of fear, ego, and the mind’s need to feel certain. It’s a study in how imagination replaces reality, and how honesty, applied in the right place at the right time, keeps relationships clean.

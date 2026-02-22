@@ -7,7 +7,6 @@ description: "Building predictable asynchronous methods in C#—avoiding pitfall
 date: 2025-10-26
 tags: [dotnet, async-await, series]
 tags_color: "#4122aa"
-image: /images/series/async-await/async-await.png
 permalink: /series/async-await/designing-reliable-async-methods/
 ---
 ## Designing Reliable Async Methods

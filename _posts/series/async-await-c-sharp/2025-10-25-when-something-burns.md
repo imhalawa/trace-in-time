@@ -7,7 +7,6 @@ description: "Understanding how exceptions work in asynchronous code—where the
 date: 2025-10-25
 tags: [dotnet, async-await, series]
 tags_color: "#4122aa"
-image: /images/series/async-await/async-await.png
 permalink: /series/async-await/when-something-burns/
 ---
 ## When Something Burns

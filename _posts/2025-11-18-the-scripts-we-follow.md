@@ -5,7 +5,6 @@ date: 2025-11-18 03:05 +0100
 description: Your life is not random—it's just a predictable loop; this is your essential guide to interrupting the rhythm and choosing your next move.
 tags: [Reflections]
 tags_color: '#6B8C9A'
-image: /images/posts/2025-11-18/the-scripts-we-follow.png
 ---
 
 ## When Life Becomes a Loop
@@ -21,8 +20,6 @@ Even more profoundly, as your individual patterns play out, they happen collecti
 ## From Cues to Certainty
 
 The predictability we observe is not a mystical curse, but a magnificent display of efficiency driven by an ancient part of your brain known as the **Basal Ganglia** [1]. This small but powerful cluster of neurons, buried deep beneath the cortex, is your neural engine for habit. Its primary role is to take complex sequences of action and thought and consolidate them into a single, automatic unit—a process known as **Chunking** [2].
-
-![The limbic system](/images/posts/2025-11-18/the-limbic-system.jpeg)
 
 Once a pattern is chunked, the Basal Ganglia only requires the initial **Cue** (or **Input**) and the final **Reward** to run the entire sequence on autopilot. This is the source of our behavioral similarity: the brain seeks certainty and minimizes decision-making effort. It’s why you can drive home and barely remember the route; the routine has been streamlined.
 

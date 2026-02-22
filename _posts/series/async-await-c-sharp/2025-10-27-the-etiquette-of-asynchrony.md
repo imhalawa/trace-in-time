@@ -8,7 +8,6 @@ description: "Practical habits for writing graceful asynchronous code in C#—fr
 date: 2025-10-27
 tags: [dotnet, async-await, series]
 tags_color: "#4122aa"
-image: /images/series/async-await/async-await.png
 permalink: /series/async-await/the-etiquette-of-asynchrony/
 ---
 

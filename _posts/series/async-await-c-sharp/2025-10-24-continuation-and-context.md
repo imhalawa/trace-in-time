@@ -7,7 +7,6 @@ description: "How C# resumes work after an await—the idea of continuation, con
 date: 2025-10-24
 tags: [dotnet, async-await, series]
 tags_color: "#4122aa"
-image: /images/series/async-await/async-await.png
 permalink: /series/async-await/continuation-and-context/
 ---
 ## Continuation and Context

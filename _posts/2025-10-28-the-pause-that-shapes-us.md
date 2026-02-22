@@ -5,7 +5,6 @@ description: Exploring the space between instinct, doubt, and decision.
 date: 2025-10-28 23:10 +0100
 tags: [Reflections]
 tags_color: '#6B8C9A'
-image: /images/posts/2025-10-28/the-pause-that-shapes-us.png
 ---
 
 ## Before You Move

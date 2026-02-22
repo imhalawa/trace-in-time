@@ -7,7 +7,6 @@ description: "Demystifying how C# pauses and resumes work - the state machine, c
 date: 2025-10-21
 tags: [dotnet, async-await, series]
 tags_color: "#4122aa"
-image: /images/series/async-await/async-await.png
 permalink: /series/async-await/understanding-async-and-await/
 ---
 

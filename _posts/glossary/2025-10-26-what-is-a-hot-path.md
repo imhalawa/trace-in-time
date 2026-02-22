@@ -3,7 +3,6 @@ layout: post
 title: "Hot Path"
 description: "A practical definition of a hot path—how to identify, measure, and optimize it in .NET."
 date: 2025-10-26
-image: /images/glossary/hot-path.png
 tags: [dotnet, performance, glossary]
 tags_color: "#4122aa"
 permalink: /glossary/hot-path/

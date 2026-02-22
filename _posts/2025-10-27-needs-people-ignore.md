@@ -5,7 +5,6 @@ description: How paying attention to what you truly need reshapes the way you pl
 date: 2025-10-27 22:43 +0100
 tags: [Reflections]
 tags_color: '#6B8C9A'
-image: /images/posts/2025-10-27/needs-people-ignore.png
 ---
 
 ## When Ambition Outruns Reality

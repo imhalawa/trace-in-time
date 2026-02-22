@@ -7,7 +7,6 @@ description: "Why async/await exists at all—eliminating wasted wait time to un
 date: 2025-10-22
 tags: [dotnet, async-await, series]
 tags_color: "#4122aa"
-image: /images/series/async-await/async-await.png
 permalink: /series/async-await/why-async-await-change-everything/
 ---
 

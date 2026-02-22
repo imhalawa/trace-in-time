@@ -7,7 +7,6 @@ description: "An introduction to asynchronous thinking—and why waiting isn’t
 date: 2025-10-20
 tags: [dotnet, 'async-await', series]
 tags_color: "#4122aa"
-image: /images/series/async-await/async-await.png
 permalink: /series/async-await/the-art-of-not-waiting/
 ---
 
