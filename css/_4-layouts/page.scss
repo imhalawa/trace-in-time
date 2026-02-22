@@ -206,6 +206,25 @@
 .page {
   color: var(--text-color);
 
+  .post__content,
+  .page__content {
+    p,
+    ul,
+    ol,
+    li,
+    td {
+      font-family: $base-font-family;
+      line-height: 1.7;
+      letter-spacing: -0.15px;
+    }
+
+    th {
+      font-family: $heading-font-family;
+      font-weight: 600;
+      letter-spacing: 0;
+    }
+  }
+
   h2:target::before,
   h3:target::before,
   h4:target::before,

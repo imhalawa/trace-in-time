@@ -17,3 +17,8 @@ serve:
 	@echo ''
 	bundle exec jekyll serve -w -l --force_polling --trace	
 
+.PHONY: build
+build: 
+	@echo 'To build Jekyll use: make build'
+	@echo ''
+	bundle exec jekyll build --trace
