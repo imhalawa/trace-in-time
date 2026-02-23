@@ -5,6 +5,7 @@ lang: ar
 permalink: /series/arabic-rtl-lab/
 series_slug: arabic-rtl-lab
 hide_page_title: true
+draft: true
 ---
 
 {% assign series_data = site.data.series | where: "slug", page.series_slug | first %}
