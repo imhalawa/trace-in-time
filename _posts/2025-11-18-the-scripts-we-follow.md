@@ -19,7 +19,7 @@ Even more profoundly, as your individual patterns play out, they happen collecti
 
 ## From Cues to Certainty
 
-The predictability we observe is not a mystical curse, but a magnificent display of efficiency driven by an ancient part of your brain known as the **Basal Ganglia** [1]. This small but powerful cluster of neurons, buried deep beneath the cortex, is your neural engine for habit. Its primary role is to take complex sequences of action and thought and consolidate them into a single, automatic unit—a process known as **Chunking** [2].
+The predictability we observe is not a mystical curse, but a magnificent display of efficiency driven by an ancient part of your brain known as the **Basal Ganglia** [^1]. This small but powerful cluster of neurons, buried deep beneath the cortex, is your neural engine for habit. Its primary role is to take complex sequences of action and thought and consolidate them into a single, automatic unit—a process known as **Chunking** [^2].
 
 Once a pattern is chunked, the Basal Ganglia only requires the initial **Cue** (or **Input**) and the final **Reward** to run the entire sequence on autopilot. This is the source of our behavioral similarity: the brain seeks certainty and minimizes decision-making effort. It’s why you can drive home and barely remember the route; the routine has been streamlined.
 
@@ -31,7 +31,7 @@ The efficiency of your **Basal Ganglia** would be manageable if you operated in 
 
 Consider the people you interact with daily. You contribute to their environment, and they contribute to yours. If Person A and Person B share an environment, A’s habitual action becomes an **Input**—a **Cue**—for B, and vice versa. Over time, as both A and B respond to the same overarching environmental stimuli (like the stress of a shared deadline or the slow rhythm of a Sunday morning), the similarity of their individual inputs begins to **match on a time-basis**.
 
-This continuous feedback loop means your patterns are constantly being validated and reinforced by the actions of those around you [3]. If everyone you know defaults to checking their phone when facing a moment of friction, that collective action normalizes and strengthens the neurological pathway in your own brain. Your repetitive actions, therefore, are not solely a personal choice but a subtle, rhythmic response to the predictable behaviors of your social structure. This collective validation is what makes the pattern so difficult to challenge; you are not just breaking an individual habit, you are stepping out of a shared, predictable cadence.
+This continuous feedback loop means your patterns are constantly being validated and reinforced by the actions of those around you [^3]. If everyone you know defaults to checking their phone when facing a moment of friction, that collective action normalizes and strengthens the neurological pathway in your own brain. Your repetitive actions, therefore, are not solely a personal choice but a subtle, rhythmic response to the predictable behaviors of your social structure. This collective validation is what makes the pattern so difficult to challenge; you are not just breaking an individual habit, you are stepping out of a shared, predictable cadence.
 
 To escape the echo, you must first acknowledge that your predictable actions are often a synchronized reflection of the predictable inputs your surroundings provide. This brings us to the pivotal question: If the world is always inputting the same cues, how do we intentionally disrupt the synchronized loop?
 
@@ -53,15 +53,13 @@ This dedicated logging system forces you to slow down the speed of your predicta
 
 You have charted the **Fault Line**. You understand the philosophical burden of repetition, the **Basal Ganglia's** drive for efficiency, and how **Social Synchronization** reinforces the entire system. Now, with the data gathered from your **Self-Awareness Toolkit**, you have the power to step into the sliver of space between the **Trigger** and the **Symptom** and create an entirely new path.
 
-The secret to rerouting the loop is not crushing the old pattern—it's **replacing** the automated action with an intentional one [4]. When your monitoring reveals that Input X consistently leads to Action Y, your job is to interject and consciously insert Action Z.
+The secret to rerouting the loop is not crushing the old pattern—it's **replacing** the automated action with an intentional one [^4]. When your monitoring reveals that Input X consistently leads to Action Y, your job is to interject and consciously insert Action Z.
 
 For example, if your **Trigger** is "the stress of an unanswered email" and the automated **Symptom** is "mindless social media scrolling," you use your awareness to pause, acknowledge the cue, and intentionally execute a new **Symptom**—perhaps "taking five deep breaths" or "writing down the next step for the email." You haven't eliminated the trigger (which the world will always provide), but you have given your **Basal Ganglia** a new, more constructive sequence to **Chunk**.
 
 This act of **intentional interjection** transforms the nature of your existence. You move from being a predictable participant in a collective rhythm to becoming a conscious architect of your own responses. To *Figure Out Your Patterns* is to realize that your destiny is not defined by the cues you receive, but by the intentional actions you choose to take after receiving them. The loop will always try to run; your self-awareness is the new instruction manual that guides the engine.
 
-### References
-
-- [1] Graybiel, A. M. (2008). Habits, rituals, and the evaluative brain. *Annual Review of Neuroscience*, 31, 359-387.
-- [2] Doya, K. (2000). Complementary roles of the cerebellum and basal ganglia in learning and motor control. *Current Opinion in Neurobiology*, 10(6), 732-739.
-- [3] Christakis, N. A., & Fowler, J. H. (2009). The spread of behavior in an experimental social network. *Science*, 324(5933), 1388-1390.
-- [4] Lally, P., van Jaarsveld, H., Potts, H. W., & Wardle, J. (2010). How are habits formed: Modelling habit formation in the real world. *European Journal of Social Psychology*, 40(6), 998-1009.
+[^1]: Doya, K. (2000). Complementary roles of the cerebellum and basal ganglia in learning and motor control. *Current Opinion in Neurobiology*, 10(6), 732-739.
+[^2]: Graybiel, A. M. (2008). Habits, rituals, and the evaluative brain. *Annual Review of Neuroscience*, 31, 359-387.
+[^3]: Christakis, N. A., & Fowler, J. H. (2009). The spread of behavior in an experimental social network. *Science*, 324(5933), 1388-1390.
+[^4]: Lally, P., van Jaarsveld, H., Potts, H. W., & Wardle, J. (2010). How are habits formed: Modelling habit formation in the real world. *European Journal of Social Psychology*, 40(6), 998-1009.

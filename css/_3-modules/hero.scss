@@ -1,186 +1,413 @@
 /* Hero */
 .hero {
-  margin-bottom: 80px;
-
-  .row {
-    align-items: center;
-  }
-
-  @media (max-width: $desktop) {
-    .row {
-      flex-direction: column;
-
-      .col {
-        &:last-child {
-          order: -1;
-        }
-      }
-    }
-  }
+  margin-bottom: 28px;
 
   @media (max-width: $mobile) {
-    margin-bottom: 60px;
+    margin-bottom: 20px;
   }
 }
 
 .hero__inner {
-  padding: 32px;
-  border-radius: 16px;
-  background: var(--background-alt-color-2);
+  padding: 8px 0;
 
   @media (max-width: $mobile) {
-    padding: 24px;
+    padding: 6px 0;
   }
 }
 
-.hero__right {
-  padding-left: 20px;
-
-  padding-left: 12px;
-  max-width: 580px;
-
-  @media (max-width: $wide) {
-    padding-left: 0;
-  }
-
-  @media (max-width: $desktop) {
-    max-width: 100%;
-  }
-}
-
-.hero__avatar {
-  width: 120px;
-  height: 120px;
-  margin-bottom: 28px;
-  border-radius: 50%;
-  overflow: hidden;
-  will-change: transform;
-  user-select: none;
-  background: var(--background-color);
-
-  @media (max-width: $mobile) {
-    width: 100px;
-    height: 100px;
-    margin-bottom: 24px;
-  }
-}
-
-.hero__title {
-  margin-bottom: 12px;
-  font-size: 68px;
-  line-height: 1;
+.hero__tagline {
+  margin: 0;
+  font-family: $heading-font-family;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.35;
+  text-align: center;
   color: var(--heading-font-color);
 
-  @media (max-width: $wide) {
-    font-size: 56px;
-  }
-
-  @media (max-width: $tablet) {
-    font-size: 48px;
-  }
-
   @media (max-width: $mobile) {
-    margin-bottom: 8px;
-    font-size: 32px;
+    font-size: 20px;
   }
 }
 
-.hero__subtitle {
-  margin-bottom: 24px;
-  font-family: $heading-font-family;
-  font-size: 20px;
-  font-weight: 500;
-  color: var(--text-color);
+.hero__space-trigger {
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+  color: var(--heading-font-color);
+  cursor: pointer;
+  outline: none;
 
-  @media (max-width: $mobile) {
-    margin-bottom: 20px;
-    font-size: 18px;
+  &:hover,
+  &:focus-visible {
+    color: var(--primary-color);
   }
 }
 
-.hero__description {
-  margin-bottom: 16px;
-
-  p {
-    margin-bottom: 16px;
-  }
-
-  a:not([class]) {
-    text-decoration: underline;
-    text-decoration-thickness: 1px;
-    text-underline-offset: 2px;
-    color: var(--heading-font-color);
-
-    &:hover {
-      color: var(--primary-color);
-    }
-  }
-
-  @media (max-width: $mobile) {
-    font-size: 16px;
-
-    p {
-      margin-bottom: 12px;
-    }
-  }
-}
-
-.hero__button {
-  margin-top: 16px;
-
-  @media (max-width: $mobile) {
-    margin-top: 8px;
-  }
-}
-
-.hero__left {
-  @media (max-width: $desktop) {
-    margin-top: 40px;
-  }
-}
-
-.hero__image {
+.hero__space-anchor {
   position: relative;
-  transform: translate(0);
-  width: 100%;
-  height: 634px;
-  border-radius: 16px;
-  overflow: hidden;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.02);
-  background: var(--background-color);
-  user-select: none;
-
-  img {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
-  @media (max-width: $desktop) {
-    height: auto;
-    aspect-ratio: 4/3;
-
-    @supports not (aspect-ratio: 4/3) {
-      height: 0;
-      padding-bottom: 75%;
-    }
-  }
-
+  display: inline-flex;
+  align-items: center;
 }
 
-.hero__image__caption {
-  margin-top: 12px;
-  font-family: $heading-font-family;
+.hero__click-note {
+  position: absolute;
+  top: -28px;
+  right: -56px;
+  font-family: "Comic Sans MS", "Bradley Hand", cursive;
   font-size: 14px;
-  line-height: 1.4;
-  text-align: center;
-  color: var(--text-alt-color);
+  font-weight: 700;
+  letter-spacing: .02em;
+  color: color-mix(in srgb, var(--primary-color) 74%, #fff 26%);
+  transform: rotate(-8deg);
+  white-space: nowrap;
 
-  a:not([class]) {
-    text-decoration: underline;
-    text-underline-offset: 2px;
+  &::after {
+    content: "";
+    position: absolute;
+    left: -22px;
+    top: 12px;
+    width: 18px;
+    height: 12px;
+    border-left: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+    border-radius: 0 0 0 12px;
+    transform: rotate(8deg);
+  }
+}
+
+.solar-scene {
+  position: fixed;
+  inset: 0;
+  --space-darkness: .18;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity .45s ease, visibility .45s ease;
+  z-index: 1200;
+  overflow: hidden;
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    opacity: var(--space-darkness);
+    background:
+      radial-gradient(120% 100% at 50% 60%, rgba(8, 10, 28, 0.12), rgba(5, 7, 20, 0.52) 58%, rgba(2, 3, 10, 0.72)),
+      linear-gradient(180deg, rgba(2, 4, 14, 0.46), rgba(1, 2, 8, 0.68));
+    transition: opacity .5s ease;
+  }
+}
+
+body.space-galaxy-active .solar-scene {
+  opacity: 1;
+  visibility: visible;
+}
+
+body.space-galaxy-active .solar-scene::after {
+  opacity: var(--space-darkness);
+}
+
+.solar-scene__galaxy {
+  position: absolute;
+  inset: -8%;
+  z-index: 2;
+  opacity: 0;
+  transform: scale(.84);
+  background:
+    radial-gradient(58% 44% at 50% 62%, color-mix(in srgb, var(--primary-color) 30%, transparent), transparent 74%),
+    radial-gradient(38% 30% at 34% 46%, color-mix(in srgb, var(--social-instagram) 20%, transparent), transparent 76%),
+    radial-gradient(34% 26% at 70% 42%, color-mix(in srgb, var(--social-linkedin) 19%, transparent), transparent 76%),
+    radial-gradient(24% 18% at 50% 58%, color-mix(in srgb, var(--social-rss) 14%, transparent), transparent 80%),
+    radial-gradient(128% 102% at 50% 66%, rgba(3, 6, 22, 0.92), rgba(3, 6, 22, 0.44) 58%, rgba(3, 6, 22, 0.06));
+  filter: blur(13px) saturate(108%);
+  transition: opacity .8s ease, transform 1.05s cubic-bezier(.2, .72, .2, 1);
+}
+
+body.space-galaxy-phase .solar-scene__galaxy,
+body.space-orbit-active .solar-scene__galaxy {
+  opacity: .72;
+  transform: scale(1.08);
+}
+
+body.space-orbit-active .solar-scene__galaxy {
+  opacity: .66;
+}
+
+.solar-timeline {
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  right: 12px;
+  transform: translateY(-8px);
+  width: auto;
+  padding: 0;
+  border: 1px solid color-mix(in srgb, var(--border-color) 56%, transparent);
+  border-radius: 12px;
+  opacity: 0;
+  transition: opacity .35s ease, transform .35s ease;
+  pointer-events: none;
+  z-index: 1201;
+  background: color-mix(in srgb, #040814 80%, transparent);
+  backdrop-filter: blur(4px);
+}
+
+body.space-galaxy-active .solar-timeline {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.solar-stepper {
+  margin: 0;
+  padding: 10px 12px;
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(9, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.solar-stepper__item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  opacity: .56;
+  transition: opacity .25s ease, transform .25s ease;
+
+  &.is-complete {
+    opacity: .9;
+  }
+
+  &.is-active {
+    opacity: 1;
+    transform: translateY(1px);
+  }
+}
+
+.solar-stepper__dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 1px solid rgba(235, 243, 255, .7);
+  background: rgba(148, 170, 205, .48);
+  box-shadow: 0 0 0 2px rgba(84, 112, 160, .18);
+
+  .solar-stepper__item.is-complete &,
+  .solar-stepper__item.is-active & {
+    background: rgba(225, 239, 255, .94);
+    box-shadow: 0 0 10px rgba(190, 218, 255, .66);
+  }
+}
+
+.solar-stepper__label {
+  font-family: $heading-font-family;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+  color: rgba(222, 235, 255, .93);
+  white-space: nowrap;
+}
+
+.solar-timeline__clock {
+  position: fixed;
+  left: 20px;
+  bottom: 18px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  padding: 8px 12px;
+  border-radius: 10px;
+  border: 1px solid color-mix(in srgb, var(--border-color) 62%, transparent);
+  background: color-mix(in srgb, #040814 78%, transparent);
+  backdrop-filter: blur(4px);
+  font-family: $heading-font-family;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, #dce9ff 88%, var(--text-alt-color) 12%);
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity .28s ease, transform .28s ease;
+  pointer-events: none;
+}
+
+body.space-galaxy-active .solar-timeline__clock {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.solar-timeline__clock-sep {
+  opacity: .5;
+}
+
+.solar-scene__canvas {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  width: 100%;
+  height: 100%;
+  opacity: .84;
+  transition: opacity .45s ease;
+}
+
+.solar-scene__fallback {
+  position: absolute;
+  top: 58vh;
+  left: 50%;
+  width: 240px;
+  height: 240px;
+  opacity: 0;
+  z-index: 3;
+  transform: translate(-50%, -50%) scale(.86);
+  transition: opacity .38s ease, transform .45s ease;
+}
+
+body.space-orbit-active .solar-scene__fallback {
+  opacity: .8;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.solar-scene--canvas-ready .solar-scene__fallback {
+  opacity: 0 !important;
+}
+
+.solar-scene__fallback-sun {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--primary-color);
+  box-shadow: 0 0 22px color-mix(in srgb, var(--primary-color) 80%, transparent);
+}
+
+.solar-scene__fallback-orbit {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  border: 1px solid color-mix(in srgb, var(--border-color) 70%, transparent);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  animation: fallback-orbit linear infinite;
+}
+
+.solar-scene__fallback-orbit--1 {
+  width: 72px;
+  height: 72px;
+  animation-duration: 3.8s;
+}
+
+.solar-scene__fallback-orbit--2 {
+  width: 116px;
+  height: 116px;
+  animation-duration: 5.8s;
+  animation-direction: reverse;
+}
+
+.solar-scene__fallback-orbit--3 {
+  width: 164px;
+  height: 164px;
+  animation-duration: 7.8s;
+}
+
+.solar-scene__fallback-planet {
+  position: absolute;
+  top: 50%;
+  right: -4px;
+  border-radius: 50%;
+  transform: translateY(-50%);
+  box-shadow: 0 0 12px currentColor;
+}
+
+.solar-scene__fallback-planet--1 {
+  width: 8px;
+  height: 8px;
+  color: var(--social-linkedin);
+  background: currentColor;
+}
+
+.solar-scene__fallback-planet--2 {
+  width: 10px;
+  height: 10px;
+  color: var(--social-instagram);
+  background: currentColor;
+}
+
+.solar-scene__fallback-planet--3 {
+  width: 12px;
+  height: 12px;
+  color: var(--social-rss);
+  background: currentColor;
+}
+
+@keyframes fallback-orbit {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+@media (max-width: $mobile) {
+  .hero__click-note {
+    right: -30px;
+    top: -24px;
+    font-size: 12px;
+  }
+
+  .solar-scene__fallback {
+    top: 64vh;
+    width: 220px;
+    height: 220px;
+  }
+
+  .solar-timeline {
+    top: 12px;
+    left: 10px;
+    right: 10px;
+    width: calc(100vw - 24px);
+  }
+
+  .solar-stepper {
+    padding: 8px 10px;
+    gap: 4px;
+  }
+
+  .solar-stepper__item {
+    gap: 0;
+  }
+
+  .solar-stepper__dot {
+    width: 8px;
+    height: 8px;
+  }
+
+  .solar-stepper__label {
+    display: none;
+  }
+
+  .solar-timeline__clock {
+    left: 12px;
+    bottom: 12px;
+    padding: 7px 10px;
+    font-size: 10px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .solar-scene,
+  .solar-scene__galaxy,
+  .solar-scene__canvas,
+  .solar-scene__fallback,
+  .solar-timeline {
+    transition-duration: .01ms;
   }
 }

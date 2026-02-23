@@ -1,0 +1,33 @@
+<div class="widget widget-home-author">
+  {% assign home_avatar = site.data.settings.hero.hero_avatar | default: site.data.settings.author.author_avatar %}
+  {% if home_avatar %}
+  <div class="widget-home-author__avatar">
+    <img class="lazy" data-src="{{ home_avatar }}" alt="{{ site.data.settings.author.author_name }}">
+  </div>
+  {% endif %}
+
+  <div class="widget-home-author__content">
+    {% if site.data.settings.hero.hero_title %}
+    <h3 class="widget-home-author__title">{{ site.data.settings.hero.hero_title }}</h3>
+    {% endif %}
+
+    {% if site.data.settings.hero.hero_subtitle %}
+    <p class="widget-home-author__subtitle">{{ site.data.settings.hero.hero_subtitle }}</p>
+    {% endif %}
+
+    {% if site.data.settings.social %}
+    <ul class="widget-home-author__social list-reset">
+      {% for social in site.data.settings.social %}
+      <li class="widget-home-author__social-item">
+        <a class="widget-home-author__social-link social--{{ social.name | slugify }}" href="{{ social.link }}" target="_blank" rel="noopener"
+          aria-label="{{ social.name }} link"><i class="{{ social.icon }}"></i></a>
+      </li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+
+    {% if site.data.settings.hero.hero_button_text %}
+    <a href="{{ site.data.settings.hero.hero_button_link }}" class="widget-home-author__button button button--primary">{{ site.data.settings.hero.hero_button_text }}</a>
+    {% endif %}
+  </div>
+</div>

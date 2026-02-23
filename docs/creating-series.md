@@ -1,197 +1,180 @@
-# Creating a New Series
+# Creating Series, Lists, and Books
 
-This guide explains how to create a new series of related posts on the blog.
+This guide explains how to create and maintain grouped content on the blog:
 
-## Overview
+- Series (article sequences)
+- Lists (apps, links, and other listable topics)
+- Books (selective notes and opinions)
 
-The series feature allows you to group related blog posts together under a common theme. Each series has:
+## Shared Model
 
-- A dedicated landing page listing all posts in the series
-- An entry on the main `/series/` index page
-- Metadata stored in `_data/series.yml`
+All three concepts use the same architecture:
 
-## Step-by-Step Guide
+1. Metadata entry in `_data/*.yml`
+2. Detail page at `/concept/{slug}/`
+3. Member posts in `_posts/...` linked by front matter slug
+4. Timeline shows one grouped card instead of individual member posts
 
-### 1. Add Series Metadata
+Draftability is supported at two levels:
 
-Edit `_data/series.yml` and add a new entry:
+- Entity-level: `draft: true` in data file (hides grouped cards and landing cards)
+- Post-level: `published: false` in post front matter
 
-```yaml
-- slug: your-series-slug
-  title: "Your Series Title"
-  description: "A brief description of what this series covers."
-  image: "/images/series/your-series-slug/cover.png"
-  link: "/series/your-series-slug/"
-```
-
-**Fields:**
-
-- `slug`: URL-friendly identifier (lowercase, hyphens only)
-- `title`: Display name of the series
-- `description`: Short summary shown on series index page
-- `image`: Path to series cover image
-- `link`: Permalink to series landing page (must match pattern `/series/{slug}/`)
-
-### 2. Create Series Landing Page
-
-Create a new file: `series/{slug}/index.md`
-
-```markdown
----
-layout: page
-title: "Your Series Title"
-permalink: /series/your-series-slug/
 ---
 
-{% assign series_data = site.data.series | where: "slug", "your-series-slug" | first %}
+## Series
 
-{% if series_data %}
-{{ series_data.description }}
-
-{% assign series_posts = site.posts | where: "series", "your-series-slug" | sort: "part" %}
-
-<div class="row grid">
-  {% for post in series_posts %}
-    {% include article.html class="article--flexible col col-6 col-t-12" %}
-  {% endfor %}
-</div>
-
-{% endif %}
-```
-
-**Important:** Replace `your-series-slug` in three places:
-
-1. The permalink
-2. The `where: "slug"` filter
-3. The `where: "series"` filter
-
-### 3. Create Series Directory Structure
-
-Organize your posts in folders:
-
-```
-_posts/
-  series/
-    your-series-slug/
-      2025-01-01-first-post.md
-      2025-01-02-second-post.md
-      ...
-```
-
-### 4. Tag Posts with Series
-
-In each post's front matter:
-
-```yaml
----
-layout: post
-title: "1. First Post Title"
-series: your-series-slug
-part: 1
-description: "Post description"
-date: 2025-01-01
-tags: [relevant, tags, series]
-image: /images/series/your-series-slug/post-image.png
-permalink: /series/your-series-slug/first-post-title/
----
-```
-
-**Key fields:**
-
-- `series`: Must match the slug in `series.yml`
-- `part`: Numeric order (used for sorting)
-- `tags`: Include `series` tag for consistency
-- `permalink`: Follow pattern `/series/{slug}/{post-slug}/`
-
-### 5. Add Series Cover Image
-
-Place series images in:
-
-```
-images/
-  series/
-    your-series-slug/
-      cover.png
-      post-image-1.png
-      post-image-2.png
-```
-
-## Example: Async/Await Series
-
-Here's the existing series as a reference:
-
-**`_data/series.yml`:**
+### 1) Add metadata in `_data/series.yml`
 
 ```yaml
 - slug: async-await
   title: "Async/Await in C#"
+  subtitle: "Practical patterns for writing calm, reliable asynchronous code."
   description: "A reflective, hands-on journey through asynchronous programming in C#."
-  image: "/images/series/async-await/async-await.png"
+  cover_color: "#5B4BFF"
   link: "/series/async-await/"
+  draft: false
 ```
 
-**File structure:**
+### 2) Create detail page
 
-```
-series/async-await/index.md
-_posts/series/async-await-c-sharp/
-  2025-10-20-the-art-of-not-waiting.md
-  2025-10-21-understanding-async-and-await.md
-  ...
-```
-
-**Post front matter:**
+Create `series/{slug}/index.md` and set:
 
 ```yaml
-series: async-await
-part: 1
-tags: [dotnet, 'async-await', series]
-permalink: /series/async-await/the-art-of-not-waiting/
+series_slug: your-series-slug
+permalink: /series/your-series-slug/
 ```
 
-## How It Works
+### 3) Create posts
 
-### Main Series Index (`/series/`)
+Place posts under `_posts/series/{folder}/` and include:
 
-The `_pages/series.md` file automatically loops through all entries in `_data/series.yml` and displays them as cards. Each card shows:
+```yaml
+series: your-series-slug
+part: 1
+published: true
+```
 
-- Series cover image
-- Series title (linked to landing page)
-- Series description
-- Article count
+---
 
-### Individual Series Page (`/series/{slug}/`)
+## Lists
 
-The series landing page:
+Lists are for any listable content (apps, links, etc.).
 
-1. Fetches metadata from `series.yml` by slug
-2. Filters all posts by `series: {slug}` front matter
-3. Sorts posts by the `part` field
-4. Displays posts in a responsive grid layout
+### 1) Add metadata in `_data/lists.yml`
 
-## Tips
+```yaml
+- slug: engineering-toolbox
+  title: "Engineering Toolbox"
+  subtitle: "Apps, tools, and links that help me think and ship faster."
+  description: "A curated list of tools and resources I rely on for focused engineering work."
+  cover_color: "#0D9488"
+  link: "/lists/engineering-toolbox/"
+  draft: true
+```
 
-- **Consistent naming:** Use the same slug everywhere (series.yml, folder names, permalinks)
-- **Part numbering:** Start from 1 and increment sequentially for proper ordering
-- **Image dimensions:** Use consistent image sizes for series covers
-- **Description length:** Keep descriptions concise (1-2 sentences)
-- **Tags:** Always include the `series` tag for filtering
+### 2) Create detail page
 
-## Troubleshooting
+Create `lists/{slug}/index.md` and set:
 
-**Series not showing up?**
+```yaml
+list_slug: engineering-toolbox
+permalink: /lists/engineering-toolbox/
+```
 
-- Check that slug matches exactly in all locations
-- Verify the series entry exists in `series.yml`
-- Ensure the landing page exists at `series/{slug}/index.md`
+### 3) Create list posts
 
-**Posts not appearing on series page?**
+Place posts under `_posts/lists/` and include:
 
-- Verify `series: {slug}` is set in post front matter
-- Check that posts have the `part` field for sorting
-- Ensure posts are published (date is not in the future)
+```yaml
+list: engineering-toolbox
+published: false
+```
 
-**Broken links?**
+Cards and page listings use post front matter title/subtitle.
 
-- Verify `link` in series.yml matches the landing page permalink
-- Check that permalinks follow the `/series/{slug}/` pattern
+---
+
+## Books
+
+Books are grouped as notes. Timeline cards show `x notes`.
+
+### 1) Add metadata in `_data/books.yml`
+
+```yaml
+- slug: clean-code
+  title: "Clean Code"
+  subtitle: "Notes and reflections while revisiting core software craftsmanship ideas."
+  description: "Selective notes and opinions on practical chapters and trade-offs from Clean Code."
+  cover_color: "#7C3AED"
+  link: "/books/clean-code/"
+  draft: true
+```
+
+### 2) Create detail page
+
+Create `books/{slug}/index.md` and set:
+
+```yaml
+book_slug: clean-code
+permalink: /books/clean-code/
+```
+
+### 3) Create book notes
+
+Place notes under `_posts/books/{book-slug}/` and include:
+
+```yaml
+book: clean-code
+part: 1
+published: false
+```
+
+`part` is optional but recommended for ordered notes.
+
+---
+
+## Directory Examples
+
+```text
+_data/
+  series.yml
+  lists.yml
+  books.yml
+
+_pages/
+  series.md
+  lists.md
+  books.md
+
+series/
+  your-series-slug/
+    index.md
+
+lists/
+  your-list-slug/
+    index.md
+
+books/
+  your-book-slug/
+    index.md
+
+_posts/
+  series/
+    your-series-folder/
+      2026-01-01-series-post.md
+  lists/
+    2026-01-02-list-post.md
+  books/
+    your-book-slug/
+      2026-01-03-book-note.md
+```
+
+---
+
+## Timeline Behavior
+
+- Normal posts render individually.
+- Posts that belong to `series`, `list`, or `book` do not render individually on timeline.
+- Instead, one grouped concept card is rendered per published, non-draft entity.
+- Book grouped cards display note counts (`x notes`).

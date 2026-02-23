@@ -66,15 +66,32 @@
 
   .footer__social__link {
     display: flex;
+    justify-content: center;
     align-items: center;
-    padding: 4px;
+    width: 52px;
+    height: 52px;
     font-size: 24px;
+    border: 1px solid currentColor;
+    border-radius: 16px;
+    background: transparent;
     color: var(--heading-font-color);
 
     &:hover {
-      color: var(--primary-color);
+      border-color: currentColor;
+      background: color-mix(in srgb, currentColor 12%, transparent);
+      opacity: .9;
     }
   }
+
+  .footer__social__link.social--linkedin { color: var(--social-linkedin); }
+  .footer__social__link.social--github { color: var(--social-github); }
+  .footer__social__link.social--instagram { color: var(--social-instagram); }
+  .footer__social__link.social--rss { color: var(--social-rss); }
+  .footer__social__link.social--facebook { color: var(--social-facebook); }
+  .footer__social__link.social--twitter,
+  .footer__social__link.social--x,
+  .footer__social__link.social--x-twitter { color: var(--social-x); }
+  .footer__social__link.social--pinterest { color: var(--social-pinterest); }
 
   @media (max-width: $desktop) {
     margin-top: 24px;

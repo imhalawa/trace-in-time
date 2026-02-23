@@ -28,7 +28,7 @@
               <div class="col col-3 col-d-6 col-m-12">
                 {% if tag_data.image %}
                 <a href="{{ site.baseurl }}/tags/?tag={{ tag_data.tag | downcase | url_encode }}" class="section-tags__image" style="outline-color: {{ tag_color }};">
-                  <span class="section-tags__name" style="background: {{ tag_color }};">{{ tag_data.tag }}</span>
+                  <span class="section-tags__name" style="--tag-accent: {{ tag_color }};">{{ tag_data.tag }}</span>
                   <img class="lazy" data-src="{{ tag_data.image | relative_url }}" alt="{{ tag_data.tag }}">
                 </a>
                 {% endif %}

@@ -6,39 +6,21 @@ permalink: /series/
 
 Explore our ongoing series of in-depth articles on various topics.
 
-<div class="row">
+<div class="row grid">
   {% for series in site.data.series %}
-    {% assign series_post = series %}
-    {% capture post_url %}{{ series.link }}{% endcapture %}
-    {% capture post_title %}{{ series.title }}{% endcapture %}
-    {% capture post_description %}{{ series.description }}{% endcapture %}
-    {% capture post_image %}{{ series.image }}{% endcapture %}
+    {% assign content_language = series.lang | default: site.lang | default: "en" %}
+    {% assign base_language = content_language | split: "-" | first | downcase %}
+    {% assign t = site.data.translations[base_language] | default: site.data.translations.en %}
+    {% assign rtl_languages = "ar,arc,ckb,dv,fa,he,khw,ks,ku,ps,sd,ug,ur,yi" | split: "," %}
+    {% assign content_direction = "ltr" %}
+    {% if rtl_languages contains base_language %}
+      {% assign content_direction = "rtl" %}
+    {% endif %}
 
-    <div class="article article--flexible">
-      <div class="article__inner">
-        {% if series.image %}
-        <div class="article__head">
-          <a class="article__image" href="{{ series.link | relative_url }}">
-            <img class="lazy" data-src="{{ series.image | relative_url }}" alt="{{ series.title }}">
-          </a>
-        </div>
-        {% endif %}
-
-        <div class="article__content">
-          <h2 class="article__title">
-            <a href="{{ series.link | relative_url }}">{{ series.title }}</a>
-          </h2>
-
-          <p class="article__excerpt">{{ series.description }}</p>
-
-          <div class="article__meta">
-            {% assign series_posts = site.posts | where: "series", series.slug %}
-            <div class="article__minutes">
-              {{ series_posts.size }} {% if series_posts.size == 1 %}article{% else %}articles{% endif %}
-            </div>
-          </div>
-        </div>
-      </div>
+    <div class="col col-6 col-t-12 series-landing__item" lang="{{ content_language }}" dir="{{ content_direction }}">
+      {% assign series_posts = site.posts | where: "series", series.slug %}
+      {% capture series_meta_text %}{{ series_posts.size }} {% if series_posts.size == 1 %}{{ t.article_singular }}{% else %}{{ t.article_plural }}{% endif %}{% endcapture %}
+      {% include series-hero.html series=series link=true class="series-landing__hero" heading_tag="h2" meta_text=series_meta_text %}
     </div>
   {% endfor %}
 </div>

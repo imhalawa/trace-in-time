@@ -311,15 +311,17 @@
     line-height: 1.2;
     letter-spacing: normal;
     border: 1px solid var(--border-alt-color);
-    border-radius: 8px;
+    border-radius: 16px;
     color: var(--text-alt-color);
-    background: var(--background-alt-color);
+    background: transparent;
     transition: $global-transition;
     user-select: none;
     cursor: pointer;
 
     &:hover {
-      opacity: .8;
+      border-color: var(--heading-font-color);
+      color: var(--heading-font-color);
+      background: color-mix(in srgb, currentColor 10%, transparent);
     }
 
     .search-button__icon {
@@ -383,21 +385,24 @@
   align-items: center;
   width: 36px;
   height: 36px;
-  border-radius: 10px;
+  border: 1px solid var(--border-alt-color);
+  border-radius: 16px;
   transition: $global-transition;
-  background: var(--background-alt-color);
+  background: transparent;
   color: var(--dark-gray);
   cursor: pointer;
 
   &:hover {
     color: var(--heading-font-color);
-    background: var(--background-alt-color);
+    border-color: var(--heading-font-color);
+    background: color-mix(in srgb, currentColor 10%, transparent);
   }
 
   @media (max-width: $desktop) {
     width: auto;
     height: auto;
     padding: 8px;
+    border: none;
     background: none;
 
      &:hover {

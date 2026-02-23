@@ -2,13 +2,38 @@
 layout: default
 ---
 
+{% assign content_language = page.lang | default: site.lang | default: "en" %}
+{% assign base_language = content_language | split: "-" | first | downcase %}
+{% assign t = site.data.translations[base_language] | default: site.data.translations.en %}
+{% assign footnotes_heading = t.references_label | default: "References" %}
+{% assign rtl_languages = "ar,arc,ckb,dv,fa,he,khw,ks,ku,ps,sd,ug,ur,yi" | split: "," %}
+{% assign content_direction = "ltr" %}
+{% if rtl_languages contains base_language %}
+  {% assign content_direction = "rtl" %}
+{% endif %}
+{% assign author_display_name = site.data.settings.author.author_name %}
+{% if base_language == "ar" %}
+  {% assign author_display_name = site.data.settings.author.author_name_ar | default: site.data.settings.author.author_name %}
+  {% assign arabic_months = "يناير,فبراير,مارس,أبريل,مايو,يونيو,يوليو,أغسطس,سبتمبر,أكتوبر,نوفمبر,ديسمبر" | split: "," %}
+  {% assign month_index = page.date | date: "%m" | minus: 1 %}
+  {% assign month_name = arabic_months[month_index] %}
+  {% assign date_day = page.date | date: "%-d" %}
+  {% capture date_day_ar %}{{ date_day | replace: "0", "٠" | replace: "1", "١" | replace: "2", "٢" | replace: "3", "٣" | replace: "4", "٤" | replace: "5", "٥" | replace: "6", "٦" | replace: "7", "٧" | replace: "8", "٨" | replace: "9", "٩" }}{% endcapture %}
+  {% assign date_year = page.date | date: "%Y" %}
+  {% capture date_year_ar %}{{ date_year | replace: "0", "٠" | replace: "1", "١" | replace: "2", "٢" | replace: "3", "٣" | replace: "4", "٤" | replace: "5", "٥" | replace: "6", "٦" | replace: "7", "٧" | replace: "8", "٨" | replace: "9", "٩" }}{% endcapture %}
+  {% capture formatted_post_date %}{{ date_day_ar }} {{ month_name }} {{ date_year_ar }}{% endcapture %}
+{% else %}
+  {% assign date_format = site.minima.date_format | default: "%d %-b, %Y" %}
+  {% assign formatted_post_date = page.date | date: date_format %}
+{% endif %}
+
 <!-- begin post -->
 <div class="container">
 
-  <div class="row">
+  <div class="row{% if content_direction == 'rtl' %} row--rtl-layout{% endif %}">
     <div class="col col-8 col-d-12">
 
-      <div class="post-head">
+      <div class="post-head" lang="{{ content_language }}" dir="{{ content_direction }}">
 
         {% if page.video_embed %}
         <div class="post-video">
@@ -26,48 +51,87 @@ layout: default
         {% endif %}
 
         <div class="post-info">
+          <h1 class="post-title">{{ page.title | escape }}</h1>
+
+          <div class="post-meta">
+            {% if base_language == "ar" %}
+            <div class="post-meta__content">
+              <a class="post-meta__author" href="{{ '/about/' |relative_url }}">{{ author_display_name
+                }}</a>
+              <div class="post-meta__bottom">
+                <time class="post-date" datetime="{{ page.date | date_to_xmlschema }}">{{ formatted_post_date }}</time> –
+                <span class="post-minutes">
+                  {% assign words = page.content | number_of_words %}
+                  {% if words < 360 %} 1 {{ t.min_read }} {% else %} {{ words | divided_by:180 }} {{ t.min_read }} {% endif %} </span>
+              </div>
+              {% if site.data.settings.social %}
+              <ul class="post-meta__social list-reset">
+                {% for social in site.data.settings.social %}
+                <li class="post-meta__social-item">
+                  <a class="post-meta__social-link social--{{ social.name | slugify }}" href="{{ social.link }}" target="_blank"
+                    rel="noopener" aria-label="{{ social.name }} link"><i class="{{ social.icon }}"></i></a>
+                </li>
+                {% endfor %}
+              </ul>
+              {% endif %}
+            </div>
+
+            <a href="{{ '/about/' |relative_url }}" class="post-meta__image">
+              <img class="lazy" data-src="{{ site.data.settings.author.author_avatar | relative_url }}"
+                alt="{{ author_display_name }}">
+            </a>
+            {% else %}
+            <a href="{{ '/about/' |relative_url }}" class="post-meta__image">
+              <img class="lazy" data-src="{{ site.data.settings.author.author_avatar | relative_url }}"
+                alt="{{ author_display_name }}">
+            </a>
+
+            <div class="post-meta__content">
+              <a class="post-meta__author" href="{{ '/about/' |relative_url }}">{{ author_display_name
+                }}</a>
+              <div class="post-meta__bottom">
+                <time class="post-date" datetime="{{ page.date | date_to_xmlschema }}">{{ formatted_post_date }}</time> –
+                <span class="post-minutes">
+                  {% assign words = page.content | number_of_words %}
+                  {% if words < 360 %} 1 {{ t.min_read }} {% else %} {{ words | divided_by:180 }} {{ t.min_read }} {% endif %} </span>
+              </div>
+              {% if site.data.settings.social %}
+              <ul class="post-meta__social list-reset">
+                {% for social in site.data.settings.social %}
+                <li class="post-meta__social-item">
+                  <a class="post-meta__social-link social--{{ social.name | slugify }}" href="{{ social.link }}" target="_blank"
+                    rel="noopener" aria-label="{{ social.name }} link"><i class="{{ social.icon }}"></i></a>
+                </li>
+                {% endfor %}
+              </ul>
+              {% endif %}
+            </div>
+            {% endif %}
+          </div>
+
           {% if page.tags.size >= 1 %}
           <div class="post-tags">
             {% for tag in page.tags %}
             <a href="{{ site.baseurl }}/tags/?tag={{ tag | downcase | url_encode }}" class="post-tag"
-              style="background: {{ page.tags_color | default: 'var(--dark-gray)' }};">{{ tag }}</a>
+              style="--tag-accent: {{ page.tags_color | default: 'var(--dark-gray)' }};">{{ tag }}</a>
             {% endfor %}
           </div>
           {% endif %}
-
-          <h1 class="post-title">{{ page.title | escape }}</h1>
-
-          <div class="post-meta">
-            <a href="{{ '/about/' |relative_url }}" class="post-meta__image">
-              <img class="lazy" data-src="{{ site.data.settings.author.author_avatar | relative_url }}"
-                alt="{{ site.data.settings.author.author_name }}">
-            </a>
-
-            <div class="post-meta__content">
-              <a class="post-meta__author" href="{{ '/about/' |relative_url }}">{{ site.data.settings.author.author_name
-                }}</a>
-              <div class="post-meta__bottom">
-                <time class="post-date" datetime="{{ page.date | date_to_xmlschema }}">{% assign date_format = site.minima.date_format | default: "%d %-b, %Y" %}{{ page.date | date: date_format }}</time> –
-                <span class="post-minutes">
-                  {% assign words = page.content | number_of_words %}
-                  {% if words < 360 %} 1 min read {% else %} {{ words | divided_by:180 }} min read {% endif %} </span>
-              </div>
-            </div>
-          </div>
         </div>
 
       </div>
 
-      <article class="post">
+      <article class="post" lang="{{ content_language }}" dir="{{ content_direction }}">
         <div class="post__content">
           {% if page.toc == true %}
           <div class="post__toc">
-            <h2 class="post__toc__title">Table of Contents</h2>
+            <h2 class="post__toc__title">{{ t.table_of_contents }}</h2>
             {% include toc.html html=content ordered=true class="post__toc__list" h_min=2 %}
           </div>
           {% endif %}
 
-          {{ content }}
+          {% capture footnotes_title_markup %}<h2 class="footnotes__title">{{ footnotes_heading }}</h2><div class="footnotes"{% endcapture %}
+          {{ content | replace: '<div class="footnotes"', footnotes_title_markup }}
         </div>
       </article>
 
@@ -82,7 +146,6 @@ layout: default
     <div class="col col-4 col-d-12">
       <aside class="sidebar">
         {% include sidebar-widgets/widget-subscribe.html %}
-        {% include sidebar-widgets/widget-social.html %}
         {% include sidebar-widgets/widget-featured-posts.html %}
         {% include sidebar-widgets/widget-tags.html %}
       </aside>

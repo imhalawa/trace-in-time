@@ -3,6 +3,8 @@
 
 :root {
   --primary-color: #ae00ee;
+  --series-accent: #7a3ff2;
+  --series-indicator-color: #b7791f;
   --secondary-color: #60b0ba;
   --white: #fff;
   --light-gray: #f3f3f4;
@@ -33,23 +35,37 @@
   --gradient-color: linear-gradient(90deg, #f70077 0%, #ae00ee 100%);
   --gradient-hover: linear-gradient(180deg, #f70077 0%, #ae00ee 160%);
 
-  --border-color: var(--light-gray);
+  --border-color: #d4dae3;
   --border-alt-color: var(--light-blue);
 
   --th-color: var(--light-blue);
   --tr-color: var(--light-gray);
 
-  --callout-note: #e5f5fd;
-  --callout-tip: #e7f6e9;
-  --callout-important: #efeafb;
-  --callout-warning: #fdf3e4;
-  --callout-caution: #fae6e6;
+  --callout-note: #1f7fc2;
+  --callout-tip: #1f8f4e;
+  --callout-info: #315fd2;
+  --callout-success: #0e9b72;
+  --callout-question: #a57700;
+  --callout-important: #6a42c2;
+  --callout-warning: #c17a00;
+  --callout-caution: #b95500;
+  --callout-danger: #b6314c;
+
+  --social-facebook: #1877f2;
+  --social-x: #111111;
+  --social-pinterest: #bd081c;
+  --social-linkedin: #0a66c2;
+  --social-github: #111111;
+  --social-instagram: #e4405f;
+  --social-rss: #f26522;
 
   --syntax-highlighting-background: #f3f3f3;
 }
 
 :root[dark] {
   --primary-color: #d60067;
+  --series-accent: #7a3ff2;
+  --series-indicator-color: #9a6400;
   --white: #fff;
   --light-gray: #f0f0f0;
   --gray: #9e9e9e;
@@ -80,11 +96,23 @@
   --th-color: var(--background-alt-color);
   --tr-color: var(--background-alt-color-2);
 
-  --callout-note: #1f3962;
-  --callout-tip: #26483b;
-  --callout-important: #3f2e6d;
-  --callout-warning: #ac6f13;
-  --callout-caution: #952222;
+  --callout-note: #58b6ff;
+  --callout-tip: #47c985;
+  --callout-info: #7ea2ff;
+  --callout-success: #39d5a7;
+  --callout-question: #e6b84d;
+  --callout-important: #b89aff;
+  --callout-warning: #ffba4a;
+  --callout-caution: #ff9a57;
+  --callout-danger: #ff7b96;
+
+  --social-facebook: #4f9bff;
+  --social-x: #f5f5f5;
+  --social-pinterest: #ff6b80;
+  --social-linkedin: #6bb7ff;
+  --social-github: #f5f5f5;
+  --social-instagram: #ff86a3;
+  --social-rss: #ffad6f;
 
   --syntax-highlighting-background: #1e293b;
 }

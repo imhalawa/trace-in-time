@@ -1,7 +1,16 @@
 {% if site.tags.size > 0 %}
-<div class="widget widget-tags">
+{% assign content_language = page.lang | default: site.lang | default: "en" %}
+{% assign base_language = content_language | split: "-" | first | downcase %}
+{% assign t = site.data.translations[base_language] | default: site.data.translations.en %}
+{% assign rtl_languages = "ar,arc,ckb,dv,fa,he,khw,ks,ku,ps,sd,ug,ur,yi" | split: "," %}
+{% assign content_direction = "ltr" %}
+{% if rtl_languages contains base_language %}
+  {% assign content_direction = "rtl" %}
+{% endif %}
+
+<div class="widget widget-tags" lang="{{ content_language }}" dir="{{ content_direction }}">
   <div class="widget-sidebar-head">
-    <h2 class="widget-sidebar-title">Topics</h2>
+    <h2 class="widget-sidebar-title">{{ t.topics_label }}</h2>
   </div>
 
   <div class="tag-cloud">
@@ -18,7 +27,7 @@
 
       <a href="{{ site.baseurl }}/tags/?tag={{ tag_name | downcase | url_encode }}"
          class="tag-cloud__item"
-         style="background: {{ tag_color }};">
+        style="--tag-accent: {{ tag_color }};">
         {{ tag_name }}
       </a>
     {% endfor %}

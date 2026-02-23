@@ -1,0 +1,145 @@
+/* Series Hero */
+.series-hero {
+  position: relative;
+  margin-bottom: 14px;
+  border-radius: 18px;
+  overflow: hidden;
+  min-height: 210px;
+  transition: transform .24s ease, box-shadow .24s ease, filter .24s ease;
+
+  .series-hero__link {
+    display: block;
+    color: #111111;
+    text-decoration: none;
+
+    &:visited,
+    &:hover,
+    &:focus {
+      color: #111111;
+      text-decoration: none;
+    }
+  }
+
+  .series-hero__content {
+    position: relative;
+    z-index: 2;
+    padding: 28px;
+    min-height: 210px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .series-hero__eyebrow {
+    margin-bottom: 8px;
+    font-family: $heading-font-family;
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    opacity: .9;
+    color: var(--series-indicator-color) !important;
+  }
+
+  .series-hero__title {
+    margin-bottom: 10px;
+    font-size: 32px;
+    line-height: 1.2;
+    color: #111111 !important;
+  }
+
+  .series-hero__subtitle {
+    margin-bottom: 0;
+    max-width: 56ch;
+    font-size: 16px;
+    line-height: 1.65;
+    color: #111111 !important;
+    opacity: .95;
+  }
+
+  .series-hero__meta {
+    margin-top: auto;
+    padding-top: 18px;
+    font-family: $heading-font-family;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: #111111;
+    opacity: .8;
+  }
+
+  @media (max-width: $mobile) {
+    min-height: 180px;
+
+    .series-hero__content {
+      padding: 22px;
+    }
+
+    .series-hero__title {
+      font-size: 26px;
+    }
+
+    .series-hero__subtitle {
+      font-size: 15px;
+      line-height: 1.6;
+    }
+  }
+}
+
+.series-hero:hover,
+.series-hero:focus-within {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 28px -20px rgba(0, 0, 0, .45);
+}
+
+.series-hero .series-hero__content,
+.series-hero .series-hero__content *:not(.series-hero__eyebrow) {
+  color: #111111 !important;
+}
+
+.series-hero--gradient {
+  --series-hero-base: var(--series-hero-color, var(--primary-color));
+  background:
+    radial-gradient(120% 130% at 0% 0%, color-mix(in srgb, var(--series-hero-base) 26%, #ffffff) 0%, transparent 58%),
+    radial-gradient(100% 120% at 100% 100%, color-mix(in srgb, var(--series-hero-base) 20%, #ffffff) 0%, transparent 62%),
+    linear-gradient(135deg,
+      color-mix(in srgb, var(--series-hero-base) 14%, #ffffff) 0%,
+      color-mix(in srgb, var(--series-hero-base) 8%, #ffffff) 50%,
+      color-mix(in srgb, var(--series-hero-base) 4%, #ffffff) 100%);
+}
+
+.series-landing__item {
+  margin-bottom: 32px;
+
+  .series-landing__hero:hover,
+  .series-landing__hero:focus-within {
+    filter: saturate(106%);
+  }
+}
+
+.series-page__hero {
+  margin-bottom: 34px;
+
+  .series-hero__title {
+    font-size: 40px;
+
+    @media (max-width: $mobile) {
+      font-size: 30px;
+    }
+  }
+}
+
+[dir="rtl"] {
+  .series-hero {
+    text-align: right;
+  }
+}
+
+:root[dark] {
+  .series-hero {
+    .series-hero__eyebrow {
+      opacity: 1;
+    }
+  }
+}

@@ -1,0 +1,51 @@
+{% assign content_language = post.lang | default: site.lang | default: "en" %}
+{% assign base_language = content_language | split: "-" | first | downcase %}
+{% assign t = site.data.translations[base_language] | default: site.data.translations.en %}
+{% assign rtl_languages = "ar,arc,ckb,dv,fa,he,khw,ks,ku,ps,sd,ug,ur,yi" | split: "," %}
+{% assign content_direction = "ltr" %}
+{% if rtl_languages contains base_language %}
+  {% assign content_direction = "rtl" %}
+{% endif %}
+{% if base_language == "ar" %}
+  {% assign arabic_months = "يناير,فبراير,مارس,أبريل,مايو,يونيو,يوليو,أغسطس,سبتمبر,أكتوبر,نوفمبر,ديسمبر" | split: "," %}
+  {% assign month_index = post.date | date: "%m" | minus: 1 %}
+  {% assign month_name = arabic_months[month_index] %}
+  {% assign date_day = post.date | date: "%-d" %}
+  {% capture date_day_ar %}{{ date_day | replace: "0", "٠" | replace: "1", "١" | replace: "2", "٢" | replace: "3", "٣" | replace: "4", "٤" | replace: "5", "٥" | replace: "6", "٦" | replace: "7", "٧" | replace: "8", "٨" | replace: "9", "٩" }}{% endcapture %}
+  {% assign date_year = post.date | date: "%Y" %}
+  {% capture date_year_ar %}{{ date_year | replace: "0", "٠" | replace: "1", "١" | replace: "2", "٢" | replace: "3", "٣" | replace: "4", "٤" | replace: "5", "٥" | replace: "6", "٦" | replace: "7", "٧" | replace: "8", "٨" | replace: "9", "٩" }}{% endcapture %}
+  {% capture formatted_article_date %}{{ date_day_ar }} {{ month_name }} {{ date_year_ar }}{% endcapture %}
+{% else %}
+  {% assign date_format = site.minima.date_format | default: "%d %-b, %Y" %}
+  {% assign formatted_article_date = post.date | date: date_format %}
+{% endif %}
+
+<div class="article article--series-card{% if include.class %} {{ include.class }}{% endif %}" lang="{{ content_language }}" dir="{{ content_direction }}">
+  <div class="article__inner">
+    <div class="article__content">
+
+      <h2 class="article__title">
+        <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+        <span class="article__series-label">{{ t.list_label | capitalize }}</span>
+      </h2>
+
+      <p class="article__excerpt">{% if post.subtitle %}{{ post.subtitle }}{% elsif post.description %}{{ post.description }}{% else %}{{ post.content | strip_html | truncate: 160 }}{% endif %}</p>
+
+      <div class="article__meta">
+        <time class="article__date" datetime="{{ post.date | date_to_xmlschema }}">{{ formatted_article_date }}</time>
+      </div>
+
+      {% if post.tags.size > 0 %}
+      <div class="article__tags">
+        {% for tag in post.tags %}
+        <a href="{{ site.baseurl }}/tags/?tag={{ tag | downcase | url_encode }}"
+          class="article__tag" style="--tag-accent: {{ post.tags_color | default: 'var(--dark-gray)' }};">
+          {{ tag }}
+        </a>
+        {% endfor %}
+      </div>
+      {% endif %}
+
+    </div>
+  </div>
+</div>

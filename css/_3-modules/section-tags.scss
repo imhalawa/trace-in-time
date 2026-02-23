@@ -48,8 +48,10 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    border-radius: 8px;
+    border: 1px solid var(--tag-accent, var(--primary-color));
+    border-radius: 16px;
     color: var(--white);
+    background: transparent;
     pointer-events: none;
   }
 

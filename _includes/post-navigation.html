@@ -1,4 +1,13 @@
-<div class="post__navigation">
+{% assign content_language = page.lang | default: site.lang | default: "en" %}
+{% assign base_language = content_language | split: "-" | first | downcase %}
+{% assign t = site.data.translations[base_language] | default: site.data.translations.en %}
+{% assign rtl_languages = "ar,arc,ckb,dv,fa,he,khw,ks,ku,ps,sd,ug,ur,yi" | split: "," %}
+{% assign content_direction = "ltr" %}
+{% if rtl_languages contains base_language %}
+  {% assign content_direction = "rtl" %}
+{% endif %}
+
+<div class="post__navigation" lang="{{ content_language }}" dir="{{ content_direction }}">
   {% if page.previous.url %}
   <div class="post__prev">
     {% if page.previous.image %}
@@ -14,7 +23,7 @@
     </a>
     {% endif %}
     <div class="prev__box">
-      <span class="post__nav__prev">Older post</span>
+      <span class="post__nav__prev">{{ t.older_post }}</span>
       <h2 class="post__nav__title"><a href="{{ page.previous.url | relative_url }}">{{ page.previous.title }}</a></h2>
     </div>
   </div>
@@ -23,7 +32,7 @@
   {% if page.next.url %}
   <div class="post__next">
     <div class="next__box">
-      <span class="post__nav__next">Newer post</span>
+      <span class="post__nav__next">{{ t.newer_post }}</span>
       <h2 class="post__nav__title"><a href="{{ page.next.url | relative_url }}">{{ page.next.title }}</a></h2>
     </div>
     {% if page.next.image %}

@@ -6,10 +6,10 @@
   position: relative;
   margin-bottom: 32px;
   border-radius: 8px;
-  background: var(--syntax-highlighting-background);
+  background: transparent;
 
   .highlighter-rouge & {
-    background: var(--syntax-highlighting-background);
+    background: transparent;
   }
 
   .c     { color: #998; font-style: italic } // Comment

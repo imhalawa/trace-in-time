@@ -1,0 +1,16 @@
+# One entry per list
+- slug: engineering-toolbox
+  title: "Engineering Toolbox"
+  subtitle: "Apps, tools, and links that help me think and ship faster."
+  description: "A curated list of tools and resources I rely on for focused engineering work."
+  cover_color: "#0D9488"
+  link: "/lists/engineering-toolbox/"
+  draft: true
+
+- slug: developer-links
+  title: "Developer Links"
+  subtitle: "A practical set of references I open weekly."
+  description: "Curated links for docs, architecture, and engineering decision-making."
+  cover_color: "#2563EB"
+  link: "/lists/developer-links/"
+  draft: true

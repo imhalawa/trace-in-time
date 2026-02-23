@@ -1,0 +1,43 @@
+{% assign concept_data = include.item %}
+{% assign concept_type = include.type | default: "series" %}
+{% assign content_language = concept_data.lang | default: page.lang | default: site.lang | default: "en" %}
+{% assign base_language = content_language | split: "-" | first | downcase %}
+{% assign t = site.data.translations[base_language] | default: site.data.translations.en %}
+{% assign rtl_languages = "ar,arc,ckb,dv,fa,he,khw,ks,ku,ps,sd,ug,ur,yi" | split: "," %}
+{% assign content_direction = "ltr" %}
+{% if rtl_languages contains base_language %}
+  {% assign content_direction = "rtl" %}
+{% endif %}
+
+{% assign hero_title = concept_data.title %}
+{% assign hero_subtitle = concept_data.subtitle | default: concept_data.description %}
+{% assign hero_meta = include.meta_text %}
+{% assign hero_tag = include.heading_tag | default: "h2" %}
+{% assign has_link = include.link | default: false %}
+
+{% assign label_key = concept_type | append: "_label" %}
+{% assign concept_label = t[label_key] | default: concept_type %}
+
+<div class="series-hero series-hero--gradient{% if include.class %} {{ include.class }}{% endif %}" lang="{{ content_language }}" dir="{{ content_direction }}" style="--series-hero-color: {{ concept_data.cover_color | default: '#2F6BFF' }};">
+  {% if has_link %}
+  <a class="series-hero__link" href="{{ concept_data.link | relative_url }}">
+  {% endif %}
+    <div class="series-hero__content">
+      <div class="series-hero__eyebrow">{{ concept_label | capitalize }}</div>
+      {% if hero_tag == "h1" %}
+      <h1 class="series-hero__title">{{ hero_title }}</h1>
+      {% else %}
+      <h2 class="series-hero__title">{{ hero_title }}</h2>
+      {% endif %}
+      {% if hero_subtitle %}
+      <p class="series-hero__subtitle">{{ hero_subtitle }}</p>
+      {% endif %}
+
+      {% if hero_meta %}
+      <div class="series-hero__meta">{{ hero_meta }}</div>
+      {% endif %}
+    </div>
+  {% if has_link %}
+  </a>
+  {% endif %}
+</div>

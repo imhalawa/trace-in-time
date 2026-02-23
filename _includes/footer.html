@@ -15,7 +15,7 @@
             <ul class="footer__social__list list-reset">
               {% for social in site.data.settings.social %}
               <li class="footer__social__item">
-                <a class="footer__social__link" href="{{ social.link }}" target="_blank" rel="noopener"
+                <a class="footer__social__link social--{{ social.name | slugify }}" href="{{ social.link }}" target="_blank" rel="noopener"
                   aria-label="{{ social.name }} link"><i class="{{ social.icon }}"></i></a>
               </li>
               {% endfor %}

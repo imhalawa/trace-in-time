@@ -1,0 +1,36 @@
+{
+  "en": {
+    "min_read": "min read",
+    "read_label": "read",
+    "article_singular": "article",
+    "article_plural": "articles",
+    "table_of_contents": "Table of Contents",
+    "references_label": "References",
+    "share_this": "Share this:",
+    "older_post": "Older post",
+    "newer_post": "Newer post",
+    "series_label": "Series",
+    "list_label": "List",
+    "book_label": "Book",
+    "note_singular": "note",
+    "note_plural": "notes",
+    "topics_label": "Topics"
+  },
+  "ar": {
+    "min_read": "دقائق قراءة",
+    "read_label": "قراءة",
+    "article_singular": "مقال",
+    "article_plural": "مقالات",
+    "table_of_contents": "جدول المحتويات",
+    "references_label": "المراجع",
+    "share_this": "شارك هذا:",
+    "older_post": "المقال الأقدم",
+    "newer_post": "المقال الأحدث",
+    "series_label": "سلسلة",
+    "list_label": "قائمة",
+    "book_label": "كتاب",
+    "note_singular": "ملاحظة",
+    "note_plural": "ملاحظات",
+    "topics_label": "المواضيع"
+  }
+}

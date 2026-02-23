@@ -27,10 +27,12 @@ menu_settings:
       url: '/'
     - title: 'Series'
       url: '/series/'
+    - title: 'Lists'
+      url: '/lists/'
+    - title: 'Books'
+      url: '/books/'
     # - title: 'Videos'
     #   url: '/videos/'
-    # - title: 'Books'
-    #   url: '/books/'
     - url: '/about/'
       title: 'About'
     - title: 'Pages'
@@ -45,6 +47,7 @@ menu_settings:
 # Author Settings
 author:
   author_name: Mohamed Halawa
+  author_name_ar: محمد حلاوة
   author_avatar: /images/author/profile.png
 
 
@@ -61,6 +64,9 @@ hero:
     Here, I share what I build, photograph, and learn — notes on finding clarity, staying creative, and making progress one step at a time.
   hero_image: /images/site_identity/hero.png # TODO: change image to my own desktop setup
   hero_image_caption: This space is a trace in time — fragments of systems and reflections
+  soundtrack_mp3: "/audio/space.mp3" # Optional: custom soundtrack file path
+  space_renderer: auto # Options: auto | canvas (reserved for future WebGL progressive enhancement)
+  space_quality: balanced # Options: cinematic | balanced | performance
   hero_button_text: Let’s Connect!
   hero_button_link: '/contact/'
 

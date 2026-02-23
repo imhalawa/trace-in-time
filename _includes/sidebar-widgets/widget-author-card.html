@@ -1,0 +1,102 @@
+{% assign content_language = include.content_language | default: page.lang | default: site.lang | default: "en" %}
+{% assign base_language = content_language | split: "-" | first | downcase %}
+{% assign t = site.data.translations[base_language] | default: site.data.translations.en %}
+{% assign rtl_languages = "ar,arc,ckb,dv,fa,he,khw,ks,ku,ps,sd,ug,ur,yi" | split: "," %}
+{% assign content_direction = "ltr" %}
+{% if rtl_languages contains base_language %}
+  {% assign content_direction = "rtl" %}
+{% endif %}
+
+{% assign author_display_name = site.data.settings.author.author_name %}
+{% if base_language == "ar" %}
+  {% assign author_display_name = site.data.settings.author.author_name_ar | default: site.data.settings.author.author_name %}
+{% endif %}
+
+{% assign show_series_stats = include.show_series_stats | default: false %}
+{% assign series_slug = include.series_slug | default: "" %}
+{% assign has_series_stats = false %}
+
+{% if show_series_stats and series_slug != "" %}
+  {% assign series_posts = site.posts | where: "series", series_slug %}
+  {% if series_posts.size > 0 %}
+    {% assign has_series_stats = true %}
+    {% assign sorted_series_posts = series_posts | sort: "date" %}
+    {% assign created_post = sorted_series_posts | first %}
+
+    {% if base_language == "ar" %}
+      {% assign arabic_months = "يناير,فبراير,مارس,أبريل,مايو,يونيو,يوليو,أغسطس,سبتمبر,أكتوبر,نوفمبر,ديسمبر" | split: "," %}
+      {% assign month_index = created_post.date | date: "%m" | minus: 1 %}
+      {% assign month_name = arabic_months[month_index] %}
+      {% assign created_day = created_post.date | date: "%-d" %}
+      {% capture created_day_ar %}{{ created_day | replace: "0", "٠" | replace: "1", "١" | replace: "2", "٢" | replace: "3", "٣" | replace: "4", "٤" | replace: "5", "٥" | replace: "6", "٦" | replace: "7", "٧" | replace: "8", "٨" | replace: "9", "٩" }}{% endcapture %}
+      {% assign created_year = created_post.date | date: "%Y" %}
+      {% capture created_year_ar %}{{ created_year | replace: "0", "٠" | replace: "1", "١" | replace: "2", "٢" | replace: "3", "٣" | replace: "4", "٤" | replace: "5", "٥" | replace: "6", "٦" | replace: "7", "٧" | replace: "8", "٨" | replace: "9", "٩" }}{% endcapture %}
+      {% capture formatted_created_date %}{{ created_day_ar }} {{ month_name }} {{ created_year_ar }}{% endcapture %}
+    {% else %}
+      {% assign date_format = site.minima.date_format | default: "%d %-b, %Y" %}
+      {% assign formatted_created_date = created_post.date | date: date_format %}
+    {% endif %}
+
+    {% assign total_words = 0 %}
+    {% for series_post in series_posts %}
+      {% assign series_post_words = series_post.content | number_of_words %}
+      {% assign total_words = total_words | plus: series_post_words %}
+    {% endfor %}
+
+    {% assign total_minutes = total_words | plus: 179 | divided_by: 180 %}
+    {% if total_minutes < 1 %}
+      {% assign total_minutes = 1 %}
+    {% endif %}
+
+    {% if total_minutes > 60 %}
+      {% assign total_hours = total_minutes | divided_by: 60 %}
+      {% assign remaining_minutes = total_minutes | modulo: 60 %}
+
+      {% if base_language == "ar" %}
+        {% capture total_hours_display %}{{ total_hours | replace: "0", "٠" | replace: "1", "١" | replace: "2", "٢" | replace: "3", "٣" | replace: "4", "٤" | replace: "5", "٥" | replace: "6", "٦" | replace: "7", "٧" | replace: "8", "٨" | replace: "9", "٩" }}{% endcapture %}
+        {% capture remaining_minutes_display %}{{ remaining_minutes | replace: "0", "٠" | replace: "1", "١" | replace: "2", "٢" | replace: "3", "٣" | replace: "4", "٤" | replace: "5", "٥" | replace: "6", "٦" | replace: "7", "٧" | replace: "8", "٨" | replace: "9", "٩" }}{% endcapture %}
+      {% else %}
+        {% assign total_hours_display = total_hours %}
+        {% assign remaining_minutes_display = remaining_minutes %}
+      {% endif %}
+
+      {% capture formatted_total_read_time %}{{ total_hours_display }}h{% if remaining_minutes > 0 %} {{ remaining_minutes_display }}m{% endif %} {{ t.read_label | default: "read" }}{% endcapture %}
+    {% else %}
+      {% if base_language == "ar" %}
+        {% capture total_minutes_display %}{{ total_minutes | replace: "0", "٠" | replace: "1", "١" | replace: "2", "٢" | replace: "3", "٣" | replace: "4", "٤" | replace: "5", "٥" | replace: "6", "٦" | replace: "7", "٧" | replace: "8", "٨" | replace: "9", "٩" }}{% endcapture %}
+      {% else %}
+        {% assign total_minutes_display = total_minutes %}
+      {% endif %}
+
+      {% capture formatted_total_read_time %}{{ total_minutes_display }} {{ t.min_read }}{% endcapture %}
+    {% endif %}
+  {% endif %}
+{% endif %}
+
+<div class="widget widget-author-card" lang="{{ content_language }}" dir="{{ content_direction }}">
+  <a href="{{ '/about/' | relative_url }}" class="widget-author-card__image">
+    <img class="lazy" data-src="{{ site.data.settings.author.author_avatar | relative_url }}" alt="{{ author_display_name }}">
+  </a>
+
+  <div class="widget-author-card__content">
+    <a class="widget-author-card__author" href="{{ '/about/' | relative_url }}">{{ author_display_name }}</a>
+
+    {% if has_series_stats %}
+    <div class="widget-author-card__meta">
+      <time class="widget-author-card__date" datetime="{{ created_post.date | date_to_xmlschema }}">{{ formatted_created_date }}</time> –
+      <span class="widget-author-card__minutes">{{ formatted_total_read_time }}</span>
+    </div>
+    {% endif %}
+
+    {% if site.data.settings.social %}
+    <ul class="widget-author-card__social list-reset">
+      {% for social in site.data.settings.social %}
+      <li class="widget-author-card__social-item">
+        <a class="widget-author-card__social-link social--{{ social.name | slugify }}" href="{{ social.link }}" target="_blank" rel="noopener"
+          aria-label="{{ social.name }} link"><i class="{{ social.icon }}"></i></a>
+      </li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+  </div>
+</div>

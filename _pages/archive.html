@@ -33,6 +33,9 @@ permalink: /archive/
                 <div class="archive-page__collection">
                   {% for post in month_group.items %}
                   <div class="archive-article">
+                    {% assign content_language = post.lang | default: site.lang | default: "en" %}
+                    {% assign base_language = content_language | split: "-" | first | downcase %}
+                    {% assign t = site.data.translations[base_language] | default: site.data.translations.en %}
                     <h3 class="archive-article__title">
                       <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
                     </h3>
@@ -41,9 +44,9 @@ permalink: /archive/
                       <div class="archive-article__minutes">
                         {% assign words = post.content | number_of_words %}
                         {% if words < 360 %}
-                          1 min read
+                          1 {{ t.min_read }}
                         {% else %}
-                          {{ words | divided_by:180 }} min read
+                          {{ words | divided_by:180 }} {{ t.min_read }}
                         {% endif %}
                       </div>
                     </div>

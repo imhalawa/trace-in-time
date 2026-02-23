@@ -1,0 +1,25 @@
+# One entry per book
+- slug: clean-code
+  title: "Clean Code"
+  subtitle: "Notes and reflections while revisiting core software craftsmanship ideas."
+  description: "Selective notes and opinions on practical chapters and trade-offs from Clean Code."
+  cover_color: "#7C3AED"
+  link: "/books/clean-code/"
+  draft: true
+
+- slug: pragmatic-programmer
+  title: "The Pragmatic Programmer"
+  subtitle: "Selective notes on timeless software craft principles."
+  description: "Notes and opinions on practical habits that improve software quality over time."
+  cover_color: "#EA580C"
+  link: "/books/pragmatic-programmer/"
+  draft: true
+
+- slug: psychology-habits-ar
+  draft: true
+  lang: ar
+  title: "علم النفس والعادات"
+  subtitle: "ملاحظات عربية منتقاة حول تكوين العادات وتغيير السلوك اليومي."
+  description: "مراجعات قصيرة لأفكار عملية من منظور سلوكي، مع تطبيقات واضحة على الحياة والعمل."
+  cover_color: "#0EA5A4"
+  link: "/books/psychology-habits-ar/"

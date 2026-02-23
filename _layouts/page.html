@@ -2,12 +2,21 @@
 layout: default
 ---
 
+{% assign content_language = page.lang | default: site.lang | default: "en" %}
+{% assign base_language = content_language | split: "-" | first | downcase %}
+{% assign t = site.data.translations[base_language] | default: site.data.translations.en %}
+{% assign rtl_languages = "ar,arc,ckb,dv,fa,he,khw,ks,ku,ps,sd,ug,ur,yi" | split: "," %}
+{% assign content_direction = "ltr" %}
+{% if rtl_languages contains base_language %}
+  {% assign content_direction = "rtl" %}
+{% endif %}
+
 <!-- begin page -->
 <div class="container">
-  <div class="row">
+  <div class="row{% if content_direction == 'rtl' %} row--rtl-layout{% endif %}">
 
     <div class="col col-8 col-d-12">
-      <div class="page-head">
+      <div class="page-head" lang="{{ content_language }}" dir="{{ content_direction }}">
 
         {% if page.video_embed %}
         <div class="page-video">
@@ -25,16 +34,18 @@ layout: default
         {% endif %}
 
         <div class="page-info">
+          {% unless page.hide_page_title %}
           <h1 class="page-title">{{ page.title | escape }}</h1>
+          {% endunless %}
         </div>
 
       </div>
 
-      <article class="page">
+      <article class="page" lang="{{ content_language }}" dir="{{ content_direction }}">
         <div class="page__content">
           {% if page.toc == true %}
           <div class="page__toc">
-            <h2 class="page__toc__title">Table of Contents</h2>
+            <h2 class="page__toc__title">{{ t.table_of_contents }}</h2>
             {% include toc.html html=content ordered=true class="page__toc__list" h_min=2 %}
           </div>
           {% endif %}
@@ -47,7 +58,22 @@ layout: default
     <div class="col col-4 col-d-12">
       <aside class="sidebar">
         {% include sidebar-widgets/widget-subscribe.html %}
-        {% include sidebar-widgets/widget-social.html %}
+        {% if page.permalink contains '/series/' %}
+          {% assign is_series_landing = false %}
+          {% if page.permalink == '/series/' %}
+            {% assign is_series_landing = true %}
+          {% endif %}
+
+          {% if is_series_landing %}
+            {% include sidebar-widgets/widget-author-card.html show_series_stats=false %}
+          {% else %}
+            {% assign permalink_segments = page.permalink | split: '/' %}
+            {% assign current_series_slug = permalink_segments[2] %}
+            {% include sidebar-widgets/widget-author-card.html show_series_stats=true series_slug=current_series_slug %}
+          {% endif %}
+        {% else %}
+          {% include sidebar-widgets/widget-social.html %}
+        {% endif %}
         {% include sidebar-widgets/widget-featured-posts.html %}
         {% include sidebar-widgets/widget-tags.html %}
       </aside>

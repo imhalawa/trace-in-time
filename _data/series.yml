@@ -1,5 +1,16 @@
 # One entry per series
 - slug: async-await
   title: "Async/Await in C#"
+  subtitle: "Practical patterns for writing calm, reliable asynchronous code."
   description: "A reflective, hands-on journey through asynchronous programming in C#."
+  cover_color: "#5B4BFF"
   link: "/series/async-await/"
+
+- slug: arabic-rtl-lab
+  draft: true
+  lang: ar
+  title: "مختبر RTL العربي"
+  subtitle: "تجارب عملية لبناء واجهات عربية واضحة ومتماسكة عبر مكونات الموقع."
+  description: "سلسلة تجريبية لاختبار دعم الاتجاه من اليمين إلى اليسار عبر صفحات السلسلة وبطاقات المقالات."
+  cover_color: "#0EA5A4"
+  link: "/series/arabic-rtl-lab/"

@@ -22,7 +22,7 @@
         </div>
         {% if site.data.settings.blog.blog_intro %}
         <div class="section__intro">
-          <p>{{ site.data.settings.blog.blog_intro }} <a href="{{ '/series/' | relative_url }}">Explore series →</a></p>
+          <p>{{ site.data.settings.blog.blog_intro }} <a href="{{ '/series/' | relative_url }}">Explore series →</a> <a href="{{ '/lists/' | relative_url }}">Explore lists →</a> <a href="{{ '/books/' | relative_url }}">Explore books →</a></p>
         </div>
         {% endif %}
       </div>
@@ -34,12 +34,14 @@
           {% if site.posts.size > 0 %}
 
           {% assign displayed_series = "" | split: "," %}
+          {% assign displayed_books = "" | split: "," %}
 
           {% for post in paginator.posts %}
 
           {% comment %}On page 1, check if any unshown series should appear before this post{% endcomment %}
           {% if paginator.page == 1 %}
           {% for series_info in site.data.series %}
+          {% unless series_info.draft == true %}
           {% assign already_shown = false %}
           {% for shown in displayed_series %}
           {% if shown == series_info.slug %}
@@ -50,28 +52,71 @@
 
           {% unless already_shown %}
           {% assign series_posts = site.posts | where: "series", series_info.slug %}
-          {% assign most_recent = series_posts.first %}
+          {% assign published_series_posts = "" | split: "," %}
+          {% for series_post in series_posts %}
+          {% unless series_post.published == false %}
+          {% assign published_series_posts = published_series_posts | push: series_post %}
+          {% endunless %}
+          {% endfor %}
+          {% assign most_recent = published_series_posts.first %}
 
           {% if most_recent %}
           {% if most_recent.date >= post.date %}
-          {% include series-card.html series=series_info class="article--flexible col col-6 col-t-12 grid__post animate"
+          {% include concept-card.html item=series_info type="series" class="article--flexible col col-6 col-t-12 grid__post animate"
           %}
           {% assign displayed_series = displayed_series | push: series_info.slug %}
           {% endif %}
           {% endif %}
           {% endunless %}
+          {% endunless %}
+          {% endfor %}
+
+          {% for book_info in site.data.books %}
+          {% unless book_info.draft == true %}
+          {% assign already_shown = false %}
+          {% for shown in displayed_books %}
+          {% if shown == book_info.slug %}
+          {% assign already_shown = true %}
+          {% break %}
+          {% endif %}
+          {% endfor %}
+
+          {% unless already_shown %}
+          {% assign book_posts = site.posts | where: "book", book_info.slug %}
+          {% assign published_book_posts = "" | split: "," %}
+          {% for book_post in book_posts %}
+          {% unless book_post.published == false %}
+          {% assign published_book_posts = published_book_posts | push: book_post %}
+          {% endunless %}
+          {% endfor %}
+          {% assign most_recent = published_book_posts.first %}
+
+          {% if most_recent %}
+          {% if most_recent.date >= post.date %}
+          {% include concept-card.html item=book_info type="book" class="article--flexible col col-6 col-t-12 grid__post animate"
+          %}
+          {% assign displayed_books = displayed_books | push: book_info.slug %}
+          {% endif %}
+          {% endif %}
+          {% endunless %}
+          {% endunless %}
           {% endfor %}
           {% endif %}
 
           {% comment %}Show standalone post{% endcomment %}
-          {% unless post.series %}
+          {% unless post.series or post.book %}
+          {% if post.list %}
+          {% include list-post-card.html class="article--flexible col col-6 col-t-12 grid__post animate" %}
+          {% else %}
           {% include article.html class="article--flexible col col-6 col-t-12 grid__post animate" %}
+          {% endif %}
           {% endunless %}
           {% endfor %}
 
           {% comment %}Show any remaining series that haven't been displayed yet{% endcomment %}
           {% if paginator.page == 1 %}
           {% for series_info in site.data.series %}
+          {% unless series_info.draft == true %}
           {% assign already_shown = false %}
           {% for shown in displayed_series %}
           {% if shown == series_info.slug %}
@@ -81,8 +126,35 @@
           {% endfor %}
 
           {% unless already_shown %}
-          {% include series-card.html series=series_info class="article--flexible col col-6 col-t-12 grid__post animate"
+          {% include concept-card.html item=series_info type="series" class="article--flexible col col-6 col-t-12 grid__post animate"
           %}
+          {% endunless %}
+          {% endunless %}
+          {% endfor %}
+
+          {% for book_info in site.data.books %}
+          {% unless book_info.draft == true %}
+          {% assign already_shown = false %}
+          {% for shown in displayed_books %}
+          {% if shown == book_info.slug %}
+          {% assign already_shown = true %}
+          {% break %}
+          {% endif %}
+          {% endfor %}
+
+          {% unless already_shown %}
+          {% assign book_posts = site.posts | where: "book", book_info.slug %}
+          {% assign published_book_posts = "" | split: "," %}
+          {% for book_post in book_posts %}
+          {% unless book_post.published == false %}
+          {% assign published_book_posts = published_book_posts | push: book_post %}
+          {% endunless %}
+          {% endfor %}
+          {% if published_book_posts.size > 0 %}
+          {% include concept-card.html item=book_info type="book" class="article--flexible col col-6 col-t-12 grid__post animate"
+          %}
+          {% endif %}
+          {% endunless %}
           {% endunless %}
           {% endfor %}
           {% endif %}
@@ -94,8 +166,8 @@
       <div class="col col-4 col-d-12">
         <aside class="sidebar">
           {% include sidebar-widgets/widget-subscribe.html %}
-          {% include sidebar-widgets/widget-social.html %}
           {% include sidebar-widgets/widget-featured-posts.html %}
+          {% include sidebar-widgets/widget-home-author.html %}
           {% include sidebar-widgets/widget-tags.html %}
         </aside>
       </div>

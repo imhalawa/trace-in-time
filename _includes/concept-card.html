@@ -1,0 +1,101 @@
+{% comment %}
+Displays a concept (series/list/book) as a unified card in the main blog feed
+Parameters: item (object from data file), type (series|list|book)
+{% endcomment %}
+
+{% assign concept_data = include.item %}
+{% assign concept_type = include.type | default: "series" %}
+{% assign content_language = concept_data.lang | default: site.lang | default: "en" %}
+{% assign base_language = content_language | split: "-" | first | downcase %}
+{% assign t = site.data.translations[base_language] | default: site.data.translations.en %}
+{% assign rtl_languages = "ar,arc,ckb,dv,fa,he,khw,ks,ku,ps,sd,ug,ur,yi" | split: "," %}
+{% assign content_direction = "ltr" %}
+{% if rtl_languages contains base_language %}
+    {% assign content_direction = "rtl" %}
+{% endif %}
+
+{% if concept_type == "series" %}
+  {% assign related_posts = site.posts | where: "series", concept_data.slug %}
+{% elsif concept_type == "list" %}
+  {% assign related_posts = site.posts | where: "list", concept_data.slug %}
+{% else %}
+  {% assign related_posts = site.posts | where: "book", concept_data.slug %}
+{% endif %}
+
+{% assign published_posts = "" | split: "," %}
+{% for related_post in related_posts %}
+  {% unless related_post.published == false %}
+    {% assign published_posts = published_posts | push: related_post %}
+  {% endunless %}
+{% endfor %}
+
+{% assign most_recent = published_posts.first %}
+
+{% if most_recent %}
+    {% if base_language == "ar" %}
+        {% assign arabic_months = "يناير,فبراير,مارس,أبريل,مايو,يونيو,يوليو,أغسطس,سبتمبر,أكتوبر,نوفمبر,ديسمبر" | split: "," %}
+        {% assign month_index = most_recent.date | date: "%m" | minus: 1 %}
+        {% assign month_name = arabic_months[month_index] %}
+        {% assign date_day = most_recent.date | date: "%-d" %}
+        {% capture date_day_ar %}{{ date_day | replace: "0", "٠" | replace: "1", "١" | replace: "2", "٢" | replace: "3", "٣" | replace: "4", "٤" | replace: "5", "٥" | replace: "6", "٦" | replace: "7", "٧" | replace: "8", "٨" | replace: "9", "٩" }}{% endcapture %}
+        {% assign date_year = most_recent.date | date: "%Y" %}
+        {% capture date_year_ar %}{{ date_year | replace: "0", "٠" | replace: "1", "١" | replace: "2", "٢" | replace: "3", "٣" | replace: "4", "٤" | replace: "5", "٥" | replace: "6", "٦" | replace: "7", "٧" | replace: "8", "٨" | replace: "9", "٩" }}{% endcapture %}
+        {% capture formatted_concept_date %}{{ date_day_ar }} {{ month_name }} {{ date_year_ar }}{% endcapture %}
+    {% else %}
+        {% assign date_format = site.minima.date_format | default: "%d %-b, %Y" %}
+        {% assign formatted_concept_date = most_recent.date | date: date_format %}
+    {% endif %}
+{% endif %}
+
+{% assign concept_count = published_posts.size %}
+{% if base_language == "ar" %}
+    {% capture concept_count_display %}{{ concept_count | replace: "0", "٠" | replace: "1", "١" | replace: "2", "٢" | replace: "3", "٣" | replace: "4", "٤" | replace: "5", "٥" | replace: "6", "٦" | replace: "7", "٧" | replace: "8", "٨" | replace: "9", "٩" }}{% endcapture %}
+{% else %}
+    {% assign concept_count_display = concept_count %}
+{% endif %}
+
+{% assign label_key = concept_type | append: "_label" %}
+{% assign concept_label = t[label_key] | default: concept_type %}
+
+{% if concept_type == "book" %}
+  {% assign singular_key = "note_singular" %}
+  {% assign plural_key = "note_plural" %}
+{% else %}
+  {% assign singular_key = "article_singular" %}
+  {% assign plural_key = "article_plural" %}
+{% endif %}
+
+<div class="article article--series-card{% if include.class %} {{ include.class }}{% endif %}" lang="{{ content_language }}" dir="{{ content_direction }}">
+    <div class="article__inner">
+        {% if concept_data.image %}
+        <div class="article__head">
+            <a class="article__image" href="{{ concept_data.link | relative_url }}">
+                <img class="lazy" data-src="{{ concept_data.image | relative_url }}" alt="{{ concept_data.title }}">
+            </a>
+        </div>
+        {% endif %}
+
+        <div class="article__content">
+
+            <h2 class="article__title">
+                <a href="{{ concept_data.link | relative_url }}">{{ concept_data.title }}</a>
+                <span class="article__series-label">{{ concept_label | capitalize }}</span>
+            </h2>
+
+            <p class="article__excerpt">{{ concept_data.description }}</p>
+
+            <div class="article__meta">
+                {% if most_recent %}
+                <time class="article__date" datetime="{{ most_recent.date | date_to_xmlschema }}">
+                    {{ formatted_concept_date }}
+                </time>
+                {% endif %}
+
+                <div class="article__minutes">
+                    {{ concept_count_display }} {% if concept_count == 1 %}{{ t[singular_key] }}{% else %}{{ t[plural_key] }}{% endif %}
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
