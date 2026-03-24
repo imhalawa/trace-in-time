@@ -1,58 +1,13 @@
-{% assign space_renderer = site.data.settings.hero.space_renderer | default: 'auto' %}
-{% assign space_quality = site.data.settings.hero.space_quality | default: 'balanced' %}
 {% if site.data.settings.hero.enable == true %}
 <!-- begin hero -->
-<section class="hero" data-soundtrack="{{ site.data.settings.hero.soundtrack_mp3 | default: '' | escape }}" data-space-renderer="{{ space_renderer | escape }}" data-space-quality="{{ space_quality | escape }}">
+<section class="hero">
   <div class="container">
     <div class="hero__inner">
       {% if site.data.settings.hero.hero_image_caption %}
-      {% assign space_trigger_html = '<span class="hero__space-anchor"><span class="hero__space-trigger" tabindex="0" aria-label="Start cosmic story">Space</span><span class="hero__click-note" aria-hidden="true">click me</span></span>' %}
-      {% assign hero_caption = site.data.settings.hero.hero_image_caption %}
-      {% if hero_caption contains 'space' %}
-      {% assign hero_tagline = hero_caption | replace_first: 'space', space_trigger_html %}
-      {% elsif hero_caption contains 'Space' %}
-      {% assign hero_tagline = hero_caption | replace_first: 'Space', space_trigger_html %}
-      {% else %}
-      {% assign hero_tagline = hero_caption %}
-      {% endif %}
-      <p class="hero__tagline">{{ hero_tagline }}</p>
+      <p class="hero__tagline">{{ site.data.settings.hero.hero_image_caption }}</p>
       {% endif %}
     </div>
   </div>
-
-  <div class="solar-scene" aria-hidden="true">
-    <div class="solar-scene__galaxy"></div>
-    <canvas class="solar-scene__canvas"></canvas>
-
-    <div class="solar-scene__fallback">
-      <div class="solar-scene__fallback-sun"></div>
-      <div class="solar-scene__fallback-orbit solar-scene__fallback-orbit--1"><span class="solar-scene__fallback-planet solar-scene__fallback-planet--1"></span></div>
-      <div class="solar-scene__fallback-orbit solar-scene__fallback-orbit--2"><span class="solar-scene__fallback-planet solar-scene__fallback-planet--2"></span></div>
-      <div class="solar-scene__fallback-orbit solar-scene__fallback-orbit--3"><span class="solar-scene__fallback-planet solar-scene__fallback-planet--3"></span></div>
-    </div>
-  </div>
-
-  <aside class="solar-timeline" aria-live="polite" aria-atomic="true">
-    <ol class="solar-stepper" aria-label="Cosmic timeline">
-      <li class="solar-stepper__item is-active" data-step-index="0"><span class="solar-stepper__dot"></span><span class="solar-stepper__label">Prologue</span></li>
-      <li class="solar-stepper__item" data-step-index="1"><span class="solar-stepper__dot"></span><span class="solar-stepper__label">Inflation</span></li>
-      <li class="solar-stepper__item" data-step-index="2"><span class="solar-stepper__dot"></span><span class="solar-stepper__label">Particles</span></li>
-      <li class="solar-stepper__item" data-step-index="3"><span class="solar-stepper__dot"></span><span class="solar-stepper__label">Elements</span></li>
-      <li class="solar-stepper__item" data-step-index="4"><span class="solar-stepper__dot"></span><span class="solar-stepper__label">Cosmic Dawn</span></li>
-      <li class="solar-stepper__item" data-step-index="5"><span class="solar-stepper__dot"></span><span class="solar-stepper__label">First Light</span></li>
-      <li class="solar-stepper__item" data-step-index="6"><span class="solar-stepper__dot"></span><span class="solar-stepper__label">Galactic Web</span></li>
-      <li class="solar-stepper__item" data-step-index="7"><span class="solar-stepper__dot"></span><span class="solar-stepper__label">Solar Birth</span></li>
-      <li class="solar-stepper__item" data-step-index="8"><span class="solar-stepper__dot"></span><span class="solar-stepper__label">Present</span></li>
-    </ol>
-  </aside>
-
-  <p class="solar-timeline__clock" aria-live="off">
-    <span class="solar-timeline__clock-up">01:12</span>
-    <span class="solar-timeline__clock-sep">.</span>
-    <span class="solar-timeline__clock-mid">07:12</span>
-    <span class="solar-timeline__clock-sep">.</span>
-    <span class="solar-timeline__clock-down">19:96</span>
-  </p>
 </section>
 <!-- end hero -->
 {% endif %}
