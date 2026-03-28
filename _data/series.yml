@@ -14,3 +14,11 @@
   description: "سلسلة تجريبية لاختبار دعم الاتجاه من اليمين إلى اليسار عبر صفحات السلسلة وبطاقات المقالات."
   cover_color: "#0EA5A4"
   link: "/series/arabic-rtl-lab/"
+
+- slug: solid-principles
+  draft: false
+  title: "SOLID Principles"
+  subtitle: "Code that looked fine — until it wasn't. That's where each principle begins."
+  description: "Code that looked fine — until it wasn't. That's where each principle begins."
+  cover_color: "#7C3AED"
+  link: "/series/solid-principles/"
