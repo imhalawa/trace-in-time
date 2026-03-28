@@ -33,5 +33,6 @@
   link: "/books/grokking-algorithms/"
   draft: false
   currently_reading: true
+  status: reading
   chapters_read: 0
   total_chapters: 13

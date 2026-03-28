@@ -23,6 +23,13 @@ Parameters: item (book object from books.yml), type, link (bool), class, heading
 {% assign label_key = concept_type | append: "_label" %}
 {% assign concept_label = t[label_key] | default: concept_type %}
 
+{% assign book_status = concept_data.status %}
+{% if book_status == "read" %}
+  {% assign status_label = "Read" %}
+{% elsif book_status == "reading" %}
+  {% assign status_label = "Reading" %}
+{% endif %}
+
 <div class="book-card{% if include.class %} {{ include.class }}{% endif %}" lang="{{ content_language }}" dir="{{ content_direction }}">
   {% if has_link %}
   <a class="book-card__link" href="{{ concept_data.link | relative_url }}">
@@ -56,5 +63,16 @@ Parameters: item (book object from books.yml), type, link (bool), class, heading
 
   {% if has_link %}
   </a>
+  {% endif %}
+
+  {% if book_status == "read" or book_status == "reading" %}
+  <div class="book-card__stamp book-card__stamp--{{ book_status }}" aria-label="{{ status_label }}" role="img">
+    {% if book_status == "read" %}
+    <span class="book-card__stamp-icon" aria-hidden="true">✓</span>
+    {% elsif book_status == "reading" %}
+    <span class="fi fi-glasses book-card__stamp-icon" aria-hidden="true"></span>
+    {% endif %}
+    <span class="book-card__stamp-label">{{ status_label }}</span>
+  </div>
   {% endif %}
 </div>

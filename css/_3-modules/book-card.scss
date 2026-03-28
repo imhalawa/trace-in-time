@@ -4,6 +4,7 @@
    ===================================================== */
 
 .book-card {
+  position: relative;
   border: 1px solid var(--border-color);
   border-radius: 14px;
   overflow: hidden;
@@ -119,6 +120,62 @@
   color: var(--text-alt-color);
 }
 
+/* ---------- Status stamp ---------- */
+.book-card__stamp {
+  position: absolute;
+  top: 12px;
+  inset-inline-end: 12px;
+  z-index: 2;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: 2px solid currentColor;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  transform: rotate(-10deg);
+  pointer-events: none;
+  backdrop-filter: blur(3px);
+
+  /* Inner decorative ring — the rubber-stamp double-border look */
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 4px;
+    border-radius: 50%;
+    border: 1px solid currentColor;
+    opacity: 0.35;
+  }
+
+  &--read {
+    color: #16a34a;
+    background: rgba(22, 163, 74, 0.12);
+  }
+
+  &--reading {
+    color: #d97706;
+    background: rgba(217, 119, 6, 0.12);
+  }
+}
+
+.book-card__stamp-icon {
+  font-size: 20px;
+  line-height: 1;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.book-card__stamp-label {
+  font-family: $heading-font-family;
+  font-size: 7px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
 /* ---------- Mobile (2-up grid, smaller text) ---------- */
 @media (max-width: $mobile) {
   .book-card__content {
@@ -130,7 +187,8 @@
   }
 
   .book-card__subtitle {
-    display: none; /* too cramped at 50% mobile width */
+    font-size: 14px;
+    display: -webkit-box; /* restore — full width has room for it */
   }
 
   .book-card__meta {
