@@ -1,0 +1,181 @@
+/* =======================
+:: Stepper Component
+   Vertical numbered stepper for series and book detail pages.
+   Supports LTR and RTL layouts. Colors driven by --stepper-color.
+======================= */
+
+.stepper {
+  --stepper-color: var(--primary-color);
+  list-style: none;
+  margin: 32px 0 0;
+  padding: 0;
+}
+
+.stepper__step {
+  display: flex;
+  gap: 16px;
+  align-items: stretch;
+}
+
+// ── Indicator column (circle + connector line) ──────────────────
+
+.stepper__indicator {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+  width: 36px;
+}
+
+.stepper__circle {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 2px solid var(--stepper-color);
+  color: var(--stepper-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1;
+  flex-shrink: 0;
+  font-family: $heading-font-family;
+  opacity: 0.35;
+}
+
+.stepper__step--done .stepper__circle {
+  background-color: var(--stepper-color);
+  border-color: var(--stepper-color);
+  color: #fff;
+  opacity: 1;
+}
+
+.stepper__connector {
+  flex: 1;
+  width: 2px;
+  min-height: 20px;
+  margin-top: 4px;
+  background-color: var(--stepper-color);
+  opacity: 0.2;
+}
+
+// ── Content column ───────────────────────────────────────────────
+
+.stepper__content {
+  padding-top: 6px;
+  padding-bottom: 28px;
+  flex: 1;
+  min-width: 0;
+}
+
+.stepper__step:last-child .stepper__content {
+  padding-bottom: 4px;
+}
+
+.stepper__title {
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--heading-font-color);
+  line-height: 1.35;
+  display: block;
+  text-decoration: none;
+}
+
+a.stepper__title {
+  transition: color 0.15s ease;
+
+  &:hover {
+    color: var(--stepper-color);
+    text-decoration: underline;
+  }
+
+  &:visited {
+    color: var(--heading-font-color);
+  }
+
+  &:visited:hover {
+    color: var(--stepper-color);
+  }
+}
+
+.stepper__step--pending .stepper__title,
+.stepper__step--pending .stepper__desc {
+  opacity: 0.5;
+}
+
+.stepper__desc {
+  font-size: 14px;
+  color: var(--text-alt-color);
+  margin: 6px 0 0;
+  line-height: 1.55;
+}
+
+.stepper__date {
+  display: block;
+  margin-top: 8px;
+  font-size: 12px;
+  color: var(--dark-gray);
+  letter-spacing: 0.01em;
+}
+
+// ── Upcoming badge ───────────────────────────────────────────────
+
+.stepper__badge {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 2px 10px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  border-radius: 100px;
+}
+
+.stepper__badge--upcoming {
+  background-color: var(--background-alt-color);
+  color: var(--text-alt-color);
+  border: 1px solid var(--border-color);
+}
+
+// ── RTL ──────────────────────────────────────────────────────────
+
+[dir="rtl"] {
+  .stepper__step {
+    flex-direction: row-reverse;
+  }
+}
+
+// ── Dark mode ────────────────────────────────────────────────────
+// --border-color is already dark-mode-aware via color-scheme.scss
+
+// ── Responsive ───────────────────────────────────────────────────
+
+@media (max-width: 480px) {
+  .stepper {
+    margin-top: 24px;
+  }
+
+  .stepper__step {
+    gap: 12px;
+  }
+
+  .stepper__circle {
+    width: 30px;
+    height: 30px;
+    font-size: 11px;
+  }
+
+  .stepper__indicator {
+    width: 30px;
+  }
+
+  .stepper__content {
+    padding-top: 3px;
+    padding-bottom: 22px;
+  }
+
+  .stepper__title {
+    font-size: 15px;
+  }
+}

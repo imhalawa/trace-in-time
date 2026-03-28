@@ -3,6 +3,7 @@ layout: page
 title: Books
 permalink: /books/
 icon: 'fi fi-book'
+show_currently_reading: true
 ---
 
 Book-focused notes and selective reviews by chapter and idea.
@@ -19,7 +20,7 @@ Book-focused notes and selective reviews by chapter and idea.
         {% assign content_direction = "rtl" %}
       {% endif %}
 
-      <div class="col col-6 col-t-12 series-landing__item" lang="{{ content_language }}" dir="{{ content_direction }}">
+      <div class="col col-4 col-t-6 col-m-6 series-landing__item" lang="{{ content_language }}" dir="{{ content_direction }}">
         {% assign book_posts = site.posts | where: "book", book.slug %}
         {% assign published_book_posts = "" | split: "," %}
         {% for book_post in book_posts %}
@@ -28,7 +29,7 @@ Book-focused notes and selective reviews by chapter and idea.
           {% endunless %}
         {% endfor %}
         {% capture book_meta_text %}{{ published_book_posts.size }} {% if published_book_posts.size == 1 %}{{ t.note_singular }}{% else %}{{ t.note_plural }}{% endif %}{% endcapture %}
-        {% include concept-hero.html item=book type="book" link=true class="series-landing__hero" heading_tag="h2" meta_text=book_meta_text %}
+        {% include book-card.html item=book type="book" link=true heading_tag="h2" meta_text=book_meta_text %}
       </div>
     {% endunless %}
   {% endfor %}

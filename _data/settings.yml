@@ -97,6 +97,7 @@ hero:
 blog:
   enable: true
   blog_title: Traces
+  blog_icon: fi-steps
 
 
 #-------------------------------

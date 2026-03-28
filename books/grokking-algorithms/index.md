@@ -1,9 +1,8 @@
 ---
 layout: page
-title: "علم النفس والعادات"
-lang: ar
-permalink: /books/psychology-habits-ar/
-book_slug: psychology-habits-ar
+title: "Grokking Algorithms"
+permalink: /books/grokking-algorithms/
+book_slug: grokking-algorithms
 hide_page_title: true
 ---
 

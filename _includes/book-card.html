@@ -1,0 +1,60 @@
+{% comment %}
+Displays a book as a horizontal card with a portrait cover image on the left.
+Parameters: item (book object from books.yml), type, link (bool), class, heading_tag, meta_text
+{% endcomment %}
+
+{% assign concept_data = include.item %}
+{% assign concept_type = include.type | default: "book" %}
+{% assign content_language = concept_data.lang | default: page.lang | default: site.lang | default: "en" %}
+{% assign base_language = content_language | split: "-" | first | downcase %}
+{% assign t = site.data.translations[base_language] | default: site.data.translations.en %}
+{% assign rtl_languages = "ar,arc,ckb,dv,fa,he,khw,ks,ku,ps,sd,ug,ur,yi" | split: "," %}
+{% assign content_direction = "ltr" %}
+{% if rtl_languages contains base_language %}
+  {% assign content_direction = "rtl" %}
+{% endif %}
+
+{% assign hero_title = concept_data.title %}
+{% assign hero_subtitle = concept_data.subtitle | default: concept_data.description %}
+{% assign hero_meta = include.meta_text %}
+{% assign hero_tag = include.heading_tag | default: "h2" %}
+{% assign has_link = include.link | default: false %}
+
+{% assign label_key = concept_type | append: "_label" %}
+{% assign concept_label = t[label_key] | default: concept_type %}
+
+<div class="book-card{% if include.class %} {{ include.class }}{% endif %}" lang="{{ content_language }}" dir="{{ content_direction }}">
+  {% if has_link %}
+  <a class="book-card__link" href="{{ concept_data.link | relative_url }}">
+  {% endif %}
+
+    <div class="book-card__cover{% unless concept_data.cover_image %} book-card__cover--placeholder{% endunless %}">
+      {% if concept_data.cover_image %}
+        <img class="lazy" data-src="{{ concept_data.cover_image | relative_url }}" alt="{{ concept_data.title }}">
+      {% else %}
+        <span class="fi fi-book" aria-hidden="true"></span>
+      {% endif %}
+    </div>
+
+    <div class="book-card__content">
+      <div class="book-card__eyebrow">{{ concept_label | capitalize }}</div>
+
+      {% if hero_tag == "h1" %}
+      <h1 class="book-card__title">{{ hero_title }}</h1>
+      {% else %}
+      <h2 class="book-card__title">{{ hero_title }}</h2>
+      {% endif %}
+
+      {% if hero_subtitle %}
+      <p class="book-card__subtitle">{{ hero_subtitle }}</p>
+      {% endif %}
+
+      {% if hero_meta %}
+      <div class="book-card__meta">{{ hero_meta }}</div>
+      {% endif %}
+    </div>
+
+  {% if has_link %}
+  </a>
+  {% endif %}
+</div>

@@ -23,3 +23,15 @@
   description: "مراجعات قصيرة لأفكار عملية من منظور سلوكي، مع تطبيقات واضحة على الحياة والعمل."
   cover_color: "#0EA5A4"
   link: "/books/psychology-habits-ar/"
+
+- slug: grokking-algorithms
+  title: "Grokking Algorithms"
+  subtitle: "An illustrated guide to algorithms and data structures — 2nd edition."
+  description: "Notes and visual takeaways from Grokking Algorithms, 2nd edition, by Aditya Y Bhargava. Covers search, sort, graphs, trees, dynamic programming, and more."
+  cover_color: "#E8374B"
+  cover_image: /images/books/grokking-algorithms.png
+  link: "/books/grokking-algorithms/"
+  draft: false
+  currently_reading: true
+  chapters_read: 0
+  total_chapters: 13

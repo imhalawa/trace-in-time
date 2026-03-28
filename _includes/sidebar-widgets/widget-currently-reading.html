@@ -1,0 +1,49 @@
+{% assign content_language = page.lang | default: site.lang | default: "en" %}
+{% assign base_language = content_language | split: "-" | first | downcase %}
+{% assign t = site.data.translations[base_language] | default: site.data.translations.en %}
+
+{% assign current_book = nil %}
+{% for book in site.data.books %}
+  {% if book.currently_reading == true %}
+    {% assign current_book = book %}
+    {% break %}
+  {% endif %}
+{% endfor %}
+
+{% if current_book %}
+{% assign chapters_read = current_book.chapters_read | default: 0 | plus: 0 %}
+{% assign total_chapters = current_book.total_chapters | default: 1 | plus: 0 %}
+{% assign progress_pct = chapters_read | times: 100 | divided_by: total_chapters %}
+
+<div class="widget widget-currently-reading">
+  <div class="widget-sidebar-head">
+    <h2 class="widget-sidebar-title"><span class="fi fi-glasses" aria-hidden="true"></span> {{ t.currently_reading | default: "Currently Reading" }}</h2>
+  </div>
+
+  <a href="{{ current_book.link | relative_url }}" class="cr-card">
+    {% if current_book.cover_image %}
+    <div class="cr-cover">
+      <img class="lazy" data-src="{{ current_book.cover_image | relative_url }}" alt="{{ current_book.title }} cover">
+    </div>
+    {% else %}
+    <div class="cr-cover cr-cover--color" style="background-color: {{ current_book.cover_color | default: '#2F6BFF' }};">
+      <span class="fi fi-book" aria-hidden="true"></span>
+    </div>
+    {% endif %}
+
+    <div class="cr-info">
+      <p class="cr-label">{{ t.book_label | default: "Book" }}</p>
+      <h3 class="cr-title">{{ current_book.title }}</h3>
+      <div class="cr-progress">
+        <div class="progress-bar" role="progressbar" aria-valuenow="{{ progress_pct }}" aria-valuemin="0" aria-valuemax="100">
+          <div class="progress-bar__fill" style="width: {{ progress_pct }}%; background-color: {{ current_book.cover_color | default: '#2F6BFF' }};"></div>
+        </div>
+        <span class="cr-progress-label">
+          {{ t.chapter_label | default: "Chapter" }} {{ chapters_read }} {{ t.chapter_of | default: "of" }} {{ total_chapters }}
+          <span class="cr-progress-pct">({{ progress_pct }}%)</span>
+        </span>
+      </div>
+    </div>
+  </a>
+</div>
+{% endif %}

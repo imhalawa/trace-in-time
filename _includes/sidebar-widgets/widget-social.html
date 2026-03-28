@@ -1,5 +1,12 @@
+{% assign content_language = page.lang | default: site.lang | default: "en" %}
+{% assign base_language = content_language | split: "-" | first | downcase %}
+{% assign t = site.data.translations[base_language] | default: site.data.translations.en %}
+
 {% if site.data.settings.social %}
 <div class="widget widget-social">
+  <div class="widget-sidebar-head">
+    <h2 class="widget-sidebar-title"><span class="fi fi-people" aria-hidden="true"></span> {{ t.follow_label | default: "Follow Along" }}</h2>
+  </div>
   <ul class="widget-social__list list-reset">
     {% for social in site.data.settings.social %}
     <li class="widget-social__item">

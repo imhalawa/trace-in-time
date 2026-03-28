@@ -109,6 +109,10 @@
 {% include_relative _3-modules/article.scss %}
 /* >>>>>>>>>>>>>> :: 3.9.1-Series <<<<<<<<<<<<<<< */
 {% include_relative _3-modules/series.scss %}
+/* >>>>>>>>>>>>>> :: 3.9.2-Book Card <<<<<<<<<<<<<<< */
+{% include_relative _3-modules/book-card.scss %}
+/* >>>>>>>>>>>>>> :: 3.9.3-Stepper <<<<<<<<<<<<<<< */
+{% include_relative _3-modules/stepper.scss %}
 /* >>>>>>>>>>>>>> :: 3.10-Contact <<<<<<<<<<<<<<< */
 {% include_relative _3-modules/contact.scss %}
 /* >>>>>>>>>>>>>> :: 3.11-Sections <<<<<<<<<<<<<<< */
@@ -123,6 +127,8 @@
 {% include_relative _3-modules/buttons.scss %}
 /* >>>>>>>>>>>>>> :: 3.16-Scroll Button Top <<<<<<<<<<<<<<< */
 {% include_relative _3-modules/scroll-button-top.scss %}
+/* >>>>>>>>>>>>>> :: 3.17-Currently Reading <<<<<<<<<<<<<<< */
+{% include_relative _3-modules/currently-reading.scss %}
 
 
 /* =======================

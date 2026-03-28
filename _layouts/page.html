@@ -61,6 +61,7 @@ layout: default
     <div class="col col-4 col-d-12">
       <aside class="sidebar">
         {% include sidebar-widgets/widget-subscribe.html %}
+        {% if page.show_currently_reading %}{% include sidebar-widgets/widget-currently-reading.html %}{% endif %}
         {% include sidebar-widgets/widget-social.html %}
         {% include sidebar-widgets/widget-featured-posts.html %}
         {% include sidebar-widgets/widget-tags.html %}

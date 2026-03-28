@@ -10,7 +10,7 @@ hide_page_title: true
 
 {% if book_data %}
 {% unless book_data.draft == true %}
-{% assign book_posts = site.posts | where: "book", page.book_slug %}
+{% assign book_posts = site.posts | where: "book", page.book_slug | sort: "part" %}
 {% assign published_book_posts = "" | split: "," %}
 {% for book_post in book_posts %}
   {% unless book_post.published == false %}
@@ -23,10 +23,6 @@ hide_page_title: true
 {% capture book_meta_text %}{{ published_book_posts.size }} {% if published_book_posts.size == 1 %}{{ t.note_singular }}{% else %}{{ t.note_plural }}{% endif %}{% endcapture %}
 {% include concept-hero.html item=book_data type="book" heading_tag="h1" class="series-page__hero" meta_text=book_meta_text %}
 
-<div class="row grid">
-  {% for post in published_book_posts %}
-    {% include article.html class="article--flexible col col-6 col-t-12" %}
-  {% endfor %}
-</div>
+{% include stepper.html posts=book_posts slug=book_data.slug lang=content_language t=t %}
 {% endunless %}
 {% endif %}

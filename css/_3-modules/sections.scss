@@ -35,9 +35,20 @@
 }
 
 .section__title {
+  display: inline-flex;
+  align-items: center;
   padding-right: 20px;
   margin-bottom: 0;
   font-size: 24px;
+  line-height: 1;
+
+  .fi {
+    width: 30px;
+    height: 30px;
+    opacity: 0.6;
+    margin-inline-end: 10px;
+    flex-shrink: 0;
+  }
 }
 
 .section__title {

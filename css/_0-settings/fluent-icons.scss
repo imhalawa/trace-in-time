@@ -25,6 +25,7 @@ $simple-cdn: "https://cdn.jsdelivr.net/npm/simple-icons@14/icons";
 
 .fi-home            { -webkit-mask-image: url("#{$fluent-cdn}/home_20_regular.svg");            mask-image: url("#{$fluent-cdn}/home_20_regular.svg"); }
 .fi-stack           { -webkit-mask-image: url("#{$fluent-cdn}/layer_20_regular.svg");           mask-image: url("#{$fluent-cdn}/layer_20_regular.svg"); }
+.fi-steps           { -webkit-mask-image: url("#{$fluent-cdn}/steps_20_regular.svg");           mask-image: url("#{$fluent-cdn}/steps_20_regular.svg"); }
 .fi-list            { -webkit-mask-image: url("#{$fluent-cdn}/list_20_regular.svg");            mask-image: url("#{$fluent-cdn}/list_20_regular.svg"); }
 .fi-book            { -webkit-mask-image: url("#{$fluent-cdn}/book_open_20_regular.svg");       mask-image: url("#{$fluent-cdn}/book_open_20_regular.svg"); }
 .fi-person          { -webkit-mask-image: url("#{$fluent-cdn}/person_20_regular.svg");          mask-image: url("#{$fluent-cdn}/person_20_regular.svg"); }
@@ -34,6 +35,10 @@ $simple-cdn: "https://cdn.jsdelivr.net/npm/simple-icons@14/icons";
 .fi-clock           { -webkit-mask-image: url("#{$fluent-cdn}/clock_20_regular.svg");          mask-image: url("#{$fluent-cdn}/clock_20_regular.svg"); }
 .fi-history         { -webkit-mask-image: url("#{$fluent-cdn}/history_20_regular.svg");        mask-image: url("#{$fluent-cdn}/history_20_regular.svg"); }
 .fi-star            { -webkit-mask-image: url("#{$fluent-cdn}/star_20_regular.svg");           mask-image: url("#{$fluent-cdn}/star_20_regular.svg"); }
+.fi-tag             { -webkit-mask-image: url("#{$fluent-cdn}/tag_20_regular.svg");            mask-image: url("#{$fluent-cdn}/tag_20_regular.svg"); }
+.fi-number-symbol   { -webkit-mask-image: url("#{$fluent-cdn}/number_symbol_20_regular.svg");  mask-image: url("#{$fluent-cdn}/number_symbol_20_regular.svg"); }
+.fi-glasses         { -webkit-mask-image: url("#{$fluent-cdn}/glasses_20_regular.svg");        mask-image: url("#{$fluent-cdn}/glasses_20_regular.svg"); }
+.fi-people          { -webkit-mask-image: url("#{$fluent-cdn}/people_20_regular.svg");          mask-image: url("#{$fluent-cdn}/people_20_regular.svg"); }
 
 /* Brand icons via Simple Icons */
 /* LinkedIn was removed from simple-icons@14 — pinned to @13 */

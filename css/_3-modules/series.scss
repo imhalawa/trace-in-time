@@ -5,17 +5,36 @@
   border-radius: 18px;
   overflow: hidden;
   min-height: 210px;
-  transition: transform .24s ease, box-shadow .24s ease, filter .24s ease;
+  transition: transform .24s ease, box-shadow .24s ease;
+
+  /* Decorative circles */
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  /* Sizes and positions are defined per palette class below */
+  &::before {
+    background: rgba(255, 255, 255, .12);
+  }
+
+  &::after {
+    background: rgba(255, 255, 255, .08);
+  }
 
   .series-hero__link {
     display: block;
-    color: #111111;
+    color: #ffffff;
     text-decoration: none;
 
     &:visited,
     &:hover,
     &:focus {
-      color: #111111;
+      color: #ffffff;
       text-decoration: none;
     }
   }
@@ -37,15 +56,14 @@
     line-height: 1.2;
     letter-spacing: .12em;
     text-transform: uppercase;
-    opacity: .9;
-    color: var(--series-indicator-color) !important;
+    color: rgba(255, 255, 255, .75) !important;
   }
 
   .series-hero__title {
     margin-bottom: 10px;
     font-size: 32px;
     line-height: 1.2;
-    color: #111111 !important;
+    color: #ffffff !important;
   }
 
   .series-hero__subtitle {
@@ -53,8 +71,7 @@
     max-width: 56ch;
     font-size: 16px;
     line-height: 1.65;
-    color: #111111 !important;
-    opacity: .95;
+    color: rgba(255, 255, 255, .88) !important;
   }
 
   .series-hero__meta {
@@ -65,8 +82,7 @@
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: .08em;
-    color: #111111;
-    opacity: .8;
+    color: rgba(255, 255, 255, .7) !important;
   }
 
   @media (max-width: $mobile) {
@@ -90,23 +106,40 @@
 .series-hero:hover,
 .series-hero:focus-within {
   transform: translateY(-3px);
-  box-shadow: 0 14px 28px -20px rgba(0, 0, 0, .45);
+  box-shadow: 0 20px 44px -12px color-mix(in srgb, var(--palette-color, #7c3aed) 50%, transparent);
 }
 
-.series-hero .series-hero__content,
-.series-hero .series-hero__content *:not(.series-hero__eyebrow) {
-  color: #111111 !important;
+/* Palette classes — auto-assigned from slug hash; each has unique circle geometry */
+/* inset-inline-* auto-mirrors for RTL — no manual overrides needed               */
+.series-hero--palette-0 {        /* Violet — big top-end, small bottom-start */
+  --palette-color: #7c3aed; background: #7c3aed;
+  &::before { width: 220px; height: 220px; top: -70px;  inset-inline-end:   -50px; }
+  &::after  { width: 120px; height: 120px; bottom: -35px; inset-inline-start: 30px; }
 }
-
-.series-hero--gradient {
-  --series-hero-base: var(--series-hero-color, var(--primary-color));
-  background:
-    radial-gradient(120% 130% at 0% 0%, color-mix(in srgb, var(--series-hero-base) 26%, #ffffff) 0%, transparent 58%),
-    radial-gradient(100% 120% at 100% 100%, color-mix(in srgb, var(--series-hero-base) 20%, #ffffff) 0%, transparent 62%),
-    linear-gradient(135deg,
-      color-mix(in srgb, var(--series-hero-base) 14%, #ffffff) 0%,
-      color-mix(in srgb, var(--series-hero-base) 8%, #ffffff) 50%,
-      color-mix(in srgb, var(--series-hero-base) 4%, #ffffff) 100%);
+.series-hero--palette-1 {        /* Deep Teal — big bottom-end, small top-start */
+  --palette-color: #0f766e; background: #0f766e;
+  &::before { width: 200px; height: 200px; bottom: -60px; inset-inline-end:   -30px; }
+  &::after  { width: 100px; height: 100px; top: 20px;    inset-inline-start:  20px; }
+}
+.series-hero--palette-2 {        /* Cyan — big top-start, small bottom-end */
+  --palette-color: #0891b2; background: #0891b2;
+  &::before { width: 240px; height: 240px; top: -80px;    inset-inline-start: -60px; }
+  &::after  { width: 110px; height: 110px; bottom: -30px; inset-inline-end:    20px; }
+}
+.series-hero--palette-3 {        /* Amber — two circles stacked at end */
+  --palette-color: #d97706; background: #d97706;
+  &::before { width: 190px; height: 190px; top: -40px;    inset-inline-end: -60px; }
+  &::after  { width: 140px; height: 140px; bottom: -50px; inset-inline-end:  40px; }
+}
+.series-hero--palette-4 {        /* Emerald — big top-center, small bottom-end */
+  --palette-color: #059669; background: #059669;
+  &::before { width: 200px; height: 200px; top: -60px;    inset-inline-start:  80px; }
+  &::after  { width: 90px;  height: 90px;  bottom: -20px; inset-inline-end:    25px; }
+}
+.series-hero--palette-5 {        /* Royal Blue — big bottom-start, small top-end */
+  --palette-color: #1d4ed8; background: #1d4ed8;
+  &::before { width: 230px; height: 230px; bottom: -80px; inset-inline-start: -50px; }
+  &::after  { width: 90px;  height: 90px;  top: 15px;     inset-inline-end:    20px; }
 }
 
 .series-landing__item {
@@ -132,14 +165,6 @@
 
 [dir="rtl"] {
   .series-hero {
-    text-align: right;
-  }
-}
-
-:root[dark] {
-  .series-hero {
-    .series-hero__eyebrow {
-      opacity: 1;
-    }
+    text-align: right; /* inset-inline-* already mirrors circles automatically */
   }
 }

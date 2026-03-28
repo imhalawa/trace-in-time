@@ -1,0 +1,101 @@
+{% comment %}
+  Vertical Stepper Include
+  Renders a numbered sequential stepper for series and book detail pages.
+
+  Parameters:
+    include.posts   - array of posts already sorted by `part`
+    include.slug    - series or book slug (used to compute palette color, same hash as series-hero.html)
+    include.lang    - language code (e.g. "en", "ar") — direction is auto-detected
+    include.t       - translations object from site.data.translations
+{% endcomment %}
+
+{% assign stepper_lang = include.lang | default: "en" %}
+{% assign stepper_t    = include.t %}
+
+{% comment %}Compute palette color from slug — same hash as series-hero.html / concept-hero.html{% endcomment %}
+{% assign _palette_colors = "#7c3aed,#0f766e,#0891b2,#d97706,#059669,#1d4ed8" | split: "," %}
+{% assign _sp_slug  = include.slug | default: "" %}
+{% assign _sp_words = _sp_slug | split: "-" %}
+{% assign _sp_sl    = _sp_slug  | size %}
+{% assign _sp_wc    = _sp_words | size %}
+{% assign _sp_w0    = _sp_words | first | size %}
+{% assign _sp_wN    = _sp_words | last  | size %}
+{% assign _sp_seed  = _sp_sl | times: 3 | plus: _sp_wc | times: 1 %}
+{% assign _sp_seed  = _sp_sl | times: 3 %}
+{% assign _sp_b     = _sp_wc | times: 17 %}
+{% assign _sp_c     = _sp_w0 | times: 5 %}
+{% assign _sp_d     = _sp_wN | times: 7 %}
+{% assign _sp_seed  = _sp_seed | plus: _sp_b | plus: _sp_c | plus: _sp_d %}
+{% assign _sp_idx   = _sp_seed | modulo: 6 %}
+{% assign stepper_color = _palette_colors[_sp_idx] | default: "#7c3aed" %}
+
+{% assign stepper_rtl_languages = "ar,arc,ckb,dv,fa,he,khw,ks,ku,ps,sd,ug,ur,yi" | split: "," %}
+{% assign stepper_base_lang = stepper_lang | split: "-" | first | downcase %}
+{% assign stepper_dir = "ltr" %}
+{% if stepper_rtl_languages contains stepper_base_lang %}
+  {% assign stepper_dir = "rtl" %}
+{% endif %}
+
+<ol class="stepper" dir="{{ stepper_dir }}" lang="{{ stepper_lang }}" style="--stepper-color: {{ stepper_color }}">
+  {% for post in include.posts %}
+
+    {% comment %} Use `part` field as step number, fallback to loop index {% endcomment %}
+    {% assign step_num = post.part | default: forloop.index %}
+
+    {% comment %} Strip leading "N. " numeric prefix from title {% endcomment %}
+    {% assign _title_parts = post.title | split: ". " %}
+    {% assign _first_part  = _title_parts[0] %}
+    {% assign _first_num   = _first_part | plus: 0 %}
+    {% if _first_num > 0 and _title_parts.size > 1 %}
+      {% assign step_title = post.title | remove_first: _first_part | remove_first: ". " %}
+    {% else %}
+      {% assign step_title = post.title %}
+    {% endif %}
+
+    {% comment %} Determine if step is published or upcoming {% endcomment %}
+    {% assign step_pending = false %}
+    {% if post.published == false %}
+      {% assign step_pending = true %}
+    {% endif %}
+
+    {% comment %} Format date per language {% endcomment %}
+    {% if stepper_base_lang == "ar" %}
+      {% assign _ar_months = "يناير,فبراير,مارس,أبريل,مايو,يونيو,يوليو,أغسطس,سبتمبر,أكتوبر,نوفمبر,ديسمبر" | split: "," %}
+      {% assign _month_idx = post.date | date: "%m" | minus: 1 %}
+      {% assign _month_ar  = _ar_months[_month_idx] %}
+      {% assign _year      = post.date | date: "%Y" %}
+      {% capture _year_ar %}{{ _year | replace: "0", "٠" | replace: "1", "١" | replace: "2", "٢" | replace: "3", "٣" | replace: "4", "٤" | replace: "5", "٥" | replace: "6", "٦" | replace: "7", "٧" | replace: "8", "٨" | replace: "9", "٩" }}{% endcapture %}
+      {% capture step_date %}{{ _month_ar }} {{ _year_ar }}{% endcapture %}
+    {% else %}
+      {% assign step_date = post.date | date: "%b %Y" %}
+    {% endif %}
+
+    <li class="stepper__step{% if step_pending %} stepper__step--pending{% else %} stepper__step--done{% endif %}">
+
+      <div class="stepper__indicator" aria-hidden="true">
+        <div class="stepper__circle">{{ step_num }}</div>
+        {% unless forloop.last %}<div class="stepper__connector"></div>{% endunless %}
+      </div>
+
+      <div class="stepper__content">
+        {% if step_pending %}
+          <span class="stepper__title">{{ step_title }}</span>
+        {% else %}
+          <a class="stepper__title" href="{{ post.url }}">{{ step_title }}</a>
+        {% endif %}
+
+        {% if post.description %}
+          <p class="stepper__desc">{{ post.description }}</p>
+        {% endif %}
+
+        {% if step_pending %}
+          <span class="stepper__badge stepper__badge--upcoming">{{ stepper_t.upcoming | default: "Coming soon" }}</span>
+        {% else %}
+          <time class="stepper__date" datetime="{{ post.date | date_to_xmlschema }}">{{ step_date }}</time>
+        {% endif %}
+      </div>
+
+    </li>
+
+  {% endfor %}
+</ol>

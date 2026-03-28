@@ -1,4 +1,18 @@
 {% assign series_data = include.series %}
+
+{% comment %}Compute palette index from slug — deterministic, no cover_color needed{% endcomment %}
+{% assign _slug_words = series_data.slug | split: "-" %}
+{% assign _sl = series_data.slug | size %}
+{% assign _wc = _slug_words | size %}
+{% assign _w0 = _slug_words | first | size %}
+{% assign _wN = _slug_words | last  | size %}
+{% assign _a = _sl | times: 3 %}
+{% assign _b = _wc | times: 17 %}
+{% assign _c = _w0 | times: 5 %}
+{% assign _d = _wN | times: 7 %}
+{% assign _palette_seed = _a | plus: _b | plus: _c | plus: _d %}
+{% assign _palette_idx = _palette_seed | modulo: 6 %}
+
 {% assign content_language = series_data.lang | default: page.lang | default: site.lang | default: "en" %}
 {% assign base_language = content_language | split: "-" | first | downcase %}
 {% assign t = site.data.translations[base_language] | default: site.data.translations.en %}
@@ -14,7 +28,7 @@
 {% assign hero_tag = include.heading_tag | default: "h2" %}
 {% assign has_link = include.link | default: false %}
 
-<div class="series-hero series-hero--gradient{% if include.class %} {{ include.class }}{% endif %}" lang="{{ content_language }}" dir="{{ content_direction }}" style="--series-hero-color: {{ series_data.cover_color | default: '#2F6BFF' }};">
+<div class="series-hero series-hero--palette-{{ _palette_idx }}{% if include.class %} {{ include.class }}{% endif %}" lang="{{ content_language }}" dir="{{ content_direction }}">
   {% if has_link %}
   <a class="series-hero__link" href="{{ series_data.link | relative_url }}">
   {% endif %}

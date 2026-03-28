@@ -16,10 +16,6 @@ hide_page_title: true
 {% capture series_meta_text %}{{ series_posts.size }} {% if series_posts.size == 1 %}{{ t.article_singular }}{% else %}{{ t.article_plural }}{% endif %}{% endcapture %}
 {% include series-hero.html series=series_data heading_tag="h1" class="series-page__hero" meta_text=series_meta_text %}
 
-<div class="row grid">
-  {% for post in series_posts %}
-    {% include article.html class="article--flexible col col-6 col-t-12" %}
-  {% endfor %}
-</div>
+{% include stepper.html posts=series_posts slug=series_data.slug lang=content_language t=t %}
 
 {% endif %}

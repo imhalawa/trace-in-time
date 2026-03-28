@@ -8,7 +8,7 @@
       <div class="col col-8 col-d-12">
         <div class="section__head">
           {% if site.data.settings.blog.blog_title %}
-          <h2 class="section__title">{{ site.data.settings.blog.blog_title }}</h2>
+          <h2 class="section__title">{% if site.data.settings.blog.blog_icon %}<span class="fi {{ site.data.settings.blog.blog_icon }}" aria-hidden="true"></span> {% endif %}{{ site.data.settings.blog.blog_title }}</h2>
           {% endif %}
           <div class="blog__view">
             <div class="blog__toggle">
@@ -163,6 +163,7 @@
           {% include sidebar-widgets/widget-subscribe.html %}
           {% include sidebar-widgets/widget-featured-posts.html %}
           {% include sidebar-widgets/widget-recent-posts.html %}
+          {% include sidebar-widgets/widget-currently-reading.html %}
         </aside>
       </div>
     </div>

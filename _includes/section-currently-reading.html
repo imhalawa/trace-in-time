@@ -1,0 +1,67 @@
+{% assign current_book = nil %}
+{% for book in site.data.books %}
+  {% if book.currently_reading == true %}
+    {% assign current_book = book %}
+    {% break %}
+  {% endif %}
+{% endfor %}
+
+{% if current_book %}
+{% assign chapters_read = current_book.chapters_read | default: 0 | plus: 0 %}
+{% assign total_chapters = current_book.total_chapters | default: 1 | plus: 0 %}
+{% assign progress_pct = chapters_read | times: 100 | divided_by: total_chapters %}
+
+<!-- begin section-currently-reading -->
+<section class="section section-currently-reading">
+  <div class="container">
+    <div class="row">
+      <div class="col col-12">
+
+        <div class="section__head">
+          <h2 class="section__title">
+            <span class="fi fi-book" aria-hidden="true"></span> Currently Reading
+          </h2>
+        </div>
+
+        <a href="{{ current_book.link | relative_url }}" class="currently-reading-banner">
+
+          <div class="currently-reading-banner__cover">
+            {% if current_book.cover_image %}
+            <img class="lazy" data-src="{{ current_book.cover_image | relative_url }}" alt="{{ current_book.title }} cover">
+            {% else %}
+            <div class="currently-reading-banner__cover-color" style="background-color: {{ current_book.cover_color | default: '#2F6BFF' }};">
+              <span class="fi fi-book" aria-hidden="true"></span>
+            </div>
+            {% endif %}
+          </div>
+
+          <div class="currently-reading-banner__body">
+            <div class="currently-reading-banner__eyebrow">
+              <span class="fi fi-book" aria-hidden="true"></span> Book
+            </div>
+            <h3 class="currently-reading-banner__title">{{ current_book.title }}</h3>
+            {% if current_book.subtitle %}
+            <p class="currently-reading-banner__subtitle">{{ current_book.subtitle }}</p>
+            {% endif %}
+
+            <div class="currently-reading-banner__progress">
+              <div class="progress-bar" role="progressbar" aria-valuenow="{{ progress_pct }}" aria-valuemin="0" aria-valuemax="100">
+                <div class="progress-bar__fill" style="width: {{ progress_pct }}%; background-color: {{ current_book.cover_color | default: '#2F6BFF' }};"></div>
+              </div>
+              <span class="progress-label">
+                Chapter {{ chapters_read }} of {{ total_chapters }}
+                <span class="progress-pct">({{ progress_pct }}%)</span>
+              </span>
+            </div>
+
+            <span class="currently-reading-banner__cta">View book notes →</span>
+          </div>
+
+        </a>
+
+      </div>
+    </div>
+  </div>
+</section>
+<!-- end section-currently-reading -->
+{% endif %}

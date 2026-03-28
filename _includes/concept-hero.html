@@ -18,7 +18,20 @@
 {% assign label_key = concept_type | append: "_label" %}
 {% assign concept_label = t[label_key] | default: concept_type %}
 
-<div class="series-hero series-hero--gradient{% if include.class %} {{ include.class }}{% endif %}" lang="{{ content_language }}" dir="{{ content_direction }}" style="--series-hero-color: {{ concept_data.cover_color | default: '#2F6BFF' }};">
+{% comment %}Compute palette index from slug — same hash as series-hero.html{% endcomment %}
+{% assign _slug_words = concept_data.slug | split: "-" %}
+{% assign _sl = concept_data.slug | size %}
+{% assign _wc = _slug_words | size %}
+{% assign _w0 = _slug_words | first | size %}
+{% assign _wN = _slug_words | last  | size %}
+{% assign _a = _sl | times: 3 %}
+{% assign _b = _wc | times: 17 %}
+{% assign _c = _w0 | times: 5 %}
+{% assign _d = _wN | times: 7 %}
+{% assign _palette_seed = _a | plus: _b | plus: _c | plus: _d %}
+{% assign _palette_idx = _palette_seed | modulo: 6 %}
+
+<div class="series-hero series-hero--palette-{{ _palette_idx }}{% if include.class %} {{ include.class }}{% endif %}" lang="{{ content_language }}" dir="{{ content_direction }}">
   {% if has_link %}
   <a class="series-hero__link" href="{{ concept_data.link | relative_url }}">
   {% endif %}

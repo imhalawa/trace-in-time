@@ -18,11 +18,13 @@
 {% endfor %}
 
 {% if recent_posts.size > 0 %}
-<div class="widget widget-recent-posts"
-  data-new-badge-days="{{ badge_days }}">
+<div class="widget">
   <div class="widget-sidebar-head">
     <h2 class="widget-sidebar-title"><span class="fi fi-history" aria-hidden="true"></span> {{ t.recent_articles | default: "Recent Articles" }}</h2>
   </div>
+
+  <div class="widget-recent-posts"
+    data-new-badge-days="{{ badge_days }}">
 
   {% assign count = 0 %}
   {% for post in recent_posts %}
@@ -68,5 +70,6 @@
       {% if count == 6 %}{% break %}{% endif %}
     {% endif %}
   {% endfor %}
+</div>
 </div>
 {% endif %}
