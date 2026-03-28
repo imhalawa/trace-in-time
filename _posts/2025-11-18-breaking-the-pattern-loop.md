@@ -1,8 +1,9 @@
 ---
 layout: post
-title: The Scripts We Follow
+title: "Breaking the Pattern Loop: How Your Brain Runs on Autopilot"
+permalink: /breaking-the-pattern-loop/
 date: 2025-11-18 03:05 +0100
-description: Your life is not random—it's just a predictable loop; this is your essential guide to interrupting the rhythm and choosing your next move.
+description: Your brain runs on automatic behavior loops. Learn to map your triggers, understand pattern synchronization, and interrupt the cycle with intentional action.
 tags: [Reflections]
 tags_color: '#6B8C9A'
 ---

@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "Hesitation: When It Protects You and When It Traps You"
+permalink: /hesitation-protects-and-traps/
 description: Hesitation isn't just fear - it's a signal. This essay examines when the pause protects you, when it traps you, and how to act decisively without rushing.
 date: 2025-10-28 23:10 +0100
 tags: [Reflections]
@@ -47,7 +48,7 @@ Hesitation never shows its true face right away. It wears the mask of logic, kin
 
 Other times it’s exhaustion—decision fatigue masquerading as reflection. And often it’s shame: the pressure to stay consistent with the version of yourself you told the world you were. You stay in expired situations because rewriting your story feels heavier than living the wrong chapter.
 
-Hesitation means you care. You just haven't learned to trust your own clarity yet. The [stories we build in that silence](/games-people-play/) can be just as damaging as the hesitation itself.
+Hesitation means you care. You just haven't learned to trust your own clarity yet. The [stories we build in that silence](/how-assumptions-destroy-relationships/) can be just as damaging as the hesitation itself.
 
 ## Cutting the Loop
 

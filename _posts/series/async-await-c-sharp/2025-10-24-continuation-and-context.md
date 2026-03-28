@@ -1,9 +1,9 @@
 ---
 layout: post
-title: "5. Continuation and Context"
+title: "5. How C# Resumes After an await: Continuation Explained"
 series: async-await
 part: 5
-description: "How C# resumes work after an await—the idea of continuation, context, and why it matters for UI and server code."
+description: "After an await, C# resumes exactly where paused. Understand continuation, SynchronizationContext, and when ConfigureAwait(false) changes how code picks back up."
 date: 2025-10-24
 tags: [dotnet, async-await, series]
 tags_color: "#4122aa"
@@ -11,7 +11,7 @@ permalink: /series/async-await/continuation-and-context/
 ---
 ## Continuation and Context
 
-In the [previous part](/series/async-await/timing-vs-teamwork/), we saw how `async` and `await` orchestrate timing and teamwork. But what happens when the waiting ends? When the oven timer rings, the cook doesn't start over—they continue from where they left off. In C#, that continuation is the heartbeat of asynchrony.
+In the [previous part](/series/async-await/async-vs-parallel-programming/), we saw how `async` and `await` orchestrate timing and teamwork. But what happens when the waiting ends? When the oven timer rings, the cook doesn't start over—they continue from where they left off. In C#, that continuation is the heartbeat of asynchrony.
 
 When a method reaches an `await`, execution pauses. The compiler builds a **state machine** — a construct that remembers everything about the current method: local variables, progress, and what to do next. Once the awaited `Task` completes, the state machine resumes exactly where it left off, continuing the method’s execution seamlessly.
 

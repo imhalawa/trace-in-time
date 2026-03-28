@@ -1,7 +1,8 @@
 ---
 layout: post
-title: "Needs People Ignore"
-description: How paying attention to what you truly need reshapes the way you plan, act, and live.
+title: "Why Most Goals Fail: The Needs You Keep Ignoring"
+permalink: /why-most-goals-fail/
+description: Goals that ignore real needs always collapse. Sort out want from need from desire - then design goals that fit your actual life, not your ideal version of it.
 date: 2025-10-27 22:43 +0100
 tags: [Reflections]
 tags_color: '#6B8C9A'
@@ -30,7 +31,7 @@ There’s a distinct shift when a goal grows out of a true need: effort becomes 
 
 ## Designing Goals That Fit Your Actual Life
 
-Recognition isn’t enough; you have to rebuild the structure—goals as care, not pressure. Start by tracing discomfort backward: restlessness often hides fear, envy hides a muted desire for expression, and procrastination hides a goal that has lost its meaning. Once you identify the need, reshape the goal until it fits your life rather than your fantasy; if the need is safety, create breathing room; if it’s connection, repair one relationship instead of your entire social life; if it’s growth, pursue something that genuinely excites you. Then scale it down, because a goal rooted in a need rarely starts big—it starts honest.
+Recognition isn’t enough; you have to rebuild the structure—goals as care, not pressure. Start by [tracing discomfort backward](/breaking-the-pattern-loop/): restlessness often hides fear, envy hides a muted desire for expression, and procrastination hides a goal that has lost its meaning. Once you identify the need, reshape the goal until it fits your life rather than your fantasy; if the need is safety, create breathing room; if it’s connection, repair one relationship instead of your entire social life; if it’s growth, pursue something that genuinely excites you. Then scale it down, because a goal rooted in a need rarely starts big—it starts honest.
 
 Before committing, ask:
 
@@ -44,7 +45,7 @@ Before committing, ask:
 These aren’t hacks — they’re alignment checks.  
 They prevent a life from drifting away from itself.
 
-A life built from needs isn’t glamorous, but it’s stable — and stability is what makes long-term growth possible.
+A life built from needs isn't glamorous, but it's stable — and stability is what makes long-term growth possible. If the cycle of drifting goals feels familiar, [hesitation and avoidance](/hesitation-protects-and-traps/) often share the same root.
 
 > “The man who moves a mountain begins by carrying away small stones.”  
 > <cite>Confucius</cite>

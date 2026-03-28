@@ -1,9 +1,9 @@
 ---
 layout: post
-title: "2. Understanding Async and Await"
+title: "2. Understanding async/await: State Machines in C#"
 series: async-await
 part: 2
-description: "Demystifying how C# pauses and resumes work - the state machine, continuation, and why async/await reads like plain code."
+description: "C# makes waiting cooperative, not faster. See how the compiler rewrites async methods into state machines and what async, await, and Task actually do."
 date: 2025-10-21
 tags: [dotnet, async-await, series]
 tags_color: "#4122aa"

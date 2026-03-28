@@ -1,9 +1,9 @@
 ---
 layout: post
-title: "1. The Art of Not Waiting"
+title: "1. The Art of Not Waiting: Intro to C# Async Thinking"
 series: async-await
 part: 1
-description: "An introduction to asynchronous thinking—and why waiting isn’t stopping."
+description: "Asynchrony isn't about speed - it's about not wasting the wait. An introduction to async thinking in C# and why blocking is the real problem to solve."
 date: 2025-10-20
 tags: [dotnet, 'async-await', series]
 tags_color: "#4122aa"

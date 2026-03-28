@@ -1,9 +1,9 @@
 ---
 layout: post
-title: "3. Why Async/Await Changes Everything"
+title: "3. Why async/await Changes the Way C# Apps Scale"
 series: async-await
 part: 3
-description: "Why async/await exists at all—eliminating wasted wait time to unlock responsiveness and throughput."
+description: "When code blocks on I/O, threads waste time doing nothing. Async/await turns dead wait time into reusable capacity for better responsiveness and throughput."
 date: 2025-10-22
 tags: [dotnet, async-await, series]
 tags_color: "#4122aa"
@@ -107,4 +107,4 @@ Each `await` is a bookmark. The method pauses; the thread doesn’t. The continu
 
 Async/await didn’t make I/O faster. It made waiting *cheap*.
 
-In the [next part](/series/async-await/timing-vs-teamwork/), we’ll separate *asynchronous* (timing) from *parallel* (teamwork) and show how they interplay in real systems.
+In the [next part](/series/async-await/async-vs-parallel-programming/), we'll separate *asynchronous* (timing) from *parallel* (teamwork) and show how they interplay in real systems.

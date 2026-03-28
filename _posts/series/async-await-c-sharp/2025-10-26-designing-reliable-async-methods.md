@@ -1,9 +1,9 @@
 ---
 layout: post
-title: "7. Designing Reliable Async Methods"
+title: "7. Reliable Async Methods in C#: Patterns and Pitfalls"
 series: async-await
 part: 7
-description: "Building predictable asynchronous methods in C#—avoiding pitfalls, ensuring consistency, and writing code that never loses track."
+description: "Reliable async methods return Task, honor cancellation, and keep the chain intact. Learn the patterns that make async code in C# predictable and failure-proof."
 date: 2025-10-26
 tags: [dotnet, async-await, series]
 tags_color: "#4122aa"
@@ -11,7 +11,7 @@ permalink: /series/async-await/designing-reliable-async-methods/
 ---
 ## Designing Reliable Async Methods
 
-In the [previous part](/series/async-await/when-something-burns/), we saw how asynchronous code can fail—and how to keep the fire contained. But prevention is better than cleanup. Designing reliable async methods starts with consistency: every method should be predictable in how it runs, finishes, and reports problems.
+In the [previous part](/series/async-await/async-exceptions-csharp/), we saw how asynchronous code can fail—and how to keep the fire contained. But prevention is better than cleanup. Designing reliable async methods starts with consistency: every method should be predictable in how it runs, finishes, and reports problems.
 
 A good `async` method always returns something awaitable—usually `Task` or `Task<T>`. That’s the key to reliability: callers can await completion, handle exceptions, and control flow without hidden behavior. Also common: `ValueTask`/`ValueTask<T>` for perf‑critical paths, and `IAsyncEnumerable<T>` for asynchronous streams. `async void`, by contrast, is a blind spot—reserve it for event handlers only.
 
@@ -75,4 +75,4 @@ public async Task<IReadOnlyList<Stock>> GetStocksAsync(
 
 ## Next
 
-In the [`next part`](/series/async-await/the-etiquette-of-asynchrony/), we’ll wrap up this series with the small habits and best practices that keep asynchronous code graceful — the etiquette that turns chaos into flow.
+In the [`next part`](/series/async-await/async-best-practices-csharp/), we'll wrap up this series with the small habits and best practices that keep asynchronous code graceful — the etiquette that turns chaos into flow.

@@ -1,7 +1,7 @@
 ---
 layout: post
-title: "Hot Path"
-description: "A practical definition of a hot path—how to identify, measure, and optimize it in .NET."
+title: "Hot Path: How to Identify and Optimize It in .NET"
+description: "In .NET, a hot path is code that runs often enough for small inefficiencies to matter. Learn to find hot paths with profilers and apply the right optimizations."
 date: 2025-10-26
 tags: [dotnet, performance, glossary]
 tags_color: "#4122aa"

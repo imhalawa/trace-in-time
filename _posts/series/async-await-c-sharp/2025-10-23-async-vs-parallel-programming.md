@@ -1,9 +1,9 @@
 ---
 layout: post
-title: "4. Asynchronous vs Parallel Programming"
+title: "4. Async vs Parallel: I/O-Bound vs CPU-Bound Work in C#"
 series: async-await
 part: 4
-description: "Understanding the difference between asynchronous and parallel programming in C#—timing, teamwork, and how they complement each other."
+description: "Async handles I/O waits; parallel handles CPU-bound work. Learn when to use each in C#, how they differ, and when combining both improves performance."
 date: 2025-10-23
 tags: [dotnet, async-await, series]
 tags_color: "#4122aa"

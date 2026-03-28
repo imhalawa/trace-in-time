@@ -1,13 +1,14 @@
 ---
 layout: post
-title: Games People Play
-description: Most relationship trouble doesn’t start in reality — it starts in the mind.
+title: "How Assumptions Destroy Relationships Before They Begin"
+permalink: /how-assumptions-destroy-relationships/
+description: Most tension in relationships grows from silence, not conflict. A study in assumption, imagination, and why directness is the shortest path to clarity.
 date: 2025-11-14 18:00 +0100
 tags: [Reflections]
 tags_color: '#6B8C9A'
 ---
 
-Most of the tension in human relationships doesn’t come from conflict. It comes from the quiet stories people create when they don’t say what they really mean. We’re quick to interpret, slow to ask, and far too comfortable with the narratives we invent. This piece looks at the subtle games people play — not out of malice, but out of fear, ego, and the mind’s need to feel certain. It’s a study in how imagination replaces reality, and how honesty, applied in the right place at the right time, keeps relationships clean.
+Most of the tension in human relationships doesn’t come from conflict. It comes from the quiet stories people create when they don’t say what they really mean. We’re quick to interpret, slow to ask, and far too comfortable with the [narratives we invent](/breaking-the-pattern-loop/). This piece looks at the subtle games people play — not out of malice, but out of fear, ego, and the mind’s need to feel certain. It’s a study in how imagination replaces reality, and how honesty, applied in the right place at the right time, keeps relationships clean.
 
 ## The Moment a Light Relationship Starts to Tilt
 
@@ -59,4 +60,4 @@ Directness isn’t confrontation — it’s prevention. It keeps the mind from m
 
 ## Remarks
 
-I wrote this after noticing how often tension grows not from what people do, but from what people imagine. Most misunderstandings I’ve seen — and contributed to — were built in silence, not action. This essay isn’t advice; it’s observation. A reminder that honesty has a timing, but assumptions don’t. They grow unless we interrupt them.
+I wrote this after noticing how often tension grows not from what people do, but from what people imagine. Most misunderstandings I’ve seen — and contributed to — were built in silence, not action. This essay isn’t advice; it’s observation. A reminder that honesty has a timing, but assumptions don’t. They grow unless we interrupt them. That interruption often requires recognizing [when hesitation is fear](/hesitation-protects-and-traps/) rather than wisdom.
