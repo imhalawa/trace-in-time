@@ -148,6 +148,47 @@
   vertical-align: middle;
 }
 
+.article__badges {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+  pointer-events: none;
+
+  &--inline {
+    position: static;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+}
+
+.article__new-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  font-family: $heading-font-family;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  line-height: 1;
+  border-radius: 20px;
+  background: var(--gradient-color);
+  color: var(--white);
+  pointer-events: none;
+  vertical-align: middle;
+  white-space: nowrap;
+
+  &--article {
+    background: var(--series-accent);
+  }
+}
+
 .article--series-card {
   .article__series-label {
     color: var(--series-indicator-color);

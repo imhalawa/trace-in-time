@@ -1,0 +1,72 @@
+{% assign content_language = page.lang | default: site.lang | default: "en" %}
+{% assign base_language = content_language | split: "-" | first | downcase %}
+{% assign t = site.data.translations[base_language] | default: site.data.translations.en %}
+
+{% assign badge_days = site.data.settings.new_badge.days | default: 15 %}
+{% assign threshold_secs = badge_days | times: 86400 %}
+{% assign now_secs = site.time | date: "%s" | plus: 0 %}
+{% assign cutoff_secs = now_secs | minus: threshold_secs %}
+
+{% assign recent_posts = "" | split: "," %}
+{% for post in site.posts %}
+  {% unless post.published == false %}
+    {% assign post_secs = post.date | date: "%s" | plus: 0 %}
+    {% if post_secs >= cutoff_secs %}
+      {% assign recent_posts = recent_posts | push: post %}
+    {% endif %}
+  {% endunless %}
+{% endfor %}
+
+{% if recent_posts.size > 0 %}
+<div class="widget widget-recent-posts"
+  data-new-badge-days="{{ badge_days }}">
+  <div class="widget-sidebar-head">
+    <h2 class="widget-sidebar-title">{{ t.recent_articles | default: "Recent Articles" }}</h2>
+  </div>
+
+  {% assign count = 0 %}
+  {% for post in recent_posts %}
+    {% if post.url != page.url %}
+      {% assign count = count | plus: 1 %}
+
+      {% if base_language == "ar" %}
+        {% assign arabic_months = "يناير,فبراير,مارس,أبريل,مايو,يونيو,يوليو,أغسطس,سبتمبر,أكتوبر,نوفمبر,ديسمبر" | split: "," %}
+        {% assign month_index = post.date | date: "%m" | minus: 1 %}
+        {% assign month_name = arabic_months[month_index] %}
+        {% assign date_day = post.date | date: "%-d" %}
+        {% capture date_day_ar %}{{ date_day | replace: "0", "٠" | replace: "1", "١" | replace: "2", "٢" | replace: "3", "٣" | replace: "4", "٤" | replace: "5", "٥" | replace: "6", "٦" | replace: "7", "٧" | replace: "8", "٨" | replace: "9", "٩" }}{% endcapture %}
+        {% assign date_year = post.date | date: "%Y" %}
+        {% capture date_year_ar %}{{ date_year | replace: "0", "٠" | replace: "1", "١" | replace: "2", "٢" | replace: "3", "٣" | replace: "4", "٤" | replace: "5", "٥" | replace: "6", "٦" | replace: "7", "٧" | replace: "8", "٨" | replace: "9", "٩" }}{% endcapture %}
+        {% capture formatted_recent_date %}{{ date_day_ar }} {{ month_name }} {{ date_year_ar }}{% endcapture %}
+      {% else %}
+        {% assign date_format = site.minima.date_format | default: "%d %-b, %Y" %}
+        {% assign formatted_recent_date = post.date | date: date_format %}
+      {% endif %}
+
+      <div class="post-recent-content" data-published="{{ post.date | date_to_xmlschema }}">
+        {% if post.image %}
+        <a href="{{ post.url | relative_url }}" class="post-recent-image" tabindex="-1" aria-hidden="true">
+          <img class="lazy" data-src="{{ post.image | relative_url }}" alt="{{ post.title }}">
+        </a>
+        {% endif %}
+        <div class="post-recent-meta{% unless post.image %} post-recent-meta--full{% endunless %}">
+          <h3 class="post-recent-title">
+            <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+          </h3>
+          <div class="post-recent-bottom">
+            <time class="post-recent-date" datetime="{{ post.date | date_to_xmlschema }}">{{ formatted_recent_date }}</time>
+            {% if post.series %}
+              {% assign series_entry = site.data.series | where: "slug", post.series | first %}
+              <span class="post-recent-series">
+                {{ t.series_label | default: "Series" }}{% if series_entry %}: {{ series_entry.title }}{% endif %}
+              </span>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+
+      {% if count == 6 %}{% break %}{% endif %}
+    {% endif %}
+  {% endfor %}
+</div>
+{% endif %}

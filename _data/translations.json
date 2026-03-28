@@ -14,7 +14,14 @@
     "book_label": "Book",
     "note_singular": "note",
     "note_plural": "notes",
-    "topics_label": "Topics"
+    "topics_label": "Topics",
+    "recent_articles": "Recent Articles",
+    "new_label": "New",
+    "new_article_label": "New Article",
+    "view_singular": "view",
+    "view_plural": "views",
+    "visitor_singular": "visitor",
+    "visitor_plural": "visitors"
   },
   "ar": {
     "min_read": "دقائق قراءة",
@@ -31,6 +38,15 @@
     "book_label": "كتاب",
     "note_singular": "ملاحظة",
     "note_plural": "ملاحظات",
-    "topics_label": "المواضيع"
+    "topics_label": "المواضيع",
+    "recent_articles": "أحدث المقالات",
+    "new_label": "جديد",
+    "new_article_label": "مقال جديد",
+    "view_singular": "مشاهدة",
+    "view_dual": "مشاهدتان",
+    "view_plural": "مشاهدات",
+    "visitor_singular": "زائر",
+    "visitor_dual": "زائران",
+    "visitor_plural": "زوار"
   }
 }

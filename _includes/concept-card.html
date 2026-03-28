@@ -31,6 +31,19 @@ Parameters: item (object from data file), type (series|list|book)
 
 {% assign most_recent = published_posts.first %}
 
+{% assign show_new_badge = false %}
+{% assign show_new_article_badge = false %}
+{% assign oldest_post = published_posts | last %}
+{% if most_recent and oldest_post %}
+  {% assign now_secs = site.time | date: "%s" | plus: 0 %}
+  {% assign oldest_secs = oldest_post.date | date: "%s" | plus: 0 %}
+  {% assign oldest_age = now_secs | minus: oldest_secs %}
+  {% if oldest_age < 1296000 %}{% assign show_new_badge = true %}{% endif %}
+  {% assign recent_secs = most_recent.date | date: "%s" | plus: 0 %}
+  {% assign recent_age = now_secs | minus: recent_secs %}
+  {% if recent_age < 1296000 and show_new_badge == false %}{% assign show_new_article_badge = true %}{% endif %}
+{% endif %}
+
 {% if most_recent %}
     {% if base_language == "ar" %}
         {% assign arabic_months = "يناير,فبراير,مارس,أبريل,مايو,يونيو,يوليو,أغسطس,سبتمبر,أكتوبر,نوفمبر,ديسمبر" | split: "," %}
@@ -65,17 +78,39 @@ Parameters: item (object from data file), type (series|list|book)
   {% assign plural_key = "article_plural" %}
 {% endif %}
 
-<div class="article article--series-card{% if include.class %} {{ include.class }}{% endif %}" lang="{{ content_language }}" dir="{{ content_direction }}">
+<div class="article article--series-card{% if include.class %} {{ include.class }}{% endif %}"
+    lang="{{ content_language }}"
+    dir="{{ content_direction }}"
+    {% if most_recent %}data-series-newest="{{ most_recent.date | date_to_xmlschema }}"{% endif %}
+    {% if oldest_post %}data-series-oldest="{{ oldest_post.date | date_to_xmlschema }}"{% endif %}
+    data-new-label="{{ t.new_label | default: 'New' }}"
+    data-new-article-label="{{ t.new_article_label | default: 'New Article' }}"
+    data-new-badge-days="{{ site.data.settings.new_badge.days | default: 15 }}">
     <div class="article__inner">
         {% if concept_data.image %}
         <div class="article__head">
             <a class="article__image" href="{{ concept_data.link | relative_url }}">
                 <img class="lazy" data-src="{{ concept_data.image | relative_url }}" alt="{{ concept_data.title }}">
             </a>
+            {% if show_new_badge or show_new_article_badge %}
+            <div class="article__badges">
+                {% if show_new_badge %}<span class="article__new-badge" data-badge="new">{{ t.new_label | default: "New" }}</span>{% endif %}
+                {% if show_new_article_badge %}<span class="article__new-badge article__new-badge--article" data-badge="new-article">{{ t.new_article_label | default: "New Article" }}</span>{% endif %}
+            </div>
+            {% endif %}
         </div>
         {% endif %}
 
         <div class="article__content">
+
+            {% if show_new_badge or show_new_article_badge %}
+            {% unless concept_data.image %}
+            <div class="article__badges article__badges--inline">
+                {% if show_new_badge %}<span class="article__new-badge" data-badge="new">{{ t.new_label | default: "New" }}</span>{% endif %}
+                {% if show_new_article_badge %}<span class="article__new-badge article__new-badge--article" data-badge="new-article">{{ t.new_article_label | default: "New Article" }}</span>{% endif %}
+            </div>
+            {% endunless %}
+            {% endif %}
 
             <h2 class="article__title">
                 <a href="{{ concept_data.link | relative_url }}">{{ concept_data.title }}</a>

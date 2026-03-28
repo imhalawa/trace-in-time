@@ -3,6 +3,117 @@
 document.addEventListener("DOMContentLoaded", function() {
   'use strict';
 
+  /* =======================================================
+  // New / New Article Badges — last-visit awareness
+  ======================================================= */
+  (function () {
+    var now = Date.now();
+    var prevVisit = parseInt(localStorage.getItem('tit_last_visit') || '0', 10);
+
+    function isNew(isoDate, card) {
+      if (!isoDate) return false;
+      var days = parseInt((card && card.dataset.newBadgeDays) || '15', 10);
+      var thresholdMs = days * 24 * 60 * 60 * 1000;
+      var t = new Date(isoDate).getTime();
+      return (now - t < thresholdMs) || (prevVisit > 0 && t > prevVisit);
+    }
+
+    function getOrCreateBadgesContainer(card, isOverlay) {
+      var existing = card.querySelector(isOverlay ? '.article__head .article__badges' : '.article__content .article__badges--inline');
+      if (existing) return existing;
+      var wrap = document.createElement('div');
+      wrap.className = isOverlay ? 'article__badges' : 'article__badges article__badges--inline';
+      if (isOverlay) {
+        var head = card.querySelector('.article__head');
+        if (head) head.appendChild(wrap);
+        else return null;
+      } else {
+        var content = card.querySelector('.article__content');
+        if (content) content.insertBefore(wrap, content.firstChild);
+        else return null;
+      }
+      return wrap;
+    }
+
+    function ensureBadge(card, badgeAttr, labelDataKey, extraClass) {
+      var label = card.dataset[labelDataKey];
+      if (!label) return;
+      var hasImage = !!card.querySelector('.article__head');
+      var container = getOrCreateBadgesContainer(card, hasImage);
+      if (!container) return;
+      if (container.querySelector('[data-badge="' + badgeAttr + '"]')) return;
+      var span = document.createElement('span');
+      span.className = 'article__new-badge' + (extraClass ? ' ' + extraClass : '');
+      span.dataset.badge = badgeAttr;
+      span.textContent = label;
+      container.appendChild(span);
+    }
+
+    function removeBadge(card, badgeAttr) {
+      var el = card.querySelector('[data-badge="' + badgeAttr + '"]');
+      if (el) {
+        el.remove();
+        // Remove empty container
+        ['.article__head .article__badges', '.article__content .article__badges--inline'].forEach(function (sel) {
+          var wrap = card.querySelector(sel);
+          if (wrap && wrap.children.length === 0) wrap.remove();
+        });
+      }
+    }
+
+    // -- Individual article cards --
+    document.querySelectorAll('.article[data-published]').forEach(function (card) {
+      if (card.classList.contains('article--series-card')) return; // handled separately
+      var published = card.dataset.published;
+      if (isNew(published, card)) {
+        ensureBadge(card, 'new', 'newLabel', '');
+      } else {
+        removeBadge(card, 'new');
+      }
+    });
+
+    // -- Series / concept cards --
+    document.querySelectorAll('.article--series-card[data-series-newest]').forEach(function (card) {
+      var newest = card.dataset.seriesNewest;
+      var oldest = card.dataset.seriesOldest;
+
+      // "New" badge: series itself is new (oldest post is new)
+      if (isNew(oldest, card)) {
+        ensureBadge(card, 'new', 'newLabel', '');
+      } else {
+        removeBadge(card, 'new');
+      }
+
+      // "New Article" badge: a new article exists, regardless of whether series is also new
+      if (isNew(newest, card)) {
+        ensureBadge(card, 'new-article', 'newArticleLabel', 'article__new-badge--article');
+      } else {
+        removeBadge(card, 'new-article');
+      }
+    });
+
+    // Save current visit timestamp for next visit
+    localStorage.setItem('tit_last_visit', String(now));
+
+    // -- Recent posts widget: hide items older than last visit (threshold already applied server-side) --
+    document.querySelectorAll('.widget-recent-posts').forEach(function (widget) {
+      if (prevVisit === 0) return; // first visit — show all (threshold already applied by Jekyll)
+      var days = parseInt(widget.dataset.newBadgeDays || '15', 10);
+      var thresholdMs = days * 24 * 60 * 60 * 1000;
+      var items = widget.querySelectorAll('.post-recent-content[data-published]');
+      var visible = 0;
+      items.forEach(function (item) {
+        var t = new Date(item.dataset.published).getTime();
+        if (t > prevVisit || (now - t < thresholdMs)) {
+          visible++;
+        } else {
+          item.style.display = 'none';
+        }
+      });
+      if (visible === 0) widget.style.display = 'none';
+    });
+  })();
+
   const html = document.querySelector('html'),
     globalWrap = document.querySelector('.global-wrap'),
     body = document.querySelector('body'),
@@ -353,61 +464,88 @@ document.addEventListener("DOMContentLoaded", function() {
       'Content-Type': 'application/json'
     };
 
-    // -- Page Views --
+    // -- Page Views + Visitors --
     var viewsEl = document.querySelector('.post-views');
     if (viewsEl) {
       var slug = viewsEl.dataset.slug;
+      var isAr = (viewsEl.dataset.lang || '').startsWith('ar');
       var sessionKey = 'viewed_' + slug;
 
-      var arLabel = function (n) {
-        // Arabic grammatical forms for "view":
-        // 1        → مشاهدة   (singular)
-        // 2        → مشاهدتان (dual)
-        // 3–10     → مشاهدات  (plural)
-        // 11+      → مشاهدة   (singular tamyeez)
-        // ألف / مليون compounds always take singular tamyeez: مشاهدة
-        if (n >= 1000) return 'مشاهدة';
-        if (n === 1)   return 'مشاهدة';
-        if (n === 2)   return 'مشاهدتان';
-        if (n <= 10)   return 'مشاهدات';
+      // Generate or retrieve anonymous visitor ID
+      var visitorId = localStorage.getItem('tit_vid');
+      if (!visitorId) {
+        visitorId = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+          var r = Math.random() * 16 | 0;
+          return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+        });
+        localStorage.setItem('tit_vid', visitorId);
+      }
+
+      var arViewLabel = function (n) {
+        if (n >= 1000 || n === 1 || n >= 11) return 'مشاهدة';
+        if (n === 2)  return 'مشاهدتان';
+        if (n <= 10)  return 'مشاهدات';
         return 'مشاهدة';
       };
 
-      var formatCount = function (n, isAr) {
+      var arVisitorLabel = function (n) {
+        if (n >= 1000 || n === 1 || n >= 11) return 'زائر';
+        if (n === 2)  return 'زائران';
+        if (n <= 10)  return 'زوار';
+        return 'زائر';
+      };
+
+      var formatNum = function (n, ar) {
+        var locale = ar ? 'ar' : undefined;
+        if (n >= 1000000) return (n / 1000000).toLocaleString(locale, { maximumFractionDigits: 1 }) + (ar ? ' مليون' : 'M');
+        if (n >= 1000)    return (n / 1000).toLocaleString(locale, { maximumFractionDigits: 1 }) + (ar ? ' ألف' : 'K');
+        return n.toLocaleString(locale);
+      };
+
+      var renderDisplay = function (views, visitors) {
+        var viewsPart, visitorsPart;
         if (isAr) {
-          if (n >= 1000000) return (n / 1000000).toLocaleString('ar', { maximumFractionDigits: 1 }) + ' مليون ' + arLabel(n);
-          if (n >= 1000)    return (n / 1000).toLocaleString('ar', { maximumFractionDigits: 1 }) + ' ألف ' + arLabel(n);
-          return n.toLocaleString('ar') + ' ' + arLabel(n);
+          viewsPart    = formatNum(views, true) + ' ' + arViewLabel(views);
+          visitorsPart = formatNum(visitors, true) + ' ' + arVisitorLabel(visitors);
+        } else {
+          viewsPart    = formatNum(views, false) + (views === 1 ? ' view' : ' views');
+          visitorsPart = formatNum(visitors, false) + (visitors === 1 ? ' visitor' : ' visitors');
         }
-        if (n >= 1000000) return (n / 1000000).toLocaleString(undefined, { maximumFractionDigits: 1 }) + 'M views';
-        if (n >= 1000)    return (n / 1000).toLocaleString(undefined, { maximumFractionDigits: 1 }) + 'K views';
-        return n.toLocaleString() + (n === 1 ? ' view' : ' views');
+        viewsEl.textContent = viewsPart + ' · ' + visitorsPart;
       };
 
-      var fetchCount = function () {
-        var isAr = (viewsEl.dataset.lang || '').startsWith('ar');
-        fetch(API + '/page_views?slug=eq.' + encodeURIComponent(slug) + '&select=count', { headers: HEADERS })
-          .then(function (r) { return r.json(); })
-          .then(function (data) {
-            if (data && data[0]) {
-              viewsEl.textContent = formatCount(Number(data[0].count), isAr);
-            }
-          })
-          .catch(function () { viewsEl.remove(); });
+      var fetchAndDisplay = function () {
+        Promise.all([
+          fetch(API + '/page_views?slug=eq.' + encodeURIComponent(slug) + '&select=count', { headers: HEADERS }).then(function (r) { return r.json(); }),
+          fetch(API + '/visitor_slugs?slug=eq.' + encodeURIComponent(slug) + '&select=visitor_id', { headers: Object.assign({}, HEADERS, { 'Prefer': 'count=exact' }) })
+            .then(function (r) { return parseInt(r.headers.get('content-range').split('/')[1], 10) || 0; })
+        ]).then(function (results) {
+          var views    = (results[0] && results[0][0]) ? Number(results[0][0].count) : 0;
+          var visitors = results[1];
+          if (views > 0) renderDisplay(views, visitors);
+        }).catch(function () { viewsEl.remove(); });
       };
 
-      var isBot = navigator.webdriver || /bot|crawl|spider|slurp|mediapartners/i.test(navigator.userAgent);
+      var isBot    = navigator.webdriver || /bot|crawl|spider|slurp|mediapartners/i.test(navigator.userAgent);
       var isAuthor = localStorage.getItem('tit_author') === '1';
 
       if (!isBot && !isAuthor && !sessionStorage.getItem(sessionKey)) {
         sessionStorage.setItem(sessionKey, '1');
-        fetch(API + '/rpc/increment_view', {
-          method: 'POST',
-          headers: HEADERS,
-          body: JSON.stringify({ page_slug: slug })
-        }).then(fetchCount).catch(function () { viewsEl.remove(); });
+        // Increment view count and record unique visitor in parallel
+        Promise.all([
+          fetch(API + '/rpc/increment_view', {
+            method: 'POST',
+            headers: HEADERS,
+            body: JSON.stringify({ page_slug: slug })
+          }),
+          fetch(API + '/visitor_slugs', {
+            method: 'POST',
+            headers: Object.assign({}, HEADERS, { 'Prefer': 'return=minimal,resolution=ignore-duplicates' }),
+            body: JSON.stringify({ visitor_id: visitorId, slug: slug })
+          })
+        ]).then(fetchAndDisplay).catch(function () { viewsEl.remove(); });
       } else {
-        fetchCount();
+        fetchAndDisplay();
       }
     }
 
