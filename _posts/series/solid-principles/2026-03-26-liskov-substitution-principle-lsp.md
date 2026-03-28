@@ -4,7 +4,7 @@ title: "Liskov Substitution Principle (LSP): Keep the Promise"
 series: solid-principles
 part: 2
 description: "A subtype that breaks its parent's promise is an LSP violation. Learn Design by Contract, see a broken gift card hierarchy, and how to fix it with interfaces."
-date: 2026-03-28
+date: 2026-03-26
 lang: en
 tags: [design-principles, oop, series]
 tags_color: "#7C3AED"
