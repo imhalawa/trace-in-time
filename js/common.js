@@ -1,3 +1,5 @@
+---
+---
 document.addEventListener("DOMContentLoaded", function() {
   'use strict';
 
@@ -271,6 +273,7 @@ document.addEventListener("DOMContentLoaded", function() {
       existingCopyButton.remove();
     }
 
+    const code = pre.querySelector('code');
     const sourceElement = code || pre;
     const lineText = (sourceElement.innerText || '').replace(/\n$/, '');
     const lineCount = Math.max(lineText.split('\n').length, 1);
@@ -335,5 +338,98 @@ document.addEventListener("DOMContentLoaded", function() {
       })
     }
   });
+
+
+  /* =======================================================
+  // Supabase — Page Views + Search Analytics
+  ======================================================= */
+  (function () {
+    var SUPABASE_URL = '{{ site.data.settings.supabase_url }}';
+    var SUPABASE_KEY = '{{ site.data.settings.supabase_publishable_key }}';
+    var API = SUPABASE_URL + '/rest/v1';
+    var HEADERS = {
+      'apikey': SUPABASE_KEY,
+      'Authorization': 'Bearer ' + SUPABASE_KEY,
+      'Content-Type': 'application/json'
+    };
+
+    // -- Page Views --
+    var viewsEl = document.querySelector('.post-views');
+    if (viewsEl) {
+      var slug = viewsEl.dataset.slug;
+      var sessionKey = 'viewed_' + slug;
+
+      var arLabel = function (n) {
+        // Arabic grammatical forms for "view":
+        // 1        → مشاهدة   (singular)
+        // 2        → مشاهدتان (dual)
+        // 3–10     → مشاهدات  (plural)
+        // 11+      → مشاهدة   (singular tamyeez)
+        // ألف / مليون compounds always take singular tamyeez: مشاهدة
+        if (n >= 1000) return 'مشاهدة';
+        if (n === 1)   return 'مشاهدة';
+        if (n === 2)   return 'مشاهدتان';
+        if (n <= 10)   return 'مشاهدات';
+        return 'مشاهدة';
+      };
+
+      var formatCount = function (n, isAr) {
+        if (isAr) {
+          if (n >= 1000000) return (n / 1000000).toLocaleString('ar', { maximumFractionDigits: 1 }) + ' مليون ' + arLabel(n);
+          if (n >= 1000)    return (n / 1000).toLocaleString('ar', { maximumFractionDigits: 1 }) + ' ألف ' + arLabel(n);
+          return n.toLocaleString('ar') + ' ' + arLabel(n);
+        }
+        if (n >= 1000000) return (n / 1000000).toLocaleString(undefined, { maximumFractionDigits: 1 }) + 'M views';
+        if (n >= 1000)    return (n / 1000).toLocaleString(undefined, { maximumFractionDigits: 1 }) + 'K views';
+        return n.toLocaleString() + (n === 1 ? ' view' : ' views');
+      };
+
+      var fetchCount = function () {
+        var isAr = (viewsEl.dataset.lang || '').startsWith('ar');
+        fetch(API + '/page_views?slug=eq.' + encodeURIComponent(slug) + '&select=count', { headers: HEADERS })
+          .then(function (r) { return r.json(); })
+          .then(function (data) {
+            if (data && data[0]) {
+              viewsEl.textContent = formatCount(Number(data[0].count), isAr);
+            }
+          })
+          .catch(function () { viewsEl.remove(); });
+      };
+
+      var isBot = navigator.webdriver || /bot|crawl|spider|slurp|mediapartners/i.test(navigator.userAgent);
+      var isAuthor = localStorage.getItem('tit_author') === '1';
+
+      if (!isBot && !isAuthor && !sessionStorage.getItem(sessionKey)) {
+        sessionStorage.setItem(sessionKey, '1');
+        fetch(API + '/rpc/increment_view', {
+          method: 'POST',
+          headers: HEADERS,
+          body: JSON.stringify({ page_slug: slug })
+        }).then(fetchCount).catch(function () { viewsEl.remove(); });
+      } else {
+        fetchCount();
+      }
+    }
+
+    // -- Search Analytics --
+    var searchInput = document.querySelector('#js-search-input');
+    var searchResults = document.querySelector('#js-results-container');
+    if (searchInput && searchResults) {
+      var searchTimer;
+      searchInput.addEventListener('input', function () {
+        clearTimeout(searchTimer);
+        searchTimer = setTimeout(function () {
+          var query = searchInput.value.trim();
+          if (query.length < 3) return;
+          var resultsCount = searchResults.querySelectorAll('li').length;
+          fetch(API + '/search_queries', {
+            method: 'POST',
+            headers: Object.assign({}, HEADERS, { 'Prefer': 'return=minimal' }),
+            body: JSON.stringify({ query: query, results_count: resultsCount })
+          }).catch(function () {});
+        }, 1500);
+      });
+    }
+  })();
 
 });

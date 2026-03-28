@@ -62,7 +62,8 @@ layout: default
                 <time class="post-date" datetime="{{ page.date | date_to_xmlschema }}">{{ formatted_post_date }}</time> –
                 <span class="post-minutes">
                   {% assign words = page.content | number_of_words %}
-                  {% if words < 360 %} 1 {{ t.min_read }} {% else %} {{ words | divided_by:180 }} {{ t.min_read }} {% endif %} </span>
+                  {% if words < 360 %} 1 {{ t.min_read }} {% else %} {{ words | divided_by:180 }} {{ t.min_read }} {% endif %} </span> –
+                <span class="post-views" dir="ltr" data-slug="{{ page.url }}" data-lang="{{ content_language }}"></span>
               </div>
               {% if site.data.settings.social %}
               <ul class="post-meta__social list-reset">
@@ -93,7 +94,8 @@ layout: default
                 <time class="post-date" datetime="{{ page.date | date_to_xmlschema }}">{{ formatted_post_date }}</time> –
                 <span class="post-minutes">
                   {% assign words = page.content | number_of_words %}
-                  {% if words < 360 %} 1 {{ t.min_read }} {% else %} {{ words | divided_by:180 }} {{ t.min_read }} {% endif %} </span>
+                  {% if words < 360 %} 1 {{ t.min_read }} {% else %} {{ words | divided_by:180 }} {{ t.min_read }} {% endif %} </span> –
+                <span class="post-views" dir="ltr" data-slug="{{ page.url }}" data-lang="{{ content_language }}"></span>
               </div>
               {% if site.data.settings.social %}
               <ul class="post-meta__social list-reset">
