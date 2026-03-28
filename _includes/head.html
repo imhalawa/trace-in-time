@@ -68,4 +68,32 @@
   </script>
 
   <link rel="stylesheet" href="{{ '/css/main.css' | relative_url }}">
+
+  {% if page.layout == "post" %}
+  {% assign schema_desc = page.description | default: page.excerpt | strip_html | strip_newlines | truncate: 300 %}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": {{ page.title | jsonify }},
+    "description": {{ schema_desc | jsonify }},
+    "datePublished": "{{ page.date | date: '%Y-%m-%d' }}",
+    "dateModified": "{{ page.last_modified_at | default: page.date | date: '%Y-%m-%d' }}",
+    "url": "{{ page.url | absolute_url }}",
+    "inLanguage": "{{ page.lang | default: 'en' }}",
+    "author": {
+      "@type": "Person",
+      "name": {{ site.data.settings.author.author_name | jsonify }},
+      "url": "{{ '/about/' | absolute_url }}"
+    }{% if page.image %},
+    "image": "{{ page.image | absolute_url }}"{% endif %}{% if page.tags %},
+    "keywords": {{ page.tags | join: ", " | jsonify }}{% endif %}{% if page.series %}{% assign _series = site.data.series | where: "slug", page.series | first %}{% if _series %},
+    "isPartOf": {
+      "@type": "CreativeWorkSeries",
+      "name": {{ _series.title | jsonify }},
+      "url": "{{ _series.link | absolute_url }}"
+    }{% endif %}{% endif %}
+  }
+  </script>
+  {% endif %}
 </head>

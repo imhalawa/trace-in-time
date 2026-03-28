@@ -69,20 +69,11 @@ Lists are for any listable content (apps, links, etc.).
   subtitle: "Apps, tools, and links that help me think and ship faster."
   description: "A curated list of tools and resources I rely on for focused engineering work."
   cover_color: "#0D9488"
-  link: "/lists/engineering-toolbox/"
+  link: "/lists/"
   draft: true
 ```
 
-### 2) Create detail page
-
-Create `lists/{slug}/index.md` and set:
-
-```yaml
-list_slug: engineering-toolbox
-permalink: /lists/engineering-toolbox/
-```
-
-### 3) Create list posts
+### 2) Create list posts
 
 Place posts under `_posts/lists/` and include:
 

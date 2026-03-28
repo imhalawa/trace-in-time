@@ -1,9 +1,9 @@
 ---
 layout: post
-title: "1. Open Closed Principle (OCP)"
+title: "Open Closed Principle (OCP): Extend Without Breaking"
 series: solid-principles
 part: 1
-description: "Turns out you can ship a new feature without touching the code that already works."
+description: "Learn how the Open Closed Principle (OCP) lets you add new features without touching existing code. Includes C# examples of dynamic and static polymorphism."
 date: 2026-03-24
 lang: en
 tags: [design-principles, oop, series]
@@ -11,28 +11,26 @@ tags_color: "#7C3AED"
 permalink: /series/solid-principles/open-closed-principle/
 ---
 
-# Open Closed Principle (OCP)
+{: .prerequisites }
+> Before reading, make sure you're comfortable with:
+>
+> - **Abstraction** — defining a contract (interface or abstract class) that others implement, without exposing how it works internally. You need to know what an interface is and why we use one.
+> - **Inheritance** — how a class derives structure or behavior from a parent. You don't need to be an expert, but you should know what `class A : B` means.
+> - **Polymorphism** — the ability to treat different types uniformly through a shared contract. Not just knowing the word, but understanding why it's useful.
 
-Before reading, make sure you're comfortable with:
-
-- **Abstraction** — defining a contract (interface or abstract class) that others implement, without exposing how it works internally. You need to know what an interface is and why we use one.
-- **Polymorphism** — the ability to treat different types uniformly through a shared contract. Not just knowing the word, but understanding why it's useful.
-- **Inheritance** — how a class derives structure or behavior from a parent. You don't need to be an expert, but you should know what `class A : B` means.
-
-{: .note }
-If any of these feel shaky, it's worth revisiting them first — OCP builds directly on top of all three.
+OCP is the **O** in [SOLID](/series/solid-principles/) — one of five design principles for writing maintainable object-oriented software.
 
 ## The Open-Closed Principle
 
-The core idea has originated from the work of Bertrand Meyer in his 1988 book *Object-Oriented Software Construction*:
+The principle originated from the work of Bertrand Meyer in his 1988 book [*Object-Oriented Software Construction*](https://en.wikipedia.org/wiki/Object-Oriented_Software_Construction):
 
 > "A module will be said to be open if it is still available for extension. A module will be said to be closed if it is available for use by other modules. This assumes that the module has been given a well-defined, stable description."
-> — Bertrand Meyer
+> <cite>Bertrand Meyer</cite>
 
 Robert C. Martin later adopted the principle in his 2000 paper *Design Principles and Design Patterns*, stating it as:
 
 > "A module should be open for extension but closed for modification."
-> — Robert C. Martin
+> <cite>Robert C. Martin</cite>
 
 Meaning — we should be able to extend what a module does without changing its source code.
 
@@ -82,9 +80,6 @@ This is what makes it a real problem — not just a code smell, but a **business
 
 And at scale, this compounds into a **shotgun surgery** situation — introducing one new feature forces you to touch many unrelated parts of the codebase at once.
 
-{: .important }
-**Shotgun surgery** — a single change that forces you to touch many unrelated parts of the codebase at once.
-
 Worse, developers start taking local shortcuts. Maybe email and SMS share the same delivery logic, so someone writes:
 
 ```csharp
@@ -94,10 +89,7 @@ else
     SendEmail(notification); // SMS quietly falls through here too
 ```
 
-{: .caution }
-**Local optimizations** — attempts to make code shorter or faster within the scope of a specific function, without paying attention to the higher structure.
-
-Now Slack is explicit, but SMS is silently handled inside the `else`. A new maintainer reads this and has no idea. They change the email logic — and SMS breaks. The code is no longer trustworthy.
+Now Slack is explicit, but SMS is silently handled inside the `else`. A new maintainer reads this and has no idea. They change the email logic — and SMS breaks. The code is no longer trustworthy — because implicit behavior is being treated as explicit. *Prefer explicit over implicit, always.*
 
 A few problems follow from this pattern:
 
@@ -105,23 +97,20 @@ A few problems follow from this pattern:
 - Implicitly handled types are error-prone. A change to one silently breaks the other.
 - This leads to harder maintainability, more error-prone, untrustworthy code.
 
-{: .note }
-Prefer explicit behavior over implicit behavior.
-
 ## How to Fix It?
 
-The key to OCP is abstraction, achievable through one of two techniques:
+The key to OCP is abstraction, achievable through one of two techniques: dynamic polymorphism or static polymorphism. The migration path from the if/else design is straightforward:
 
-- Dynamic polymorphism
-- Static polymorphism.
+1. Define an `INotificationChannel` interface with a `Notify` method.
+2. Create a separate class for each channel that implements the interface.
+3. Replace `Send` with a `Dispatch` function that accepts `INotificationChannel`.
+4. Delete the `NotificationType` enum — the type is now encoded in the class itself.
 
 ### Dynamic Polymorphism
 
 Instead of `Send` knowing about every notification type, we define a shared contract — an interface — that every channel must implement. `Send` talks to the contract, not to any specific channel. A new channel is a new class that satisfies the contract. Nothing else gets touched.
 
-> **Dynamic polymorphism** — behavior is resolved at runtime based on the actual object behind the abstraction. The method dispatch happens while the program is running, not at compile time.
-
-In other words, `Send` doesn't need to know whether it's dealing with email, SMS, or Slack. That decision is made when the program runs, not when it compiles. Most mainstream languages support this — C#, Java, Python, Ruby, Kotlin, and Swift all have interfaces or abstract classes that make this natural.
+With dynamic polymorphism, behavior is resolved at runtime — the method dispatch happens while the program is running, not at compile time. `Dispatch` doesn't need to know whether it's dealing with email, SMS, or Slack.
 
 ```csharp
 interface INotificationChannel
@@ -143,15 +132,13 @@ The interface enforces a `Notify` method on every channel. The `Dispatch` functi
 
 With this in place:
 
-- `Dispatch` is closed for modification — we never touch it again.
-- It's open for extension — new channels can be introduced without disturbing anything existing.
+- `Dispatch` is **closed for modification** — we never touch it again.
+- It's **open for extension** — new channels can be introduced without disturbing anything existing.
 - We don't have to worry about breaking channels we never touched.
 
 ### Static Polymorphism
 
-Another technique is generics. Instead of a runtime abstraction, the type is constrained at compile time.
-
-> **Static polymorphism** — behavior is determined by the type at compile time, not at runtime. C#, Rust, Go, and TypeScript all support some form of this.
+Another technique is generics. With static polymorphism, behavior is determined by the type at compile time rather than at runtime — C#, Rust, Go, and TypeScript all support some form of this. Instead of a runtime abstraction, the type is constrained at compile time:
 
 ```csharp
 interface INotificationChannel
@@ -168,19 +155,17 @@ void Dispatch<TChannel>(TChannel channel, Notification notification)
 
 The tradeoff: less runtime flexibility — the concrete type must be known at compile time, so you can't swap in a new channel without recompiling. In return, constraint violations are caught before the program ever runs, and the compiler can resolve method calls directly rather than deferring that decision to runtime.
 
-{: .note}
-Both techniques get you to the same architectural goal — `Dispatch` doesn't need to know what it's talking to. The difference is *when* that decision is made.
+Use dynamic polymorphism when channel implementations are loaded from a DI container or resolved at runtime — for example, when the active notification tier is read from a config file. Use static polymorphism when the type is fixed at the call-site and the overhead of a virtual dispatch matters.
 
 ## What Does a Codebase Look Like When This Is Done Right?
 
 New features arrive as new files, not as edits to existing ones. The `Send` function from our example never gets touched again — it just works, regardless of how many channels get added after it. The team ships faster because they're adding, not untangling.
 
+This pattern is visible in well-designed frameworks. ASP.NET Core's middleware pipeline is a textbook example: you register middleware via `app.Use()` without modifying the pipeline host itself. Each middleware is a self-contained extension — the host never changes, the behavior expands.
+
 That's the real payoff of OCP. Not cleaner code for its own sake, but a codebase that doesn't slow you down as it grows. Requirements change — they always do. The question is whether your design bends or breaks when they do.
 
-Full conformance is hard. But even partial OCP compliance changes the shape of how a system ages.
-
-If you don't have to change working code, you aren't likely to break it.
-{: .tip }
+Full conformance is hard. But even partial OCP compliance changes the shape of how a system ages. If you don't have to change working code, you aren't likely to break it.
 
 ## When Should You Actually Apply This?
 

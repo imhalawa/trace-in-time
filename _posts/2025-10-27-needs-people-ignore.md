@@ -47,4 +47,4 @@ They prevent a life from drifting away from itself.
 A life built from needs isn’t glamorous, but it’s stable — and stability is what makes long-term growth possible.
 
 > “The man who moves a mountain begins by carrying away small stones.”  
-> — Confucius
+> <cite>Confucius</cite>

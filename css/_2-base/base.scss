@@ -87,9 +87,9 @@ blockquote {
   --quote-border: color-mix(in srgb, var(--quote-outline) 45%, var(--border-color));
   padding: 18px 22px 18px 56px;
   font-family: $heading-font-family;
-  font-size: 23px;
+  font-size: 20px;
   font-style: normal;
-  font-weight: 600;
+  font-weight: 400;
   text-align: left;
   direction: ltr;
   border: 1px solid var(--quote-border);

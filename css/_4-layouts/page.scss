@@ -309,11 +309,6 @@
       font-weight: 600;
       letter-spacing: 0;
     }
-
-    h2,
-    h3 {
-      color: var(--callout-info);
-    }
   }
 
   h2:target::before,
@@ -359,7 +354,7 @@
     overflow: hidden;
   }
 
-  .note, .tip, .info, .success, .question, .important, .warning, .caution, .danger {
+  .note, .tip, .info, .success, .question, .important, .warning, .caution, .danger, .prerequisites {
     position: relative;
     --callout-outline: color-mix(in srgb, var(--callout-accent) 40%, var(--border-color));
     margin: 24px 0;
@@ -379,7 +374,7 @@
     &::after {
       content: "";
       position: absolute;
-      top: 18px;
+      top: 24px;
       left: 18px;
       font-family: "Font Awesome 6 Free";
       font-weight: 900;
@@ -427,6 +422,12 @@
     --callout-accent: var(--callout-danger);
   }
 
+  .prerequisites {
+    --callout-accent: var(--callout-prerequisites);
+    font-weight: $base-font-weight;
+    font-size: $base-font-size;
+  }
+
   .note::after { content: "\f02e"; }
   .tip::after { content: "\f0eb"; }
   .info::after { content: "\f05a"; }
@@ -436,6 +437,7 @@
   .warning::after { content: "\f071"; }
   .caution::after { content: "\f05e"; }
   .danger::after { content: "\f057"; }
+  .prerequisites::after { content: "\f19d"; }
 
   a.footnote {
     margin-inline-start: 2px;
@@ -566,7 +568,8 @@
   .important,
   .warning,
   .caution,
-  .danger {
+  .danger,
+  .prerequisites {
     padding: 24px 56px 24px 24px;
     border-inline-start: 3px solid var(--callout-accent);
     border-inline-end: 1px solid var(--callout-outline);
