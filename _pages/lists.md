@@ -2,6 +2,7 @@
 layout: page
 title: Lists
 permalink: /lists/
+icon: 'fi fi-list'
 ---
 
 Explore curated lists of apps, links, and practical resources.

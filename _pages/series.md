@@ -2,6 +2,7 @@
 layout: page
 title: Series
 permalink: /series/
+icon: 'fi fi-stack'
 ---
 
 Explore our ongoing series of in-depth articles on various topics.

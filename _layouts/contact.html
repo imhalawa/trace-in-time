@@ -33,7 +33,7 @@
           <p class="contact__description">{{ page.description }}</p>
           {% endif %}
         </div>
-        <form class="form" action="{% if site.data.settings.contact.form_id %}https://formspree.io/f/{{site.data.settings.contact.form_id}}{% else %}#{% endif %}" method="POST">
+        <form class="form" id="contact-form" action="{% if site.data.settings.contact.form_id %}https://formspree.io/f/{{site.data.settings.contact.form_id}}{% else %}#{% endif %}" method="POST">
           <div class="form__group">
             <label class="form__label screen-reader-text" for="form-name">Your Name</label>
             <input class="form__input" id="form-name" type="text" name="name" placeholder="Your name" required>
@@ -46,6 +46,15 @@
             <label class="form__label screen-reader-text" for="form-text">Your Message</label>
             <textarea class="form__input" id="form-text" name="text" rows="5" placeholder="Your message" required></textarea>
           </div>
+          <!-- Anti-bot: custom honeypot (off-screen, invisible to humans) -->
+          <div class="form__honeypot" aria-hidden="true">
+            <label for="form-website">Website</label>
+            <input type="text" id="form-website" name="website" tabindex="-1" autocomplete="off">
+          </div>
+          <!-- Anti-bot: Formspree native honeypot — submission rejected server-side if filled -->
+          <div class="form__honeypot" aria-hidden="true">
+            <input type="text" name="_gotcha" tabindex="-1" autocomplete="off">
+          </div>
           <div class="form__group">
             <button class="button button--primary" type="submit">{{ site.data.settings.contact.button_text }}</button>
           </div>
@@ -54,6 +63,27 @@
     </div>
   </div>
   <!-- end contact -->
+  <!-- Anti-bot: time check + honeypot validation -->
+  <script>
+  (function () {
+    'use strict';
+    var form = document.getElementById('contact-form');
+    if (!form) return;
+    var loadTime = Date.now();
+    form.addEventListener('submit', function (e) {
+      // Block submissions completed in under 3 seconds — bots fill forms instantly
+      if (Date.now() - loadTime < 3000) {
+        e.preventDefault();
+        return;
+      }
+      // Block if the off-screen honeypot field was filled by a bot
+      var hp = form.querySelector('[name="website"]');
+      if (hp && hp.value) {
+        e.preventDefault();
+      }
+    });
+  })();
+  </script>
 
 </body>
 

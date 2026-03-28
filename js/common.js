@@ -227,11 +227,15 @@ document.addEventListener("DOMContentLoaded", function() {
   }
 
 
-  // Blog List View
+  // Blog List View (cycles: cards → list → compact → cards)
   function viewToggle() {
-    if (html.classList.contains('view-list')) {
-      html.classList.remove('view-list');
+    if (html.classList.contains('view-compact')) {
+      html.classList.remove('view-compact');
       localStorage.removeItem("classView");
+    } else if (html.classList.contains('view-list')) {
+      html.classList.remove('view-list');
+      html.classList.add('view-compact');
+      localStorage.setItem("classView", "compact");
       document.documentElement.removeAttribute("list");
     } else {
       html.classList.add('view-list');

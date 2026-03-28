@@ -5,7 +5,7 @@
   <div class="container">
 
     <div class="row">
-      <div class="col col-12">
+      <div class="col col-8 col-d-12">
         <div class="section__head">
           {% if site.data.settings.blog.blog_title %}
           <h2 class="section__title">{{ site.data.settings.blog.blog_title }}</h2>
@@ -25,11 +25,6 @@
           <p>{{ site.data.settings.blog.blog_intro }} <a href="{{ '/series/' | relative_url }}">Explore series →</a> <a href="{{ '/lists/' | relative_url }}">Explore lists →</a> <a href="{{ '/books/' | relative_url }}">Explore books →</a></p>
         </div>
         {% endif %}
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col col-8 col-d-12">
         <div class="row grid">
           {% if site.posts.size > 0 %}
 
@@ -163,12 +158,10 @@
         </div>
         {% include pagination.html %}
       </div>
-      <div class="col col-4 col-d-12">
+      <div class="col col-4 col-d-12 sidebar-col">
         <aside class="sidebar">
           {% include sidebar-widgets/widget-subscribe.html %}
           {% include sidebar-widgets/widget-featured-posts.html %}
-          {% include sidebar-widgets/widget-home-author.html %}
-          {% include sidebar-widgets/widget-tags.html %}
           {% include sidebar-widgets/widget-recent-posts.html %}
         </aside>
       </div>

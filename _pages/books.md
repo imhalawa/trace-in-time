@@ -2,6 +2,7 @@
 layout: page
 title: Books
 permalink: /books/
+icon: 'fi fi-book'
 ---
 
 Book-focused notes and selective reviews by chapter and idea.

@@ -2,6 +2,7 @@
 layout: page
 title: About Me
 permalink: /about/
+icon: 'fi fi-person'
 # image: '/images/01-2.jpg'
 ---
 

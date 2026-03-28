@@ -41,6 +41,13 @@
     font-size: 18px;
     font-weight: 600;
     background: var(--background-color);
+
+    .fi {
+      width: 22px;
+      height: 22px;
+      opacity: 0.6;
+      margin-inline-end: 7px;
+    }
   }
 }
 
@@ -121,9 +128,13 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        font-size: 22px;
         width: 52px;
         height: 52px;
+
+        .fi {
+          width: 24px;
+          height: 24px;
+        }
         border: 1px solid currentColor;
         border-radius: 16px;
         background: transparent;
@@ -278,6 +289,12 @@
 }
 
 /* Widget Recent Posts */
+.widget-recent-posts {
+  padding: 24px;
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+}
+
 .post-recent-content {
   display: flex;
   align-items: flex-start;

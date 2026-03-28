@@ -122,12 +122,12 @@ Parameters: item (object from data file), type (series|list|book)
             <div class="article__meta">
                 {% if most_recent %}
                 <time class="article__date" datetime="{{ most_recent.date | date_to_xmlschema }}">
-                    {{ formatted_concept_date }}
+                    <span class="fi fi-calendar" aria-hidden="true"></span> {{ formatted_concept_date }}
                 </time>
                 {% endif %}
 
                 <div class="article__minutes">
-                    {{ concept_count_display }} {% if concept_count == 1 %}{{ t[singular_key] }}{% else %}{{ t[plural_key] }}{% endif %}
+                    <span class="fi fi-stack" aria-hidden="true"></span> {{ concept_count_display }} {% if concept_count == 1 %}{{ t[singular_key] }}{% else %}{{ t[plural_key] }}{% endif %}
                 </div>
             </div>
 

@@ -1,4 +1,15 @@
 /* Section Blog */
+.section-blog {
+  /* On desktop breakpoint and below, sidebar stacks before articles */
+  @media (max-width: $desktop) {
+    > .container > .row {
+      > .sidebar-col {
+        order: -1;
+      }
+    }
+  }
+}
+
 .blog__view {
   padding-left: 20px;
   border-radius: 12px;
@@ -85,7 +96,30 @@
   }
 }
 
+.view-compact {
+  .icon-bar {
+    width: 20px;
+    height: 2px;
+
+    &:before,
+    &:after {
+      opacity: 0;
+    }
+
+    &:before {
+      left: 0;
+      transform: translateX(-13px);
+    }
+
+    &:after {
+      right: 0;
+      transform: translateX(13px);
+    }
+  }
+}
+
 /* Pagination */
 .pagination {
+  margin-top: 40px;
   text-align: center;
 }

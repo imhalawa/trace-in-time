@@ -64,9 +64,12 @@
       setTheme(defaultTheme);
     }
 
-    if (localStorage.getItem("classView") === "list") {
+    var savedView = localStorage.getItem("classView");
+    if (savedView === "list") {
       document.documentElement.setAttribute("list", "");
       document.documentElement.classList.add('view-list');
+    } else if (savedView === "compact") {
+      document.documentElement.classList.add('view-compact');
     }
   </script>
 

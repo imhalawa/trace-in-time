@@ -35,7 +35,10 @@ layout: default
 
         <div class="page-info">
           {% unless page.hide_page_title %}
-          <h1 class="page-title">{{ page.title | escape }}</h1>
+          <div class="page-title-row">
+            {% if page.icon %}<span class="page-icon {{ page.icon }}" aria-hidden="true"></span>{% endif %}
+            <h1 class="page-title">{{ page.title | escape }}</h1>
+          </div>
           {% endunless %}
         </div>
 
@@ -58,22 +61,7 @@ layout: default
     <div class="col col-4 col-d-12">
       <aside class="sidebar">
         {% include sidebar-widgets/widget-subscribe.html %}
-        {% if page.permalink contains '/series/' %}
-          {% assign is_series_landing = false %}
-          {% if page.permalink == '/series/' %}
-            {% assign is_series_landing = true %}
-          {% endif %}
-
-          {% if is_series_landing %}
-            {% include sidebar-widgets/widget-author-card.html show_series_stats=false %}
-          {% else %}
-            {% assign permalink_segments = page.permalink | split: '/' %}
-            {% assign current_series_slug = permalink_segments[2] %}
-            {% include sidebar-widgets/widget-author-card.html show_series_stats=true series_slug=current_series_slug %}
-          {% endif %}
-        {% else %}
-          {% include sidebar-widgets/widget-social.html %}
-        {% endif %}
+        {% include sidebar-widgets/widget-social.html %}
         {% include sidebar-widgets/widget-featured-posts.html %}
         {% include sidebar-widgets/widget-tags.html %}
       </aside>

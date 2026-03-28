@@ -1,0 +1,47 @@
+/* =====================================================
+   Fluent System Icons — mask-image utility classes
+   Source: @fluentui/svg-icons v1.1.323 (regular weight)
+   CDN:    https://cdn.jsdelivr.net/npm/@fluentui/svg-icons@1.1.323/icons/
+   Usage:  <span class="fi fi-calendar" aria-hidden="true"></span>
+   Icons inherit currentColor via -webkit-mask-image.
+   ===================================================== */
+
+$fluent-cdn: "https://cdn.jsdelivr.net/npm/@fluentui/svg-icons@1.1.323/icons";
+$simple-cdn: "https://cdn.jsdelivr.net/npm/simple-icons@14/icons";
+
+.fi {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  background-color: currentColor;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  flex-shrink: 0;
+}
+
+.fi-home            { -webkit-mask-image: url("#{$fluent-cdn}/home_20_regular.svg");            mask-image: url("#{$fluent-cdn}/home_20_regular.svg"); }
+.fi-stack           { -webkit-mask-image: url("#{$fluent-cdn}/layer_20_regular.svg");           mask-image: url("#{$fluent-cdn}/layer_20_regular.svg"); }
+.fi-list            { -webkit-mask-image: url("#{$fluent-cdn}/list_20_regular.svg");            mask-image: url("#{$fluent-cdn}/list_20_regular.svg"); }
+.fi-book            { -webkit-mask-image: url("#{$fluent-cdn}/book_open_20_regular.svg");       mask-image: url("#{$fluent-cdn}/book_open_20_regular.svg"); }
+.fi-person          { -webkit-mask-image: url("#{$fluent-cdn}/person_20_regular.svg");          mask-image: url("#{$fluent-cdn}/person_20_regular.svg"); }
+.fi-mail            { -webkit-mask-image: url("#{$fluent-cdn}/mail_20_regular.svg");            mask-image: url("#{$fluent-cdn}/mail_20_regular.svg"); }
+.fi-archive         { -webkit-mask-image: url("#{$fluent-cdn}/archive_20_regular.svg");        mask-image: url("#{$fluent-cdn}/archive_20_regular.svg"); }
+.fi-calendar        { -webkit-mask-image: url("#{$fluent-cdn}/calendar_20_regular.svg");       mask-image: url("#{$fluent-cdn}/calendar_20_regular.svg"); }
+.fi-clock           { -webkit-mask-image: url("#{$fluent-cdn}/clock_20_regular.svg");          mask-image: url("#{$fluent-cdn}/clock_20_regular.svg"); }
+.fi-history         { -webkit-mask-image: url("#{$fluent-cdn}/history_20_regular.svg");        mask-image: url("#{$fluent-cdn}/history_20_regular.svg"); }
+.fi-star            { -webkit-mask-image: url("#{$fluent-cdn}/star_20_regular.svg");           mask-image: url("#{$fluent-cdn}/star_20_regular.svg"); }
+
+/* Brand icons via Simple Icons */
+/* LinkedIn was removed from simple-icons@14 — pinned to @13 */
+.fi-linkedin        { -webkit-mask-image: url("https://cdn.jsdelivr.net/npm/simple-icons@13/icons/linkedin.svg");   mask-image: url("https://cdn.jsdelivr.net/npm/simple-icons@13/icons/linkedin.svg"); }
+.fi-github          { -webkit-mask-image: url("#{$simple-cdn}/github.svg");     mask-image: url("#{$simple-cdn}/github.svg"); }
+.fi-instagram       { -webkit-mask-image: url("#{$simple-cdn}/instagram.svg");  mask-image: url("#{$simple-cdn}/instagram.svg"); }
+.fi-rss             { -webkit-mask-image: url("#{$simple-cdn}/rss.svg");        mask-image: url("#{$simple-cdn}/rss.svg"); }
+.fi-x-twitter       { -webkit-mask-image: url("#{$simple-cdn}/x.svg");         mask-image: url("#{$simple-cdn}/x.svg"); }
+.fi-facebook        { -webkit-mask-image: url("#{$simple-cdn}/facebook.svg");   mask-image: url("#{$simple-cdn}/facebook.svg"); }
+.fi-youtube         { -webkit-mask-image: url("#{$simple-cdn}/youtube.svg");    mask-image: url("#{$simple-cdn}/youtube.svg"); }
+.fi-mastodon        { -webkit-mask-image: url("#{$simple-cdn}/mastodon.svg");   mask-image: url("#{$simple-cdn}/mastodon.svg"); }

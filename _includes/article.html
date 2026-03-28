@@ -70,13 +70,13 @@
       <p class="article__excerpt">{% if post.subtitle %}{{ post.subtitle }}{% elsif post.description %}{{ post.description }}{% else %}{{ post.content | strip_html | truncate: 160 }}{% endif %}</p>
 
       <div class="article__meta">
-        <time class="article__date" datetime="{{ post.date | date_to_xmlschema }}">{{ formatted_article_date }}</time>
+        <time class="article__date" datetime="{{ post.date | date_to_xmlschema }}"><span class="fi fi-calendar" aria-hidden="true"></span> {{ formatted_article_date }}</time>
         <div class="article__minutes">
           {% assign words = post.content | number_of_words %}
           {% if words < 360 %}
-            1 {{ t.min_read }}
+            <span class="fi fi-clock" aria-hidden="true"></span> 1 {{ t.min_read }}
           {% else %}
-            {{ words | divided_by:180 }} {{ t.min_read }}
+            <span class="fi fi-clock" aria-hidden="true"></span> {{ words | divided_by:180 }} {{ t.min_read }}
           {% endif %}
         </div>
       </div>

@@ -152,6 +152,17 @@
   }
 }
 
+/* Anti-bot: visually hide honeypot fields without display:none
+   (off-screen positioning is less detectable by smarter bots) */
+.form__honeypot {
+  position: absolute;
+  left: -9999px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
 .form__input {
   width: 100%;
   padding: 16px 20px;

@@ -3,7 +3,9 @@
 <section class="hero">
   <div class="container">
     <div class="hero__inner">
+      {% include sidebar-widgets/widget-home-author.html %}
       {% if site.data.settings.hero.hero_image_caption %}
+      <hr class="hero__divider">
       <p class="hero__tagline">{{ site.data.settings.hero.hero_image_caption }}</p>
       {% endif %}
     </div>

@@ -25,22 +25,29 @@ menu_settings:
   menu_items:
     - title: 'Home'
       url: '/'
+      icon: 'fi fi-home'
     - title: 'Series'
       url: '/series/'
+      icon: 'fi fi-stack'
     - title: 'Lists'
       url: '/lists/'
+      icon: 'fi fi-list'
     - title: 'Books'
       url: '/books/'
+      icon: 'fi fi-book'
     # - title: 'Videos'
     #   url: '/videos/'
     - url: '/about/'
       title: 'About'
+      icon: 'fi fi-person'
     - title: 'Pages'
       submenu:
       - url: '/contact/'
         title: 'Contact'
+        icon: 'fi fi-mail'
       - title: 'Archive'
         url: '/archive/'
+        icon: 'fi fi-archive'
 
 
 #-------------------------------
@@ -156,10 +163,10 @@ social:
 # - {icon: "fa-brands fa-facebook", name: "Facebook", link: "https://facebook.com"}
 # - {icon: "fa-brands fa-mastodon", name: "Mastodon", link: "https://mastodon.social"}
 # - {icon: "fa-brands fa-reddit-alien", name: "Reddit", link: "https://reddit.com"}
-- {icon: "fa-brands fa-linkedin", name: "LinkedIn", link: "https://linkedin.com/in/imhalawa"}
-- {icon: "fa-brands fa-github", name: "Github", link: "https://github.com/imhalawa"}
-- {icon: "fa-brands fa-instagram", name: "Instagram", link: "https://instagram.com/im.halawa"}
-- {icon: "fa-solid fa-rss", name: "Rss", link: "/feed.xml"}
+- {icon: "fi fi-linkedin", name: "LinkedIn", link: "https://linkedin.com/in/imhalawa"}
+- {icon: "fi fi-github", name: "Github", link: "https://github.com/imhalawa"}
+- {icon: "fi fi-instagram", name: "Instagram", link: "https://instagram.com/im.halawa"}
+- {icon: "fi fi-rss", name: "Rss", link: "/feed.xml"}
 
 # Example of adding a new link to the sidebar and footer - {icon: "fa-brands fa-youtube", name: "Youtube", link: https://youtube.com"}
 # Other icons can be found at https://fontawesome.com/icons
