@@ -21,7 +21,7 @@ Explore in-depth article series on software, thinking, and the systems that shap
       {% endif %}
 
       <div class="col col-6 col-t-12 series-landing__item" lang="{{ content_language }}" dir="{{ content_direction }}">
-        {% assign series_posts = site.posts | where: "series", series.slug %}
+        {% assign series_posts = site.series | where: "series", series.slug %}
         {% capture series_meta_text %}{{ series_posts.size }} {% if series_posts.size == 1 %}{{ t.article_singular }}{% else %}{{ t.article_plural }}{% endif %}{% endcapture %}
         {% include series-hero.html series=series link=true class="series-landing__hero" heading_tag="h2" meta_text=series_meta_text %}
       </div>

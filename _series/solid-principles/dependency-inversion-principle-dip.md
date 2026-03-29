@@ -8,6 +8,7 @@ part: 3
 tags: [design-principles, oop, series]
 tags_color: "#7C3AED"
 permalink: /series/solid-principles/dependency-inversion-principle/
+mermaid: true
 ---
 
 {: .prerequisites }
@@ -126,6 +127,20 @@ After:
 - `ReportGenerator` → `IOrderRepository`
 - `SqlOrderRepository` → `IOrderRepository`
 
+```mermaid
+flowchart LR
+    subgraph before["Before"]
+        direction TB
+        A["ReportGenerator"] -->|"depends on"| B["SqlDatabase"]
+    end
+    subgraph after["After"]
+        direction TB
+        C["ReportGenerator"] -->|"depends on"| D(["IOrderRepository"])
+        E["SqlOrderRepository"] -->|"implements"| D
+    end
+    before ~~~ after
+```
+
 Both sides point at the abstraction. The direct link from policy to detail is gone. `ReportGenerator` is now **closed for modification** — a new data source is a new class implementing `IOrderRepository`, not an edit to the report logic. That is exactly how DIP acts as the mechanism behind the [Open-Closed Principle (OCP)](/series/solid-principles/open-closed-principle/): the abstraction is the hinge point that keeps policy stable while details vary.
 
 One detail worth being deliberate about: *who owns the interface?* The consumer does. `IOrderRepository` is defined by what `ReportGenerator` needs — not by what `SqlOrderRepository` happens to be able to provide. The interface lives with the policy, not with the implementation.
@@ -180,6 +195,17 @@ var generator = serviceProvider.GetRequiredService<ReportGenerator>();
 The container is a convenience. It doesn't change what DIP requires — `ReportGenerator` still depends on `IOrderRepository`, not on `SqlOrderRepository`. The container just handles the construction at scale, so you're not writing a manual composition root with hundreds of `new` calls.
 
 The important distinction: **a container doesn't enforce DIP**. You can register a concrete class directly and inject it everywhere — that satisfies the container, but violates the principle. Conversely, you can follow DIP perfectly with no container at all, just a single manual composition root. The principle is about the direction of dependencies in your design. The container is about how those dependencies get built at runtime.
+
+```mermaid
+flowchart TD
+    IoC["Inversion of Control\nthe broader concept"]
+    DIP["Dependency Inversion Principle\ndesign rule: depend on abstractions"]
+    DI["Dependency Injection\ntechnique: pass dependencies from outside"]
+    Container["DI Container\ntool: automates wiring at scale"]
+    IoC --> DI
+    DIP --> DI
+    DI --> Container
+```
 
 ## What DIP Does for Testing
 

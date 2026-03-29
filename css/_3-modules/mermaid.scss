@@ -1,0 +1,46 @@
+/* Diagram Figure */
+body {
+  counter-reset: figure;
+}
+
+.diagram-figure {
+  margin: 2rem 0;
+  counter-increment: figure;
+  border: 1.5px solid #d4d4d4;
+  border-radius: 12px;
+  background: #ffffff;
+  overflow: hidden;
+
+  .mermaid {
+    padding: 28px 16px 16px;
+    display: flex;
+    justify-content: center;
+
+    svg {
+      max-width: 100%;
+      height: auto;
+    }
+  }
+
+  .diagram-caption {
+    display: block;
+    padding: 0 20px 14px;
+    font-family: $heading-font-family;
+    font-size: 12px;
+    font-weight: 400;
+    color: #999999;
+    text-align: center;
+    font-style: italic;
+
+    &::before {
+      content: "Figure " counter(figure) " \2014  ";
+      font-style: normal;
+      font-weight: 600;
+      color: #555555;
+    }
+
+    &:empty::before {
+      content: "Figure " counter(figure);
+    }
+  }
+}

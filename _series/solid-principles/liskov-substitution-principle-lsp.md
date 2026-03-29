@@ -8,6 +8,7 @@ part: 2
 tags: [design-principles, oop, series]
 tags_color: "#7C3AED"
 permalink: /series/solid-principles/liskov-substitution-principle/
+mermaid: true
 ---
 
 {: .prerequisites }
@@ -71,6 +72,19 @@ void ProcessReturn(PaymentProcessor processor, decimal amount, string accountId)
 ```
 
 Pass a `GiftCardProcessor` here and it throws. The function had no way to know — and shouldn't have to know. That's the violation. `GiftCardProcessor` inherits from `PaymentProcessor`, but it isn't truly substitutable for it.
+
+```mermaid
+classDiagram
+    class PaymentProcessor {
+        +Charge(amount, accountId) void
+        +Refund(amount, accountId) void
+    }
+    class GiftCardProcessor {
+        +Refund(amount, accountId) void
+    }
+    PaymentProcessor <|-- GiftCardProcessor
+    note for GiftCardProcessor "throws NotSupportedException\n\u2014 contract broken"
+```
 
 ### The Type Check Creep
 
@@ -149,6 +163,28 @@ void ProcessReturn(IRefundable processor, decimal amount, string accountId)
 {
     processor.Refund(amount, accountId);
 }
+```
+
+```mermaid
+classDiagram
+    class IChargeable {
+        <<interface>>
+        +Charge(amount, accountId) void
+    }
+    class IRefundable {
+        <<interface>>
+        +Refund(amount, accountId) void
+    }
+    class CreditCardProcessor {
+        +Charge(amount, accountId) void
+        +Refund(amount, accountId) void
+    }
+    class GiftCardProcessor {
+        +Charge(amount, accountId) void
+    }
+    IChargeable <|.. CreditCardProcessor
+    IRefundable <|.. CreditCardProcessor
+    IChargeable <|.. GiftCardProcessor
 ```
 
 A `GiftCardProcessor` can never be passed here — not because we added a guard, but because the type system prevents it. The contract is enforced before the code runs.

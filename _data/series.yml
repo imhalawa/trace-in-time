@@ -1,8 +1,8 @@
 # One entry per series
 - slug: async-await
   title: "Async/Await in C#"
-  subtitle: "Practical patterns for writing calm, reliable asynchronous code."
-  description: "A reflective, hands-on journey through asynchronous programming in C#."
+  subtitle: "Practical patterns for writing reliable, scalable async code in C#."
+  description: "From state machines and continuations to exception handling and design patterns - eight concise parts covering everything you need to write async C# with confidence."
   link: "/series/async-await/"
 
 - slug: arabic-rtl-lab

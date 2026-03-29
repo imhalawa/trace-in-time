@@ -8,6 +8,7 @@ part: 1
 tags: [design-principles, oop, series]
 tags_color: "#7C3AED"
 permalink: /series/solid-principles/open-closed-principle/
+mermaid: true
 ---
 
 {: .prerequisites }
@@ -96,6 +97,16 @@ A few problems follow from this pattern:
 - Implicitly handled types are error-prone. A change to one silently breaks the other.
 - This leads to harder maintainability, more error-prone, untrustworthy code.
 
+```mermaid
+flowchart TD
+    S["Send(notification)"]
+    S -->|"Type == Email"| E["SendEmail()"]
+    S -->|"Type == SMS"| M["SendSMS()"]
+    S -->|"Type == Slack"| Sl["SendSlack()"]
+    S -->|"Type == Push"| P["SendPush()"]
+    S -->|"..."| X["..."]
+```
+
 ## How to Fix It?
 
 The key to OCP is abstraction, achievable through one of two techniques: dynamic polymorphism or static polymorphism. The migration path from the if/else design is straightforward:
@@ -125,6 +136,26 @@ void Dispatch(INotificationChannel channel, Notification notification)
 {
     channel.Notify(notification);
 }
+```
+
+```mermaid
+classDiagram
+    class INotificationChannel {
+        <<interface>>
+        +Notify(notification) void
+    }
+    class EmailChannel {
+        +Notify(notification) void
+    }
+    class SMSChannel {
+        +Notify(notification) void
+    }
+    class SlackChannel {
+        +Notify(notification) void
+    }
+    INotificationChannel <|.. EmailChannel
+    INotificationChannel <|.. SMSChannel
+    INotificationChannel <|.. SlackChannel
 ```
 
 The interface enforces a `Notify` method on every channel. The `Dispatch` function relies on exactly that contract — it calls `channel.Notify` without knowing which channel it's talking to.

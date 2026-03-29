@@ -30,6 +30,27 @@
 #   No standalone page is generated.
 # ──────────────────────────────────────────────────────────
 
+- slug: pragmatic-engineer-ai-software-engineering
+  youtube_id: "CQmI4XKTa0U"
+  title: "How AI will change software engineering – with Martin Fowler"
+  podcast: "The Pragmatic Engineer"
+  topic: "AI"
+  year: 2025
+
+- slug: healthygamer-limerence
+  youtube_id: "YRwb-eUrso4"
+  title: "Why You Can't Get Them Out Of Your Head (Limerence)"
+  podcast: "HealthyGamerGG"
+  topic: "Mental Health"
+  year: 2025
+
+- slug: diary-of-a-ceo-chris-williamson-2026
+  youtube_id: "q_vZ4H3uW28"
+  title: "Chris Williamson: Fix This One Habit And 2026 Will Be Your Best Year!"
+  podcast: "The Diary Of A CEO"
+  topic: "Personal Development"
+  year: 2025
+
 - slug: healthygamer-rejection-sensitivity
   youtube_id: "ACI7xDjajPg"
   title: "Rejection Sensitivity: The Real Reason You're Struggling in Relationships"
@@ -43,3 +64,11 @@
   podcast: "TEDx Talks"
   topic: "Mental Health"
   year: 2017
+
+- slug: thoughtworks-is-tdd-dead
+  youtube_id: "z9quxZsLcfo"
+  title: "Is TDD dead?"
+  podcast: "Thoughtworks"
+  topic: "TDD"
+  year: 2014
+  year: 2025
