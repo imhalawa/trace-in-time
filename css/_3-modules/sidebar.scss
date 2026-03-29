@@ -41,7 +41,7 @@
   .widget-sidebar-title {
     display: inline-flex;
     align-items: center;
-    padding-right: 16px;
+    padding-inline-end: 16px;
     margin-bottom: 0;
     font-size: 18px;
     font-weight: 600;
@@ -291,7 +291,7 @@
   text-align: right;
 
   .widget-author-card__social {
-    justify-content: flex-end;
+    justify-content: flex-start;
   }
 }
 

@@ -26,7 +26,8 @@
     "view_singular": "view",
     "view_plural": "views",
     "visitor_singular": "visitor",
-    "visitor_plural": "visitors"
+    "visitor_plural": "visitors",
+    "related_label": "Related"
   },
   "ar": {
     "min_read": "دقائق قراءة",
@@ -57,6 +58,7 @@
     "view_plural": "مشاهدات",
     "visitor_singular": "زائر",
     "visitor_dual": "زائران",
-    "visitor_plural": "زوار"
+    "visitor_plural": "زوار",
+    "related_label": "ذات صلة"
   }
 }

@@ -2,6 +2,13 @@
 {% assign minCommonTags = 1 %}
 {% assign maxRelatedCounter = 0 %}
 
+{% assign content_language = page.lang | default: site.lang | default: "en" %}
+{% assign base_language = content_language | split: "-" | first | downcase %}
+{% assign t = site.data.translations[base_language] | default: site.data.translations.en %}
+{% assign rtl_languages = "ar,arc,ckb,dv,fa,he,khw,ks,ku,ps,sd,ug,ur,yi" | split: "," %}
+{% assign content_direction = "ltr" %}
+{% if rtl_languages contains base_language %}{% assign content_direction = "rtl" %}{% endif %}
+
 {% for post in site.posts %}
   {% assign sameTagCount = 0 %}
   {% assign commonTags = '' %}
@@ -19,8 +26,8 @@
 
 <div class="related-posts {{related}}">
   <div class="section__info">
-    <div class="section__head">
-      <h2 class="section__title">Related</h2>
+    <div class="section__head" dir="{{ content_direction }}" lang="{{ content_language }}">
+      <h2 class="section__title">{{ t.related_label | default: "Related" }}</h2>
     </div>
   </div>
   <div class="view-list">

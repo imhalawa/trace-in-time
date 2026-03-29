@@ -6,7 +6,7 @@
   link: "/series/async-await/"
 
 - slug: arabic-rtl-lab
-  draft: true
+  draft: false
   lang: ar
   title: "مختبر RTL العربي"
   subtitle: "تجارب عملية لبناء واجهات عربية واضحة ومتماسكة عبر مكونات الموقع."

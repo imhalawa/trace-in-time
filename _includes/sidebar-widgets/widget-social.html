@@ -1,9 +1,12 @@
 {% assign content_language = page.lang | default: site.lang | default: "en" %}
 {% assign base_language = content_language | split: "-" | first | downcase %}
 {% assign t = site.data.translations[base_language] | default: site.data.translations.en %}
+{% assign rtl_languages = "ar,arc,ckb,dv,fa,he,khw,ks,ku,ps,sd,ug,ur,yi" | split: "," %}
+{% assign content_direction = "ltr" %}
+{% if rtl_languages contains base_language %}{% assign content_direction = "rtl" %}{% endif %}
 
 {% if site.data.settings.social %}
-<div class="widget widget-social">
+<div class="widget widget-social" lang="{{ content_language }}" dir="{{ content_direction }}">
   <div class="widget-sidebar-head">
     <h2 class="widget-sidebar-title"><span class="fi fi-people" aria-hidden="true"></span> {{ t.follow_label | default: "Follow Along" }}</h2>
   </div>

@@ -3,6 +3,7 @@
 
 :root {
   --primary-color: #ae00ee;
+  --accent-color: #7c3aed;
   --series-accent: #7a3ff2;
   --series-indicator-color: #b7791f;
   --secondary-color: #60b0ba;
@@ -28,7 +29,7 @@
   --heading-font-color: var(--dark-blue);
 
   --link-color: var(--dark-blue);
-  --link-color-hover: var(--dark-blue);
+  --link-color-hover: var(--accent-color);
 
   --button-color: var(--white);
 
@@ -65,6 +66,7 @@
 
 :root[dark] {
   --primary-color: #d60067;
+  --accent-color: #9b5cf6;
   --series-accent: #7a3ff2;
   --series-indicator-color: #9a6400;
   --white: #fff;
@@ -84,7 +86,7 @@
   --heading-font-color: var(--light-gray);
 
   --link-color: var(--light-gray);
-  --link-color-hover: var(--light-gray);
+  --link-color-hover: var(--accent-color);
 
   --button-color: var(--white);
 

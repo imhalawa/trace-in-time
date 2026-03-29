@@ -138,14 +138,6 @@ a.stepper__title {
   border: 1px solid var(--border-color);
 }
 
-// ── RTL ──────────────────────────────────────────────────────────
-
-[dir="rtl"] {
-  .stepper__step {
-    flex-direction: row-reverse;
-  }
-}
-
 // ── Dark mode ────────────────────────────────────────────────────
 // --border-color is already dark-mode-aware via color-scheme.scss
 

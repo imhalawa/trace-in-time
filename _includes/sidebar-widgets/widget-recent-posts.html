@@ -17,8 +17,12 @@
   {% endunless %}
 {% endfor %}
 
+{% assign rtl_languages = "ar,arc,ckb,dv,fa,he,khw,ks,ku,ps,sd,ug,ur,yi" | split: "," %}
+{% assign content_direction = "ltr" %}
+{% if rtl_languages contains base_language %}{% assign content_direction = "rtl" %}{% endif %}
+
 {% if recent_posts.size > 0 %}
-<div class="widget">
+<div class="widget" lang="{{ content_language }}" dir="{{ content_direction }}">
   <div class="widget-sidebar-head">
     <h2 class="widget-sidebar-title"><span class="fi fi-history" aria-hidden="true"></span> {{ t.recent_articles | default: "Recent Articles" }}</h2>
   </div>

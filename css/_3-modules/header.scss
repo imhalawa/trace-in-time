@@ -185,10 +185,17 @@
 
       &:hover {
         background: var(--background-alt-color);
+        color: var(--accent-color);
+
+        .fi { opacity: 1; }
       }
 
       &.active-link {
         background: var(--background-alt-color);
+        color: var(--accent-color);
+        font-weight: 600;
+
+        .fi { opacity: 1; }
       }
     }
 
