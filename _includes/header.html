@@ -15,15 +15,32 @@
           </a>
         </div>
 
-        <div class="hamburger">
+        <button class="hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="main-nav">
           <div></div>
-        </div>
+        </button>
 
-        <nav class="main-nav" aria-label="Main menu">
+        <nav id="main-nav" class="main-nav" aria-label="Main menu">
           <div class="main-nav__box">
             <ul class="nav__list list-reset">
               {% for item in site.data.settings.menu_settings.menu_items %}
               {% if item.submenu %}
+              {% if item.url %}
+              <li class="nav__item dropdown dropdown--split">
+                <a href="{{ item.url | relative_url }}" class="nav__link{% if page.url == item.url %} active-link{% endif %}">
+                  {% if item.icon %}<span class="{{ item.icon }}" aria-hidden="true"></span> {% endif %}{{ item.title }}
+                </a>
+                <button class="dropdown-toggle" aria-label="More {{ item.title }} pages" aria-expanded="false">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <polyline points="6 9 12 15 18 9"/>
+                  </svg>
+                </button>
+                <div class="dropdown-menu">
+                  {% for submenu-item in item.submenu %}
+                  <a href="{{ submenu-item.url }}" class="nav__link{% if page.url == submenu-item.url %} active-link{% endif %}">{% if submenu-item.icon %}<span class="{{ submenu-item.icon }}" aria-hidden="true"></span> {% endif %}{{ submenu-item.title }}</a>
+                  {% endfor %}
+                </div>
+              </li>
+              {% else %}
               <li class="nav__item dropdown">
                 <div class="dropdown-toggle">
                   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="4" fill="none">
@@ -38,6 +55,7 @@
                   {% endfor %}
                 </div>
               </li>
+              {% endif %}
               {% else %}
               <li class="nav__item">
                 <a href="{{ item.url | relative_url }}" class="nav__link{% if page.url == item.url %} active-link{% endif %}">{% if item.icon %}<span class="{{ item.icon }}" aria-hidden="true"></span> {% endif %}{{ item.title }}</a>

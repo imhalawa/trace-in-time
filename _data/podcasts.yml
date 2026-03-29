@@ -1,0 +1,45 @@
+# ──────────────────────────────────────────────────────────
+# Podcast Favorites  (_data/podcasts.yml)
+# ──────────────────────────────────────────────────────────
+# Provide either youtube_id OR spotify_url per entry (not both).
+#
+# REQUIRED
+#   slug          - Unique identifier. Used to generate /podcasts/<slug>/
+#                   and to link posts via `podcast: <slug>` in post front matter.
+#
+# REQUIRED (one of)
+#   youtube_id    - YouTube video ID from the URL
+#                   e.g. https://youtube.com/watch?v=<youtube_id>
+#                   Title and podcast name are auto-fetched at build time.
+#   spotify_url   - Full Spotify episode URL
+#                   e.g. https://open.spotify.com/episode/ID
+#                   Title and podcast name must be filled manually.
+#
+# OPTIONAL (auto-fetched when youtube_id is set, otherwise manual)
+#   title         - Episode title
+#   podcast       - Show / podcast name
+#
+# OPTIONAL (always manual)
+#   topic         - Used for filter pills  (e.g. "Technology", "Philosophy")
+#   year          - Year the episode aired
+#   note          - A personal note shown on the card
+#
+# To write a dedicated notes post for an episode:
+#   Create a file under _podcasts/<slug>.md with `podcast: <slug>` in front matter.
+#   The note content renders inline on the landing page at /podcasts/<slug>/.
+#   No standalone page is generated.
+# ──────────────────────────────────────────────────────────
+
+- slug: healthygamer-rejection-sensitivity
+  youtube_id: "ACI7xDjajPg"
+  title: "Rejection Sensitivity: The Real Reason You're Struggling in Relationships"
+  podcast: "HealthyGamerGG"
+  topic: "Mental Health"
+  year: 2024
+
+- slug: tedx-jessica-mccabe-adhd
+  youtube_id: "JiwZQNYlGQI"
+  title: "Failing at Normal: An ADHD Success Story"
+  podcast: "TEDx Talks"
+  topic: "Mental Health"
+  year: 2017

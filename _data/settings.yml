@@ -1,7 +1,7 @@
 #-------------------------------
 # Site Settings
 title: Trace in Time
-description: Writing on software engineering, human behavior, and the patterns beneath both. By Imhal.
+description: "Trace in Time is Mohamed Halawa's blog on software engineering, human behavior, and the patterns beneath both — essays, notes, and reflections on building with clarity."
 logo: # You can add own logo. For example '/images/logo.png'.
 logo_dark:
 
@@ -23,31 +23,31 @@ color_scheme:
 # Navigation Settings
 menu_settings:
   menu_items:
-    - title: 'Home'
-      url: '/'
-      icon: 'fi fi-home'
     - title: 'Series'
       url: '/series/'
       icon: 'fi fi-stack'
     - title: 'Lists'
       url: '/lists/'
       icon: 'fi fi-list'
-    - title: 'Books'
-      url: '/books/'
-      icon: 'fi fi-book'
-    # - title: 'Videos'
-    #   url: '/videos/'
+      submenu:
+      - title: 'Books'
+        url: '/lists/books/'
+        icon: 'fi fi-book'
+      - title: 'Music'
+        url: '/lists/music/'
+        icon: 'fi fi-music'
+      - title: 'Podcasts'
+        url: '/lists/podcasts/'
+        icon: 'fi fi-headphones'
+      - title: 'Projects'
+        url: '/lists/projects/'
+        icon: 'fi fi-github'
     - url: '/about/'
       title: 'About'
       icon: 'fi fi-person'
-    - title: 'Pages'
-      submenu:
-      - url: '/contact/'
-        title: 'Contact'
-        icon: 'fi fi-mail'
-      - title: 'Archive'
-        url: '/archive/'
-        icon: 'fi fi-archive'
+    - url: '/contact/'
+      title: 'Contact'
+      icon: 'fi fi-mail'
 
 
 #-------------------------------
@@ -56,6 +56,12 @@ author:
   author_name: Mohamed Halawa
   author_name_ar: محمد حلاوة
   author_avatar: /images/author/profile.png
+
+
+#-------------------------------
+# GitHub Settings
+github:
+  username: imhalawa  # Used to auto-fetch project metadata from the GitHub API
 
 
 #-------------------------------
@@ -71,7 +77,7 @@ hero:
     Here, I share what I build, photograph, and learn — notes on finding clarity, staying creative, and making progress one step at a time.
   hero_image: /images/site_identity/hero.png # TODO: change image to my own desktop setup
   hero_image_caption: This space is a trace in time — fragments of systems and reflections
-  hero_button_text: Let’s Connect!
+  hero_button_text: Get In Touch
   hero_button_link: '/contact/'
 
 
@@ -180,7 +186,7 @@ contact:
   button_text: Send Now
 
 # NOTE
-# Coderon theme comes with a contact form built-in. You can use this form with Formspree (https://formspree.io/) service and get up to 50 submissions for free. Also, you can easily switch to another service if you want.
+# The contact form uses Formspree (https://formspree.io/) — up to 50 submissions for free.
 
 
 #-------------------------------

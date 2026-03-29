@@ -245,20 +245,43 @@ pre {
 
 pre.highlight {
   position: relative;
+  display: flex;
+  align-items: flex-start;
   margin-top: 12px;
   margin-bottom: 24px;
   overflow: hidden;
-  padding: 16px;
+  padding: 0;
   border: 1px solid var(--text-alt-color);
   border-radius: 16px;
   background: transparent;
 
+  .code-gutter {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    flex-shrink: 0;
+    padding: 16px 10px 16px 16px;
+    border-right: 1px solid var(--text-alt-color);
+    color: var(--text-alt-color);
+    font-size: 13px;
+    line-height: 1.55;
+    user-select: none;
+    pointer-events: none;
+
+    span {
+      display: block;
+      line-height: 1.55;
+    }
+  }
+
   code {
     display: block;
+    flex: 1;
     overflow-x: auto;
     overflow-y: hidden;
-    min-width: max-content;
-    padding-bottom: 2px;
+    min-width: 0;
+    padding: 16px;
+    padding-bottom: 18px;
   }
 
   button {

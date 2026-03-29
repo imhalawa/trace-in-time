@@ -1,0 +1,149 @@
+---
+layout: default
+---
+
+{% assign genres = site.data.music | map: "genre" | uniq | compact | sort %}
+
+<!-- begin music-page -->
+<div class="music-page">
+  <div class="container">
+
+    <!-- Page header -->
+    <div class="music-page__head">
+      <div class="page-title-row">
+        <span class="page-icon fi fi-music" aria-hidden="true"></span>
+        <h1 class="page-title">{{ page.title | escape }}</h1>
+      </div>
+      {% if page.subtitle %}<p class="music-page__subtitle">{{ page.subtitle }}</p>{% endif %}
+      {% if page.description %}<p class="music-page__desc">{{ page.description }}</p>{% endif %}
+    </div>
+
+    <!-- Genre filter pills -->
+    {% if genres.size > 1 %}
+    <div class="music-filters" role="group" aria-label="Filter by genre">
+      <button class="music-filter music-filter--active" data-filter="all">All</button>
+      {% for genre in genres %}
+      <button class="music-filter" data-filter="{{ genre | slugify }}">{{ genre }}</button>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- Track count -->
+    <p class="music-page__count">
+      <span class="fi fi-music" aria-hidden="true"></span>
+      <span id="musicVisible">{{ site.data.music | size }}</span> track{% if site.data.music.size != 1 %}s{% endif %}
+    </p>
+
+    <!-- Music grid -->
+    <div class="music-grid" id="musicGrid">
+      {% for track in site.data.music %}
+<div class="music-card" data-genre="{{ track.genre | slugify }}" data-video-id="{{ track.youtube_id }}">
+
+        <!-- Thumbnail / embed area -->
+        <div class="music-card__media">
+          <div class="music-card__thumbnail"
+               style="background-image: url('https://img.youtube.com/vi/{{ track.youtube_id }}/hqdefault.jpg')"
+               role="button"
+               tabindex="0"
+               aria-label="Play {{ track.title | escape }} by {{ track.artist | escape }}">
+            <div class="music-card__play" aria-hidden="true">
+              <svg viewBox="0 0 68 68" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="34" cy="34" r="34"/>
+                <polygon points="27,20 52,34 27,48"/>
+              </svg>
+            </div>
+            <div class="music-card__yt-logo" aria-hidden="true">
+              <svg viewBox="0 0 90 20" xmlns="http://www.w3.org/2000/svg">
+                <text y="16" font-size="14" font-family="sans-serif" fill="white" opacity="0.8">▶ YouTube</text>
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <!-- Track info -->
+        <div class="music-card__info">
+          <div class="music-card__top">
+            {% if track.genre %}
+            <span class="music-card__genre">{{ track.genre }}</span>
+            {% endif %}
+            {% if track.year %}
+            <span class="music-card__year">{{ track.year }}</span>
+            {% endif %}
+          </div>
+
+          <h3 class="music-card__title">{{ track.title | escape }}</h3>
+          <p class="music-card__artist"><span class="fi fi-headphones" aria-hidden="true"></span> {{ track.artist | escape }}</p>
+
+          {% if track.note %}
+          <p class="music-card__note">{{ track.note | escape }}</p>
+          {% endif %}
+        </div>
+
+      </div>
+      {% endfor %}
+    </div>
+
+    <!-- Empty state -->
+    <div class="music-empty" id="musicEmpty" style="display:none;" aria-live="polite">
+      <p>No tracks in this genre yet.</p>
+    </div>
+
+  </div>
+</div>
+<!-- end music-page -->
+
+<script>
+(function () {
+  'use strict';
+
+  /* ── Click-to-play ─────────────────────────────────────── */
+  document.querySelectorAll('.music-card__thumbnail').forEach(function (thumb) {
+    function activate() {
+      var card = thumb.closest('.music-card');
+      var videoId = card.dataset.videoId; // youtube_id from music.yml
+      var iframe = document.createElement('iframe');
+      iframe.src = 'https://www.youtube-nocookie.com/embed/' + videoId + '?autoplay=1&rel=0&modestbranding=1';
+      iframe.title = thumb.getAttribute('aria-label') || 'YouTube video';
+      iframe.allow = 'autoplay; encrypted-media; picture-in-picture';
+      iframe.allowFullscreen = true;
+      iframe.loading = 'lazy';
+      iframe.frameBorder = '0';
+      iframe.classList.add('music-card__iframe');
+      thumb.replaceWith(iframe);
+    }
+    thumb.addEventListener('click', activate);
+    thumb.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); activate(); }
+    });
+  });
+
+  /* ── Genre filter ──────────────────────────────────────── */
+  var filters = document.querySelectorAll('.music-filter');
+  var cards   = document.querySelectorAll('.music-card');
+  var counter = document.getElementById('musicVisible');
+  var empty   = document.getElementById('musicEmpty');
+
+  filters.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      filters.forEach(function (b) {
+        b.classList.remove('music-filter--active');
+        b.removeAttribute('aria-pressed');
+      });
+      this.classList.add('music-filter--active');
+      this.setAttribute('aria-pressed', 'true');
+
+      var filter  = this.dataset.filter;
+      var visible = 0;
+
+      cards.forEach(function (card) {
+        var match = filter === 'all' || card.dataset.genre === filter;
+        card.classList.toggle('music-card--hidden', !match);
+        if (match) visible++;
+      });
+
+      if (counter) counter.textContent = visible;
+      if (empty)   empty.style.display = visible === 0 ? 'block' : 'none';
+    });
+  });
+}());
+</script>

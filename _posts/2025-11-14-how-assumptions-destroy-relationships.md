@@ -4,6 +4,7 @@ title: "How Assumptions Destroy Relationships Before They Begin"
 permalink: /how-assumptions-destroy-relationships/
 description: Most tension in relationships grows from silence, not conflict. A study in assumption, imagination, and why directness is the shortest path to clarity.
 date: 2025-11-14 18:00 +0100
+last_modified_at: 2026-03-29
 tags: [Reflections]
 tags_color: '#6B8C9A'
 ---

@@ -1,0 +1,170 @@
+---
+layout: default
+---
+
+{% assign topics = site.data.podcasts | map: "topic" | uniq | compact | sort %}
+
+<!-- begin podcast-page -->
+<div class="podcast-page">
+  <div class="container">
+
+    <!-- Page header -->
+    <div class="podcast-page__head">
+      <div class="page-title-row">
+        <span class="page-icon fi fi-headphones" aria-hidden="true"></span>
+        <h1 class="page-title">{{ page.title | escape }}</h1>
+      </div>
+      {% if page.subtitle %}<p class="podcast-page__subtitle">{{ page.subtitle }}</p>{% endif %}
+      {% if page.description %}<p class="podcast-page__desc">{{ page.description }}</p>{% endif %}
+    </div>
+
+    <!-- Topic filter pills -->
+    {% if topics.size > 1 %}
+    <div class="podcast-filters" role="group" aria-label="Filter by topic">
+      <button class="podcast-filter podcast-filter--active" data-filter="all">All</button>
+      {% for topic in topics %}
+      <button class="podcast-filter" data-filter="{{ topic | slugify }}">{{ topic }}</button>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- Episode count -->
+    <p class="podcast-page__count">
+      <span class="fi fi-headphones" aria-hidden="true"></span>
+      <span id="podcastVisible">{{ site.data.podcasts | size }}</span> episode{% if site.data.podcasts.size != 1 %}s{% endif %}
+    </p>
+
+    <!-- Podcast grid -->
+    <div class="podcast-grid" id="podcastGrid">
+      {% for episode in site.data.podcasts %}
+      {% assign has_youtube = false %}
+      {% assign has_spotify = false %}
+      {% if episode.youtube_id and episode.youtube_id != "" %}{% assign has_youtube = true %}{% endif %}
+      {% if episode.spotify_url and episode.spotify_url != "" %}{% assign has_spotify = true %}{% endif %}
+
+      <div class="podcast-card" data-topic="{{ episode.topic | slugify }}" {% if has_youtube %}data-video-id="{{ episode.youtube_id }}"{% endif %}>
+
+        <!-- Media area -->
+        {% if has_youtube %}
+        <div class="podcast-card__media">
+          <div class="podcast-card__thumbnail"
+               style="background-image: url('https://img.youtube.com/vi/{{ episode.youtube_id }}/hqdefault.jpg')"
+               role="button"
+               tabindex="0"
+               aria-label="Play {{ episode.title | escape }} — {{ episode.podcast | escape }}">
+            <div class="podcast-card__play" aria-hidden="true">
+              <svg viewBox="0 0 68 68" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="34" cy="34" r="34"/>
+                <polygon points="27,20 52,34 27,48"/>
+              </svg>
+            </div>
+            <div class="podcast-card__source-badge" aria-hidden="true">
+              <svg viewBox="0 0 90 20" xmlns="http://www.w3.org/2000/svg">
+                <text y="16" font-size="14" font-family="sans-serif" fill="white" opacity="0.8">▶ YouTube</text>
+              </svg>
+            </div>
+          </div>
+        </div>
+        {% elsif has_spotify %}
+        {% assign spotify_ep_id = episode.spotify_url | split: "/episode/" | last | split: "?" | first %}
+        <div class="podcast-card__media podcast-card__media--spotify">
+          <iframe
+            src="https://open.spotify.com/embed/episode/{{ spotify_ep_id }}?utm_source=generator&theme=0"
+            class="podcast-card__iframe"
+            title="{{ episode.title | escape }}"
+            frameborder="0"
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+            loading="lazy">
+          </iframe>
+        </div>
+        {% endif %}
+
+        <!-- Episode info -->
+        <div class="podcast-card__info">
+          <div class="podcast-card__top">
+            {% if episode.topic %}
+            <span class="podcast-card__topic">{{ episode.topic }}</span>
+            {% endif %}
+            {% if episode.year %}
+            <span class="podcast-card__year">{{ episode.year }}</span>
+            {% endif %}
+          </div>
+
+          <h3 class="podcast-card__title">
+            {% if episode.slug %}<a href="{{ '/podcasts/' | append: episode.slug | relative_url }}" class="podcast-card__title-link">{{ episode.title | escape }}</a>{% else %}{{ episode.title | escape }}{% endif %}
+          </h3>
+          <p class="podcast-card__show"><span class="fi fi-headphones" aria-hidden="true"></span> {{ episode.podcast | escape }}</p>
+
+          {% if episode.note %}
+          <p class="podcast-card__note">{{ episode.note | escape }}</p>
+          {% endif %}
+        </div>
+
+      </div>
+      {% endfor %}
+    </div>
+
+    <!-- Empty state -->
+    <div class="podcast-empty" id="podcastEmpty" style="display:none;" aria-live="polite">
+      <p>No episodes in this topic yet.</p>
+    </div>
+
+  </div>
+</div>
+<!-- end podcast-page -->
+
+<script>
+(function () {
+  'use strict';
+
+  /* ── Click-to-play (YouTube only) ─────────────────────── */
+  document.querySelectorAll('.podcast-card__thumbnail').forEach(function (thumb) {
+    function activate() {
+      var card = thumb.closest('.podcast-card');
+      var videoId = card.dataset.videoId;
+      var iframe = document.createElement('iframe');
+      iframe.src = 'https://www.youtube-nocookie.com/embed/' + videoId + '?autoplay=1&rel=0&modestbranding=1';
+      iframe.title = thumb.getAttribute('aria-label') || 'YouTube video';
+      iframe.allow = 'autoplay; encrypted-media; picture-in-picture';
+      iframe.allowFullscreen = true;
+      iframe.loading = 'lazy';
+      iframe.frameBorder = '0';
+      iframe.classList.add('podcast-card__iframe');
+      thumb.replaceWith(iframe);
+    }
+    thumb.addEventListener('click', activate);
+    thumb.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); activate(); }
+    });
+  });
+
+  /* ── Topic filter ──────────────────────────────────────── */
+  var filters = document.querySelectorAll('.podcast-filter');
+  var cards   = document.querySelectorAll('.podcast-card');
+  var counter = document.getElementById('podcastVisible');
+  var empty   = document.getElementById('podcastEmpty');
+
+  filters.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      filters.forEach(function (b) {
+        b.classList.remove('podcast-filter--active');
+        b.removeAttribute('aria-pressed');
+      });
+      this.classList.add('podcast-filter--active');
+      this.setAttribute('aria-pressed', 'true');
+
+      var filter  = this.dataset.filter;
+      var visible = 0;
+
+      cards.forEach(function (card) {
+        var match = filter === 'all' || card.dataset.topic === filter;
+        card.classList.toggle('podcast-card--hidden', !match);
+        if (match) visible++;
+      });
+
+      if (counter) counter.textContent = visible;
+      if (empty)   empty.style.display = visible === 0 ? 'block' : 'none';
+    });
+  });
+}());
+</script>

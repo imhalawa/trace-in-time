@@ -1,0 +1,49 @@
+{% if site.data.music.size > 0 %}
+<div class="widget">
+  <div class="widget-sidebar-head">
+    <h2 class="widget-sidebar-title"><span class="fi fi-music" aria-hidden="true"></span> Recent Music</h2>
+  </div>
+
+  <div class="widget-recent-posts">
+    {% assign music_count = 0 %}
+    {% for item in site.data.music %}
+      {% assign item_title = item.title | default: item.youtube_id %}
+
+      <div class="post-recent-content">
+        <a href="https://www.youtube.com/watch?v={{ item.youtube_id }}"
+           class="post-recent-image"
+           target="_blank"
+           rel="noopener noreferrer"
+           tabindex="-1"
+           aria-hidden="true">
+          <img src="https://img.youtube.com/vi/{{ item.youtube_id }}/mqdefault.jpg"
+               alt="{{ item_title }}"
+               loading="lazy">
+        </a>
+
+        <div class="post-recent-meta">
+          <h3 class="post-recent-title">
+            <a href="https://www.youtube.com/watch?v={{ item.youtube_id }}"
+               target="_blank"
+               rel="noopener noreferrer">{{ item_title }}</a>
+          </h3>
+          <div class="post-recent-bottom">
+            {% if item.artist %}
+              <span class="post-recent-series">{{ item.artist }}</span>
+            {% endif %}
+            {% if item.year %}
+              <time class="post-recent-date">{{ item.year }}</time>
+            {% endif %}
+          </div>
+          {% if item.note %}
+          <p class="post-recent-note">{{ item.note }}</p>
+          {% endif %}
+        </div>
+      </div>
+
+      {% assign music_count = music_count | plus: 1 %}
+      {% if music_count == 3 %}{% break %}{% endif %}
+    {% endfor %}
+  </div>
+</div>
+{% endif %}

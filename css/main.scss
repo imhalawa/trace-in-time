@@ -6,10 +6,7 @@
 -------------------------------------------------------------------*/
 
 /* >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-:: Template name: Coderon
-:: Coderon is a sleek and innovative Jekyll blog theme designed for developers, designers, content creators, and creative thinkers. Combining unique design with top-notch performance, this theme offers a clean and modern codebase alongside a fully responsive layout that looks flawless on any device. With intuitive features like a slider, dark and light mode toggle, copy code button, and much more, this theme empowers you to create an engaging and professional blog with ease. Whether you're blogging about tech, sharing tutorials, or documenting your creative journey, this theme has everything you need to create a standout blog.
-:: Template Author: Anvod Studio (Artem Sheludko)
-:: Version: 1.1
+:: Trace in Time
 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< */
 
 /* >>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -111,6 +108,10 @@
 {% include_relative _3-modules/series.scss %}
 /* >>>>>>>>>>>>>> :: 3.9.2-Book Card <<<<<<<<<<<<<<< */
 {% include_relative _3-modules/book-card.scss %}
+/* >>>>>>>>>>>>>> :: 3.9.2b-Book Hero <<<<<<<<<<<<<<< */
+{% include_relative _3-modules/book-hero.scss %}
+/* >>>>>>>>>>>>>> :: 3.9.2c-Books List Page <<<<<<<<<<<<<<< */
+{% include_relative _3-modules/books-list.scss %}
 /* >>>>>>>>>>>>>> :: 3.9.3-Stepper <<<<<<<<<<<<<<< */
 {% include_relative _3-modules/stepper.scss %}
 /* >>>>>>>>>>>>>> :: 3.10-Contact <<<<<<<<<<<<<<< */
@@ -129,6 +130,12 @@
 {% include_relative _3-modules/scroll-button-top.scss %}
 /* >>>>>>>>>>>>>> :: 3.17-Currently Reading <<<<<<<<<<<<<<< */
 {% include_relative _3-modules/currently-reading.scss %}
+/* >>>>>>>>>>>>>> :: 3.18-Music List <<<<<<<<<<<<<<< */
+{% include_relative _3-modules/music-list.scss %}
+/* >>>>>>>>>>>>>> :: 3.19-Podcast List <<<<<<<<<<<<<<< */
+{% include_relative _3-modules/podcast-list.scss %}
+/* >>>>>>>>>>>>>> :: 3.20-Project List <<<<<<<<<<<<<<< */
+{% include_relative _3-modules/project-list.scss %}
 
 
 /* =======================

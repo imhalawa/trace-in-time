@@ -3,69 +3,102 @@
 {% assign t = site.data.translations[base_language] | default: site.data.translations.en %}
 
 {% assign badge_days = site.data.settings.new_badge.days | default: 15 %}
-{% assign threshold_secs = badge_days | times: 86400 %}
-{% assign now_secs = site.time | date: "%s" | plus: 0 %}
-{% assign cutoff_secs = now_secs | minus: threshold_secs %}
-
-{% assign recent_posts = "" | split: "," %}
-{% for post in site.posts %}
-  {% unless post.published == false %}
-    {% assign post_secs = post.date | date: "%s" | plus: 0 %}
-    {% if post_secs >= cutoff_secs %}
-      {% assign recent_posts = recent_posts | push: post %}
-    {% endif %}
-  {% endunless %}
-{% endfor %}
 
 {% assign rtl_languages = "ar,arc,ckb,dv,fa,he,khw,ks,ku,ps,sd,ug,ur,yi" | split: "," %}
 {% assign content_direction = "ltr" %}
 {% if rtl_languages contains base_language %}{% assign content_direction = "rtl" %}{% endif %}
 
-{% if recent_posts.size > 0 %}
+{% comment %}Collect all published content across every collection{% endcomment %}
+{% assign all_recent = "" | split: "," %}
+
+{% for item in site.posts %}
+  {% unless item.published == false %}
+    {% assign all_recent = all_recent | push: item %}
+  {% endunless %}
+{% endfor %}
+
+{% for item in site.series %}
+  {% unless item.published == false %}
+    {% assign all_recent = all_recent | push: item %}
+  {% endunless %}
+{% endfor %}
+
+{% for item in site.books %}
+  {% unless item.published == false %}
+    {% assign all_recent = all_recent | push: item %}
+  {% endunless %}
+{% endfor %}
+
+{% for item in site.lists %}
+  {% unless item.published == false %}
+    {% assign all_recent = all_recent | push: item %}
+  {% endunless %}
+{% endfor %}
+
+{% for item in site.glossary %}
+  {% unless item.published == false %}
+    {% assign all_recent = all_recent | push: item %}
+  {% endunless %}
+{% endfor %}
+
+{% assign all_recent = all_recent | sort: "date" | reverse %}
+
+{% if all_recent.size > 0 %}
 <div class="widget" lang="{{ content_language }}" dir="{{ content_direction }}">
   <div class="widget-sidebar-head">
-    <h2 class="widget-sidebar-title"><span class="fi fi-history" aria-hidden="true"></span> {{ t.recent_articles | default: "Recent Articles" }}</h2>
+    <h2 class="widget-sidebar-title"><span class="fi fi-history" aria-hidden="true"></span> {{ t.recent | default: "Recent" }}</h2>
   </div>
 
   <div class="widget-recent-posts"
     data-new-badge-days="{{ badge_days }}">
 
   {% assign count = 0 %}
-  {% for post in recent_posts %}
-    {% if post.url != page.url %}
+  {% for item in all_recent %}
+    {% if item.url != page.url %}
       {% assign count = count | plus: 1 %}
 
       {% if base_language == "ar" %}
         {% assign arabic_months = "يناير,فبراير,مارس,أبريل,مايو,يونيو,يوليو,أغسطس,سبتمبر,أكتوبر,نوفمبر,ديسمبر" | split: "," %}
-        {% assign month_index = post.date | date: "%m" | minus: 1 %}
+        {% assign month_index = item.date | date: "%m" | minus: 1 %}
         {% assign month_name = arabic_months[month_index] %}
-        {% assign date_day = post.date | date: "%-d" %}
+        {% assign date_day = item.date | date: "%-d" %}
         {% capture date_day_ar %}{{ date_day | replace: "0", "٠" | replace: "1", "١" | replace: "2", "٢" | replace: "3", "٣" | replace: "4", "٤" | replace: "5", "٥" | replace: "6", "٦" | replace: "7", "٧" | replace: "8", "٨" | replace: "9", "٩" }}{% endcapture %}
-        {% assign date_year = post.date | date: "%Y" %}
+        {% assign date_year = item.date | date: "%Y" %}
         {% capture date_year_ar %}{{ date_year | replace: "0", "٠" | replace: "1", "١" | replace: "2", "٢" | replace: "3", "٣" | replace: "4", "٤" | replace: "5", "٥" | replace: "6", "٦" | replace: "7", "٧" | replace: "8", "٨" | replace: "9", "٩" }}{% endcapture %}
         {% capture formatted_recent_date %}{{ date_day_ar }} {{ month_name }} {{ date_year_ar }}{% endcapture %}
       {% else %}
         {% assign date_format = site.minima.date_format | default: "%d %-b, %Y" %}
-        {% assign formatted_recent_date = post.date | date: date_format %}
+        {% assign formatted_recent_date = item.date | date: date_format %}
       {% endif %}
 
-      <div class="post-recent-content" data-published="{{ post.date | date_to_xmlschema }}">
-        {% if post.image %}
-        <a href="{{ post.url | relative_url }}" class="post-recent-image" tabindex="-1" aria-hidden="true">
-          <img class="lazy" data-src="{{ post.image | relative_url }}" alt="{{ post.title }}">
+      {% comment %}Determine label: series, book, list, glossary, or blank{% endcomment %}
+      {% assign item_label = nil %}
+      {% if item.series %}
+        {% assign series_entry = site.data.series | where: "slug", item.series | first %}
+        {% assign item_label = series_entry.title | default: item.series %}
+      {% elsif item.book %}
+        {% assign book_entry = site.data.books | where: "slug", item.book | first %}
+        {% assign item_label = book_entry.title | default: item.book %}
+      {% elsif item.collection == "lists" %}
+        {% assign item_label = "List" %}
+      {% elsif item.collection == "glossary" %}
+        {% assign item_label = "Glossary" %}
+      {% endif %}
+
+      <div class="post-recent-content" data-published="{{ item.date | date_to_xmlschema }}">
+        {% if item.image %}
+        <a href="{{ item.url | relative_url }}" class="post-recent-image" tabindex="-1" aria-hidden="true">
+          <img class="lazy" data-src="{{ item.image | relative_url }}" alt="{{ item.title }}">
         </a>
         {% endif %}
-        <div class="post-recent-meta{% unless post.image %} post-recent-meta--full{% endunless %}">
+        <div class="post-recent-meta{% unless item.image %} post-recent-meta--full{% endunless %}">
           <h3 class="post-recent-title">
-            <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+            <a href="{{ item.url | relative_url }}">{{ item.title }}</a>
           </h3>
           <div class="post-recent-bottom">
-            <time class="post-recent-date" datetime="{{ post.date | date_to_xmlschema }}">{{ formatted_recent_date }}</time>
-            {% if post.series %}
-              {% assign series_entry = site.data.series | where: "slug", post.series | first %}
-              <span class="post-recent-series">
-                {{ t.series_label | default: "Series" }}{% if series_entry %}: {{ series_entry.title }}{% endif %}
-              </span>
+            <time class="post-recent-date" datetime="{{ item.date | date_to_xmlschema }}">{{ formatted_recent_date }}</time>
+            {% if item_label %}
+              <span class="post-recent-series">{{ item_label }}</span>
             {% endif %}
           </div>
         </div>
@@ -74,6 +107,6 @@
       {% if count == 6 %}{% break %}{% endif %}
     {% endif %}
   {% endfor %}
-</div>
+  </div>
 </div>
 {% endif %}

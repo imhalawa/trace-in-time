@@ -1,0 +1,115 @@
+# ──────────────────────────────────────────────────────────
+# Music Favorites  (_data/music.yml)
+# ──────────────────────────────────────────────────────────
+# Only youtube_id is required. Title and artist are fetched
+# automatically at build time from the YouTube oEmbed API
+# and cached in _data/.youtube_cache.json.
+#
+# REQUIRED
+#   youtube_id  - the video ID from the YouTube URL
+#                 e.g. https://youtube.com/watch?v=<youtube_id>
+#
+# OPTIONAL (auto-fetched if absent, override anytime)
+#   title       - song / track name
+#   artist      - performer or composer
+#
+# OPTIONAL (always manual)
+#   genre       - used for the filter pills on the page
+#   year        - release year
+#   note        - a personal note shown on the card
+# ──────────────────────────────────────────────────────────
+
+- youtube_id: "s-MZs6WB_AI"
+  title: "Myself"
+  artist: "Earth Sine"
+  genre: "Ambient"
+
+- youtube_id: "eUDVUZZyA0M"
+  title: "Experience"
+  artist: "Ludovico Einaudi"
+  genre: "Neo-Classical"
+  year: 2013
+
+- youtube_id: "7GlsxNI4LVI"
+  title: "Cornfield Chase"
+  artist: "Hans Zimmer"
+  genre: "Cinematic"
+  year: 2014
+
+- youtube_id: "71jeHYbBwgs"
+  title: "Soufi Extrait"
+  artist: "Egyptian Project"
+  genre: "Arabic"
+
+- youtube_id: "4uapUGquAtc"
+  title: "Egyptian Flamenco Fusion"
+  artist: "Tomatito & Sheik Al Tuni"
+  genre: "Fusion"
+
+- youtube_id: "Qj9DZZqRxAM"
+  title: "Mindreader"
+  artist: "KastomariN"
+  genre: "Electronic"
+
+- youtube_id: "zv94pKXSDKY"
+  title: "Paradise"
+  artist: "Moxura"
+  genre: "Chillout"
+
+- youtube_id: "TNBtSviRvfc"
+  title: "Escuro"
+  artist: "Cut Off"
+  genre: "Dark Ambient"
+
+- youtube_id: "EkoM65VLdJs"
+  title: "Lonely"
+  artist: "Cut Off"
+  genre: "Dark Ambient"
+
+- youtube_id: "aVDLBQpWefM"
+  title: "Tuesday"
+  artist: "Burak Yeter"
+  genre: "Electronic"
+  year: 2016
+
+- youtube_id: "ENxzD6fAwVY"
+  title: "Coffee Blues"
+  artist: "Ömer Balık"
+  genre: "Jazz"
+
+- youtube_id: "VWQ-e0qXX0M"
+  title: "In My Mind"
+  artist: "Dynoro"
+  genre: "Electronic"
+  year: 2018
+
+- youtube_id: "gstmcMOU-uM"
+  title: "Sokkar"
+  artist: "Elyanna"
+  genre: "Arabic Pop"
+
+- youtube_id: "VZBrZV3nHAA"
+  title: "Awake"
+  artist: "Tycho"
+  genre: "Electronic"
+  year: 2014
+
+- youtube_id: "3yJf9viwIMo"
+  title: "From Nowhere"
+  artist: "OMN"
+  genre: "Ambient"
+
+- youtube_id: "u94nxj8WJxY"
+  title: "Crêpes crapuleuses"
+  artist: "Everydayz"
+  genre: "Hip-Hop"
+
+- youtube_id: "yw_pe47uLZE"
+  title: "Quatrain"
+  artist: "Sorrow"
+  genre: "Dark Ambient"
+
+- youtube_id: "_OSvi_oFjWw"
+  title: "Everlasting"
+  artist: "Kyddiekafka"
+  genre: "Chillout"

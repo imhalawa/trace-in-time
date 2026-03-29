@@ -64,13 +64,14 @@
   @media (max-width: $desktop) {
     position: absolute;
     top: 64px;
-    right: $base-spacing-unit;
+    left: 0;
+    right: 0;
     z-index: -1;
     display: block;
-    min-width: 180px;
     padding: 20px;
     border: 1px solid var(--border-color);
-    border-radius: 12px;
+    border-top: none;
+    border-radius: 0 0 12px 12px;
     opacity: 0;
     visibility: hidden;
     background: var(--background-color);
@@ -113,9 +114,11 @@
         .dropdown-menu {
           position: relative;
           left: 0;
-          padding: 0;
+          padding: 0 0 0 16px;
           min-width: auto;
           border: none;
+          border-left: 2px solid var(--border-alt-color);
+          margin-left: 12px;
           box-shadow: none;
           background: inherit;
         }
@@ -210,6 +213,58 @@
       }
     }
 
+    /* Split dropdown: label link + chevron button */
+    &.dropdown--split {
+      display: flex;
+      align-items: center;
+
+      > .nav__link {
+        padding-right: 10px;
+      }
+
+      .dropdown-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 26px;
+        height: 32px;
+        padding: 0;
+        margin-left: 1px;
+        background: none;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        color: var(--text-alt-color);
+        transition: background 0.18s, color 0.18s;
+
+        svg {
+          transition: transform 0.2s ease;
+          pointer-events: none;
+        }
+
+        &:hover {
+          background: var(--background-alt-color);
+          color: var(--accent-color);
+        }
+
+        &.is-open svg {
+          transform: rotate(180deg);
+        }
+      }
+
+      @media (max-width: $desktop) {
+        display: block;
+
+        > .nav__link {
+          padding-right: 12px;
+        }
+
+        .dropdown-toggle {
+          display: none;
+        }
+      }
+    }
+
     .dropdown-menu {
       position: absolute;
       top: calc(100% + 12px);
@@ -264,10 +319,11 @@
 
 /* Humburger Menu */
 .hamburger {
-  width: 22px;
-  height: 22px;
+  width: 44px;
+  height: 44px;
   display: none;
   cursor: pointer;
+  justify-content: center;
 
   @media (max-width: $desktop) {
     display: flex;

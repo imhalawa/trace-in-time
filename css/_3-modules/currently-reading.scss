@@ -31,10 +31,10 @@
 .cr-card {
   display: flex;
   align-items: flex-start;
-  gap: 14px;
-  padding: 16px;
+  gap: 12px;
+  padding: 12px;
   border: 1px solid var(--border-color);
-  border-radius: 16px;
+  border-radius: 12px;
   text-decoration: none;
   color: inherit;
   transition: border-color 0.2s, box-shadow 0.2s;
@@ -52,8 +52,8 @@
 /* ---------- Cover thumbnail ---------- */
 .cr-cover {
   flex-shrink: 0;
-  width: 56px;
-  border-radius: 6px;
+  width: 44px;
+  border-radius: 4px;
   overflow: hidden;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
   transition: transform 0.2s ease;
@@ -98,10 +98,10 @@
 }
 
 .cr-title {
-  font-size: 15px;
+  font-size: 13px;
   font-weight: 600;
   line-height: 1.35;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
   text-decoration: underline;
   text-decoration-color: transparent;
   text-decoration-thickness: 1.4px;
@@ -117,6 +117,10 @@
 
 .cr-progress {
   margin-top: 8px;
+
+  .progress-bar__fill {
+    background-color: #d97706;
+  }
 }
 
 .cr-progress-label {

@@ -4,6 +4,7 @@ title: "Why Most Goals Fail: The Needs You Keep Ignoring"
 permalink: /why-most-goals-fail/
 description: Goals that ignore real needs always collapse. Sort out want from need from desire - then design goals that fit your actual life, not your ideal version of it.
 date: 2025-10-27 22:43 +0100
+last_modified_at: 2026-03-29
 tags: [Reflections]
 tags_color: '#6B8C9A'
 ---

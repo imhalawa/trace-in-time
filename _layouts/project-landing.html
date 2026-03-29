@@ -1,0 +1,103 @@
+---
+layout: default
+---
+
+{% assign project = site.data.projects | where: "slug", page.project_slug | first %}
+
+{% if project %}
+{% assign proj_posts  = site.projects | where: "project", page.project_slug %}
+{% assign gh_username = site.data.settings.github.username %}
+{% assign gh_repo     = project.repo %}
+{% if project.github_url and project.github_url != "" %}
+  {% assign gh_url = project.github_url %}
+{% elsif gh_repo != "" and gh_username != "" %}
+  {% assign gh_url = "https://github.com/" | append: gh_username | append: "/" | append: gh_repo %}
+{% else %}
+  {% assign gh_url = "" %}
+{% endif %}
+
+<!-- begin project-landing -->
+<div class="project-landing">
+  <div class="container">
+
+    <!-- Back link -->
+    <a href="{{ '/lists/projects/' | relative_url }}" class="project-landing__back">
+      <span class="fi fi-arrow-left" aria-hidden="true"></span> All Projects
+    </a>
+
+    <!-- Hero -->
+    <div class="project-landing__hero">
+
+      {% if project.image %}
+      <div class="project-landing__cover" style="background-image: url('{{ project.image | relative_url }}')"></div>
+      {% else %}
+      <div class="project-landing__cover project-landing__cover--placeholder">
+        <span class="fi fi-github project-landing__cover-icon" aria-hidden="true"></span>
+      </div>
+      {% endif %}
+
+      <div class="project-landing__meta">
+        {% if project.topic %}<span class="project-card__topic">{{ project.topic }}</span>{% endif %}
+        {% if project.status %}<span class="project-card__status project-card__status--{{ project.status }}">{{ project.status | upcase }}</span>{% endif %}
+        {% if project.year %}<span class="project-card__year">{{ project.year }}</span>{% endif %}
+      </div>
+
+      <h1 class="project-landing__title">{{ project.title | default: project.repo | escape }}</h1>
+      <p class="project-landing__desc">{{ project.description | escape }}</p>
+
+      {% if project.tech and project.tech.size > 0 %}
+      <div class="project-landing__tech">
+        {% for tag in project.tech %}
+        <span class="project-card__tech-badge">{{ tag }}</span>
+        {% endfor %}
+      </div>
+      {% endif %}
+
+      {% if project.note %}
+      <p class="project-landing__note">{{ project.note | escape }}</p>
+      {% endif %}
+
+      <!-- Primary action buttons -->
+      <div class="project-landing__actions">
+        {% if gh_url != "" %}
+        <a href="{{ gh_url }}" class="project-landing__btn project-landing__btn--github" target="_blank" rel="noopener noreferrer">
+          <i class="fa-brands fa-github" aria-hidden="true"></i> View on GitHub
+        </a>
+        {% endif %}
+        {% if project.live_url %}
+        <a href="{{ project.live_url }}" class="project-landing__btn project-landing__btn--live" target="_blank" rel="noopener noreferrer">
+          <span class="fi fi-open" aria-hidden="true"></span> See It Live
+        </a>
+        {% endif %}
+      </div>
+
+    </div>
+
+    <!-- Notes / write-up from _projects/ collection -->
+    {% if proj_posts.size > 0 %}
+    {% assign proj_note = proj_posts | first %}
+    <div class="project-landing__writeup">
+      <div class="project-landing__writeup-body">
+        {{ proj_note.content }}
+      </div>
+    </div>
+    {% endif %}
+
+    <!-- Hire / contract CTA -->
+    {% if project.available %}
+    <div class="project-landing__hire">
+      <div class="project-landing__hire-text">
+        <h2 class="project-landing__hire-title">Open to the right opportunity.</h2>
+        <p class="project-landing__hire-sub">If you're building something interesting and think I'd be a good fit, I'd love to hear about it.</p>
+      </div>
+      <a href="{{ '/contact/' | relative_url }}" class="project-landing__hire-btn">
+        <span class="fi fi-person" aria-hidden="true"></span> Hire Me
+      </a>
+    </div>
+    {% endif %}
+
+  </div>
+</div>
+<!-- end project-landing -->
+
+{% endif %}

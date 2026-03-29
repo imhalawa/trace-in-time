@@ -2,6 +2,7 @@
 layout: page
 title: About Me
 permalink: /about/
+description: "Mohamed Halawa is a backend software engineer, writer, and photographer. Trace in Time is his personal space for essays on code, systems, creativity, and the patterns that connect them."
 icon: 'fi fi-person'
 # image: '/images/01-2.jpg'
 ---

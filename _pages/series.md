@@ -2,10 +2,11 @@
 layout: page
 title: Series
 permalink: /series/
+description: "In-depth article series on software engineering, human behavior, and the patterns that connect both. Each series goes deeper on a single theme."
 icon: 'fi fi-stack'
 ---
 
-Explore our ongoing series of in-depth articles on various topics.
+Explore in-depth article series on software, thinking, and the systems that shape both.
 
 <div class="row grid">
   {% for series in site.data.series %}

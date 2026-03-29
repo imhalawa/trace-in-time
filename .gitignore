@@ -5,3 +5,4 @@ _site
 .DS_Store
 .github/agents/
 .github/skills/
+_data/.youtube_cache.json

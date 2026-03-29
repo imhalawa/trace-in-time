@@ -6,15 +6,14 @@
   link: "/series/async-await/"
 
 - slug: arabic-rtl-lab
-  draft: true
-  lang: ar
   title: "مختبر RTL العربي"
   subtitle: "تجارب عملية لبناء واجهات عربية واضحة ومتماسكة عبر مكونات الموقع."
   description: "سلسلة تجريبية لاختبار دعم الاتجاه من اليمين إلى اليسار عبر صفحات السلسلة وبطاقات المقالات."
   link: "/series/arabic-rtl-lab/"
+  lang: ar
+  draft: true
 
 - slug: solid-principles
-  draft: false
   title: "SOLID Principles"
   subtitle: "Code that looked fine — until it wasn't. That's where each principle begins."
   description: "Code that looked fine — until it wasn't. That's where each principle begins."

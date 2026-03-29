@@ -1,0 +1,153 @@
+---
+layout: default
+---
+
+{% assign t = site.data.translations.en %}
+{% assign all_books = site.data.books | where_exp: "b", "b.draft != true" %}
+
+<!-- begin books-list-page -->
+<div class="books-list-page">
+  <div class="container">
+
+    <!-- Page header -->
+    <div class="books-list-page__head">
+      <div class="page-title-row">
+        <span class="page-icon fi fi-book" aria-hidden="true"></span>
+        <h1 class="page-title">{{ page.title | escape }}</h1>
+      </div>
+      {% if page.subtitle %}<p class="books-list-page__subtitle">{{ page.subtitle }}</p>{% endif %}
+      {% if page.description %}<p class="books-list-page__desc">{{ page.description }}</p>{% endif %}
+    </div>
+
+    <!-- Currently Reading banner -->
+    {% assign reading_books = all_books | where: "status", "reading" %}
+    {% if reading_books.size > 0 %}
+    <div class="bl-reading">
+      <h2 class="bl-reading__heading">
+        <span class="fi fi-glasses" aria-hidden="true"></span> Currently Reading
+      </h2>
+      <div class="bl-reading__cards">
+        {% for book in reading_books %}
+          {% assign chapters_read = book.chapters_read | default: 0 | plus: 0 %}
+          {% assign total_chapters = book.total_chapters | default: 1 | plus: 0 %}
+          {% assign progress_pct = chapters_read | times: 100 | divided_by: total_chapters %}
+          {% assign content_language = book.lang | default: site.lang | default: "en" %}
+          {% assign base_language = content_language | split: "-" | first | downcase %}
+          {% assign bt = site.data.translations[base_language] | default: site.data.translations.en %}
+          {% assign rtl_languages = "ar,arc,ckb,dv,fa,he,khw,ks,ku,ps,sd,ug,ur,yi" | split: "," %}
+          {% assign card_dir = "ltr" %}
+          {% if rtl_languages contains base_language %}{% assign card_dir = "rtl" %}{% endif %}
+          <a href="{{ book.link | relative_url }}" class="bl-reading-card" lang="{{ content_language }}" dir="{{ card_dir }}">
+            {% if book.cover_image %}
+            <div class="bl-reading-card__cover">
+              <img class="lazy" data-src="{{ book.cover_image | relative_url }}" alt="{{ book.title }} cover">
+            </div>
+            {% else %}
+            <div class="bl-reading-card__cover bl-reading-card__cover--geo" style="background: {{ book.cover_color | default: '#2F6BFF' }};">
+              <span class="fi fi-book" aria-hidden="true"></span>
+            </div>
+            {% endif %}
+            <div class="bl-reading-card__info">
+              <p class="bl-reading-card__label">{{ bt.status_reading | default: "Currently Reading" }}</p>
+              <h3 class="bl-reading-card__title">{{ book.title }}</h3>
+              <p class="bl-reading-card__author">{{ book.author }}</p>
+              <div class="bl-reading-card__progress">
+                <div class="progress-bar" role="progressbar" aria-valuenow="{{ progress_pct }}" aria-valuemin="0" aria-valuemax="100">
+                  <div class="progress-bar__fill" style="width: {{ progress_pct }}%;"></div>
+                </div>
+                <span class="bl-reading-card__prog-label">{{ bt.chapter_label | default: "Chapter" }} {{ chapters_read }} {{ bt.chapter_of | default: "of" }} {{ total_chapters }} <span class="bl-reading-card__pct">({{ progress_pct }}%)</span></span>
+              </div>
+            </div>
+          </a>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+
+    <!-- Status filter pills -->
+    <div class="books-filters" role="group" aria-label="Filter by status">
+      <button class="books-filter books-filter--active" data-filter="all">All</button>
+      <button class="books-filter" data-filter="to-read">
+        <span class="fi fi-bookmark" aria-hidden="true"></span> To Read
+      </button>
+      <button class="books-filter" data-filter="reading">
+        <span class="fi fi-glasses" aria-hidden="true"></span> Reading
+      </button>
+      <button class="books-filter" data-filter="read">
+        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> Read
+      </button>
+    </div>
+
+    <!-- Book count -->
+    <p class="books-list-page__count">
+      <span class="fi fi-book" aria-hidden="true"></span>
+      <span id="booksVisible">{{ all_books | size }}</span> book{% if all_books.size != 1 %}s{% endif %}
+    </p>
+
+    <!-- Books grid -->
+    <div class="books-list-grid" id="booksGrid">
+      {% for book in all_books %}
+        {% assign content_language = book.lang | default: site.lang | default: "en" %}
+        {% assign base_language = content_language | split: "-" | first | downcase %}
+        {% assign bt = site.data.translations[base_language] | default: site.data.translations.en %}
+        {% assign rtl_languages = "ar,arc,ckb,dv,fa,he,khw,ks,ku,ps,sd,ug,ur,yi" | split: "," %}
+        {% assign content_direction = "ltr" %}
+        {% if rtl_languages contains base_language %}
+          {% assign content_direction = "rtl" %}
+        {% endif %}
+        {% assign book_posts = site.books | where: "book", book.slug %}
+        {% assign published_book_posts = "" | split: "," %}
+        {% for book_post in book_posts %}
+          {% unless book_post.published == false %}
+            {% assign published_book_posts = published_book_posts | push: book_post %}
+          {% endunless %}
+        {% endfor %}
+        {% capture book_meta_text %}{{ published_book_posts.size }} {% if published_book_posts.size == 1 %}{{ bt.note_singular }}{% else %}{{ bt.note_plural }}{% endif %}{% endcapture %}
+        <div class="books-list-grid__item" data-status="{{ book.status | default: 'none' }}">
+          {% include book-card.html item=book type="book" link=true heading_tag="h2" meta_text=book_meta_text %}
+        </div>
+      {% endfor %}
+    </div>
+
+    <!-- Empty state -->
+    <div class="books-list-empty" id="booksEmpty" style="display:none;" aria-live="polite">
+      <p>No books in this category yet.</p>
+    </div>
+
+  </div>
+</div>
+<!-- end books-list-page -->
+
+<script>
+(function () {
+  'use strict';
+
+  var filters = document.querySelectorAll('.books-filter');
+  var cards   = document.querySelectorAll('.books-list-grid__item');
+  var counter = document.getElementById('booksVisible');
+  var empty   = document.getElementById('booksEmpty');
+
+  filters.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      filters.forEach(function (b) {
+        b.classList.remove('books-filter--active');
+        b.removeAttribute('aria-pressed');
+      });
+      this.classList.add('books-filter--active');
+      this.setAttribute('aria-pressed', 'true');
+
+      var filter  = this.dataset.filter;
+      var visible = 0;
+
+      cards.forEach(function (card) {
+        var match = filter === 'all' || card.dataset.status === filter;
+        card.classList.toggle('books-list-grid__item--hidden', !match);
+        if (match) visible++;
+      });
+
+      if (counter) counter.textContent = visible;
+      if (empty)   empty.style.display = visible === 0 ? 'block' : 'none';
+    });
+  });
+}());
+</script>

@@ -46,7 +46,7 @@
           {% endfor %}
 
           {% unless already_shown %}
-          {% assign series_posts = site.posts | where: "series", series_info.slug %}
+          {% assign series_posts = site.series | where: "series", series_info.slug %}
           {% assign published_series_posts = "" | split: "," %}
           {% for series_post in series_posts %}
           {% unless series_post.published == false %}
@@ -77,7 +77,7 @@
           {% endfor %}
 
           {% unless already_shown %}
-          {% assign book_posts = site.posts | where: "book", book_info.slug %}
+          {% assign book_posts = site.books | where: "book", book_info.slug %}
           {% assign published_book_posts = "" | split: "," %}
           {% for book_post in book_posts %}
           {% unless book_post.published == false %}
@@ -138,7 +138,7 @@
           {% endfor %}
 
           {% unless already_shown %}
-          {% assign book_posts = site.posts | where: "book", book_info.slug %}
+          {% assign book_posts = site.books | where: "book", book_info.slug %}
           {% assign published_book_posts = "" | split: "," %}
           {% for book_post in book_posts %}
           {% unless book_post.published == false %}
@@ -160,10 +160,9 @@
       </div>
       <div class="col col-4 col-d-12 sidebar-col">
         <aside class="sidebar">
-          {% include sidebar-widgets/widget-subscribe.html %}
-          {% include sidebar-widgets/widget-featured-posts.html %}
-          {% include sidebar-widgets/widget-recent-posts.html %}
           {% include sidebar-widgets/widget-currently-reading.html %}
+          {% include sidebar-widgets/widget-recent-posts.html %}
+          {% include sidebar-widgets/widget-recent-podcasts.html %}
         </aside>
       </div>
     </div>

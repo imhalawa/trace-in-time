@@ -9,6 +9,8 @@
   border-radius: 14px;
   overflow: hidden;
   transition: transform .24s ease, box-shadow .24s ease;
+  display: flex;
+  flex-direction: column;
 
   &:hover,
   &:focus-within {
@@ -17,25 +19,19 @@
   }
 }
 
-/* ---------- Clickable link wrapper ---------- */
+/* ---------- Full-card invisible overlay link (navigates to book) ---------- */
 .book-card__link {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  text-decoration: none;
-  color: inherit;
-
-  &:visited,
-  &:hover,
-  &:focus {
-    text-decoration: none;
-    color: inherit;
-  }
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-radius: inherit;
+  /* fully transparent — just captures clicks on the card background/cover */
 }
 
 /* ---------- Cover — natural image dimensions, no cropping ---------- */
 .book-card__cover {
   width: 100%;
+  position: relative;
 
   img {
     display: block;
@@ -49,18 +45,77 @@
   }
 }
 
-/* Placeholder when no cover_image */
+/* Placeholder when no cover_image — geometric fill, shorter than a real cover */
 .book-card__cover--placeholder {
-  background: var(--background-alt-color);
-  border-bottom: 1px solid var(--border-color);
+  height: 160px;
+  position: relative;
+  overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
+  /* background set inline via cover_color */
+}
 
-  .fi {
-    font-size: 36px;
-    color: var(--text-alt-color);
-    opacity: 0.35;
+@media (max-width: $mobile) {
+  .book-card__cover--placeholder {
+    height: 130px;
+  }
+}
+
+.book-card__cover-geometry {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.book-card__cover-icon {
+  position: relative;
+  z-index: 1;
+  width: 64px;
+  height: 64px;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+/* ---------- Zoom button — over cover, outside <a> so it doesn't navigate ---------- */
+.book-card__zoom-btn {
+  position: absolute;
+  top: 10px;
+  inset-inline-start: 10px;
+  z-index: 3;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(0, 0, 0, 0.55);
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transform: scale(0.8);
+  transition: opacity .2s ease, transform .2s ease, background .15s ease;
+  backdrop-filter: blur(4px);
+
+  svg {
+    flex-shrink: 0;
+  }
+
+  .book-card:hover & {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  &:hover,
+  &:focus-visible {
+    background: rgba(0, 0, 0, 0.75);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--accent-color);
+    outline-offset: 2px;
   }
 }
 
@@ -70,6 +125,8 @@
   padding: 14px 16px 16px;
   display: flex;
   flex-direction: column;
+  position: relative;
+  z-index: 2; /* above the full-card overlay link */
 }
 
 .book-card__eyebrow {
@@ -82,18 +139,39 @@
   color: var(--text-alt-color);
 }
 
+/* Specific link on the title */
+.book-card__title-link {
+  text-decoration: none;
+  color: inherit;
+
+  &:visited,
+  &:hover,
+  &:focus {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  &:hover .book-card__title,
+  &:focus .book-card__title {
+    text-decoration: underline;
+    text-decoration-color: var(--heading-font-color);
+  }
+}
+
 .book-card__title {
-  margin-bottom: 6px;
+  margin-bottom: 4px;
   font-size: 15px;
   font-weight: 600;
   line-height: 1.35;
   color: var(--heading-font-color);
+}
 
-  .book-card:hover &,
-  .book-card:focus-within & {
-    text-decoration: underline;
-    text-decoration-color: var(--heading-font-color);
-  }
+.book-card__author {
+  margin-bottom: 5px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-alt-color);
+  font-style: italic;
 }
 
 .book-card__subtitle {
@@ -109,6 +187,22 @@
   overflow: hidden;
 }
 
+/* ---------- Rating stars ---------- */
+.book-card__rating {
+  display: flex;
+  gap: 1px;
+  margin-top: 6px;
+  margin-bottom: 2px;
+}
+
+.book-card__star {
+  font-size: 13px;
+  line-height: 1;
+
+  &--full  { color: #f59e0b; }
+  &--empty { color: var(--border-color); }
+}
+
 .book-card__meta {
   margin-top: auto;
   padding-top: 10px;
@@ -121,59 +215,69 @@
 }
 
 /* ---------- Status stamp ---------- */
-.book-card__stamp {
+/* ---------- Status pill — floats at the bottom-start of the cover ---------- */
+.book-card__status-pill {
   position: absolute;
-  top: 12px;
-  inset-inline-end: 12px;
-  z-index: 2;
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
-  border: 2px solid currentColor;
-  display: flex;
-  flex-direction: column;
+  bottom: 10px;
+  inset-inline-start: 12px;
+  z-index: 4;
+  display: inline-flex;
   align-items: center;
-  justify-content: center;
-  gap: 2px;
-  transform: rotate(-10deg);
+  gap: 5px;
+  padding: 4px 10px 4px 8px;
+  border-radius: 999px;
+  font-family: $heading-font-family;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  line-height: 1;
   pointer-events: none;
-  backdrop-filter: blur(3px);
+  backdrop-filter: blur(6px);
 
-  /* Inner decorative ring — the rubber-stamp double-border look */
-  &::before {
-    content: '';
-    position: absolute;
-    inset: 4px;
-    border-radius: 50%;
-    border: 1px solid currentColor;
-    opacity: 0.35;
+  .fi {
+    font-size: 13px;
+    line-height: 1;
   }
 
   &--read {
-    color: #16a34a;
-    background: rgba(22, 163, 74, 0.12);
+    color: #15803d;
+    background: rgba(220, 252, 231, 0.92);
+    border: 1px solid rgba(22, 163, 74, 0.25);
   }
 
   &--reading {
-    color: #d97706;
-    background: rgba(217, 119, 6, 0.12);
+    color: #92400e;
+    background: rgba(255, 237, 213, 0.92);
+    border: 1px solid rgba(217, 119, 6, 0.3);
+  }
+
+  &--to-read {
+    color: #1d4ed8;
+    background: rgba(219, 234, 254, 0.92);
+    border: 1px solid rgba(59, 130, 246, 0.25);
   }
 }
 
-.book-card__stamp-icon {
-  font-size: 20px;
-  line-height: 1;
-  font-weight: 700;
-  font-style: normal;
-}
+/* Dark mode overrides */
+:root[dark] {
+  .book-card__status-pill--read {
+    color: #4ade80;
+    background: rgba(22, 163, 74, 0.2);
+    border-color: rgba(74, 222, 128, 0.3);
+  }
 
-.book-card__stamp-label {
-  font-family: $heading-font-family;
-  font-size: 7px;
-  font-weight: 800;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  line-height: 1;
+  .book-card__status-pill--reading {
+    color: #fbbf24;
+    background: rgba(217, 119, 6, 0.2);
+    border-color: rgba(251, 191, 36, 0.3);
+  }
+
+  .book-card__status-pill--to-read {
+    color: #93c5fd;
+    background: rgba(59, 130, 246, 0.15);
+    border-color: rgba(147, 197, 253, 0.3);
+  }
 }
 
 /* ---------- Mobile (2-up grid, smaller text) ---------- */

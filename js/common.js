@@ -95,22 +95,17 @@ document.addEventListener("DOMContentLoaded", function() {
     // Save current visit timestamp for next visit
     localStorage.setItem('tit_last_visit', String(now));
 
-    // -- Recent posts widget: hide items older than last visit (threshold already applied server-side) --
+    // -- Recent posts widget: add "new" indicator to items newer than last visit --
     document.querySelectorAll('.widget-recent-posts').forEach(function (widget) {
-      if (prevVisit === 0) return; // first visit — show all (threshold already applied by Jekyll)
-      var days = parseInt(widget.dataset.newBadgeDays || '15', 10);
-      var thresholdMs = days * 24 * 60 * 60 * 1000;
       var items = widget.querySelectorAll('.post-recent-content[data-published]');
-      var visible = 0;
+      if (items.length === 0) return; // music/podcast widgets have no data-published — leave them alone
+      if (prevVisit === 0) return; // first visit — show everything
       items.forEach(function (item) {
         var t = new Date(item.dataset.published).getTime();
-        if (t > prevVisit || (now - t < thresholdMs)) {
-          visible++;
-        } else {
-          item.style.display = 'none';
+        if (t > prevVisit) {
+          item.classList.add('post-recent-content--new');
         }
       });
-      if (visible === 0) widget.style.display = 'none';
     });
   })();
 
@@ -159,8 +154,10 @@ document.addEventListener("DOMContentLoaded", function() {
 
   // Menu
   function menu() {
-    menuToggle.classList.toggle("is-open");
+    const isOpen = menuToggle.classList.toggle("is-open");
     menuList.classList.toggle("is-visible");
+    menuToggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
+    menuToggle.setAttribute("aria-label", isOpen ? "Close menu" : "Open menu");
   }
 
   // Dropdown Menu
@@ -175,6 +172,12 @@ document.addEventListener("DOMContentLoaded", function() {
       });
 
       this.nextElementSibling.classList.toggle('is-visible');
+      // chevron rotation for split dropdowns
+      var isOpen = this.nextElementSibling.classList.contains('is-visible');
+      this.classList.toggle('is-open', isOpen);
+      document.querySelectorAll('.dropdown-toggle').forEach(function(t) {
+        if (t !== toggle) t.classList.remove('is-open');
+      });
     });
   });
 
@@ -182,6 +185,9 @@ document.addEventListener("DOMContentLoaded", function() {
     if (!e.target.closest('.nav__item')) {
       document.querySelectorAll('.dropdown-menu').forEach(function(menu) {
         menu.classList.remove('is-visible');
+      });
+      document.querySelectorAll('.dropdown-toggle').forEach(function(t) {
+        t.classList.remove('is-open');
       });
     }
   });
@@ -194,6 +200,8 @@ document.addEventListener("DOMContentLoaded", function() {
     globalWrap.classList.add("is-active");
     menuToggle.classList.remove("is-open");
     menuList.classList.remove("is-visible");
+    menuToggle.setAttribute("aria-expanded", "false");
+    menuToggle.setAttribute("aria-label", "Open menu");
     setTimeout(function () {
       searchInput.focus();
     }, 250);
@@ -208,6 +216,10 @@ document.addEventListener("DOMContentLoaded", function() {
   document.addEventListener('keydown', function(e){
     if (e.key == 'Escape') {
       searchClose();
+      if (menuList.classList.contains('is-visible')) {
+        menu();
+        menuToggle.focus();
+      }
     }
   });
 
@@ -367,6 +379,50 @@ document.addEventListener("DOMContentLoaded", function() {
 
     imagesOverlay.addEventListener('click', clearOverlay);
   }
+
+
+  /* =======================
+  // Book Cover Lightbox
+  ======================= */
+  (function () {
+    if (!document.createElement('dialog').showModal) return; // unsupported
+
+    var dialog = document.createElement('dialog');
+    dialog.className = 'book-cover-lightbox';
+    dialog.innerHTML =
+      '<button class="book-cover-lightbox__close" aria-label="Close">' +
+        '<span aria-hidden="true">&times;</span>' +
+      '</button>' +
+      '<div class="book-cover-lightbox__body">' +
+        '<img class="book-cover-lightbox__img" src="" alt="">' +
+        '<p class="book-cover-lightbox__title"></p>' +
+      '</div>';
+    document.body.appendChild(dialog);
+
+    var lbImg   = dialog.querySelector('.book-cover-lightbox__img');
+    var lbTitle = dialog.querySelector('.book-cover-lightbox__title');
+    var lbClose = dialog.querySelector('.book-cover-lightbox__close');
+
+    function openLightbox(src, title) {
+      lbImg.src   = src;
+      lbImg.alt   = title || '';
+      lbTitle.textContent = title || '';
+      dialog.showModal();
+    }
+
+    lbClose.addEventListener('click', function () { dialog.close(); });
+    dialog.addEventListener('click', function (e) { if (e.target === dialog) dialog.close(); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && dialog.open) dialog.close(); });
+
+    // Bind all zoom buttons (cards + hero)
+    document.querySelectorAll('.book-card__zoom-btn, .book-hero__zoom-btn').forEach(function (btn) {
+      btn.addEventListener('click', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        openLightbox(btn.dataset.cover, btn.dataset.title);
+      });
+    });
+  })();
 
 
   // =====================

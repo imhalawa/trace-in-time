@@ -1,0 +1,81 @@
+---
+layout: default
+---
+
+{% assign episode = site.data.podcasts | where: "slug", page.podcast_slug | first %}
+
+{% if episode %}
+{% assign ep_posts = site.podcasts | where: "podcast", page.podcast_slug %}
+{% assign has_youtube = false %}
+{% assign has_spotify = false %}
+{% if episode.youtube_id and episode.youtube_id != "" %}{% assign has_youtube = true %}{% endif %}
+{% if episode.spotify_url and episode.spotify_url != "" %}{% assign has_spotify = true %}{% endif %}
+
+<!-- begin podcast-landing -->
+<div class="podcast-landing">
+  <div class="container">
+
+    <!-- Back link -->
+    <a href="{{ '/lists/podcasts/' | relative_url }}" class="podcast-landing__back">
+      <span class="fi fi-arrow-left" aria-hidden="true"></span> All Episodes
+    </a>
+
+    <!-- Episode hero -->
+    <div class="podcast-landing__hero">
+      <div class="podcast-landing__meta">
+        {% if episode.topic %}<span class="podcast-card__topic">{{ episode.topic }}</span>{% endif %}
+        {% if episode.year %}<span class="podcast-card__year">{{ episode.year }}</span>{% endif %}
+      </div>
+      <h1 class="podcast-landing__title">{{ episode.title | escape }}</h1>
+      <p class="podcast-landing__show">
+        <span class="fi fi-headphones" aria-hidden="true"></span> {{ episode.podcast | escape }}
+      </p>
+      {% if episode.note %}
+      <p class="podcast-landing__note">{{ episode.note | escape }}</p>
+      {% endif %}
+    </div>
+
+    <!-- Media -->
+    {% if has_youtube or has_spotify %}
+    <div class="podcast-landing__media">
+      {% if has_youtube %}
+      <div class="podcast-landing__video-wrap">
+        <iframe
+          src="https://www.youtube-nocookie.com/embed/{{ episode.youtube_id }}?rel=0&modestbranding=1"
+          title="{{ episode.title | escape }}"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+          loading="lazy"
+          frameborder="0"
+          class="podcast-landing__iframe">
+        </iframe>
+      </div>
+      {% elsif has_spotify %}
+      {% assign spotify_ep_id = episode.spotify_url | split: "/episode/" | last | split: "?" | first %}
+      <iframe
+        src="https://open.spotify.com/embed/episode/{{ spotify_ep_id }}?utm_source=generator&theme=0"
+        class="podcast-landing__spotify"
+        title="{{ episode.title | escape }}"
+        frameborder="0"
+        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+        loading="lazy">
+      </iframe>
+      {% endif %}
+
+      {% if ep_posts.size > 0 %}
+      {% assign ep_note = ep_posts | first %}
+      <hr class="podcast-landing__divider">
+      <div class="podcast-landing__note-content">
+        <div class="podcast-landing__note-body">
+          {{ ep_note.content }}
+        </div>
+      </div>
+      {% endif %}
+    </div>
+    {% endif %}
+
+  </div>
+</div>
+<!-- end podcast-landing -->
+
+{% endif %}

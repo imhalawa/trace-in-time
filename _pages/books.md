@@ -2,6 +2,7 @@
 layout: page
 title: Books
 permalink: /books/
+description: "Book notes and selective chapter reviews by Mohamed Halawa — focused on software engineering, systems thinking, and human behavior."
 icon: 'fi fi-book'
 show_currently_reading: true
 ---
@@ -21,7 +22,7 @@ Book-focused notes and selective reviews by chapter and idea.
       {% endif %}
 
       <div class="col col-4 col-t-6 col-m-12 series-landing__item" lang="{{ content_language }}" dir="{{ content_direction }}">
-        {% assign book_posts = site.posts | where: "book", book.slug %}
+        {% assign book_posts = site.books | where: "book", book.slug %}
         {% assign published_book_posts = "" | split: "," %}
         {% for book_post in book_posts %}
           {% unless book_post.published == false %}

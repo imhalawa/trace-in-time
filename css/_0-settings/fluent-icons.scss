@@ -39,6 +39,14 @@ $simple-cdn: "https://cdn.jsdelivr.net/npm/simple-icons@14/icons";
 .fi-number-symbol   { -webkit-mask-image: url("#{$fluent-cdn}/number_symbol_20_regular.svg");  mask-image: url("#{$fluent-cdn}/number_symbol_20_regular.svg"); }
 .fi-glasses         { -webkit-mask-image: url("#{$fluent-cdn}/glasses_20_regular.svg");        mask-image: url("#{$fluent-cdn}/glasses_20_regular.svg"); }
 .fi-people          { -webkit-mask-image: url("#{$fluent-cdn}/people_20_regular.svg");          mask-image: url("#{$fluent-cdn}/people_20_regular.svg"); }
+.fi-music           { -webkit-mask-image: url("#{$fluent-cdn}/music_note_2_20_regular.svg");    mask-image: url("#{$fluent-cdn}/music_note_2_20_regular.svg"); }
+.fi-headphones      { -webkit-mask-image: url("#{$fluent-cdn}/headphones_20_regular.svg");      mask-image: url("#{$fluent-cdn}/headphones_20_regular.svg"); }
+.fi-pin             { -webkit-mask-image: url("#{$fluent-cdn}/pin_20_regular.svg");             mask-image: url("#{$fluent-cdn}/pin_20_regular.svg"); }
+.fi-chevron-right   { -webkit-mask-image: url("#{$fluent-cdn}/chevron_right_20_regular.svg");   mask-image: url("#{$fluent-cdn}/chevron_right_20_regular.svg"); }
+.fi-bookmark        { -webkit-mask-image: url("#{$fluent-cdn}/bookmark_20_regular.svg");        mask-image: url("#{$fluent-cdn}/bookmark_20_regular.svg"); }
+.fi-arrow-left      { -webkit-mask-image: url("#{$fluent-cdn}/arrow_left_20_regular.svg");       mask-image: url("#{$fluent-cdn}/arrow_left_20_regular.svg"); }
+.fi-open            { -webkit-mask-image: url("#{$fluent-cdn}/open_20_regular.svg");             mask-image: url("#{$fluent-cdn}/open_20_regular.svg"); }
+.fi-flash           { -webkit-mask-image: url("#{$fluent-cdn}/flash_20_regular.svg");            mask-image: url("#{$fluent-cdn}/flash_20_regular.svg"); }
 
 /* Brand icons via Simple Icons */
 /* LinkedIn was removed from simple-icons@14 — pinned to @13 */

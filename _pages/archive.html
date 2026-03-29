@@ -2,6 +2,7 @@
 layout: default
 title: Archive
 permalink: /archive/
+description: "Full archive of all articles on Trace in Time — software engineering, human behavior, and the patterns beneath both."
 ---
 
 <!-- begin archive-page -->
@@ -22,7 +23,12 @@ permalink: /archive/
           </div>
 
           <div class="archive-page__inner">
-            {% assign posts_by_year = site.posts | group_by_exp: "post", "post.date | date: '%Y'" %}
+            {% assign all_content = site.posts %}
+            {% if site.series %}{% assign all_content = all_content | concat: site.series %}{% endif %}
+            {% if site.books %}{% assign all_content = all_content | concat: site.books %}{% endif %}
+            {% if site.glossary %}{% assign all_content = all_content | concat: site.glossary %}{% endif %}
+            {% if site.lists %}{% assign all_content = all_content | concat: site.lists %}{% endif %}
+            {% assign posts_by_year = all_content | group_by_exp: "post", "post.date | date: '%Y'" %}
             {% for year_group in posts_by_year %}
             <div class="archive-page__group">
               <h2 class="archive-page__year">{{ year_group.name }} <sup>{{ year_group.items | size }}</sup></h2>

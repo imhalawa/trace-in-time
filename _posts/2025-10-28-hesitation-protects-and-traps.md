@@ -4,6 +4,7 @@ title: "Hesitation: When It Protects You and When It Traps You"
 permalink: /hesitation-protects-and-traps/
 description: Hesitation isn't just fear - it's a signal. This essay examines when the pause protects you, when it traps you, and how to act decisively without rushing.
 date: 2025-10-28 23:10 +0100
+last_modified_at: 2026-03-29
 tags: [Reflections]
 tags_color: '#6B8C9A'
 ---

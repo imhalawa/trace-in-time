@@ -60,27 +60,48 @@ module CollectionPages
     end
   end
 
-  class ListsPageGenerator < Jekyll::Generator
+  class PodcastsPageGenerator < Jekyll::Generator
     safe true
     priority :normal
 
     def generate(site)
-      (site.data["lists"] || []).each do |list|
-        slug = list["slug"]
+      (site.data["podcasts"] || []).each do |episode|
+        slug = episode["slug"]
         next if slug.nil? || slug.empty?
 
         page_data = {
-          "layout"         => "list-landing",
-          "title"          => list["title"] || slug,
-          "permalink"      => "/lists/#{slug}/",
-          "list_slug"      => slug,
-          "hide_page_title"=> true,
+          "layout"          => "podcast-landing",
+          "title"           => episode["title"] || slug,
+          "permalink"       => "/podcasts/#{slug}/",
+          "podcast_slug"    => slug,
+          "hide_page_title" => true,
         }
-        page_data["lang"]  = list["lang"]  if list["lang"]
-        page_data["draft"] = list["draft"] if list.key?("draft")
 
-        site.pages << GeneratedPage.new(site, site.source, "/lists/#{slug}", "index.html", page_data)
+        site.pages << GeneratedPage.new(site, site.source, "/podcasts/#{slug}", "index.html", page_data)
       end
     end
   end
+
+  class ProjectsPageGenerator < Jekyll::Generator
+    safe true
+    priority :normal
+
+    def generate(site)
+      (site.data["projects"] || []).each do |project|
+        slug = project["slug"]
+        next if slug.nil? || slug.empty?
+
+        page_data = {
+          "layout"          => "project-landing",
+          "title"           => project["title"] || slug,
+          "permalink"       => "/projects/#{slug}/",
+          "project_slug"    => slug,
+          "hide_page_title" => true,
+        }
+
+        site.pages << GeneratedPage.new(site, site.source, "/projects/#{slug}", "index.html", page_data)
+      end
+    end
+  end
+
 end

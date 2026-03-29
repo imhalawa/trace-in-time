@@ -1,0 +1,59 @@
+{% if site.data.podcasts.size > 0 %}
+<div class="widget">
+  <div class="widget-sidebar-head">
+    <h2 class="widget-sidebar-title"><span class="fi fi-headphones" aria-hidden="true"></span> Listened &amp; Noted</h2>
+  </div>
+
+  <div class="widget-recent-posts">
+    {% assign podcast_count = 0 %}
+    {% for item in site.data.podcasts %}
+      {% assign item_title = item.title | default: item.youtube_id | default: "Episode" %}
+      {% assign item_page_url = '/podcasts/' | append: item.slug | append: '/' | relative_url %}
+
+      <div class="post-recent-content">
+        {% if item.youtube_id %}
+        <a href="{{ item_page_url }}"
+           class="post-recent-image"
+           tabindex="-1"
+           aria-hidden="true">
+          <img src="https://img.youtube.com/vi/{{ item.youtube_id }}/mqdefault.jpg"
+               alt="{{ item_title }}"
+               loading="lazy">
+        </a>
+        {% else %}
+        <a href="{{ item_page_url }}"
+           class="post-recent-image post-recent-image--spotify"
+           tabindex="-1"
+           aria-hidden="true">
+          <span class="fi fi-headphones" aria-hidden="true"></span>
+        </a>
+        {% endif %}
+
+        <div class="post-recent-meta">
+          <h3 class="post-recent-title">
+            <a href="{{ item_page_url }}">{{ item_title }}</a>
+          </h3>
+          <div class="post-recent-bottom">
+            {% if item.podcast %}
+              <span class="post-recent-series">{{ item.podcast }}</span>
+            {% endif %}
+            {% if item.year %}
+              <time class="post-recent-date">{{ item.year }}</time>
+            {% endif %}
+          </div>
+          {% if item.note %}
+          <p class="post-recent-note">{{ item.note }}</p>
+          {% endif %}
+        </div>
+      </div>
+
+      {% assign podcast_count = podcast_count | plus: 1 %}
+      {% if podcast_count == 3 %}{% break %}{% endif %}
+    {% endfor %}
+  </div>
+
+  <div class="widget-sidebar-footer">
+    <a href="{{ '/lists/podcasts/' | relative_url }}" class="widget-sidebar-footer-link">All Podcasts →</a>
+  </div>
+</div>
+{% endif %}

@@ -1,0 +1,41 @@
+# ──────────────────────────────────────────────────────────
+# Projects  (_data/projects.yml)
+# ──────────────────────────────────────────────────────────
+#
+# REQUIRED
+#   slug          - Unique identifier. Used to generate /projects/<slug>/
+#
+# REQUIRED
+#   repo          - GitHub repository name only (e.g. "trace-in-time").
+#                   The full URL is built automatically from your configured
+#                   github.username in _data/settings.yml.
+#                   Title and description are auto-fetched from the GitHub API.
+#
+# OPTIONAL
+#   title         - Override the repo name (auto-fetched if blank)
+#   description   - Override the repo description (auto-fetched if blank)
+#   live_url      - Live demo / hosted app URL
+#   image         - Path to cover/screenshot image e.g. /images/projects/foo.png
+#   tech[]        - Stack array e.g. ["Ruby", "Jekyll", "SCSS"]
+#   topic         - Filter category e.g. "Web", "CLI", "Tool", "Design", "Open Source"
+#   status        - "active" | "wip" | "archived"  (default: active)
+#   year          - Year the project started / was published
+#   featured      - true to pin the project at the top of the page
+#   note          - Short personal note shown on the card
+#   available     - true to show the hire / freelance CTA button on the landing page
+#
+# To write a detailed write-up for a project:
+#   Create a file under _projects/<slug>.md with `project: <slug>` in front matter.
+#   The content renders inline on the landing page at /projects/<slug>/.
+# ──────────────────────────────────────────────────────────
+
+- slug: trace-in-time
+  repo: trace-in-time
+  live_url: "https://traceintime.com"
+  tech: ["Jekyll", "Ruby", "SCSS", "JavaScript", "Liquid"]
+  topic: "Web"
+  status: active
+  year: 2024
+  featured: true
+  available: false
+  note: "This site — you're literally reading it right now."

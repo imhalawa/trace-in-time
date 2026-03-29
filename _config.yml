@@ -3,6 +3,9 @@
 # General Site Settings
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://traceintime.com" # the base hostname & protocol for your site
+title: Trace in Time
+description: "Trace in Time is Mohamed Halawa's blog on software engineering, human behavior, and the patterns beneath both — essays, notes, and reflections on building with clarity."
+lang: en
 
 #-------------------------------
 # Build Settings
@@ -21,9 +24,41 @@ defaults:
       path: "_pages"
     values:
       permalink: /:basename:output_ext
+  - scope:
+      path: "_series"
+      type: series
+    values:
+      layout: post
+  - scope:
+      path: "_glossary"
+      type: glossary
+    values:
+      layout: post
+  - scope:
+      path: "_lists"
+      type: lists
+    values:
+      layout: list-post
+  - scope:
+      path: "_books"
+      type: books
+    values:
+      layout: post
+      math: true
 
 include:
   - _pages
 
-sass:
-  style: compressed
+collections:
+  podcasts:
+    output: false
+  projects:
+    output: false
+  series:
+    output: true
+  books:
+    output: true
+  glossary:
+    output: true
+  lists:
+    output: true

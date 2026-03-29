@@ -15,11 +15,11 @@ Parameters: item (object from data file), type (series|list|book)
 {% endif %}
 
 {% if concept_type == "series" %}
-  {% assign related_posts = site.posts | where: "series", concept_data.slug %}
+  {% assign related_posts = site.series | where: "series", concept_data.slug %}
 {% elsif concept_type == "list" %}
-  {% assign related_posts = site.posts | where: "list", concept_data.slug %}
+  {% assign related_posts = site.lists | where: "list", concept_data.slug %}
 {% else %}
-  {% assign related_posts = site.posts | where: "book", concept_data.slug %}
+  {% assign related_posts = site.books | where: "book", concept_data.slug %}
 {% endif %}
 
 {% assign published_posts = "" | split: "," %}
@@ -84,7 +84,7 @@ Parameters: item (object from data file), type (series|list|book)
     {% if most_recent %}data-series-newest="{{ most_recent.date | date_to_xmlschema }}"{% endif %}
     {% if oldest_post %}data-series-oldest="{{ oldest_post.date | date_to_xmlschema }}"{% endif %}
     data-new-label="{{ t.new_label | default: 'New' }}"
-    data-new-article-label="{{ t.new_article_label | default: 'New Article' }}"
+    data-new-article-label="{% if concept_type == 'book' %}{{ t.new_chapter_note_label | default: 'New Chapter Note' }}{% else %}{{ t.new_article_label | default: 'New Article' }}{% endif %}"
     data-new-badge-days="{{ site.data.settings.new_badge.days | default: 15 }}">
     <div class="article__inner">
         {% if concept_data.image %}
@@ -95,7 +95,7 @@ Parameters: item (object from data file), type (series|list|book)
             {% if show_new_badge or show_new_article_badge %}
             <div class="article__badges">
                 {% if show_new_badge %}<span class="article__new-badge" data-badge="new">{{ t.new_label | default: "New" }}</span>{% endif %}
-                {% if show_new_article_badge %}<span class="article__new-badge article__new-badge--article" data-badge="new-article">{{ t.new_article_label | default: "New Article" }}</span>{% endif %}
+                {% if show_new_article_badge %}<span class="article__new-badge article__new-badge--article" data-badge="new-article">{% if concept_type == 'book' %}{{ t.new_chapter_note_label | default: "New Chapter Note" }}{% else %}{{ t.new_article_label | default: "New Article" }}{% endif %}</span>{% endif %}
             </div>
             {% endif %}
         </div>
@@ -107,7 +107,7 @@ Parameters: item (object from data file), type (series|list|book)
             {% unless concept_data.image %}
             <div class="article__badges article__badges--inline">
                 {% if show_new_badge %}<span class="article__new-badge" data-badge="new">{{ t.new_label | default: "New" }}</span>{% endif %}
-                {% if show_new_article_badge %}<span class="article__new-badge article__new-badge--article" data-badge="new-article">{{ t.new_article_label | default: "New Article" }}</span>{% endif %}
+                {% if show_new_article_badge %}<span class="article__new-badge article__new-badge--article" data-badge="new-article">{% if concept_type == 'book' %}{{ t.new_chapter_note_label | default: "New Chapter Note" }}{% else %}{{ t.new_article_label | default: "New Article" }}{% endif %}</span>{% endif %}
             </div>
             {% endunless %}
             {% endif %}
