@@ -154,10 +154,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
   // Menu
   function menu() {
-    const isOpen = menuToggle.classList.toggle("is-open");
+    menuToggle.classList.toggle("is-open");
     menuList.classList.toggle("is-visible");
-    menuToggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
-    menuToggle.setAttribute("aria-label", isOpen ? "Close menu" : "Open menu");
   }
 
   // Dropdown Menu
@@ -200,8 +198,6 @@ document.addEventListener("DOMContentLoaded", function() {
     globalWrap.classList.add("is-active");
     menuToggle.classList.remove("is-open");
     menuList.classList.remove("is-visible");
-    menuToggle.setAttribute("aria-expanded", "false");
-    menuToggle.setAttribute("aria-label", "Open menu");
     setTimeout(function () {
       searchInput.focus();
     }, 250);
@@ -216,10 +212,6 @@ document.addEventListener("DOMContentLoaded", function() {
   document.addEventListener('keydown', function(e){
     if (e.key == 'Escape') {
       searchClose();
-      if (menuList.classList.contains('is-visible')) {
-        menu();
-        menuToggle.focus();
-      }
     }
   });
 

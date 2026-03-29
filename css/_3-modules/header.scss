@@ -64,14 +64,13 @@
   @media (max-width: $desktop) {
     position: absolute;
     top: 64px;
-    left: 0;
-    right: 0;
+    right: $base-spacing-unit;
     z-index: -1;
     display: block;
+    min-width: 180px;
     padding: 20px;
     border: 1px solid var(--border-color);
-    border-top: none;
-    border-radius: 0 0 12px 12px;
+    border-radius: 12px;
     opacity: 0;
     visibility: hidden;
     background: var(--background-color);
@@ -114,11 +113,9 @@
         .dropdown-menu {
           position: relative;
           left: 0;
-          padding: 0 0 0 16px;
+          padding: 0;
           min-width: auto;
           border: none;
-          border-left: 2px solid var(--border-alt-color);
-          margin-left: 12px;
           box-shadow: none;
           background: inherit;
         }
@@ -319,11 +316,10 @@
 
 /* Humburger Menu */
 .hamburger {
-  width: 44px;
-  height: 44px;
+  width: 22px;
+  height: 22px;
   display: none;
   cursor: pointer;
-  justify-content: center;
 
   @media (max-width: $desktop) {
     display: flex;
