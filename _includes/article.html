@@ -76,14 +76,16 @@
 
       <div class="article__meta">
         <time class="article__date" datetime="{{ post.date | date_to_xmlschema }}"><span class="fi fi-calendar" aria-hidden="true"></span> {{ formatted_article_date }}</time>
+        {% if site.data.settings.show_reading_time %}
         <div class="article__minutes">
           {% assign words = post.content | number_of_words %}
-          {% if words < 360 %}
+          {% if words < 550 %}
             <span class="fi fi-clock" aria-hidden="true"></span> 1 {{ t.min_read }}
           {% else %}
-            <span class="fi fi-clock" aria-hidden="true"></span> {{ words | divided_by:180 }} {{ t.min_read }}
+            <span class="fi fi-clock" aria-hidden="true"></span> {{ words | divided_by:275 }} {{ t.min_read }}
           {% endif %}
         </div>
+        {% endif %}
       </div>
 
       {% if post.tags.size > 0 %}

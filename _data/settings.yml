@@ -4,6 +4,7 @@ title: Trace in Time
 description: "Trace in Time is Mohamed Halawa's blog on software engineering, human behavior, and the patterns beneath both — essays, notes, and reflections on building with clarity."
 logo: # You can add own logo. For example '/images/logo.png'.
 logo_dark:
+show_reading_time: false # Show estimated reading time on posts and article cards
 
 
 #-------------------------------
