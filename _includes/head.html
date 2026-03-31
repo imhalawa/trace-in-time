@@ -39,12 +39,27 @@
   {% if page.tags %}{% for tag in page.tags %}<meta property="article:tag" content="{{ tag }}">{% endfor %}{% endif %}
   {% endif %}
 
-  <!-- Fonts -->
+  <!-- Preconnect to external font/icon CDNs -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;600;700;800&display=swap"
-    rel="stylesheet">
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+
+  <!-- Google Fonts — non-blocking (preload pattern) -->
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;600;700;800&display=swap"
+    onload="this.onload=null;this.rel='stylesheet'">
+  <noscript>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;600;700;800&display=swap">
+  </noscript>
+
+  <!-- Preload LCP image -->
+  {% assign _lcp_avatar = site.data.settings.hero.hero_avatar | default: site.data.settings.author.author_avatar %}
+  {% if page.url == "/" and _lcp_avatar %}
+  <link rel="preload" as="image" href="{{ _lcp_avatar }}" fetchpriority="high">
+  {% endif %}
+  {% if page.layout == "post" and page.image %}
+  <link rel="preload" as="image" href="{{ page.image | relative_url }}" fetchpriority="high">
+  {% endif %}
 
 
   <script>
@@ -82,55 +97,6 @@
   </script>
 
   <link rel="stylesheet" href="{{ '/css/main.css' | relative_url }}">
-
-  {% if page.mermaid %}
-  <script type="module">
-    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
-    mermaid.initialize({
-      startOnLoad: false,
-      theme: 'base',
-      themeVariables: {
-        primaryColor: '#ffffff',
-        primaryBorderColor: '#1a1a1a',
-        primaryTextColor: '#1a1a1a',
-        lineColor: '#1a1a1a',
-        secondaryColor: '#f5f5f5',
-        tertiaryColor: '#ffffff',
-        noteBkgColor: '#f5f5f5',
-        noteTextColor: '#1a1a1a',
-        fontSize: '14px',
-        fontFamily: 'inherit',
-      }
-    });
-    document.addEventListener('DOMContentLoaded', async () => {
-      let figureIndex = 0;
-      document.querySelectorAll('pre code.language-mermaid').forEach(code => {
-        figureIndex++;
-        const pre = code.parentElement;
-        const figure = document.createElement('figure');
-        figure.className = 'diagram-figure';
-        const div = document.createElement('div');
-        div.className = 'mermaid';
-        div.textContent = code.textContent;
-        figure.appendChild(div);
-        const caption = document.createElement('figcaption');
-        caption.className = 'diagram-caption';
-        // If the preceding sibling is a bold-only paragraph, use it as the caption text
-        const prev = pre.previousElementSibling;
-        if (prev && prev.tagName === 'P') {
-          const strong = prev.querySelector('strong');
-          if (strong && prev.textContent.trim() === strong.textContent.trim()) {
-            caption.textContent = strong.textContent.replace(/:$/, '');
-            prev.remove();
-          }
-        }
-        figure.appendChild(caption);
-        pre.replaceWith(figure);
-      });
-      await mermaid.run();
-    });
-  </script>
-  {% endif %}
 
   {% if page.math %}
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" crossorigin="anonymous">

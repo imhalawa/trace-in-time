@@ -27,6 +27,16 @@ jobs:
           ruby-version: '3.2'
           bundler-cache: true
 
+      - name: Convert images to WebP
+        run: |
+          sudo apt-get install -y webp
+          find images/ -type f \( -name "*.jpg" -o -name "*.jpeg" -o -name "*.png" \) | while read f; do
+            out="${f%.*}.webp"
+            if [ ! -f "$out" ]; then
+              cwebp -q 82 "$f" -o "$out"
+            fi
+          done
+
       - name: Build Jekyll
         run: bundle exec jekyll build
         env:

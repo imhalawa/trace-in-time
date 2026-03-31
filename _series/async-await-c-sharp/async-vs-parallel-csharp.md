@@ -8,7 +8,6 @@ part: 4
 tags: [dotnet, async-await, series]
 tags_color: "#4122aa"
 permalink: /series/async-await/async-vs-parallel-csharp/
-mermaid: true
 ---
 
 ## Two Different Answers to Two Different Problems
@@ -54,21 +53,31 @@ Microsoft's guidance on this distinction is explicit:
 
 **I/O-Bound — thread released while waiting:**
 
-```mermaid
-flowchart TD
-    A[Start async I/O] --> B[Thread released to pool]
-    B --> C[OS handles I/O in background]
-    C --> D[OS signals completion]
-    D --> E[Thread resumes continuation]
+```plantuml
+@startuml
+
+start
+:Start async I/O;
+:Thread released to pool;
+:OS handles I/O in background;
+:OS signals completion;
+:Thread resumes continuation;
+stop
+@enduml
 ```
 
 **CPU-Bound — thread actively computing:**
 
-```mermaid
-flowchart TD
-    A[Task.Run on pool thread] --> B[CPU actively computing]
-    B --> C[Computation finishes]
-    C --> D[await returns result]
+```plantuml
+@startuml
+
+start
+:Task.Run on pool thread;
+:CPU actively computing;
+:Computation finishes;
+:await returns result;
+stop
+@enduml
 ```
 
 ### The rule of thumb
@@ -109,30 +118,34 @@ var text = await File.ReadAllTextAsync(path);
 
 **`Task.Run` wrapping sync I/O — thread still blocked:**
 
-```mermaid
-sequenceDiagram
-    participant T as Thread
-    participant Disk
+```plantuml
+@startuml
 
-    Note over T: Task.Run assigns a pool thread
-    T->>Disk: File.ReadAllText (blocks)
-    Note over T: occupied — doing nothing
-    Disk-->>T: data returned
+participant "Thread" as T
+participant "Disk" as Disk
+
+note over T: Task.Run assigns a pool thread
+T -> Disk: File.ReadAllText (blocks)
+note over T: occupied — doing nothing
+Disk --> T: data returned
+@enduml
 ```
 
 **True async I/O — no thread held during the wait:**
 
-```mermaid
-sequenceDiagram
-    participant T as Thread
-    participant Pool as Thread Pool
-    participant Disk
+```plantuml
+@startuml
 
-    T->>Disk: await ReadAllTextAsync
-    T->>Pool: thread returned immediately
-    Note over Pool: free for other requests
-    Disk-->>Pool: OS signals completion
-    Pool->>T: continuation scheduled
+participant "Thread" as T
+participant "Thread Pool" as Pool
+participant "Disk" as Disk
+
+T -> Disk: await ReadAllTextAsync
+T -> Pool: thread returned immediately
+note over Pool: free for other requests
+Disk --> Pool: OS signals completion
+Pool -> T: continuation scheduled
+@enduml
 ```
 
 ## Composing Async and Parallel Work

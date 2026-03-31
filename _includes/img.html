@@ -1,5 +1,11 @@
 <figure class="gallery__image">
-  <img src="{{ include.src }}" loading="lazy" alt="{{ include.alt | default: '' }}">
+  {% assign _img_webp = include.src | replace: '.jpg', '.webp' | replace: '.jpeg', '.webp' | replace: '.png', '.webp' %}
+  <picture>
+    {% if jekyll.environment == "production" %}<source type="image/webp" srcset="{{ _img_webp }}">{% endif %}
+    <img src="{{ include.src }}" loading="lazy" alt="{{ include.alt | default: '' }}"
+      {% if include.width %}width="{{ include.width }}"{% endif %}
+      {% if include.height %}height="{{ include.height }}"{% endif %}>
+  </picture>
   {% if include.caption %}
   <figcaption class="gallery__image__caption">{{ include.caption }}</figcaption>
   {% endif %}

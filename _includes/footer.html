@@ -38,7 +38,12 @@
                   </svg>
                 </div>
                 {% endif %}
-                <img class="lazy" data-src="{{ post.image | relative_url }}" alt="{{ post.title }}">
+                {% assign _footer_img_webp = post.image | relative_url | replace: '.jpg', '.webp' | replace: '.jpeg', '.webp' | replace: '.png', '.webp' %}
+                <picture>
+                  {% if jekyll.environment == "production" %}<source type="image/webp" data-srcset="{{ _footer_img_webp }}">{% endif %}
+                  <img class="lazy" data-src="{{ post.image | relative_url }}" alt="{{ post.title }}"
+                    width="80" height="60">
+                </picture>
               </a>
               {% endif %}
               <div class="footer__recent-meta">

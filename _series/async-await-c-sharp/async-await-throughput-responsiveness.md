@@ -8,7 +8,6 @@ part: 3
 tags: [dotnet, async-await, series]
 tags_color: "#4122aa"
 permalink: /series/async-await/async-await-throughput-responsiveness/
-mermaid: true
 ---
 
 ## The Real Bottleneck in Most Apps Isn't the CPU
@@ -58,12 +57,24 @@ The async version releases the thread while the network request travels and whil
 
 **Throughput comparison — blocking vs async request handler:**
 
-```mermaid
-xychart-beta
-    title "Relative throughput — same thread budget"
-    x-axis ["Blocking handler", "Async handler"]
-    y-axis "Relative throughput" 0 --> 5
-    bar [1, 4.5]
+```vegalite
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": "Relative throughput — same thread budget",
+  "width": 300,
+  "height": 200,
+  "data": {
+    "values": [
+      {"handler": "Blocking handler", "throughput": 1},
+      {"handler": "Async handler",    "throughput": 4.5}
+    ]
+  },
+  "mark": "bar",
+  "encoding": {
+    "x": {"field": "handler", "type": "ordinal", "axis": {"title": ""}},
+    "y": {"field": "throughput", "type": "quantitative", "axis": {"title": "Relative throughput"}}
+  }
+}
 ```
 
 ### The underlying mechanism
@@ -96,32 +107,36 @@ The async version lets the UI thread return to the message loop during the file 
 
 **Blocking — UI thread frozen until file is read:**
 
-```mermaid
-sequenceDiagram
-    participant User
-    participant UI as UI Thread
-    participant Disk
+```plantuml
+@startuml
 
-    User->>UI: click Load
-    UI->>Disk: File.ReadAllText
-    Note over UI: frozen — no clicks, no repaints
-    Disk-->>UI: file data
-    UI->>User: label updated
+participant "User" as User
+participant "UI Thread" as UI
+participant "Disk" as Disk
+
+User -> UI: click Load
+UI -> Disk: File.ReadAllText
+note over UI: frozen — no clicks, no repaints
+Disk --> UI: file data
+UI -> User: label updated
+@enduml
 ```
 
 **Async — UI thread free during the read:**
 
-```mermaid
-sequenceDiagram
-    participant User
-    participant UI as UI Thread
-    participant Disk
+```plantuml
+@startuml
 
-    User->>UI: click Load
-    UI->>Disk: await ReadAllTextAsync
-    Note over UI: responsive — clicks and animations work
-    Disk-->>UI: continuation on UI thread
-    UI->>User: label updated
+participant "User" as User
+participant "UI Thread" as UI
+participant "Disk" as Disk
+
+User -> UI: click Load
+UI -> Disk: await ReadAllTextAsync
+note over UI: responsive — clicks and animations work
+Disk --> UI: continuation on UI thread
+UI -> User: label updated
+@enduml
 ```
 
 ## The Anti-Pattern That Defeats the Purpose

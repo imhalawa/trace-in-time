@@ -45,7 +45,12 @@ layout: default
         {% else %}
         {% if page.image %}
         <div class="post-image">
-          <img class="lazy" data-src="{{ page.image | relative_url }}" alt="{{ page.title }}">
+          {% assign _post_image_webp = page.image | relative_url | replace: '.jpg', '.webp' | replace: '.jpeg', '.webp' | replace: '.png', '.webp' %}
+          <picture>
+            {% if jekyll.environment == "production" %}<source type="image/webp" srcset="{{ _post_image_webp }}">{% endif %}
+            <img src="{{ page.image | relative_url }}" alt="{{ page.title }}"
+              width="800" height="600" fetchpriority="high" loading="eager">
+          </picture>
         </div>
         {% endif %}
         {% endif %}

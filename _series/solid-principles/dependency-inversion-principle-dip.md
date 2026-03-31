@@ -8,7 +8,7 @@ part: 3
 tags: [design-principles, oop, series]
 tags_color: "#7C3AED"
 permalink: /series/solid-principles/dependency-inversion-principle/
-mermaid: true
+
 ---
 
 {: .prerequisites }
@@ -127,18 +127,22 @@ After:
 - `ReportGenerator` → `IOrderRepository`
 - `SqlOrderRepository` → `IOrderRepository`
 
-```mermaid
-flowchart LR
-    subgraph before["Before"]
-        direction TB
-        A["ReportGenerator"] -->|"depends on"| B["SqlDatabase"]
-    end
-    subgraph after["After"]
-        direction TB
-        C["ReportGenerator"] -->|"depends on"| D(["IOrderRepository"])
-        E["SqlOrderRepository"] -->|"implements"| D
-    end
-    before ~~~ after
+```plantuml
+@startuml
+
+package "Before" {
+  [ReportGenerator] --> [SqlDatabase] : depends on
+}
+
+package "After" {
+  [ReportGenerator] as RG2
+  interface "IOrderRepository" as IRepo
+  [SqlOrderRepository] as SqlRepo
+
+  RG2 --> IRepo : depends on
+  SqlRepo ..|> IRepo : implements
+}
+@enduml
 ```
 
 Both sides point at the abstraction. The direct link from policy to detail is gone. `ReportGenerator` is now **closed for modification** — a new data source is a new class implementing `IOrderRepository`, not an edit to the report logic. That is exactly how DIP acts as the mechanism behind the [Open-Closed Principle (OCP)](/series/solid-principles/open-closed-principle/): the abstraction is the hinge point that keeps policy stable while details vary.
@@ -196,15 +200,18 @@ The container is a convenience. It doesn't change what DIP requires — `ReportG
 
 The important distinction: **a container doesn't enforce DIP**. You can register a concrete class directly and inject it everywhere — that satisfies the container, but violates the principle. Conversely, you can follow DIP perfectly with no container at all, just a single manual composition root. The principle is about the direction of dependencies in your design. The container is about how those dependencies get built at runtime.
 
-```mermaid
-flowchart TD
-    IoC["Inversion of Control\nthe broader concept"]
-    DIP["Dependency Inversion Principle\ndesign rule: depend on abstractions"]
-    DI["Dependency Injection\ntechnique: pass dependencies from outside"]
-    Container["DI Container\ntool: automates wiring at scale"]
-    IoC --> DI
-    DIP --> DI
-    DI --> Container
+```plantuml
+@startuml
+
+[Inversion of Control\nthe broader concept] as IoC
+[Dependency Inversion Principle\ndesign rule: depend on abstractions] as DIP
+[Dependency Injection\ntechnique: pass dependencies from outside] as DI
+[DI Container\ntool: automates wiring at scale] as Container
+
+IoC --> DI
+DIP --> DI
+DI --> Container
+@enduml
 ```
 
 ## What DIP Does for Testing

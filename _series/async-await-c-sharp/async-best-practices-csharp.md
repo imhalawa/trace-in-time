@@ -8,7 +8,6 @@ part: 8
 tags: [dotnet, async-await, series]
 tags_color: "#4122aa"
 permalink: /series/async-await/async-best-practices-csharp/
-mermaid: true
 ---
 
 ## The Conventions That Keep Async Code From Surprising You
@@ -52,14 +51,21 @@ The chain terminates naturally at the top boundary: a controller action, an even
 
 **The async chain — from controller to database:**
 
-```mermaid
-flowchart TD
-    A["Controller\nasync Task<IActionResult>"] -->|await| B["Service\nasync Task<Order>"]
-    B -->|await| C["Repository\nasync Task<Order>"]
-    C -->|await| D["Database\nasync query"]
-    D -.->|result| C
-    C -.->|result| B
-    B -.->|result| A
+```plantuml
+@startuml
+
+participant "Controller\nasync Task<IActionResult>" as C
+participant "Service\nasync Task<Order>" as S
+participant "Repository\nasync Task<Order>" as R
+participant "Database\nasync query" as D
+
+C -> S: await
+S -> R: await
+R -> D: await
+D --> R: result
+R --> S: result
+S --> C: result
+@enduml
 ```
 
 ## `async` Without `await` Is Overhead Without Benefit

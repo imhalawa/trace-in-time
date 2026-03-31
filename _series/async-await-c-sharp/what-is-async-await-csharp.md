@@ -8,7 +8,6 @@ part: 1
 tags: [dotnet, async-await, series]
 tags_color: "#4122aa"
 permalink: /series/async-await/what-is-async-await-csharp/
-mermaid: true
 ---
 
 ## What Are We Actually Solving?
@@ -39,30 +38,34 @@ Async programming makes waiting cooperative. Instead of a thread blocking until 
 
 **Blocking — thread held for the entire wait:**
 
-```mermaid
-sequenceDiagram
-    participant T as Thread
-    participant IO as Network / DB
+```plantuml
+@startuml
 
-    T->>IO: send request
-    Note over T: blocked — holding stack memory
-    IO-->>T: response arrives
-    T->>T: continue
+participant "Thread" as T
+participant "Network / DB" as IO
+
+T -> IO: send request
+note over T: blocked — holding stack memory
+IO --> T: response arrives
+T -> T: continue
+@enduml
 ```
 
 **Async — thread released, resumes on completion:**
 
-```mermaid
-sequenceDiagram
-    participant T as Thread
-    participant Pool as Thread Pool
-    participant IO as Network / DB
+```plantuml
+@startuml
 
-    T->>IO: send request (async)
-    T->>Pool: released — available for other work
-    IO-->>Pool: response arrives
-    Pool->>T: continuation scheduled
-    T->>T: resume from saved state
+participant "Thread" as T
+participant "Thread Pool" as Pool
+participant "Network / DB" as IO
+
+T -> IO: send request (async)
+T -> Pool: released — available for other work
+IO --> Pool: response arrives
+Pool -> T: continuation scheduled
+T -> T: resume from saved state
+@enduml
 ```
 
 ## What `async` and `await` Actually Do
@@ -116,24 +119,45 @@ var result = await Task.Run(() => ProcessLargeDataset(input));
 
 **Sequential awaits — each call waits for the previous one to finish:**
 
-```mermaid
-flowchart LR
-    A1[await GetUsersAsync] --> A2[await GetOrdersAsync] --> A3[Done]
+```plantuml
+@startuml
+
+start
+:await GetUsersAsync;
+:await GetOrdersAsync;
+:Done;
+stop
+@enduml
 ```
 
 **Concurrent I/O — both start immediately, await completes when both are done:**
 
-```mermaid
-flowchart LR
-    B1[GetUsersAsync]  --> B3[await Task.WhenAll] --> B4[Done]
-    B2[GetOrdersAsync] --> B3
+```plantuml
+@startuml
+
+start
+fork
+  :GetUsersAsync;
+fork again
+  :GetOrdersAsync;
+end fork
+:await Task.WhenAll;
+:Done;
+stop
+@enduml
 ```
 
 **CPU-bound work — offload to thread pool with Task.Run, then await the result:**
 
-```mermaid
-flowchart LR
-    C1[Task.Run\nHeavyCompute] --> C2[await result] --> C3[Done]
+```plantuml
+@startuml
+
+start
+:Task.Run — HeavyCompute;
+:await result;
+:Done;
+stop
+@enduml
 ```
 
 ## The Shape of This Series

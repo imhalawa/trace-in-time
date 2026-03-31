@@ -1,8 +1,13 @@
 <div class="widget widget-home-author">
   {% assign home_avatar = site.data.settings.hero.hero_avatar | default: site.data.settings.author.author_avatar %}
   {% if home_avatar %}
+  {% assign home_avatar_webp = home_avatar | replace: '.jpg', '.webp' | replace: '.jpeg', '.webp' | replace: '.png', '.webp' %}
   <div class="widget-home-author__avatar">
-    <img class="lazy" data-src="{{ home_avatar }}" alt="{{ site.data.settings.author.author_name }}">
+    <picture>
+      {% if jekyll.environment == "production" %}<source type="image/webp" srcset="{{ home_avatar_webp }}">{% endif %}
+      <img src="{{ home_avatar }}" alt="{{ site.data.settings.author.author_name }}"
+        width="88" height="88" fetchpriority="high" loading="eager">
+    </picture>
   </div>
   {% endif %}
 

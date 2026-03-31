@@ -8,7 +8,6 @@ part: 5
 tags: [dotnet, async-await, series]
 tags_color: "#4122aa"
 permalink: /series/async-await/async-continuations-synchronizationcontext/
-mermaid: true
 ---
 
 ## The Question That Only Matters When It Breaks
@@ -44,16 +43,22 @@ When the task completes (on a background I/O thread, a timer callback, or wherev
 
 **The await decision tree — suspend or continue inline:**
 
-```mermaid
-flowchart TD
-    A[await task] --> B{Already complete?}
-    B -- Yes --> E[Continue inline]
-    B -- No --> C[Save locals + position]
-    C --> D[Release thread to caller]
-    D --> F[Task completes]
-    F --> G[Post to captured context]
-    G --> E
-    E --> H[Rest of method runs]
+```plantuml
+@startuml
+
+start
+:await task;
+if (Already complete?) then (yes)
+else (no)
+  :Save locals + position;
+  :Release thread to caller;
+  :Task completes;
+  :Post to captured context;
+endif
+:Continue inline;
+:Rest of method runs;
+stop
+@enduml
 ```
 
 ## The SynchronizationContext
@@ -132,12 +137,29 @@ This is crucial to understanding `ValueTask`. A `ValueTask<T>` method can return
 
 **Relative overhead per await completion path:**
 
-```mermaid
-xychart-beta
-    title "Relative overhead per await completion path"
-    x-axis ["Sync fast path", "Async + ConfigureAwait(false)", "Async + context capture"]
-    y-axis "Relative cost (illustrative)" 0 --> 10
-    bar [1, 3, 7]
+```vegalite
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": "Relative overhead per await completion path",
+  "width": 400,
+  "height": 200,
+  "data": {
+    "values": [
+      {"path": "Sync fast path",                "cost": 1},
+      {"path": "Async + ConfigureAwait(false)",  "cost": 3},
+      {"path": "Async + context capture",        "cost": 7}
+    ]
+  },
+  "mark": "bar",
+  "encoding": {
+    "x": {
+      "field": "path", "type": "ordinal",
+      "sort": ["Sync fast path", "Async + ConfigureAwait(false)", "Async + context capture"],
+      "axis": {"title": ""}
+    },
+    "y": {"field": "cost", "type": "quantitative", "axis": {"title": "Relative cost (illustrative)"}}
+  }
+}
 ```
 *Values are illustrative relative costs. For measured data, see Stephen Toub's [ConfigureAwait FAQ](https://devblogs.microsoft.com/dotnet/configureawait-faq/) on the .NET Blog.*
 

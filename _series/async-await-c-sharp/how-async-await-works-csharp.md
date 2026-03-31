@@ -8,7 +8,6 @@ part: 2
 tags: [dotnet, async-await, series]
 tags_color: "#4122aa"
 permalink: /series/async-await/how-async-await-works-csharp/
-mermaid: true
 ---
 
 ## What the Compiler Does Before Your Code Runs
@@ -46,17 +45,19 @@ This looks sequential. After the compiler's transformation, it becomes a state m
 
 **State machine transitions — two await points in FetchAsync:**
 
-```mermaid
-stateDiagram-v2
-    [*] --> State0 : method called
-    State0 --> Paused1 : await GetAsync()
-    Paused1 --> State1 : task completes
-    State1 --> Paused2 : await ReadAsStringAsync()
-    Paused2 --> State2 : task completes
-    State2 --> [*] : SetResult(body)
+```plantuml
+@startuml
 
-    note left of Paused1 : thread released
-    note left of Paused2 : thread released
+[*] --> State0 : method called
+State0 --> Paused1 : await GetAsync()
+Paused1 --> State1 : task completes
+State1 --> Paused2 : await ReadAsStringAsync()
+Paused2 --> State2 : task completes
+State2 --> [*] : SetResult(body)
+
+note left of Paused1 : thread released
+note left of Paused2 : thread released
+@enduml
 ```
 
 ### A look inside the state machine

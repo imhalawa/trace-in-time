@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Breaking the Pattern Loop: How Your Brain Runs on Autopilot"
-permalink: /breaking-the-pattern-loop/
+permalink: /posts/breaking-the-pattern-loop/
 date: 2025-11-18 03:05 +0100
 last_modified_at: 2026-03-29
 description: Your brain runs on automatic behavior loops. Learn to map your triggers, understand pattern synchronization, and interrupt the cycle with intentional action.

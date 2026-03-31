@@ -8,7 +8,6 @@ part: 6
 tags: [dotnet, async-await, series]
 tags_color: "#4122aa"
 permalink: /series/async-await/async-exception-handling-csharp/
-mermaid: true
 ---
 
 ## Exceptions Don't Stay Where They Started
@@ -64,19 +63,21 @@ The exception surfaces at `await FetchAsync(...)`, not inside `FetchAsync` itsel
 
 **Exception propagation — stored in Task, re-thrown at the await point:**
 
-```mermaid
-sequenceDiagram
-    participant Caller
-    participant Method as FetchAsync()
-    participant Task
+```plantuml
+@startuml
 
-    Caller->>Method: await FetchAsync()
-    Method->>Task: returns Task (running)
-    Note over Method: exception thrown after await
-    Method->>Task: Task transitions to Faulted
-    Task-->>Caller: continuation scheduled
-    Note over Caller: await re-throws stored exception
-    Caller->>Caller: catch (HttpRequestException ex)
+participant "Caller" as Caller
+participant "FetchAsync()" as Method
+participant "Task" as Task
+
+Caller -> Method: await FetchAsync()
+Method -> Task: returns Task (running)
+note over Method: exception thrown after await
+Method -> Task: Task transitions to Faulted
+Task --> Caller: continuation scheduled
+note over Caller: await re-throws stored exception
+Caller -> Caller: catch (HttpRequestException ex)
+@enduml
 ```
 
 ### Exceptions before the first await
@@ -183,17 +184,19 @@ The rule is simple: in async code, use `await`. Not `.Result`. Not `.Wait()`. No
 
 **Deadlock — blocking on a Task that needs the current thread:**
 
-```mermaid
-sequenceDiagram
-    participant UI as UI Thread
-    participant Task
-    participant Cont as Continuation
+```plantuml
+@startuml
 
-    UI->>Task: FetchAsync().Result
-    Note over UI: blocked — waiting for Task
-    Task-->>Cont: schedule continuation on UI thread
-    Note over Cont: queued — waiting for UI thread
-    Note over UI,Cont: ☠️ Deadlock\nUI thread waits for Task\nTask waits for UI thread
+participant "UI Thread" as UI
+participant "Task" as Task
+participant "Continuation" as Cont
+
+UI -> Task: FetchAsync().Result
+note over UI: blocked — waiting for Task
+Task --> Cont: schedule continuation on UI thread
+note over Cont: queued — waiting for UI thread
+note over UI, Cont: Deadlock\nUI thread waits for Task\nTask waits for UI thread
+@enduml
 ```
 
 ## Handling Multiple Tasks

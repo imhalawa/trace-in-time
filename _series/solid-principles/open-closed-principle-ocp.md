@@ -8,7 +8,7 @@ part: 1
 tags: [design-principles, oop, series]
 tags_color: "#7C3AED"
 permalink: /series/solid-principles/open-closed-principle/
-mermaid: true
+
 ---
 
 {: .prerequisites }
@@ -97,14 +97,23 @@ A few problems follow from this pattern:
 - Implicitly handled types are error-prone. A change to one silently breaks the other.
 - This leads to harder maintainability, more error-prone, untrustworthy code.
 
-```mermaid
-flowchart TD
-    S["Send(notification)"]
-    S -->|"Type == Email"| E["SendEmail()"]
-    S -->|"Type == SMS"| M["SendSMS()"]
-    S -->|"Type == Slack"| Sl["SendSlack()"]
-    S -->|"Type == Push"| P["SendPush()"]
-    S -->|"..."| X["..."]
+```plantuml
+@startuml
+left to right direction
+
+rectangle "Send(notification)" as S
+rectangle "SendEmail()" as E
+rectangle "SendSMS()" as M
+rectangle "SendSlack()" as Sl
+rectangle "SendPush()" as P
+rectangle "..." as X
+
+S --> E : Type == Email
+S --> M : Type == SMS
+S --> Sl : Type == Slack
+S --> P : Type == Push
+S --> X
+@enduml
 ```
 
 ## How to Fix It?
@@ -138,24 +147,25 @@ void Dispatch(INotificationChannel channel, Notification notification)
 }
 ```
 
-```mermaid
-classDiagram
-    class INotificationChannel {
-        <<interface>>
-        +Notify(notification) void
-    }
-    class EmailChannel {
-        +Notify(notification) void
-    }
-    class SMSChannel {
-        +Notify(notification) void
-    }
-    class SlackChannel {
-        +Notify(notification) void
-    }
-    INotificationChannel <|.. EmailChannel
-    INotificationChannel <|.. SMSChannel
-    INotificationChannel <|.. SlackChannel
+```plantuml
+@startuml
+
+interface INotificationChannel {
+  +Notify(notification) : void
+}
+class EmailChannel {
+  +Notify(notification) : void
+}
+class SMSChannel {
+  +Notify(notification) : void
+}
+class SlackChannel {
+  +Notify(notification) : void
+}
+INotificationChannel <|.. EmailChannel
+INotificationChannel <|.. SMSChannel
+INotificationChannel <|.. SlackChannel
+@enduml
 ```
 
 The interface enforces a `Notify` method on every channel. The `Dispatch` function relies on exactly that contract — it calls `channel.Notify` without knowing which channel it's talking to.

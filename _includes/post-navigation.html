@@ -19,7 +19,12 @@
         </svg>
       </div>
       {% endif %}
-      <img class="lazy" data-src="{{ page.previous.image | relative_url }}" alt="{{ page.title }}">
+      {% assign _prev_img_webp = page.previous.image | relative_url | replace: '.jpg', '.webp' | replace: '.jpeg', '.webp' | replace: '.png', '.webp' %}
+      <picture>
+        {% if jekyll.environment == "production" %}<source type="image/webp" data-srcset="{{ _prev_img_webp }}">{% endif %}
+        <img class="lazy" data-src="{{ page.previous.image | relative_url }}" alt="{{ page.title }}"
+          width="800" height="600">
+      </picture>
     </a>
     {% endif %}
     <div class="prev__box">
@@ -44,7 +49,12 @@
         </svg>
       </div>
       {% endif %}
-      <img class="lazy" data-src="{{ page.next.image | relative_url }}" alt="{{ page.title }}">
+      {% assign _next_img_webp = page.next.image | relative_url | replace: '.jpg', '.webp' | replace: '.jpeg', '.webp' | replace: '.png', '.webp' %}
+      <picture>
+        {% if jekyll.environment == "production" %}<source type="image/webp" data-srcset="{{ _next_img_webp }}">{% endif %}
+        <img class="lazy" data-src="{{ page.next.image | relative_url }}" alt="{{ page.title }}"
+          width="800" height="600">
+      </picture>
     </a>
     {% endif %}
   </div>

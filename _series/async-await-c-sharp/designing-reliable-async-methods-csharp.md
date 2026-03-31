@@ -8,7 +8,6 @@ part: 7
 tags: [dotnet, async-await, series]
 tags_color: "#4122aa"
 permalink: /series/async-await/designing-reliable-async-methods-csharp/
-mermaid: true
 ---
 
 ## What Makes an Async Method Trustworthy?
@@ -52,23 +51,37 @@ async Task LoadDataAsync()
 
 **`async void` — exceptions have nowhere to go:**
 
-```mermaid
-flowchart TD
-    A[Method throws after await] --> B[No Task to hold exception]
-    B --> C[Crashes SynchronizationContext]
-    D[Caller fires method] --> E[Cannot await]
-    E --> F[Cannot catch exceptions]
+```plantuml
+@startuml
+
+participant "Caller" as C
+participant "async void method" as M
+participant "SynchronizationContext" as SC
+
+C -> M: fire and forget
+note over C: no Task returned\ncannot await\ncannot catch exceptions
+M -> M: exception thrown after await
+M -> SC: unhandled exception\ncrashes context
+
+@enduml
 ```
 
 **`async Task` — exceptions travel through the Task:**
 
-```mermaid
-flowchart TD
-    A[Method throws after await] --> B[Exception stored in Task]
-    B --> C[Re-thrown at await in caller]
-    C --> D[Caller catches with try/catch]
-    E[Caller awaits method] --> F[Gets result or exception]
-    F --> G[Can chain further work]
+```plantuml
+@startuml
+
+participant "Caller" as C
+participant "async Task method" as M
+participant "Task" as T
+
+C -> M: await method()
+M -> T: returns Task (running)
+M -> T: exception stored in Faulted Task
+T --> C: continuation scheduled
+note over C: re-throws at await point\ncaught by try/catch normally
+
+@enduml
 ```
 
 ### Return types at a glance
@@ -166,19 +179,30 @@ var reviews = reviewsTask.Result;
 
 **Sequential vs concurrent I/O — wall-clock time comparison:**
 
-```mermaid
-gantt
-    title Sequential vs Concurrent I/O (illustrative)
-    dateFormat  X
-    axisFormat %s ms
-    section Sequential
-    GetUserAsync    :0, 300
-    GetOrdersAsync  :300, 700
-    GetReviewsAsync :700, 950
-    section Concurrent
-    GetUserAsync    :0, 300
-    GetOrdersAsync  :0, 400
-    GetReviewsAsync :0, 250
+```plantuml
+@startuml
+
+participant "Caller" as C
+participant "GetUserAsync" as U
+participant "GetOrdersAsync" as O
+participant "GetReviewsAsync" as R
+
+== Sequential — ~950ms total ==
+C -> U: start
+U --> C: done (300ms)
+C -> O: start
+O --> C: done (400ms)
+C -> R: start
+R --> C: done (250ms)
+
+== Concurrent — ~400ms total ==
+C -> U: start
+C -> O: start
+C -> R: start
+U --> C: done (300ms)
+O --> C: done (400ms)
+R --> C: done (250ms)
+@enduml
 ```
 *Sequential total: ~950 ms. Concurrent total: ~400 ms (max of the three).*
 
