@@ -21,6 +21,14 @@ paginate_path: "/page/:num"
 # Pages Path
 defaults:
   - scope:
+      path: "_series/async-await-c-sharp"
+    values:
+      diagrams: true
+  - scope:
+      path: "_series/solid-principles"
+    values:
+      diagrams: true
+  - scope:
       path: "_pages"
     values:
       permalink: /:basename:output_ext

@@ -39,6 +39,12 @@ jobs:
           curl -fsSL "https://github.com/plantuml/plantuml/releases/latest/download/plantuml.jar" \
             -o vendor/plantuml.jar
 
+      - name: Download Vega JS libraries
+        run: |
+          curl -fsSL "https://cdn.jsdelivr.net/npm/vega@5/build/vega.min.js" -o js/vega.min.js
+          curl -fsSL "https://cdn.jsdelivr.net/npm/vega-lite@5/build/vega-lite.min.js" -o js/vega-lite.min.js
+          curl -fsSL "https://cdn.jsdelivr.net/npm/vega-embed@6/build/vega-embed.min.js" -o js/vega-embed.min.js
+
       - name: Convert images to WebP
         run: |
           sudo apt-get install -y webp graphviz
@@ -68,4 +74,4 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5

@@ -1,5 +1,6 @@
 ---
 layout: post
+diagrams: true
 title: "P50, P95, P99, and the Average: What Latency Numbers Actually Tell You"
 description: "Average response time hides the worst user experiences. P99 can run 100× slower than P50 on the same dataset. What P50, P95, and P99 mean, why they matter, and how to read them together."
 date: 2026-03-30

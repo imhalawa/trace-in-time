@@ -195,8 +195,8 @@ module Jekyll
 
       svg = parsed.at_xpath('//*[name()="svg"]')
       if svg
-        # Keep natural pixel dimensions for readability — container handles overflow
-        # Just strip the inline style PlantUML adds (redundant with width/height attrs)
+        # Strip only the redundant inline style — keep natural width/height attrs
+        # so CSS max-width: 100% scales down large diagrams without distorting small ones
         svg.remove_attribute("style")
         svg["preserveAspectRatio"] = "xMidYMid meet"
       end

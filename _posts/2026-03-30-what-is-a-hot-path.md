@@ -1,5 +1,6 @@
 ---
 layout: post
+diagrams: true
 title: "Hot Path: How to Identify and Optimize It in .NET"
 description: "A hot path is code that runs on every request — small inefficiencies there compound into P99 spikes users actually feel. How to find hot paths with profilers and fix them in .NET."
 date: 2026-03-30
