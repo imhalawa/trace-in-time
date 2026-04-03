@@ -5,4 +5,6 @@ _site
 .DS_Store
 .github/agents/
 .github/skills/
+.claude/
 _data/.youtube_cache.json
+CLAUDE.md

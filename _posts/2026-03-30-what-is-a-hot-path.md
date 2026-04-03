@@ -9,14 +9,14 @@ tags_color: "#4122aa"
 permalink: /posts/hot-path/
 ---
 
-Performance problems rarely come from a single operation doing too much. They come from code running frequently enough that any small inefficiency compounds into something users actually feel. A **hot path** is any sequence of code that either runs very often - thousands of times per second under normal load - or sits directly on the critical execution path of a request, where its latency becomes your latency. In both cases, the same principle applies: costs that look harmless in isolation become visible when repeated at scale.
-
 > **Key Takeaways**
 >
 > - Profiling first is non-negotiable. Optimizing code you haven't measured produces guesswork, not improvements.
 > - The three most damaging patterns on hot paths: unnecessary per-request allocations, sequential I/O that could run concurrently, and recreating objects that could be shared.
 > - Start with `Task<T>` for async methods. Switch to `ValueTask<T>` only when profiling confirms allocation pressure on a frequently-synchronous path.
 > - Keep the hot path short, free of recomputed work, and clear of shared mutable state under concurrent access.
+
+Performance problems rarely come from a single operation doing too much. They come from code running frequently enough that any small inefficiency compounds into something users actually feel. A **hot path** is any sequence of code that either runs very often - thousands of times per second under normal load - or sits directly on the critical execution path of a request, where its latency becomes your latency. In both cases, the same principle applies: costs that look harmless in isolation become visible when repeated at scale.
 
 A method called once per minute can afford to be slow. A method called on every incoming request at 1,000 RPS (requests per second) cannot. The math is unforgiving, and so is the latency distribution.
 

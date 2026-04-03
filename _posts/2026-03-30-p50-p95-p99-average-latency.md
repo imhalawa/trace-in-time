@@ -10,12 +10,6 @@ permalink: /posts/p50-p95-p99-average-latency/
 math: true
 ---
 
-For most of computing history, the answer to "how fast is our system?" was a single number: the average response time. It was easy to calculate, easy to put on a dashboard, and easy to report to stakeholders. There was just one problem - it kept lying.
-
-Teams would look at a perfectly healthy average and miss the fact that a meaningful slice of their users were waiting ten times longer than everyone else. The average didn't hide this maliciously. It just wasn't designed for the question being asked.
-
-Percentiles were the answer. They were borrowed from statistics - where they'd been used for decades in medicine, education, and economics to describe how individuals rank within a group - and applied to system performance monitoring as web-scale software made the limits of the average impossible to ignore.[^1]
-
 > **Key Takeaways**
 >
 > - The average smooths over slow outliers, making a system look healthier than it is.
@@ -23,6 +17,12 @@ Percentiles were the answer. They were borrowed from statistics - where they'd b
 > - P50 tells you what the typical user experiences. P99 tells you what the unlucky ones wait for.
 > - A wide gap between P50 and P99 usually means something is causing unpredictable slowdowns - not consistently slow, but randomly slow.
 > - Optimizing for the average often leaves the worst experiences untouched. P99 is the more honest target.
+
+For most of computing history, the answer to "how fast is our system?" was a single number: the average response time. It was easy to calculate, easy to put on a dashboard, and easy to report to stakeholders. There was just one problem - it kept lying.
+
+Teams would look at a perfectly healthy average and miss the fact that a meaningful slice of their users were waiting ten times longer than everyone else. The average didn't hide this maliciously. It just wasn't designed for the question being asked.
+
+Percentiles were the answer. They were borrowed from statistics - where they'd been used for decades in medicine, education, and economics to describe how individuals rank within a group - and applied to system performance monitoring as web-scale software made the limits of the average impossible to ignore.[^1]
 
 ## Where the Average Breaks Down
 
