@@ -26,9 +26,9 @@ This is how I set it up, and more importantly, why.
 
 ## What Personal Knowledge Management Actually Is
 
-I forget things quickly. Unless something is organized in a way my brain can retrieve it, it disappears — as if I never encountered it at all. Writing a note in my own words, or doing my own research while connecting pieces together, is what makes things stick. The act of linking is the point: our brains don't hold scattered pieces well. Without connections, information is likely forgotten, or worse, it never fully makes sense to begin with.
+I forget things quickly. Unless something is organized in a way my brain can retrieve it, it disappears — as if I never encountered it at all. Writing a note in my own words, or doing my own research while connecting pieces together, is what makes things stick.[^1] The act of linking is the point: our brains don't hold scattered pieces well. Without connections, information is likely forgotten, or worse, it never fully makes sense to begin with.
 
-PKM — [Personal Knowledge Management](https://en.wikipedia.org/wiki/Personal_knowledge_management) — is the practice of capturing, organizing, and connecting what you learn so it stays useful beyond the moment you encountered it. The difference between a notes dump and a knowledge system is links. When a note you wrote six months ago connects to something you're working on today, you've built a system. Without that connection, you've built a list.
+PKM — [Personal Knowledge Management](https://en.wikipedia.org/wiki/Personal_knowledge_management) — is the practice of capturing, organizing, and connecting what you learn so it stays useful beyond the moment you encountered it. The difference between a notes dump and a knowledge system is links. When a note you wrote six months ago connects to something you're working on today, you've built a system. Without that connection, you've built a list.[^4]
 
 ## Why It Matters More for Developers
 
@@ -38,7 +38,7 @@ A PKM system changes that. Decisions get documented with their reasons, not just
 
 ## There Is No Perfect System
 
-I've read about so many methods that claim to show you how to organize your thoughts. The honest conclusion after years of trial and error is that you have to figure out what works for your own brain. Methods like [Zettelkasten](https://zettelkasten.de/introduction/), [PARA](https://fortelabs.com/blog/para/), or [Johnny Decimal](https://johnnydecimal.com/) each suit a specific way of thinking. Some people prefer one large bucket, others want strict structure, others want everything indexed. None of them is wrong, and none of them is universally right.
+I've read about so many methods that claim to show you how to organize your thoughts. The honest conclusion after years of trial and error is that you have to figure out what works for your own brain. Methods like [Zettelkasten](https://zettelkasten.de/introduction/)[^3], [PARA](https://fortelabs.com/blog/para/)[^2], or [Johnny Decimal](https://johnnydecimal.com/) each suit a specific way of thinking. Some people prefer one large bucket, others want strict structure, others want everything indexed. None of them is wrong, and none of them is universally right.
 
 If you find yourself spending more time reading about note-taking systems than actually using one, that's worth pausing on. It's often procrastination — and [goals built from avoidance rarely stick](/posts/goals-and-needs/) — or sometimes a genuine difficulty with focus that deserves honest attention, not a better productivity framework. I was diagnosed with ADHD at 29 and had no idea until then. Looking back, I could recognize the symptoms clearly: energy spent on things that didn't matter, including an extended obsession with finding the perfect note-taking setup. The diagnosis didn't change the tools I needed. It clarified why I'd been circling them for so long.
 
@@ -156,7 +156,7 @@ Obsidian ships with a long list of optional core plugins. These are the ones I k
 
 | Plugin | What I use it for |
 | :--- | :--- |
-| **Backlinks** | See which notes link to the current one — the essential connection layer |
+| **Backlinks** | See which notes link to the current one — the essential connection layer[^5] |
 | **Canvas** | Visual thinking and brainstorming; these live in `Journal/Brainstorming` |
 | **Bases** | Query notes dynamically — my primary tool for reading lists, bookmarks, and project views |
 | **Outgoing links** | Quick view of what the current note connects to |
@@ -190,7 +190,7 @@ This is where the real configuration happens. I'll cover the ones that changed h
 
 [**Book Search**](https://github.com/anpigon/obsidian-book-search-plugin) pulls metadata from Google Books when you type a title, creating a note with author, cover, publication year, and whatever template you've defined. The right starting point for reading notes.
 
-[**Spaced Repetition**](https://github.com/st3v3nmw/obsidian-spaced-repetition) turns any note into flashcard material. I use it selectively — mostly for terminology I want to retain from documentation or technical reading — rather than feeding it the entire vault.
+[**Spaced Repetition**](https://github.com/st3v3nmw/obsidian-spaced-repetition) turns any note into flashcard material. I use it selectively — mostly for terminology I want to retain from documentation or technical reading — rather than feeding it the entire vault.[^6]
 
 [**Kindle Plugin**](https://github.com/hadynz/obsidian-kindle-plugin) imports Kindle highlights directly into Obsidian. If you annotate while reading, this closes the gap between what you marked and what lives in your notes.
 
@@ -230,13 +230,14 @@ The setup here took time to arrive at. Most of it came from months with a simple
 
 If you're starting from scratch: resist the impulse to install every plugin that looks useful. Start with daily notes and backlinks. Add one more when something is genuinely missing. Let the rest come from actual use, not from someone else's setup — including this one. The same principle that applies to [hesitation in decisions](/posts/hesitation/) applies here: a pause to reflect is useful, but waiting for the perfect configuration before starting is just avoidance.
 
-## Further Reading on PKM
+[^1]: **[How to Take Smart Notes](https://www.soenkeahrens.de/en/takesmartnotes)** — Sönke Ahrens (2017). The book that brought Luhmann's Zettelkasten method to a wide audience. Practical and grounded, it argues that writing is not the output of thinking — it's the process of thinking itself.
 
-If you want to go deeper on the ideas behind personal knowledge management, these are the originals worth reading — not summaries or listicles, but the primary sources.
+[^2]: **[Building a Second Brain](https://www.buildingasecondbrain.com/)** — Tiago Forte (2022). Introduced the PARA method and the concept of a digital workspace that extends your memory. More prescriptive than Ahrens, but useful as a structural starting point.
 
-- **[How to Take Smart Notes](https://www.soenkeahrens.de/en/takesmartnotes)** — Sönke Ahrens (2017). The book that brought Luhmann's Zettelkasten method to a wide audience. Practical and grounded, it argues that writing is not the output of thinking — it's the process of thinking itself.
-- **[Building a Second Brain](https://www.buildingasecondbrain.com/)** — Tiago Forte (2022). Introduced the PARA method and the concept of a digital workspace that extends your memory. More prescriptive than Ahrens, but useful as a structural starting point.
-- **[Communicating with Slip Boxes](https://luhmann.surge.sh/)** — Niklas Luhmann (1981). The original essay by the sociologist behind Zettelkasten. Short and dense. Luhmann maintained a network of over 90,000 notes across his career; this is his account of how the system worked.
-- **[As We May Think](https://www.theatlantic.com/magazine/archive/1945/07/as-we-may-think/303881/)** — Vannevar Bush, *The Atlantic* (1945). Written before personal computers existed, it imagined a device called the Memex — a machine for storing and retrieving linked documents by association rather than index. The conceptual root of hypertext and linked notes.
-- **[Andy Matuschak's Working Notes](https://notes.andymatuschak.org/)** — Andy Matuschak (ongoing). A public Zettelkasten from a researcher at the intersection of learning science and software design. The notes on [evergreen notes](https://notes.andymatuschak.org/Evergreen_notes) and [spaced repetition](https://notes.andymatuschak.org/Spaced_repetition) are particularly worth reading.
-- **[Make It Stick: The Science of Successful Learning](https://www.hup.harvard.edu/books/9780674729018)** — Brown, Roediger & McDaniel (2014). Not about PKM directly, but about the cognitive science of retention — retrieval practice, spaced repetition, interleaving. The empirical foundation for why any note-taking system is more effective when it involves active recall.
+[^3]: **[Communicating with Slip Boxes](https://luhmann.surge.sh/)** — Niklas Luhmann (1981). The original essay by the sociologist behind Zettelkasten. Short and dense. Luhmann maintained a network of over 90,000 notes across his career; this is his account of how the system worked.
+
+[^4]: **[As We May Think](https://www.theatlantic.com/magazine/archive/1945/07/as-we-may-think/303881/)** — Vannevar Bush, *The Atlantic* (1945). Written before personal computers existed, it imagined a device called the Memex — a machine for storing and retrieving linked documents by association rather than index. The conceptual root of hypertext and linked notes.
+
+[^5]: **[Andy Matuschak's Working Notes](https://notes.andymatuschak.org/)** — Andy Matuschak (ongoing). A public Zettelkasten from a researcher at the intersection of learning science and software design. The notes on [evergreen notes](https://notes.andymatuschak.org/Evergreen_notes) and [spaced repetition](https://notes.andymatuschak.org/Spaced_repetition) are particularly worth reading.
+
+[^6]: **[Make It Stick: The Science of Successful Learning](https://www.hup.harvard.edu/books/9780674729018)** — Brown, Roediger & McDaniel (2014). Not about PKM directly, but about the cognitive science of retention — retrieval practice, spaced repetition, interleaving. The empirical foundation for why any note-taking system is more effective when it involves active recall.

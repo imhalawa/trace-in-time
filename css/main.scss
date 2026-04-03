@@ -45,6 +45,7 @@
 
 {% include_relative _0-settings/variables.scss %}
 {% include_relative _0-settings/color-scheme.scss %}
+{% include_relative _0-settings/_reading-themes.scss %}
 {% include_relative _0-settings/mixins.scss %}
 {% include_relative _0-settings/helpers.scss %}
 
@@ -128,6 +129,8 @@
 {% include_relative _3-modules/buttons.scss %}
 /* >>>>>>>>>>>>>> :: 3.16-Scroll Button Top <<<<<<<<<<<<<<< */
 {% include_relative _3-modules/scroll-button-top.scss %}
+/* >>>>>>>>>>>>>> :: 3.21-Reading Controls <<<<<<<<<<<<<<< */
+{% include_relative _3-modules/_reading-controls.scss %}
 /* >>>>>>>>>>>>>> :: 3.17-Mermaid Diagrams <<<<<<<<<<<<<<< */
 {% include_relative _3-modules/mermaid.scss %}
 /* >>>>>>>>>>>>>> :: 3.17-Currently Reading <<<<<<<<<<<<<<< */

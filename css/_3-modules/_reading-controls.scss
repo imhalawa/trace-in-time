@@ -1,0 +1,260 @@
+/* ============================================================
+   Reading Controls — FAB + vertical popover
+   Fixed bottom-right. FAB toggles vertical panel above it.
+   Only included in post.html so renders on post pages only.
+   ============================================================ */
+
+/* ----------------------------------------------------------
+   Reading progress bar
+   ---------------------------------------------------------- */
+.reading-progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  width: 0%;
+  height: 3px;
+  background: var(--gradient-color);
+  transition: width 0.1s linear;
+  pointer-events: none;
+  border-radius: 0 2px 2px 0;
+}
+
+/* ----------------------------------------------------------
+   FAB wrapper — anchors panel + button together
+   ---------------------------------------------------------- */
+.reading-controls {
+  position: fixed;
+  right: 12px;
+  bottom: 68px; // sits above the scroll-to-top button (bottom: 12px + 44px + 12px gap)
+  z-index: 40;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  pointer-events: none; // children re-enable pointer-events individually
+}
+
+/* ----------------------------------------------------------
+   FAB toggle button
+   ---------------------------------------------------------- */
+.reading-controls__fab {
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid var(--border-color);
+  background: var(--background-color);
+  color: var(--heading-font-color);
+  font-family: $post-heading-font-family;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+  cursor: pointer;
+  box-shadow:
+    0 4px 16px rgba(0, 0, 0, 0.10),
+    0 1px 3px  rgba(0, 0, 0, 0.06);
+  transition:
+    color 0.2s ease,
+    background 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
+
+  &:hover {
+    border-color: var(--heading-font-color);
+    box-shadow:
+      0 6px 24px rgba(0, 0, 0, 0.13),
+      0 2px 6px  rgba(0, 0, 0, 0.07);
+    transform: translateY(-1px);
+  }
+
+  &[aria-expanded="true"] {
+    border-color: var(--heading-font-color);
+    background: var(--background-color);
+  }
+}
+
+/* ----------------------------------------------------------
+   Expandable vertical panel
+   ---------------------------------------------------------- */
+.reading-controls__panel {
+  pointer-events: auto;
+  display: flex; // overrides [hidden] below via animation trick
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 10px;
+
+  // Frosted glass card
+  background: color-mix(in srgb, var(--background-color) 88%, transparent);
+  border: 1px solid var(--border-color);
+  border-radius: 20px;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.10),
+    0 2px 6px  rgba(0, 0, 0, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+
+  // Closed state
+  opacity: 0;
+  transform: translateY(8px) scale(0.97);
+  transform-origin: bottom center;
+  pointer-events: none;
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease;
+
+  // Note: [hidden] sets display:none — we override via JS (remove hidden, add is-open)
+  &.is-open {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: auto;
+  }
+}
+
+/* ----------------------------------------------------------
+   Button groups & dividers
+   ---------------------------------------------------------- */
+.rc-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.rc-divider {
+  width: 24px;
+  height: 1px;
+  background: var(--border-color);
+  flex-shrink: 0;
+  margin: 2px 0;
+}
+
+/* ----------------------------------------------------------
+   Font size buttons — "A" progressively scaled
+   ---------------------------------------------------------- */
+.reading-fs-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 30px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--text-alt-color);
+  font-family: $post-heading-font-family;
+  font-weight: 600;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+
+  // Visually show the three sizes via font-size
+  &[data-fs="small"]  { font-size: 11px; }
+  &[data-fs="normal"] { font-size: 14px; }
+  &[data-fs="large"]  { font-size: 18px; }
+
+  &:hover {
+    background: color-mix(in srgb, var(--primary-color) 10%, transparent);
+    color: var(--heading-font-color);
+  }
+
+  &.is-active {
+    background: color-mix(in srgb, var(--primary-color) 12%, transparent);
+    border-color: color-mix(in srgb, var(--primary-color) 35%, transparent);
+    color: var(--primary-color);
+  }
+}
+
+/* ----------------------------------------------------------
+   Theme swatch buttons — colored circles
+   Each swatch shows both light (top) and dark (bottom) variant
+   so the user understands the theme adapts to the global toggle.
+   ---------------------------------------------------------- */
+.reading-theme-btn {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  padding: 0;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+  outline-offset: 3px;
+
+  // Default — site brand gradient (no overlay active)
+  &[data-theme="default"] {
+    background: conic-gradient(#ffffff 0deg 180deg, #0f172a 180deg 360deg);
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.12);
+  }
+
+  // Sepia — cream top (light) / warm dark brown bottom (dark)
+  &[data-theme="sepia"] {
+    background: conic-gradient(#f4ecd8 0deg 180deg, #2a1f14 180deg 360deg);
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.1);
+  }
+
+  // Gruvebox — warm paper top (light) / dark groove bottom (dark)
+  &[data-theme="gruvebox"] {
+    background: conic-gradient(#fbf1c7 0deg 180deg, #282828 180deg 360deg);
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.12);
+  }
+
+  &:hover {
+    transform: scale(1.12);
+  }
+
+  &.is-active {
+    border-color: var(--primary-color);
+    box-shadow:
+      0 0 0 2px color-mix(in srgb, var(--primary-color) 30%, transparent),
+      inset 0 0 0 1px rgba(0, 0, 0, 0.1);
+    transform: scale(1.08);
+  }
+}
+
+/* ----------------------------------------------------------
+   Column width buttons — SVG icon buttons
+   ---------------------------------------------------------- */
+.reading-col-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 30px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--text-alt-color);
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+
+  &:hover {
+    background: color-mix(in srgb, var(--primary-color) 10%, transparent);
+    color: var(--heading-font-color);
+  }
+
+  &.is-active {
+    background: color-mix(in srgb, var(--primary-color) 12%, transparent);
+    border-color: color-mix(in srgb, var(--primary-color) 35%, transparent);
+    color: var(--primary-color);
+  }
+}
+
+/* ----------------------------------------------------------
+   Mobile — hide panel (keep FAB + progress bar)
+   Column width is a no-op on small screens (no sidebar).
+   ---------------------------------------------------------- */
+@media (max-width: $tablet) {
+  .reading-col-btn {
+    display: none;
+  }
+
+  .rc-divider:last-of-type {
+    display: none;
+  }
+}

@@ -10,7 +10,7 @@
 .podcast-page__head {
   text-align: center;
   max-width: 640px;
-  margin: 0 auto 40px;
+  margin: 0 auto 48px;
 
   .page-title-row {
     justify-content: center;
@@ -18,14 +18,16 @@
 }
 
 .podcast-page__subtitle {
-  font-size: 20px;
-  font-weight: 600;
-  color: var(--text-color);
+  font-family: $post-body-font-family;
+  font-size: 18px;
+  font-style: italic;
+  font-weight: 400;
+  color: var(--text-alt-color);
   margin: 0 0 8px;
 }
 
 .podcast-page__desc {
-  font-size: 16px;
+  font-size: 15px;
   color: var(--text-alt-color);
   margin: 0;
 }
@@ -71,13 +73,13 @@
   transition: background 0.2s, border-color 0.2s, color 0.2s;
 
   &:hover {
-    border-color: var(--accent-color);
-    color: var(--accent-color);
+    border-color: var(--primary-color);
+    color: var(--primary-color);
   }
 
   &.podcast-filter--active {
-    background: var(--accent-color);
-    border-color: var(--accent-color);
+    background: var(--primary-color);
+    border-color: var(--primary-color);
     color: #fff;
   }
 }

@@ -645,15 +645,17 @@ document.addEventListener("DOMContentLoaded", function() {
     document.body.prepend(progressBar);
 
     var postContent = document.querySelector('.post__content');
+
+    function updateProgress() {
+      var scrolled = window.pageYOffset;
+      var total    = document.documentElement.scrollHeight - window.innerHeight;
+      progressBar.style.width = (total > 0 ? Math.min(100, (scrolled / total) * 100) : 0) + '%';
+    }
+
     if (postContent) {
-      function updateProgress() {
-        var scrolled = window.scrollY || document.documentElement.scrollTop;
-        var total    = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-        progressBar.style.width = (total > 0 ? Math.min(100, (scrolled / total) * 100) : 0) + '%';
-      }
       window.addEventListener('scroll', updateProgress, { passive: true });
       window.addEventListener('resize', updateProgress, { passive: true });
-      updateProgress();
+      window.addEventListener('load', updateProgress);
     }
 
     // -- FAB panel toggle --

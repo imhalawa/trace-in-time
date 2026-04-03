@@ -39,14 +39,18 @@
   align-items: center;
   padding-inline-end: 20px;
   margin-bottom: 0;
-  font-size: 24px;
+  font-size: 13px;
+  font-weight: 700;
   line-height: 1;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--primary-color);
 
   .fi {
-    width: 30px;
-    height: 30px;
-    opacity: 0.6;
-    margin-inline-end: 10px;
+    width: 16px;
+    height: 16px;
+    opacity: 0.8;
+    margin-inline-end: 7px;
     flex-shrink: 0;
   }
 }

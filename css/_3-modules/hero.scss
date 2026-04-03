@@ -47,13 +47,14 @@
 .hero__tagline {
   margin: 0;
   font-family: $heading-font-family;
-  font-size: 24px;
-  font-weight: 700;
-  line-height: 1.35;
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: -0.3px;
+  line-height: 1.3;
   text-align: center;
   color: var(--heading-font-color);
 
   @media (max-width: $mobile) {
-    font-size: 20px;
+    font-size: 22px;
   }
 }

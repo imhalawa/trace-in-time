@@ -63,11 +63,14 @@
       {% assign _ar_months = "يناير,فبراير,مارس,أبريل,مايو,يونيو,يوليو,أغسطس,سبتمبر,أكتوبر,نوفمبر,ديسمبر" | split: "," %}
       {% assign _month_idx = post.date | date: "%m" | minus: 1 %}
       {% assign _month_ar  = _ar_months[_month_idx] %}
+      {% assign _day       = post.date | date: "%-d" %}
+      {% capture _day_ar %}{{ _day | replace: "0", "٠" | replace: "1", "١" | replace: "2", "٢" | replace: "3", "٣" | replace: "4", "٤" | replace: "5", "٥" | replace: "6", "٦" | replace: "7", "٧" | replace: "8", "٨" | replace: "9", "٩" }}{% endcapture %}
       {% assign _year      = post.date | date: "%Y" %}
       {% capture _year_ar %}{{ _year | replace: "0", "٠" | replace: "1", "١" | replace: "2", "٢" | replace: "3", "٣" | replace: "4", "٤" | replace: "5", "٥" | replace: "6", "٦" | replace: "7", "٧" | replace: "8", "٨" | replace: "9", "٩" }}{% endcapture %}
-      {% capture step_date %}{{ _month_ar }} {{ _year_ar }}{% endcapture %}
+      {% capture step_date %}{{ _day_ar }} {{ _month_ar }} {{ _year_ar }}{% endcapture %}
     {% else %}
-      {% assign step_date = post.date | date: "%b %Y" %}
+      {% assign _date_format = site.minima.date_format | default: "%d %-b, %Y" %}
+      {% assign step_date = post.date | date: _date_format %}
     {% endif %}
 
     <li class="stepper__step{% if step_pending %} stepper__step--pending{% else %} stepper__step--done{% endif %}">

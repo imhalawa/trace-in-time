@@ -1,10 +1,9 @@
 ---
 layout: page
-title: "About Mohamed Halawa — Backend Engineer (.NET)"
+title: "About Mohamed Halawa"
 permalink: /about/
 description: "Mohamed Halawa is a backend software engineer in the payments domain at Coolblue in Rotterdam, specializing in distributed systems, event sourcing, and data infrastructure at scale."
 icon: 'fi fi-person'
-# image: '/images/01-2.jpg'
 ---
 
 In payments, a wrong number isn't a bug — it's a dispute, a fraud signal, or a customer service queue that spikes when it's least convenient. I'm a backend engineer at Coolblue in Rotterdam, working in the payments domain on the data infrastructure that keeps transaction correctness possible at scale.

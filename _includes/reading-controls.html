@@ -1,0 +1,51 @@
+<div class="reading-controls" id="reading-controls">
+
+  <!-- Expandable panel (hidden by default) -->
+  <div class="reading-controls__panel" id="reading-panel" aria-label="Reading preferences" role="group" hidden>
+
+    <!-- Font size: 3 buttons — progressively sized A -->
+    <div class="rc-group" role="group" aria-label="Font size">
+      <button class="reading-fs-btn" data-fs="small"  title="Smaller text" type="button">A</button>
+      <button class="reading-fs-btn is-active" data-fs="normal" title="Default text" type="button">A</button>
+      <button class="reading-fs-btn" data-fs="large"  title="Larger text"  type="button">A</button>
+    </div>
+
+    <div class="rc-divider" aria-hidden="true"></div>
+
+    <!-- Reading theme: 3 swatches (style overlay, independent of light/dark) -->
+    <div class="rc-group" role="group" aria-label="Reading theme">
+      <button class="reading-theme-btn is-active" data-theme="default"  title="Default"  type="button"></button>
+      <button class="reading-theme-btn"           data-theme="sepia"    title="Sepia"    type="button"></button>
+      <button class="reading-theme-btn"           data-theme="gruvebox" title="Gruvebox" type="button"></button>
+    </div>
+
+    <div class="rc-divider" aria-hidden="true"></div>
+
+    <!-- Column width -->
+    <div class="rc-group" role="group" aria-label="Reading width">
+      <button class="reading-col-btn is-active" data-col="normal" title="Normal width" type="button">
+        <svg width="15" height="13" viewBox="0 0 15 13" fill="none" aria-hidden="true">
+          <rect x="0"   y="0"    width="15" height="2.2" rx="1.1" fill="currentColor"/>
+          <rect x="0"   y="5.4"  width="15" height="2.2" rx="1.1" fill="currentColor"/>
+          <rect x="0"   y="10.8" width="15" height="2.2" rx="1.1" fill="currentColor"/>
+        </svg>
+      </button>
+      <button class="reading-col-btn" data-col="narrow" title="Narrow column" type="button">
+        <svg width="15" height="13" viewBox="0 0 15 13" fill="none" aria-hidden="true">
+          <rect x="2.5" y="0"    width="10" height="2.2" rx="1.1" fill="currentColor"/>
+          <rect x="2.5" y="5.4"  width="10" height="2.2" rx="1.1" fill="currentColor"/>
+          <rect x="2.5" y="10.8" width="10" height="2.2" rx="1.1" fill="currentColor"/>
+        </svg>
+      </button>
+    </div>
+
+  </div>
+
+  <!-- FAB toggle -->
+  <button class="reading-controls__fab"
+          type="button"
+          aria-label="Reading preferences"
+          aria-expanded="false"
+          aria-controls="reading-panel">Aa</button>
+
+</div>

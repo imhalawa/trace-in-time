@@ -11,7 +11,7 @@
 .books-list-page__head {
   text-align: center;
   max-width: 640px;
-  margin: 0 auto 40px;
+  margin: 0 auto 48px;
 
   .page-title-row {
     justify-content: center;
@@ -19,14 +19,16 @@
 }
 
 .books-list-page__subtitle {
-  font-size: 20px;
-  font-weight: 600;
-  color: var(--text-color);
+  font-family: $post-body-font-family;
+  font-size: 18px;
+  font-style: italic;
+  font-weight: 400;
+  color: var(--text-alt-color);
   margin: 0 0 8px;
 }
 
 .books-list-page__desc {
-  font-size: 16px;
+  font-size: 15px;
   color: var(--text-alt-color);
   margin: 0;
 }

@@ -6,9 +6,9 @@ body {
 .diagram-figure {
   margin: 2rem 0;
   counter-increment: figure;
-  border: 1.5px solid #d4d4d4;
-  border-radius: 12px;
-  background: #ffffff;
+  border: 1.5px solid var(--diagram-border, var(--border-color));
+  border-radius: 4px;
+  background: var(--diagram-bg, var(--background-color));
   overflow: hidden;
 
   .mermaid {
@@ -28,7 +28,7 @@ body {
     font-family: $heading-font-family;
     font-size: 12px;
     font-weight: 400;
-    color: #999999;
+    color: var(--diagram-caption-color, var(--text-alt-color));
     text-align: center;
     font-style: italic;
 
@@ -36,7 +36,7 @@ body {
       content: "Figure " counter(figure) " \2014  ";
       font-style: normal;
       font-weight: 600;
-      color: #555555;
+      color: var(--diagram-label-color, var(--text-color));
     }
 
     &:empty::before {

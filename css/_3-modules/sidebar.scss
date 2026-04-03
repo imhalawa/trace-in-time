@@ -43,16 +43,19 @@
     align-items: center;
     padding-inline-end: 12px;
     margin-bottom: 0;
-    font-size: 15px;
-    font-weight: 600;
+    font-size: 11px;
+    font-weight: 700;
     line-height: 1;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--primary-color);
     background: var(--background-color);
 
     .fi {
-      width: 22px;
-      height: 22px;
-      opacity: 0.6;
-      margin-inline-end: 6px;
+      width: 14px;
+      height: 14px;
+      opacity: 0.8;
+      margin-inline-end: 5px;
     }
   }
 }
@@ -61,7 +64,7 @@
 .widget-subscribe {
   position: relative;
   padding: 32px;
-  border-radius: 16px;
+  border-radius: 4px;
   overflow: hidden;
   background: var(--gradient-color);
 
@@ -88,7 +91,7 @@
       font-size: 16px;
       outline: none;
       border: 1.4px solid rgba(255, 255, 255, .3);
-      border-radius: 12px;
+      border-radius: 4px;
       color: var(--white);
       background: rgba(255, 255, 255, .3);
 
@@ -121,7 +124,7 @@
   .widget-social__list {
     padding: 24px;
     border: 1px solid var(--border-color);
-    border-radius: 16px;
+    border-radius: 4px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -143,7 +146,7 @@
           height: 24px;
         }
         border: 1px solid currentColor;
-        border-radius: 16px;
+        border-radius: 4px;
         background: transparent;
         color: var(--heading-font-color);
 
@@ -172,7 +175,7 @@
   align-items: center;
   gap: 14px;
   padding: 22px;
-  border-radius: 16px;
+  border-radius: 4px;
   background: var(--white);
 
   .widget-author-card__image {
@@ -299,7 +302,7 @@
 .widget-recent-posts {
   padding: 14px;
   border: 1px solid var(--border-color);
-  border-radius: 12px;
+  border-radius: 4px;
 }
 
 .post-recent-content {
@@ -321,7 +324,7 @@
     display: block;
     width: 52px;
     height: 52px;
-    border-radius: 8px;
+    border-radius: 3px;
     overflow: hidden;
     background: var(--background-alt-color);
     transition: transform 0.25s ease;
@@ -452,7 +455,7 @@
   padding: 24px;
   margin-bottom: 24px;
   border: 1px solid var(--border-color);
-  border-radius: 16px;
+  border-radius: 4px;
   background: var(--background-alt-color-2);
 
   &:last-child {
@@ -540,7 +543,7 @@
   gap: 8px;
   padding: 24px;
   border: 1px solid var(--border-color);
-  border-radius: 16px;
+  border-radius: 4px;
 
   .tag-cloud__item {
     padding: 8px 12px;
@@ -552,7 +555,7 @@
     -webkit-font-smoothing: antialiased;
     text-rendering: geometricPrecision;
     border: 1px solid var(--tag-accent, var(--border-color));
-    border-radius: 16px;
+    border-radius: 4px;
     color: var(--tag-accent, var(--heading-font-color));
     background: transparent;
 
@@ -590,7 +593,7 @@
 .widget-home-author {
   padding: 24px;
   border: 1px solid var(--border-color);
-  border-radius: 16px;
+  border-radius: 4px;
 
   .widget-home-author__avatar {
     position: relative;

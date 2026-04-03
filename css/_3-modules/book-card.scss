@@ -8,7 +8,7 @@
   border: 1px solid var(--border-color);
   border-radius: 14px;
   overflow: hidden;
-  transition: transform .24s ease, box-shadow .24s ease;
+  transition: transform .24s ease, box-shadow .24s ease, border-color .24s ease;
   display: flex;
   flex-direction: column;
 
@@ -16,6 +16,7 @@
   &:focus-within {
     transform: translateY(-4px);
     box-shadow: 0 16px 40px -10px rgba(0, 0, 0, 0.14);
+    border-color: color-mix(in srgb, var(--primary-color) 40%, var(--border-color));
   }
 }
 

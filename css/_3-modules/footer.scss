@@ -5,9 +5,12 @@
   background: var(--background-alt-color-2);
 
   .footer__title {
-    margin-bottom: 24px;
-    font-size: 18px;
-    font-weight: 600;
+    margin-bottom: 20px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--primary-color);
   }
 
   @media (max-width: $mobile) {
@@ -72,7 +75,7 @@
     height: 52px;
     font-size: 24px;
     border: 1px solid currentColor;
-    border-radius: 16px;
+    border-radius: 4px;
     background: transparent;
     color: var(--heading-font-color);
 
@@ -177,9 +180,10 @@
 
       .footer__recent-date {
         font-family: $heading-font-family;
-        font-size: 14px;
+        font-size: 12px;
+        font-weight: 600;
         text-transform: uppercase;
-        letter-spacing: .5px;
+        letter-spacing: 0.06em;
         color: var(--text-alt-color);
       }
     }
