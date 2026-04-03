@@ -1,18 +1,16 @@
 ---
 layout: page
-title: About Me
+title: "About Mohamed Halawa — Backend Engineer (.NET)"
 permalink: /about/
-description: "Mohamed Halawa is a backend software engineer, writer, and photographer. Trace in Time is his personal space for essays on code, systems, creativity, and the patterns that connect them."
+description: "Mohamed Halawa is a backend software engineer in the payments domain at Coolblue in Rotterdam, specializing in distributed systems, event sourcing, and data infrastructure at scale."
 icon: 'fi fi-person'
 # image: '/images/01-2.jpg'
 ---
 
-I’m Mohamed Halawa — a backend software engineer who sees software as a form of art, and code as the way I draw. Every system I build begins as a question — how to make something clear, elegant, and alive. I work where logic meets intuition, shaping order from complexity until it feels effortless.
+In payments, a wrong number isn't a bug — it's a dispute, a fraud signal, or a customer service queue that spikes when it's least convenient. I'm a backend engineer at Coolblue in Rotterdam, working in the payments domain on the data infrastructure that keeps transaction correctness possible at scale.
 
-Code is language, but it’s also rhythm and texture — a medium for expressing how things should connect. Photography and writing carry that same impulse: to pause, to observe, and to translate thought into form.
+Most of what I build lives in the gap between what a system reports and what's actually true: synchronization services for 103M+ payment records, data stores that turn fragmented transaction history into a single source of truth, event-driven pipelines that have to survive failures without losing anything. The interesting problems in this domain aren't usually hard to describe. They're hard to notice until they've already caused damage.
 
-*Trace in Time* is where those expressions converge — the things I build, the ideas I chase, and the fragments I don’t want to lose. It’s less a portfolio and more a journal of progress: an archive of patterns, both digital and human.
+Trace in Time is where I write about what I've had to understand thoroughly to trust — system behavior, architectural trade-offs, the reasoning behind decisions that documentation tends to omit. Some posts sit outside engineering entirely, on goals, patterns, and how people think. I find the two less separate than they appear.
 
-Outside of work, I tend to observe — light, systems, movement, people. Everything leaves a trace, and the act of noticing is what makes it meaningful.
-
-If what you read here slows you down, makes you curious, or gives you a clearer way to see — then it’s done what it should.
+Outside of work: street photography and competitive gaming.
