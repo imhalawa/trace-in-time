@@ -10,14 +10,6 @@ tags_color: "#4122aa"
 permalink: /series/async-await/what-is-async-await-csharp/
 ---
 
-## What Are We Actually Solving?
-
-Imagine three workers in a kitchen. One is washing dishes, another is chopping vegetables, and the third is standing at the stove, watching a pot that hasn't started boiling yet. None of them are idle in the traditional sense - but that third worker is frozen in place, waiting on something entirely outside their control. The other two can't get a clean pan. Orders are backing up. The kitchen is staffed, but the work is stalled.
-
-In software, a thread is that worker. And for most of computing history, threads would freeze the same way - blocking on a network call, a database query, or a file read that hadn't returned yet. The CPU wasn't busy. The program wasn't thinking. It was just waiting on time.
-
-That's the problem async programming solves. Not slowness. Waste.
-
 > **Key Takeaways**
 >
 > - `async`/`await` is about freeing threads during I/O waits, not making code run faster.
@@ -25,6 +17,14 @@ That's the problem async programming solves. Not slowness. Waste.
 > - `await` releases the current thread while an operation is in flight, then resumes exactly where it paused.
 > - For CPU-bound work, use `Task.Run` - async alone doesn't parallelize computation.
 > - Sequential `await` calls run in order; start multiple tasks before awaiting them to run concurrently.
+
+## What Are We Actually Solving?
+
+Imagine three workers in a kitchen. One is washing dishes, another is chopping vegetables, and the third is standing at the stove, watching a pot that hasn't started boiling yet. None of them are idle in the traditional sense - but that third worker is frozen in place, waiting on something entirely outside their control. The other two can't get a clean pan. Orders are backing up. The kitchen is staffed, but the work is stalled.
+
+In software, a thread is that worker. And for most of computing history, threads would freeze the same way - blocking on a network call, a database query, or a file read that hadn't returned yet. The CPU wasn't busy. The program wasn't thinking. It was just waiting on time.
+
+That's the problem async programming solves. Not slowness. Waste.
 
 ## Why Blocking Is the Wrong Answer
 

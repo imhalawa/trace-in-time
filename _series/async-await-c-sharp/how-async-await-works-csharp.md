@@ -10,12 +10,6 @@ tags_color: "#4122aa"
 permalink: /series/async-await/how-async-await-works-csharp/
 ---
 
-## What the Compiler Does Before Your Code Runs
-
-In the [previous part](/series/async-await/what-is-async-await-csharp/), we established the core problem - threads standing idle during I/O - and introduced `async`/`await` as the mechanism that fixes it. But knowing what async does isn't the same as understanding how. The "how" starts with a transformation you never see.
-
-When the C# compiler encounters a method marked `async`, it doesn't just compile it - it rewrites it entirely. The output is a state machine: a generated struct that can pause mid-execution, remember everything about where it stopped, and resume exactly there when the signal arrives. This is not runtime magic. It's a compile-time translation. `async` and `await` are essentially a developer-friendly notation for hand-writing that struct yourself, except the compiler is far more reliable at it than any of us would be.
-
 > **Key Takeaways**
 >
 > - `async` enables `await` and triggers a compile-time transformation - it does not, by itself, make code run asynchronously.
@@ -23,6 +17,12 @@ When the C# compiler encounters a method marked `async`, it doesn't just compile
 > - The compiler generates a state machine that resumes the method at each `await` point with all locals intact.
 > - In UI apps, continuations return to the original `SynchronizationContext` (the UI thread); in ASP.NET Core, they run on a thread-pool thread.
 > - If the awaited operation completes synchronously, `await` skips the suspension entirely - no allocation, no context switch.
+
+## What the Compiler Does Before Your Code Runs
+
+In the [previous part](/series/async-await/what-is-async-await-csharp/), we established the core problem - threads standing idle during I/O - and introduced `async`/`await` as the mechanism that fixes it. But knowing what async does isn't the same as understanding how. The "how" starts with a transformation you never see.
+
+When the C# compiler encounters a method marked `async`, it doesn't just compile it - it rewrites it entirely. The output is a state machine: a generated struct that can pause mid-execution, remember everything about where it stopped, and resume exactly there when the signal arrives. This is not runtime magic. It's a compile-time translation. `async` and `await` are essentially a developer-friendly notation for hand-writing that struct yourself, except the compiler is far more reliable at it than any of us would be.
 
 ## What `async` and `await` Actually Mean
 

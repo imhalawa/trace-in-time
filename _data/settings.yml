@@ -114,7 +114,6 @@ tags_section: # TODO: enable tags section later when we launch the first series 
   tags_section_title: Threads
   tags:
     - tag: "Structures"
-      image: "/images/20.jpg"
 
 
 #-------------------------------
@@ -130,22 +129,7 @@ gallery_section:
   enable: false # TODO: enable gallery section later when we have more footages
   gallery_section_title: Footages
   gallery:
-    gallery_images:
-      - alt: 'Rest'
-        url: '/images/100.jpg'
-        caption: 'Small steps lead to big results.'
-      - alt: 'Lifestyle'
-        url: '/images/101.jpg'
-        caption: 'A peaceful moment captured during a serene evening.'
-      - alt: 'Hobby'
-        url: '/images/102.jpg'
-        caption: 'True friends are like stars — they shine brightest when the world feels dark.'
-      - alt: 'Computers'
-        url: '/images/103.jpg'
-        caption: 'Every click opens a new chapter in an endless story.'
-      - alt: 'Games'
-        url: '/images/104.jpg'
-        caption: 'Every level is a new opportunity to test your limits.'
+    gallery_images: []
 
 
 #-------------------------------

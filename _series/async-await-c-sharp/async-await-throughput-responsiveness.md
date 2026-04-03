@@ -10,14 +10,6 @@ tags_color: "#4122aa"
 permalink: /series/async-await/async-await-throughput-responsiveness/
 ---
 
-## The Real Bottleneck in Most Apps Isn't the CPU
-
-In the [previous part](/series/async-await/how-async-await-works-csharp/), we explored how `async`/`await` lets a method pause and resume without losing its place. This part answers why that matters in practice: because the thread waiting on I/O is a thread that can't help with anything else.
-
-Picture a web server handling two hundred requests a second. Each one hits a database. The database is fast — thirty milliseconds on a good day. But multiplied across two hundred concurrent requests, those waits stack up into a wall of occupied threads: threads that aren't computing anything, aren't making decisions, aren't doing work. They're just sitting there, holding memory and a slot in the thread pool, waiting for a row to come back.
-
-That's the cost of blocking on I/O. Not slow code — unavailable threads.
-
 > **Key Takeaways**
 >
 > - Blocking threads during I/O wastes thread budget, not CPU cycles - the cost is unavailability.
@@ -25,6 +17,14 @@ That's the cost of blocking on I/O. Not slow code — unavailable threads.
 > - In desktop apps, async keeps the UI thread free so the app stays responsive during data loads.
 > - `.Result` and `.Wait()` defeat the whole purpose - they block threads and risk deadlocks.
 > - Prefer `async Task Main` in console apps and keep the async chain intact throughout your codebase.
+
+## The Real Bottleneck in Most Apps Isn't the CPU
+
+In the [previous part](/series/async-await/how-async-await-works-csharp/), we explored how `async`/`await` lets a method pause and resume without losing its place. This part answers why that matters in practice: because the thread waiting on I/O is a thread that can't help with anything else.
+
+Picture a web server handling two hundred requests a second. Each one hits a database. The database is fast — thirty milliseconds on a good day. But multiplied across two hundred concurrent requests, those waits stack up into a wall of occupied threads: threads that aren't computing anything, aren't making decisions, aren't doing work. They're just sitting there, holding memory and a slot in the thread pool, waiting for a row to come back.
+
+That's the cost of blocking on I/O. Not slow code — unavailable threads.
 
 ## How Blocking Hurts Your Server
 

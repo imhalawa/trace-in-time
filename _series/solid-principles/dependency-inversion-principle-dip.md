@@ -11,6 +11,14 @@ permalink: /series/solid-principles/dependency-inversion-principle/
 
 ---
 
+> **Key Takeaways**
+>
+> - DIP states that high-level policy must not depend on low-level details; both should depend on a shared abstraction.
+> - DIP is the mechanism behind OCP: the abstraction is the hinge point that keeps policy stable while implementation details vary.
+> - Wiring a dependency via `new` inside a class removes the seam — the dependency cannot be varied, mocked, or replaced without editing the class.
+> - The consumer owns the interface: `IOrderRepository` is defined by what `ReportGenerator` needs, not by what `SqlOrderRepository` happens to provide.
+> - DI is the technique for satisfying DIP; IoC containers automate the wiring at scale — but a container does not enforce DIP on its own.
+
 {: .prerequisites }
 > Before reading, make sure you're comfortable with:
 >

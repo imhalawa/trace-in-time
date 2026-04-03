@@ -10,12 +10,6 @@ tags_color: "#4122aa"
 permalink: /series/async-await/async-exception-handling-csharp/
 ---
 
-## Exceptions Don't Stay Where They Started
-
-In the [previous part](/series/async-await/async-continuations-synchronizationcontext/), we learned how continuations carry the method forward after an `await`. This part deals with what happens when something inside that chain goes wrong. The short answer: exceptions still propagate, but they travel *through the task* and arrive *at the await point* - not at the throw site.
-
-Miss this distinction once and you'll spend an afternoon staring at a stack trace that points nowhere useful.
-
 > **Key Takeaways**
 >
 > - Exceptions thrown before the first `await` propagate synchronously - they're still stored in the `Task`, not thrown directly.
@@ -24,6 +18,12 @@ Miss this distinction once and you'll spend an afternoon staring at a stack trac
 > - `.Result`, `.Wait()`, and `.GetAwaiter().GetResult()` all block threads; `.Result` and `.Wait()` also wrap exceptions in `AggregateException`.
 > - `Task.WhenAll` throws only the first exception when awaited - inspect faulted tasks individually for the full picture.
 > - Treat `OperationCanceledException` as expected flow, not a failure.
+
+## Exceptions Don't Stay Where They Started
+
+In the [previous part](/series/async-await/async-continuations-synchronizationcontext/), we learned how continuations carry the method forward after an `await`. This part deals with what happens when something inside that chain goes wrong. The short answer: exceptions still propagate, but they travel *through the task* and arrive *at the await point* - not at the throw site.
+
+Miss this distinction once and you'll spend an afternoon staring at a stack trace that points nowhere useful.
 
 ## How Exceptions Travel Through Tasks
 

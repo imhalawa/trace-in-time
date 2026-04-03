@@ -533,20 +533,6 @@ document.addEventListener("DOMContentLoaded", function() {
         localStorage.setItem('tit_vid', visitorId);
       }
 
-      var arViewLabel = function (n) {
-        if (n >= 1000 || n === 1 || n >= 11) return 'مشاهدة';
-        if (n === 2)  return 'مشاهدتان';
-        if (n <= 10)  return 'مشاهدات';
-        return 'مشاهدة';
-      };
-
-      var arVisitorLabel = function (n) {
-        if (n >= 1000 || n === 1 || n >= 11) return 'زائر';
-        if (n === 2)  return 'زائران';
-        if (n <= 10)  return 'زوار';
-        return 'زائر';
-      };
-
       var formatNum = function (n, ar) {
         var locale = ar ? 'ar' : undefined;
         if (n >= 1000000) return (n / 1000000).toLocaleString(locale, { maximumFractionDigits: 1 }) + (ar ? ' مليون' : 'M');
@@ -555,15 +541,12 @@ document.addEventListener("DOMContentLoaded", function() {
       };
 
       var renderDisplay = function (views, visitors) {
-        var viewsPart, visitorsPart;
-        if (isAr) {
-          viewsPart    = formatNum(views, true) + ' ' + arViewLabel(views);
-          visitorsPart = formatNum(visitors, true) + ' ' + arVisitorLabel(visitors);
-        } else {
-          viewsPart    = formatNum(views, false) + (views === 1 ? ' view' : ' views');
-          visitorsPart = formatNum(visitors, false) + (visitors === 1 ? ' visitor' : ' visitors');
-        }
-        viewsEl.textContent = viewsPart + ' · ' + visitorsPart;
+        var viewsNum    = formatNum(views, isAr);
+        var visitorsNum = formatNum(visitors, isAr);
+        viewsEl.innerHTML =
+          '<span class="fi fi-glasses" aria-hidden="true"></span>\u00a0' + viewsNum +
+          ' \u00b7 ' +
+          '<span class="fi fi-people" aria-hidden="true"></span>\u00a0' + visitorsNum;
       };
 
       var fetchAndDisplay = function () {

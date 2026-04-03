@@ -10,12 +10,6 @@ tags_color: "#4122aa"
 permalink: /series/async-await/async-best-practices-csharp/
 ---
 
-## The Conventions That Keep Async Code From Surprising You
-
-In the [previous part](/series/async-await/designing-reliable-async-methods-csharp/), we covered how to design individual async methods that callers can depend on. This final part is about what happens when you apply those decisions consistently — across a codebase, across a team, across time.
-
-Most async bugs aren't mysterious. They're the same handful of mistakes showing up in different files: blocking on a task, dropping a `CancellationToken`, firing work without handling its exceptions. The conventions here exist because each one prevents a specific category of failure that's annoying to diagnose and easy to avoid.
-
 > **Key Takeaways**
 >
 > - Mark a method `async` only when it contains a genuine `await` - otherwise return a completed task directly.
@@ -24,6 +18,12 @@ Most async bugs aren't mysterious. They're the same handful of mistakes showing 
 > - Name async methods with the `Async` suffix uniformly.
 > - Accept and forward `CancellationToken`; treat `OperationCanceledException` as expected flow.
 > - Use `Task.WhenAll` for concurrent I/O; `Task.Run` only for CPU-bound work on the thread pool.
+
+## The Conventions That Keep Async Code From Surprising You
+
+In the [previous part](/series/async-await/designing-reliable-async-methods-csharp/), we covered how to design individual async methods that callers can depend on. This final part is about what happens when you apply those decisions consistently — across a codebase, across a team, across time.
+
+Most async bugs aren't mysterious. They're the same handful of mistakes showing up in different files: blocking on a task, dropping a `CancellationToken`, firing work without handling its exceptions. The conventions here exist because each one prevents a specific category of failure that's annoying to diagnose and easy to avoid.
 
 ## Keep the Async Chain Intact
 

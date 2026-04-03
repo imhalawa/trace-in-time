@@ -210,6 +210,12 @@
     text-transform: uppercase;
     letter-spacing: .5px;
     color: var(--text-alt-color);
+
+    .post-views .fi {
+      vertical-align: middle;
+      width: 14px;
+      height: 14px;
+    }
   }
 
   .post-meta__author {

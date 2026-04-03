@@ -10,12 +10,6 @@ tags_color: "#4122aa"
 permalink: /series/async-await/designing-reliable-async-methods-csharp/
 ---
 
-## What Makes an Async Method Trustworthy?
-
-In the [previous part](/series/async-await/async-exception-handling-csharp/), we learned how exceptions travel through tasks and where to catch them. But preventing problems is better than recovering from them. Designing reliable async methods starts one step earlier: making the method predictable in how it runs, how it finishes, and how it reports problems - before any caller ever awaits it.
-
-A trustworthy async method makes a clear contract: await me and I'll return a result or a meaningful error. I'll honor a cancellation request. I don't silently succeed while the work has actually failed. That clarity is what lets callers compose your method safely, handle failures correctly, and cancel cleanly without guessing.
-
 > **Key Takeaways**
 >
 > - Always return `Task` or `Task<T>` - never `async void` except in event handlers.
@@ -24,6 +18,12 @@ A trustworthy async method makes a clear contract: await me and I'll return a re
 > - Choose `ValueTask` only after profiling confirms allocation savings on hot, frequently-synchronous paths.
 > - Avoid mixing sync and async in one method - no `.Result` or `.Wait()` calls inside an async method.
 > - Use `Task.WhenAll` for concurrent I/O; `Task.Run` only for genuinely CPU-bound work.
+
+## What Makes an Async Method Trustworthy?
+
+In the [previous part](/series/async-await/async-exception-handling-csharp/), we learned how exceptions travel through tasks and where to catch them. But preventing problems is better than recovering from them. Designing reliable async methods starts one step earlier: making the method predictable in how it runs, how it finishes, and how it reports problems - before any caller ever awaits it.
+
+A trustworthy async method makes a clear contract: await me and I'll return a result or a meaningful error. I'll honor a cancellation request. I don't silently succeed while the work has actually failed. That clarity is what lets callers compose your method safely, handle failures correctly, and cancel cleanly without guessing.
 
 ## Return `Task`, Not `void`
 
