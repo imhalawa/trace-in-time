@@ -198,70 +198,52 @@ pre {
   word-break: normal;
   font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Monaco, Consolas, Liberation Mono, "Courier New", monospace;
   color: var(--heading-font-color);
-
-  &.highlight {
-    &:hover {
-      button {
-        opacity: 1;
-      }
-    }
-  }
-
-  &.highlight>button {
-    opacity: 0;
-
-    &:hover {
-      opacity: 1;
-      color: var(--heading-font-color);
-      background: var(--background-color);
-      border-color: var(--heading-font-color);
-    }
-  }
-
-  &.highlight>button:active,
-  &.highlight>button:focus {
-    opacity: 1;
-  }
-
-  button {
-    position: absolute;
-    right: 15px;
-    top: 15px;
-    padding: 8px 12px;
-    border-radius: 30px;
-    font-family: $heading-font-family;
-    font-size: 14px;
-    line-height: 1;
-    font-weight: 500;
-    outline: none;
-    border: 1px solid var(--border-color);
-    color: var(--heading-font-color);
-    background: var(--background-color);
-    opacity: 0;
-    transition: all 0.2s ease;
-    cursor: pointer;
-  }
 }
 
 pre.highlight {
   position: relative;
-  display: flex;
-  align-items: flex-start;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  grid-template-columns: auto 1fr;
   margin-top: 12px;
   margin-bottom: 24px;
   overflow: hidden;
   padding: 0;
-  border: 1px solid var(--text-alt-color);
+  border: 1px solid var(--border-color);
   border-radius: 16px;
-  background: transparent;
+  background: var(--syntax-highlighting-background);
+
+  .code-header {
+    grid-column: 1 / -1;
+    grid-row: 1;
+    display: flex;
+    align-items: center;
+    padding: 0 14px;
+    min-height: 34px;
+    background: var(--syntax-header-bg);
+    border-bottom: 1px solid var(--border-color);
+    border-radius: 15px 15px 0 0;
+  }
+
+  .code-lang {
+    font-family: $post-code-font-family;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: .05em;
+    text-transform: uppercase;
+    color: var(--text-alt-color);
+    user-select: none;
+  }
 
   .code-gutter {
+    grid-column: 1;
+    grid-row: 2;
     display: flex;
     flex-direction: column;
     align-items: flex-end;
     flex-shrink: 0;
     padding: 16px 10px 16px 16px;
-    border-right: 1px solid var(--text-alt-color);
+    border-right: 1px solid var(--border-color);
     color: var(--text-alt-color);
     font-size: 13px;
     line-height: 1.55;
@@ -275,18 +257,45 @@ pre.highlight {
   }
 
   code {
+    grid-column: 2;
+    grid-row: 2;
     display: block;
-    flex: 1;
     overflow-x: auto;
     overflow-y: hidden;
     min-width: 0;
     padding: 16px;
     padding-bottom: 18px;
+    color: var(--syntax-text);
   }
 
   button {
-    top: 8px;
-    right: 10px;
+    margin-left: auto;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-family: $heading-font-family;
+    font-size: 11px;
+    line-height: 1;
+    font-weight: 600;
+    outline: none;
+    border: 1px solid var(--border-color);
+    color: var(--text-alt-color);
+    background: transparent;
+    opacity: 0;
+    transition: opacity 0.2s ease, color 0.2s ease, background 0.2s ease;
+    cursor: pointer;
+    white-space: nowrap;
+
+    &:hover {
+      color: var(--heading-font-color);
+      background: var(--syntax-highlighting-background);
+      border-color: var(--text-alt-color);
+    }
+  }
+
+  &:hover button,
+  button:focus,
+  button:active {
+    opacity: 1;
   }
 }
 
@@ -301,11 +310,11 @@ img,
   &+em {
     display: block;
     margin-top: 12px;
-    font-family: $heading-font-family;
+    font-family: $post-body-font-family;
     font-size: 14px;
     line-height: 1.4;
-    font-style: normal;
-    font-weight: normal;
+    font-style: italic;
+    font-weight: 400;
     text-align: center;
     color: var(--text-alt-color);
   }

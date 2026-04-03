@@ -220,13 +220,11 @@ document.addEventListener("DOMContentLoaded", function() {
   if (toggleTheme && isToggleEnabled) {
     toggleTheme.addEventListener("click", () => {
       const isDarkMode = html.classList.contains("dark-mode");
-      if (isDarkMode) {
-        setTheme("light");
-        localStorage.setItem("theme", "light");
-      } else {
-        setTheme("dark");
-        localStorage.setItem("theme", "dark");
-      }
+      const nextTheme = isDarkMode ? "light" : "dark";
+      setTheme(nextTheme);
+      localStorage.setItem("theme", nextTheme);
+      // Keep reading-controls swatch in sync
+      document.dispatchEvent(new CustomEvent("site:themechange", { detail: { theme: nextTheme } }));
     });
   }
 
@@ -420,60 +418,85 @@ document.addEventListener("DOMContentLoaded", function() {
   // =====================
   // Copy Code Button
   // =====================
+  var langDisplayNames = {
+    javascript: 'JavaScript', typescript: 'TypeScript', python: 'Python',
+    ruby: 'Ruby', java: 'Java', csharp: 'C#', cpp: 'C++', c: 'C',
+    go: 'Go', rust: 'Rust', swift: 'Swift', kotlin: 'Kotlin',
+    bash: 'Bash', shell: 'Shell', sh: 'Shell', zsh: 'Zsh',
+    html: 'HTML', css: 'CSS', scss: 'SCSS', sass: 'Sass',
+    json: 'JSON', yaml: 'YAML', toml: 'TOML', xml: 'XML',
+    sql: 'SQL', graphql: 'GraphQL', markdown: 'Markdown', md: 'Markdown',
+    dockerfile: 'Dockerfile', makefile: 'Makefile',
+    plaintext: 'Text', text: 'Text', console: 'Console', output: 'Output'
+  };
+
   document.querySelectorAll('.post__content pre.highlight, .page__content pre.highlight')
   .forEach(function (pre) {
-    const existingGutter = pre.querySelector('.code-gutter');
-    if (existingGutter) {
-      existingGutter.remove();
-    }
+    var existingHeader = pre.querySelector('.code-header');
+    if (existingHeader) { existingHeader.remove(); }
 
-    if (pre.dataset.lang) {
-      delete pre.dataset.lang;
-    }
+    var existingGutter = pre.querySelector('.code-gutter');
+    if (existingGutter) { existingGutter.remove(); }
 
-    const existingCopyButton = pre.querySelector('button');
-    if (existingCopyButton) {
-      existingCopyButton.remove();
-    }
+    var existingCopyButton = pre.querySelector('button');
+    if (existingCopyButton) { existingCopyButton.remove(); }
 
-    const code = pre.querySelector('code');
-    const sourceElement = code || pre;
-    const lineText = (sourceElement.innerText || '').replace(/\n$/, '');
-    const lineCount = Math.max(lineText.split('\n').length, 1);
+    var code = pre.querySelector('code');
+    var sourceElement = code || pre;
+    var lineText = (sourceElement.innerText || '').replace(/\n$/, '');
+    var lineCount = Math.max(lineText.split('\n').length, 1);
 
-    const gutter = document.createElement('span');
+    var gutter = document.createElement('span');
     gutter.className = 'code-gutter';
     gutter.setAttribute('aria-hidden', 'true');
 
-    for (let line = 1; line <= lineCount; line += 1) {
-      const lineNumber = document.createElement('span');
+    for (var line = 1; line <= lineCount; line += 1) {
+      var lineNumber = document.createElement('span');
       lineNumber.textContent = String(line);
       gutter.appendChild(lineNumber);
     }
 
     pre.insertBefore(gutter, code);
 
-    const button = document.createElement('button');
-    const copyText = 'Copy';
+    // Extract language from parent .language-* wrapper
+    var langSlug = '';
+    var wrapper = pre.closest('[class*="language-"]');
+    if (wrapper) {
+      var langMatch = wrapper.className.match(/language-([^\s]+)/);
+      if (langMatch) { langSlug = langMatch[1].toLowerCase(); }
+    }
+    var langLabel = langDisplayNames[langSlug] || (langSlug ? langSlug : '');
+
+    // Build header bar
+    var header = document.createElement('div');
+    header.className = 'code-header';
+
+    if (langLabel) {
+      var langSpan = document.createElement('span');
+      langSpan.className = 'code-lang';
+      langSpan.textContent = langLabel;
+      header.appendChild(langSpan);
+    }
+
+    var button = document.createElement('button');
+    var copyText = 'Copy';
     button.type = 'button';
     button.ariaLabel = 'Copy code to clipboard';
     button.innerText = copyText;
     button.addEventListener('click', function () {
-      const copySource = pre.querySelector('code') || pre;
-      let code = copySource.innerText;
-      try {
-        code = code.trimEnd();
-      } catch (e) {
-        code = code.trim();
-      }
-      navigator.clipboard.writeText(code);
+      var copySource = pre.querySelector('code') || pre;
+      var codeText = copySource.innerText;
+      try { codeText = codeText.trimEnd(); } catch (e) { codeText = codeText.trim(); }
+      navigator.clipboard.writeText(codeText);
       button.innerText = 'Copied!';
       setTimeout(function () {
         button.blur();
         button.innerText = copyText;
       }, 2e3);
     });
-    pre.appendChild(button);
+    header.appendChild(button);
+
+    pre.insertBefore(header, gutter);
   });
 
 
@@ -603,6 +626,145 @@ document.addEventListener("DOMContentLoaded", function() {
         }, 1500);
       });
     }
+  })();
+
+  /* =======================================================
+  // Reading Controls — font size, theme, column width
+  ======================================================= */
+  (function () {
+    var LS_FS     = 'readingFontSize';
+    var LS_THEME  = 'readingTheme';
+    var LS_COL    = 'readingColumnWidth';
+
+    var fsSizes = { small: '15px', normal: '17px', large: '20px' };
+
+    // -- Progress bar --
+    var progressBar = document.createElement('div');
+    progressBar.className = 'reading-progress-bar';
+    progressBar.setAttribute('aria-hidden', 'true');
+    document.body.prepend(progressBar);
+
+    var postContent = document.querySelector('.post__content');
+    if (postContent) {
+      function updateProgress() {
+        var scrolled = window.scrollY || document.documentElement.scrollTop;
+        var total    = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        progressBar.style.width = (total > 0 ? Math.min(100, (scrolled / total) * 100) : 0) + '%';
+      }
+      window.addEventListener('scroll', updateProgress, { passive: true });
+      window.addEventListener('resize', updateProgress, { passive: true });
+      updateProgress();
+    }
+
+    // -- FAB panel toggle --
+    var fab   = document.querySelector('.reading-controls__fab');
+    var panel = document.querySelector('.reading-controls__panel');
+
+    if (fab && panel) {
+      fab.addEventListener('click', function (e) {
+        e.stopPropagation();
+        var isOpen = panel.classList.contains('is-open');
+        panel.classList.toggle('is-open', !isOpen);
+        fab.setAttribute('aria-expanded', String(!isOpen));
+      });
+
+      // Close when clicking outside
+      document.addEventListener('click', function (e) {
+        if (!e.target.closest('#reading-controls')) {
+          panel.classList.remove('is-open');
+          fab.setAttribute('aria-expanded', 'false');
+        }
+      });
+    }
+
+    // -- Helpers --
+    function setAllActive(buttons, activeValue, attr) {
+      buttons.forEach(function (btn) {
+        btn.classList.toggle('is-active', btn.dataset[attr] === activeValue);
+      });
+    }
+
+    // -- Font size --
+    var fsBtns = document.querySelectorAll('.reading-fs-btn');
+
+    function applyFontSize(size) {
+      var px = fsSizes[size] || fsSizes.normal;
+      document.documentElement.style.setProperty('--post-font-size', px);
+      setAllActive(fsBtns, size, 'fs');
+    }
+
+    fsBtns.forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var size = btn.dataset.fs;
+        applyFontSize(size);
+        localStorage.setItem(LS_FS, size);
+      });
+    });
+
+    // -- Reading theme --
+    var themeBtns = document.querySelectorAll('.reading-theme-btn');
+
+    function applyReadingTheme(theme) {
+      if (theme === 'default') {
+        html.removeAttribute('data-reading-theme');
+      } else {
+        // sepia or gruvebox — overlay only, light/dark is controlled by global toggle
+        html.setAttribute('data-reading-theme', theme);
+      }
+      setAllActive(themeBtns, theme, 'theme');
+    }
+
+    themeBtns.forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var theme = btn.dataset.theme;
+        applyReadingTheme(theme);
+        if (theme === 'default') {
+          localStorage.removeItem(LS_THEME);
+        } else {
+          localStorage.setItem(LS_THEME, theme);
+        }
+      });
+    });
+
+    // -- Column width --
+    var colBtns = document.querySelectorAll('.reading-col-btn');
+
+    function applyColumnWidth(col) {
+      if (!postContent) return;
+      postContent.classList.toggle('post__content--narrow', col === 'narrow');
+      setAllActive(colBtns, col, 'col');
+    }
+
+    colBtns.forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var col = btn.dataset.col;
+        applyColumnWidth(col);
+        localStorage.setItem(LS_COL, col);
+      });
+    });
+
+    // -- Restore preferences on load --
+    var savedFs    = localStorage.getItem(LS_FS);
+    var savedTheme = localStorage.getItem(LS_THEME);
+    var savedCol   = localStorage.getItem(LS_COL);
+
+    // Migrate legacy 'light'/'dark' values saved before the redesign
+    if (savedTheme === 'light' || savedTheme === 'dark') {
+      savedTheme = null;
+      localStorage.removeItem(LS_THEME);
+    }
+
+    if (savedFs)    applyFontSize(savedFs);
+    if (savedTheme) applyReadingTheme(savedTheme);
+    else            setAllActive(themeBtns, 'default', 'theme');
+    if (savedCol)   applyColumnWidth(savedCol);
+
+    // When the global light/dark toggle fires, the CSS variant switches automatically.
+    // Just re-assert the active swatch so it stays highlighted correctly.
+    document.addEventListener('site:themechange', function () {
+      var active = localStorage.getItem(LS_THEME) || 'default';
+      setAllActive(themeBtns, active, 'theme');
+    });
   })();
 
 });

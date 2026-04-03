@@ -2,15 +2,15 @@
 // You can generate any color here - https://htmlcolorcodes.com
 
 :root {
-  --primary-color: #ae00ee;
-  --accent-color: #7c3aed;
-  --series-accent: #7a3ff2;
-  --series-indicator-color: #b7791f;
+  --primary-color: #3730a3;   /* indigo-800 — ink authority */
+  --accent-color: #92400e;    /* amber-800 — rich honey-gold */
+  --series-accent: #4338ca;   /* indigo-700 */
+  --series-indicator-color: #92400e;
   --secondary-color: #60b0ba;
   --white: #fff;
   --light-gray: #f3f3f4;
-  --lighten-gray: #ecf0f6;
-  --lightest-gray: #f8fafc;
+  --lighten-gray: #eef2ff;   /* indigo-50 — clean on-palette surface tint */
+  --lightest-gray: #f5f3ff;  /* violet-50 — bare warmth */
   --light-blue: #e7e7e9;
   --dark-gray: #94a3b8;
   --blue-gray: #697585;
@@ -33,8 +33,8 @@
 
   --button-color: var(--white);
 
-  --gradient-color: linear-gradient(90deg, #f70077 0%, #ae00ee 100%);
-  --gradient-hover: linear-gradient(180deg, #f70077 0%, #ae00ee 160%);
+  --gradient-color: linear-gradient(90deg, #312e81 0%, #4338ca 100%);
+  --gradient-hover: linear-gradient(180deg, #312e81 0%, #4338ca 160%);
 
   --border-color: #d4dae3;
   --border-alt-color: var(--light-blue);
@@ -62,40 +62,58 @@
   --social-rss: #f26522;
 
   --syntax-highlighting-background: #f3f3f3;
+  --syntax-header-bg: #eaeaec;
 
-  /* Things-inspired inline formatting colors */
-  --inline-code-bg: #fdf3f0;
-  --inline-code-color: #a31515;
+  /* Syntax token colors — VSCode Light+ adapted to blog indigo/amber palette */
+  --syntax-text: #1e1b4b;
+  --syntax-comment: #608b4e;
+  --syntax-keyword: #3730a3;
+  --syntax-keyword-control: #6d28d9;
+  --syntax-string: #92400e;
+  --syntax-number: #0d7a58;
+  --syntax-type: #1a7291;
+  --syntax-function: #7c5914;
+  --syntax-variable: #1d3e86;
+  --syntax-attribute: #1d62c4;
+  --syntax-tag: #7c2d12;
+  --syntax-regex: #ad1313;
+  --syntax-deleted: #cd3131;
+  --syntax-inserted: #0d7a58;
+  --syntax-constant: #0070c1;
+
+  /* Inline formatting — indigo-tinted, on-palette */
+  --inline-code-bg: #eef2ff;
+  --inline-code-color: #3730a3;
   --strong-color: var(--heading-font-color);
-  --em-color: #92600a;
+  --em-color: #92400e;
 
-  /* Heading colors — stepped neutrals, H2 divider carries the accent */
-  --h2-color: #10141f;
+  /* Heading colors — indigo-950 anchor gives ink depth */
+  --h2-color: #1e1b4b;        /* indigo-950 — near-black with indigo DNA */
   --h3-color: #1e2a3a;
   --h4-color: #374151;
   --h5-color: #4b5563;
   --h6-color: #6b7280;
   --h2-divider-color: #c8cdd4;
-  --mark-bg: rgba(255, 208, 0, 0.35);
-  --mark-color: #5a4200;
-  --kbd-bg: #f0f2f5;
-  --kbd-color: #2e80f2;
-  --kbd-border: #c8cdd4;
+  --mark-bg: rgba(251, 191, 36, 0.28);   /* amber-300 — warm highlight */
+  --mark-color: #78350f;                  /* amber-900 */
+  --kbd-bg: #eef2ff;
+  --kbd-color: #3730a3;
+  --kbd-border: #c7d2fe;      /* indigo-200 */
   --del-color: #9aa3ad;
   --ins-color: #0e9b6a;
-  --list-marker-color: #2e80f2;
-  --post-link-color: #2e80f2;
-  --table-th-bg: #f0f2f5;
-  --table-th-text: #1a1e24;
+  --list-marker-color: #3730a3;
+  --post-link-color: #3730a3;
+  --table-th-bg: #eef2ff;
+  --table-th-text: #1e1b4b;
   --table-border: #dde1e7;
-  --table-hover-bg: #f7f8fa;
+  --table-hover-bg: #f5f3ff;
 }
 
 :root[dark] {
-  --primary-color: #d60067;
-  --accent-color: #9b5cf6;
-  --series-accent: #7a3ff2;
-  --series-indicator-color: #9a6400;
+  --primary-color: #a5b4fc;   /* indigo-300 — luminous gemstone quality */
+  --accent-color: #fbbf24;    /* amber-400 — pure gold */
+  --series-accent: #818cf8;   /* indigo-400 */
+  --series-indicator-color: #fbbf24;
   --white: #fff;
   --light-gray: #f0f0f0;
   --gray: #9e9e9e;
@@ -104,8 +122,8 @@
 
   --background-rgba: rgba(var(--rgb-color), 0.85);
   --background-color: var(--dark);
-  --background-alt-color: #2d3b4e;
-  --background-alt-color-2: #1a2334;
+  --background-alt-color: #1e1b3a;   /* indigo-tinted dark surface */
+  --background-alt-color-2: #13112a; /* deeper indigo dark */
 
   --text-color: var(--gray);
   --text-alt-color: var(--gray);
@@ -117,11 +135,11 @@
 
   --button-color: var(--white);
 
-  --gradient-color: linear-gradient(90deg, #d60067 0%, #8311c0 100%);
-  --gradient-hover: linear-gradient(180deg, #d60067 0%, #8311c0 160%);
+  --gradient-color: linear-gradient(90deg, #6366f1 0%, #a5b4fc 100%);
+  --gradient-hover: linear-gradient(180deg, #6366f1 0%, #a5b4fc 160%);
 
-  --border-color: #232939;
-  --border-alt-color: #232939;
+  --border-color: #201d3d;
+  --border-alt-color: #201d3d;
 
   --th-color: var(--background-alt-color);
   --tr-color: var(--background-alt-color-2);
@@ -145,32 +163,50 @@
   --social-instagram: #ff86a3;
   --social-rss: #ffad6f;
 
-  --syntax-highlighting-background: #1e293b;
+  --syntax-highlighting-background: #1a1730;
+  --syntax-header-bg: #130e24;
 
-  /* Things-inspired inline formatting colors */
-  --inline-code-bg: #241d17;
-  --inline-code-color: #ce9178;
+  /* Syntax token colors — VSCode Dark+ adapted to blog dark indigo palette */
+  --syntax-text: #cdd5f0;
+  --syntax-comment: #6a9955;
+  --syntax-keyword: #818cf8;
+  --syntax-keyword-control: #c084fc;
+  --syntax-string: #d4956a;
+  --syntax-number: #b5cea8;
+  --syntax-type: #4ec9b0;
+  --syntax-function: #dcdcaa;
+  --syntax-variable: #9cdcfe;
+  --syntax-attribute: #9cdcfe;
+  --syntax-tag: #818cf8;
+  --syntax-regex: #d16969;
+  --syntax-deleted: #f44747;
+  --syntax-inserted: #6a9955;
+  --syntax-constant: #4fc1ff;
+
+  /* Inline formatting — indigo palette for dark mode */
+  --inline-code-bg: #1e1b3a;
+  --inline-code-color: #a5b4fc;
   --strong-color: var(--heading-font-color);
-  --em-color: #c99a3a;
+  --em-color: #fbbf24;
 
-  /* Heading colors — stepped neutrals, H2 divider carries the accent */
-  --h2-color: #f0f2f5;
-  --h3-color: #c8cdd4;
+  /* Heading colors — indigo-warm tinted for premium dark */
+  --h2-color: #e0e7ff;        /* indigo-100 — warm luminous near-white */
+  --h3-color: #c7d2fe;        /* indigo-200 */
   --h4-color: #9aa3ad;
   --h5-color: #6b7a8e;
   --h6-color: #4e5e6e;
-  --h2-divider-color: #2a3444;
-  --mark-bg: rgba(255, 208, 0, 0.15);
-  --mark-color: #f0d070;
-  --kbd-bg: #1c2633;
-  --kbd-color: #65bcff;
-  --kbd-border: #2e3d52;
+  --h2-divider-color: #201d3d;
+  --mark-bg: rgba(251, 191, 36, 0.18);   /* amber glow */
+  --mark-color: #fde68a;                  /* amber-200 */
+  --kbd-bg: #1e1b3a;
+  --kbd-color: #a5b4fc;
+  --kbd-border: #312e81;
   --del-color: #4e5e6e;
   --ins-color: #44cf6e;
-  --list-marker-color: #65bcff;
-  --post-link-color: #65bcff;
-  --table-th-bg: #1e2530;
-  --table-th-text: #c8cdd4;
-  --table-border: #2c3342;
-  --table-hover-bg: #1a202b;
+  --list-marker-color: #a5b4fc;
+  --post-link-color: #a5b4fc;
+  --table-th-bg: #1e1b3a;
+  --table-th-text: #e0e7ff;
+  --table-border: #201d3d;
+  --table-hover-bg: #19163a;
 }
