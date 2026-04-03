@@ -27,9 +27,21 @@ jobs:
           ruby-version: '3.2'
           bundler-cache: true
 
+      - name: Setup Java (for PlantUML)
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - name: Download PlantUML JAR
+        run: |
+          mkdir -p vendor
+          curl -fsSL "https://github.com/plantuml/plantuml/releases/latest/download/plantuml.jar" \
+            -o vendor/plantuml.jar
+
       - name: Convert images to WebP
         run: |
-          sudo apt-get install -y webp
+          sudo apt-get install -y webp graphviz
           find images/ -type f \( -name "*.jpg" -o -name "*.jpeg" -o -name "*.png" \) | while read f; do
             out="${f%.*}.webp"
             if [ ! -f "$out" ]; then

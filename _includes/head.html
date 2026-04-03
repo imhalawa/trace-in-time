@@ -46,15 +46,16 @@
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 
   <!-- Google Fonts — non-blocking (preload pattern) -->
-  <!-- Plus Jakarta Sans: primary Latin UI font (modern rounded geometric, magazine-friendly) -->
-  <!-- Tajawal: Arabic UI font fallback (no Latin glyphs → browser falls through automatically) -->
-  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Tajawal:wght@400;500;600;700;800&display=swap"
+  <!-- Fraunces: editorial display serif for all headings (variable: weight + optical-size axes) -->
+  <!-- Onest: humanist grotesque for UI, labels, metadata (variable: weight axis) -->
+  <!-- Tajawal: Arabic UI font fallback -->
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Onest:wght@300..900&family=Tajawal:wght@400;500;600;700;800&display=swap"
     onload="this.onload=null;this.rel='stylesheet'">
   <noscript>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Tajawal:wght@400;500;600;700;800&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Onest:wght@300..900&family=Tajawal:wght@400;500;600;700;800&display=swap">
   </noscript>
 
-  <!-- Post reading fonts: Lora (body), JetBrains Mono (code) — headings use Plus Jakarta Sans already loaded above -->
+  <!-- Post reading fonts: Lora (body serif), JetBrains Mono (code) -->
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap"
     onload="this.onload=null;this.rel='stylesheet'">
   <noscript>
@@ -104,6 +105,13 @@
       document.documentElement.classList.add('view-compact');
     }
   </script>
+
+  {% if page.diagrams %}
+  <script defer src="{{ '/js/vega.min.js' | relative_url }}"></script>
+  <script defer src="{{ '/js/vega-lite.min.js' | relative_url }}"></script>
+  <script defer src="{{ '/js/vega-embed.min.js' | relative_url }}"></script>
+  <script defer src="{{ '/js/diagrams-init.js' | relative_url }}"></script>
+  {% endif %}
 
   <link rel="stylesheet" href="{{ '/css/main.css' | relative_url }}">
 

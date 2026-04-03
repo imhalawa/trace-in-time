@@ -6,10 +6,20 @@ body {
 .diagram-figure {
   margin: 2rem 0;
   counter-increment: figure;
-  border: 1.5px solid var(--diagram-border, var(--border-color));
-  border-radius: 4px;
-  background: var(--diagram-bg, var(--background-color));
-  overflow: hidden;
+  border: 1px solid var(--border-color);
+  border-radius: 0;
+  background: transparent;
+  overflow-x: auto;
+
+  > svg,
+  > * > svg {
+    display: block;
+    max-width: none;
+    height: auto;
+    margin: 0 auto;
+    padding: 24px;
+    box-sizing: content-box;
+  }
 
   .mermaid {
     padding: 28px 16px 16px;

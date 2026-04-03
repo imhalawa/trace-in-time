@@ -10,14 +10,6 @@ tags_color: "#4122aa"
 permalink: /series/async-await/async-continuations-synchronizationcontext/
 ---
 
-> **Key Takeaways**
->
-> - A continuation is the code that runs after an `await` completes - generated and registered by the state machine.
-> - By default, `await` captures the current `SynchronizationContext` and posts the continuation back to it.
-> - In WPF, WinForms, and MAUI, the UI `SynchronizationContext` ensures continuations run on the UI thread.
-> - In ASP.NET Core, there is no `SynchronizationContext`, so continuations run on a thread-pool thread.
-> - `ConfigureAwait(false)` skips context capture - the continuation runs on whatever thread-pool thread is free.
-
 ## The Question That Only Matters When It Breaks
 
 In the [previous part](/series/async-await/async-vs-parallel-csharp/), we covered the difference between async I/O and parallel computation, and when to apply each. This part asks a subtler question: once an `await` completes and the method is ready to resume, *where* does it resume? On which thread? In which context?

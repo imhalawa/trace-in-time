@@ -77,7 +77,7 @@ hero:
 
     Here, I share what I build, photograph, and learn — notes on finding clarity, staying creative, and making progress one step at a time.
   hero_image: /images/site_identity/hero.png # TODO: change image to my own desktop setup
-  hero_image_caption: This space is a trace in time — fragments of systems and reflections
+  hero_image_caption: Engineering notes. Book traces. The patterns that connect them.
   hero_button_text: Get In Touch
   hero_button_link: '/contact/'
 
@@ -145,7 +145,7 @@ mailchimp:
 
 #-------------------------------
 # Footer Settings
-footer_description: Here, I share what I build, photograph, and learn along the way — thoughts on keeping creativity alive inside a structured life. You’ll find reflections, tools, and methods that help me stay focused without losing curiosity. Dive in, and maybe you’ll find something that resonates.
+footer_description: Backend engineer. Writing about distributed systems, payment infrastructure, and the reasoning that documentation tends to omit. Some posts drift into goals and how people think — I find the two less separate than they appear.
 
 
 #-------------------------------
@@ -168,7 +168,7 @@ social:
 # Contact Settings
 contact:
   form_id: xeopjzgw # Add your form_id
-  button_text: Send Now
+  button_text: Send
 
 # NOTE
 # The contact form uses Formspree (https://formspree.io/) — up to 50 submissions for free.

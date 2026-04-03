@@ -10,11 +10,10 @@ tags_color: "#E8374B"
 permalink: /books/grokking-algorithms/chapter-2-selection-sort/
 ---
 
-## Objectives
-
-- Learn about Arrays and Linked Lists
-- Highlight the Pros and Cons of both Arrays and Linked Lists
-- Learn about Selection Sort Algorithm
+{: .objectives }
+> - Learn about Arrays and Linked Lists
+> - Highlight the Pros and Cons of both Arrays and Linked Lists
+> - Learn about Selection Sort Algorithm
 
 ## Arrays & Linked Lists
 

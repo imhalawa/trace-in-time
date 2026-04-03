@@ -11,14 +11,6 @@ permalink: /series/solid-principles/liskov-substitution-principle/
 
 ---
 
-> **Key Takeaways**
->
-> - LSP states that a derived class must be substitutable for its base class — callers should not be able to tell the difference.
-> - Every method is a contract: a precondition (what the caller must guarantee) and a postcondition (what the method guarantees in return).
-> - A subtype must not strengthen preconditions or weaken postconditions; throwing where the base promised a result is a broken contract.
-> - The visible symptom of an LSP violation is a runtime exception in code that did nothing wrong; the invisible one is `is`/`as` type-check creep scattered across callers.
-> - Every LSP violation is a latent OCP violation — once callers stop trusting the abstraction, `if/else` branches return.
-
 {: .prerequisites }
 > Before reading, make sure you're comfortable with:
 >

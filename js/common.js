@@ -769,4 +769,33 @@ document.addEventListener("DOMContentLoaded", function() {
     });
   })();
 
+  // TOC scroll-spy — highlights active heading with indigo left-bar
+  (function () {
+    var tocLinks = document.querySelectorAll('.post__toc__list a, .page__toc__list a');
+    if (!tocLinks.length) return;
+
+    var headingIds = Array.from(tocLinks).map(function (a) {
+      return a.getAttribute('href') && a.getAttribute('href').replace('#', '');
+    }).filter(Boolean);
+
+    var headings = headingIds.map(function (id) {
+      return document.getElementById(id);
+    }).filter(Boolean);
+
+    function onScroll() {
+      var scrollY = window.scrollY + 100;
+      var active = null;
+      for (var i = headings.length - 1; i >= 0; i--) {
+        if (headings[i].offsetTop <= scrollY) { active = headingIds[i]; break; }
+      }
+      tocLinks.forEach(function (a) {
+        var isActive = active && a.getAttribute('href') === '#' + active;
+        a.classList.toggle('toc-active', !!isActive);
+      });
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  })();
+
 });

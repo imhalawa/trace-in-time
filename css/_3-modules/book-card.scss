@@ -6,17 +6,17 @@
 .book-card {
   position: relative;
   border: 1px solid var(--border-color);
-  border-radius: 14px;
+  border-left: 2px solid transparent;
+  border-radius: 0;
   overflow: hidden;
-  transition: transform .24s ease, box-shadow .24s ease, border-color .24s ease;
+  transition: border-color 0.15s ease;
   display: flex;
   flex-direction: column;
 
   &:hover,
   &:focus-within {
-    transform: translateY(-4px);
-    box-shadow: 0 16px 40px -10px rgba(0, 0, 0, 0.14);
-    border-color: color-mix(in srgb, var(--primary-color) 40%, var(--border-color));
+    border-color: var(--border-color);
+    border-left-color: var(--primary-color);
   }
 }
 
@@ -25,7 +25,7 @@
   position: absolute;
   inset: 0;
   z-index: 1;
-  border-radius: inherit;
+  border-radius: 0;
   /* fully transparent — just captures clicks on the card background/cover */
 }
 
@@ -87,7 +87,7 @@
   z-index: 3;
   width: 30px;
   height: 30px;
-  border-radius: 50%;
+  border-radius: 0;
   border: none;
   background: rgba(0, 0, 0, 0.55);
   color: #fff;
@@ -226,7 +226,7 @@
   align-items: center;
   gap: 5px;
   padding: 4px 10px 4px 8px;
-  border-radius: 999px;
+  border-radius: 0;
   font-family: $heading-font-family;
   font-size: 11px;
   font-weight: 700;

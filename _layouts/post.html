@@ -70,16 +70,6 @@ layout: default
                   {% if words < 550 %} 1 {{ t.min_read }} {% else %} {{ words | divided_by:275 }} {{ t.min_read }} {% endif %} </span> –{% endif %}
                 <span class="post-views" dir="ltr" data-slug="{{ page.url }}" data-lang="{{ content_language }}"></span>
               </div>
-              {% if site.data.settings.social %}
-              <ul class="post-meta__social list-reset">
-                {% for social in site.data.settings.social %}
-                <li class="post-meta__social-item">
-                  <a class="post-meta__social-link social--{{ social.name | slugify }}" href="{{ social.link }}" target="_blank"
-                    rel="noopener" aria-label="{{ social.name }} link"><span class="{{ social.icon }}" aria-hidden="true"></span></a>
-                </li>
-                {% endfor %}
-              </ul>
-              {% endif %}
             </div>
 
             <a href="{{ '/about/' |relative_url }}" class="post-meta__image">
@@ -102,16 +92,6 @@ layout: default
                   {% if words < 550 %} 1 {{ t.min_read }} {% else %} {{ words | divided_by:275 }} {{ t.min_read }} {% endif %} </span> –{% endif %}
                 <span class="post-views" dir="ltr" data-slug="{{ page.url }}" data-lang="{{ content_language }}"></span>
               </div>
-              {% if site.data.settings.social %}
-              <ul class="post-meta__social list-reset">
-                {% for social in site.data.settings.social %}
-                <li class="post-meta__social-item">
-                  <a class="post-meta__social-link social--{{ social.name | slugify }}" href="{{ social.link }}" target="_blank"
-                    rel="noopener" aria-label="{{ social.name }} link"><span class="{{ social.icon }}" aria-hidden="true"></span></a>
-                </li>
-                {% endfor %}
-              </ul>
-              {% endif %}
             </div>
             {% endif %}
           </div>
@@ -137,8 +117,7 @@ layout: default
           </div>
           {% endif %}
 
-          {% capture footnotes_title_markup %}<h2 class="footnotes__title">{{ footnotes_heading }}</h2><div class="footnotes"{% endcapture %}
-          {{ content | replace: '<div class="footnotes"', footnotes_title_markup }}
+          {{ content }}
         </div>
       </article>
 

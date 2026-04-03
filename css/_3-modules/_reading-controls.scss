@@ -17,7 +17,7 @@
   background: var(--gradient-color);
   transition: width 0.1s linear;
   pointer-events: none;
-  border-radius: 0 2px 2px 0;
+  border-radius: 0;
 }
 
 /* ----------------------------------------------------------
@@ -45,7 +45,7 @@
   justify-content: center;
   width: 44px;
   height: 44px;
-  border-radius: 50%;
+  border-radius: 0;
   border: 1px solid var(--border-color);
   background: var(--background-color);
   color: var(--heading-font-color);
@@ -92,7 +92,7 @@
   // Frosted glass card
   background: color-mix(in srgb, var(--background-color) 88%, transparent);
   border: 1px solid var(--border-color);
-  border-radius: 20px;
+  border-radius: 0;
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   box-shadow:
@@ -145,7 +145,7 @@
   width: 36px;
   height: 30px;
   border: 1px solid transparent;
-  border-radius: 8px;
+  border-radius: 0;
   background: transparent;
   color: var(--text-alt-color);
   font-family: $post-heading-font-family;
@@ -179,7 +179,7 @@
 .reading-theme-btn {
   width: 22px;
   height: 22px;
-  border-radius: 50%;
+  border-radius: 0;
   border: 2px solid transparent;
   padding: 0;
   cursor: pointer;
@@ -227,7 +227,7 @@
   width: 36px;
   height: 30px;
   border: 1px solid transparent;
-  border-radius: 8px;
+  border-radius: 0;
   background: transparent;
   color: var(--text-alt-color);
   cursor: pointer;

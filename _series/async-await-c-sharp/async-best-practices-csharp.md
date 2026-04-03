@@ -10,15 +10,6 @@ tags_color: "#4122aa"
 permalink: /series/async-await/async-best-practices-csharp/
 ---
 
-> **Key Takeaways**
->
-> - Mark a method `async` only when it contains a genuine `await` - otherwise return a completed task directly.
-> - Keep the async chain intact: if you call async code, be async yourself. Don't break the chain with `.Result` or `.Wait()`.
-> - Use `ConfigureAwait(false)` in library and service code; skip it in UI code that needs to return to the UI thread.
-> - Name async methods with the `Async` suffix uniformly.
-> - Accept and forward `CancellationToken`; treat `OperationCanceledException` as expected flow.
-> - Use `Task.WhenAll` for concurrent I/O; `Task.Run` only for CPU-bound work on the thread pool.
-
 ## The Conventions That Keep Async Code From Surprising You
 
 In the [previous part](/series/async-await/designing-reliable-async-methods-csharp/), we covered how to design individual async methods that callers can depend on. This final part is about what happens when you apply those decisions consistently — across a codebase, across a team, across time.

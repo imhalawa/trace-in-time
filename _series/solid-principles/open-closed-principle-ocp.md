@@ -11,14 +11,6 @@ permalink: /series/solid-principles/open-closed-principle/
 
 ---
 
-> **Key Takeaways**
->
-> - OCP states that a module should be open for extension but closed for modification — add new behavior without editing working code.
-> - Every branch on a type tag (`if/else NotificationType`) signals a rigid design; adding a new case means touching — and risking — code that already works.
-> - Polymorphism is the mechanism: dynamic (interface, runtime dispatch) when implementations are resolved at runtime; static (generics) when the type is fixed at the call-site.
-> - OCP violations compound into shotgun surgery — one new feature forces edits across many unrelated files; that is a business cost, not just a code smell.
-> - Apply OCP where the direction of change is already clear, not as a general hedge; wrong abstractions are harder to undo than no abstraction at all.
-
 {: .prerequisites }
 > Before reading, make sure you're comfortable with:
 >

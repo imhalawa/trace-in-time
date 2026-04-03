@@ -10,11 +10,10 @@ tags_color: "#E8374B"
 permalink: /books/grokking-algorithms/chapter-1-introduction/
 ---
 
-## Objectives
-
-- Foundational knowledge
-- Binary Search
-- Algorithm Complexity
+{: .objectives }
+> - Foundational knowledge
+> - Binary Search
+> - Algorithm Complexity
 
 ## What Is an Algorithm
 

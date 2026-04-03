@@ -1,6 +1,6 @@
 ---
 layout: contact
-title: Get In Touch
-description: Have a question, idea, or just want to connect? Reach out to Mohamed Halawa — software engineer and writer behind Trace in Time.
+title: Say Hello
+description: A question, a thought, or something you want to discuss — I read everything.
 permalink: /contact/
 ---

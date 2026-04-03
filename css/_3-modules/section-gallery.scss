@@ -13,7 +13,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    border-radius: 4px;
+    border-radius: 0;
     overflow: hidden;
     background: var(--background-alt-color-2);
     user-select: none;
@@ -39,7 +39,7 @@
     grid-gap: 8px;
 
     .gallery__image {
-      border-radius: 4px;
+      border-radius: 0;
     }
   }
 }

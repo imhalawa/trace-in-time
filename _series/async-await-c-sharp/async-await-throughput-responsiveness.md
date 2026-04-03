@@ -10,14 +10,6 @@ tags_color: "#4122aa"
 permalink: /series/async-await/async-await-throughput-responsiveness/
 ---
 
-> **Key Takeaways**
->
-> - Blocking threads during I/O wastes thread budget, not CPU cycles - the cost is unavailability.
-> - Async handlers in web APIs let the same thread serve other requests while I/O is in flight.
-> - In desktop apps, async keeps the UI thread free so the app stays responsive during data loads.
-> - `.Result` and `.Wait()` defeat the whole purpose - they block threads and risk deadlocks.
-> - Prefer `async Task Main` in console apps and keep the async chain intact throughout your codebase.
-
 ## The Real Bottleneck in Most Apps Isn't the CPU
 
 In the [previous part](/series/async-await/how-async-await-works-csharp/), we explored how `async`/`await` lets a method pause and resume without losing its place. This part answers why that matters in practice: because the thread waiting on I/O is a thread that can't help with anything else.

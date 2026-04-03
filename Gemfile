@@ -5,6 +5,9 @@ gem "jekyll-paginate"
 gem "jekyll-sitemap"
 gem "jekyll-compose"
 
+gem "nokogiri"
+
+gem "nokogiri"
+
 group :jekyll_plugins do
-  gem "jekyll-kroki"
 end

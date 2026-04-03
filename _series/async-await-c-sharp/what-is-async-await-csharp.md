@@ -10,14 +10,6 @@ tags_color: "#4122aa"
 permalink: /series/async-await/what-is-async-await-csharp/
 ---
 
-> **Key Takeaways**
->
-> - `async`/`await` is about freeing threads during I/O waits, not making code run faster.
-> - The `async` keyword enables `await` and triggers a compile-time transformation into a state machine.
-> - `await` releases the current thread while an operation is in flight, then resumes exactly where it paused.
-> - For CPU-bound work, use `Task.Run` - async alone doesn't parallelize computation.
-> - Sequential `await` calls run in order; start multiple tasks before awaiting them to run concurrently.
-
 ## What Are We Actually Solving?
 
 Imagine three workers in a kitchen. One is washing dishes, another is chopping vegetables, and the third is standing at the stove, watching a pot that hasn't started boiling yet. None of them are idle in the traditional sense - but that third worker is frozen in place, waiting on something entirely outside their control. The other two can't get a clean pan. Orders are backing up. The kitchen is staffed, but the work is stalled.

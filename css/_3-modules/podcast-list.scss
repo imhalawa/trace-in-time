@@ -54,33 +54,35 @@
 .podcast-filters {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 4px 24px;
   justify-content: center;
   margin-bottom: 16px;
 }
 
 .podcast-filter {
   appearance: none;
-  border: 1.5px solid var(--border-color);
+  border: none;
   background: transparent;
   color: var(--text-alt-color);
-  font-family: $base-font-family;
-  font-size: 13px;
-  font-weight: 500;
-  padding: 6px 16px;
-  border-radius: 100px;
+  font-family: $heading-font-family;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 6px 0;
+  border-bottom: 2px solid transparent;
+  border-radius: 0;
   cursor: pointer;
-  transition: background 0.2s, border-color 0.2s, color 0.2s;
+  transition: color 0.15s, border-color 0.15s;
 
   &:hover {
-    border-color: var(--primary-color);
-    color: var(--primary-color);
+    color: var(--heading-font-color);
   }
 
   &.podcast-filter--active {
-    background: var(--primary-color);
-    border-color: var(--primary-color);
-    color: #fff;
+    color: var(--primary-color);
+    border-bottom-color: var(--primary-color);
+    background: transparent;
   }
 }
 
@@ -103,16 +105,17 @@
 
 /* ── Card ────────────────────────────────────── */
 .podcast-card {
-  border-radius: 16px;
+  border-radius: 0;
   overflow: hidden;
-  background: var(--background-alt-color);
+  background: var(--background-color);
   border: 1px solid var(--border-alt-color);
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
-  will-change: transform;
+  border-left: 2px solid transparent;
+  transition: border-color 0.15s ease;
+  will-change: border-color;
 
   &:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 16px 40px -16px rgba(0, 0, 0, 0.3);
+    border-color: var(--border-alt-color);
+    border-left-color: var(--primary-color);
   }
 
   &.podcast-card--hidden {
@@ -243,7 +246,7 @@
   background: var(--accent-color);
   color: #fff;
   padding: 2px 8px;
-  border-radius: 100px;
+  border-radius: 0;
 }
 
 .podcast-card__year {
@@ -308,9 +311,7 @@
     background: var(--background-alt-color);
     border-color: var(--border-color);
 
-    &:hover {
-      box-shadow: 0 16px 40px -16px rgba(0, 0, 0, 0.6);
-    }
+    &:hover {    }
   }
 
   .podcast-card__thumbnail {
@@ -407,7 +408,7 @@
   position: relative;
   width: 100%;
   aspect-ratio: 16 / 9;
-  border-radius: 12px;
+  border-radius: 0;
   overflow: hidden;
   background: var(--dark-blue);
 
@@ -430,7 +431,7 @@
   width: 100%;
   height: 152px;
   border: 0;
-  border-radius: 12px;
+  border-radius: 0;
 }
 
 /* ── Notes posts section ─────────────────────── */

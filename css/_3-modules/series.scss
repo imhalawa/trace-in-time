@@ -2,7 +2,7 @@
 .series-hero {
   position: relative;
   margin-bottom: 14px;
-  border-radius: 18px;
+  border-radius: 0;
   overflow: hidden;
   min-height: 210px;
   transition: transform .24s ease, box-shadow .24s ease;
@@ -12,7 +12,7 @@
   &::after {
     content: "";
     position: absolute;
-    border-radius: 50%;
+    border-radius: 0;
     z-index: 1;
     pointer-events: none;
   }

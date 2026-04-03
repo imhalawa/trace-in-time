@@ -9,13 +9,6 @@ tags_color: "#4122aa"
 permalink: /posts/my-obsidian-setup
 ---
 
-> **Key Takeaways**
->
-> - PKM isn't about collecting notes — it's about building a system where old thinking informs new thinking.
-> - Obsidian works because your notes live as plain Markdown files on your machine, not locked in a proprietary format.
-> - Most of the value comes from a small set of intentional plugins, not the largest list you can assemble.
-> - The vault structure matters as much as the plugins — folders are for broad categories, links are for meaning.
-
 Note-taking is easy. Building an Obsidian vault that actually helps you think is not. Most tools make the first part convenient and leave the second part entirely to you.
 
 Eight years ago a friend recommended a note-taking app called [Zim Wiki](https://zim-wiki.org/). I had no idea what a note-taking app was, how it differed from a notepad, or why anyone would want one. Then I found [TiddlyWiki](https://tiddlywiki.com/), and something about it felt like a real notebook. The entry cost was learning Markdown — confusing at first, but the kind of investment that pays back steadily. From there, the path wound through [Boostnote](https://boostnote.io/), then [Joplin](https://joplinapp.org/), which felt like a genuine upgrade in 2019, then [Notion](https://www.notion.so/) — which made everything feel effortless until I got lost in customizing nested databases and forgot I had notes buried inside them. That is, of course, the opposite of why you take notes.

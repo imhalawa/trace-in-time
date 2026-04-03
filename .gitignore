@@ -8,3 +8,6 @@ _site
 .claude/
 _data/.youtube_cache.json
 CLAUDE.md
+
+# PlantUML JAR (downloaded at build time)
+vendor/

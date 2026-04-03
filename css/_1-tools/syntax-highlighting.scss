@@ -88,7 +88,7 @@
   .gt   { color: var(--syntax-deleted); }
 
   /* ── Error ─────────────────────────────────────────────────── */
-  .err  { color: var(--syntax-deleted); background-color: color-mix(in srgb, var(--syntax-deleted) 12%, transparent); border-radius: 2px; }
+  .err  { color: var(--syntax-deleted); background-color: color-mix(in srgb, var(--syntax-deleted) 12%, transparent); border-radius: 0; }
 
   /* ── Whitespace placeholder ─────────────────────────────────── */
   .w    { color: var(--text-alt-color); }

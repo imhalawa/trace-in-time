@@ -6,13 +6,13 @@
 .progress-bar {
   height: 5px;
   background: var(--border-color);
-  border-radius: 4px;
+  border-radius: 0;
   margin-bottom: 5px;
   overflow: hidden;
 
   &__fill {
     height: 100%;
-    border-radius: 4px;
+    border-radius: 0;
     background-color: var(--accent-color);
     transition: width 0.4s ease;
   }
@@ -32,17 +32,11 @@
   display: flex;
   align-items: flex-start;
   gap: 12px;
-  padding: 12px;
-  border: 1px solid var(--border-color);
-  border-radius: 4px;
+  padding: 12px 0;
+  border: none;
+  border-radius: 0;
   text-decoration: none;
   color: inherit;
-  transition: border-color 0.2s, box-shadow 0.2s;
-
-  &:hover {
-    border-color: var(--border-alt-color);
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
-  }
 
   &:hover .cr-title {
     text-decoration-color: var(--heading-font-color);
@@ -53,7 +47,7 @@
 .cr-cover {
   flex-shrink: 0;
   width: 44px;
-  border-radius: 4px;
+  border-radius: 0;
   overflow: hidden;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
   transition: transform 0.2s ease;

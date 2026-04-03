@@ -30,7 +30,7 @@
 .stepper__circle {
   width: 36px;
   height: 36px;
-  border-radius: 50%;
+  border-radius: 0;
   border: 2px solid var(--stepper-color);
   color: var(--stepper-color);
   display: flex;
@@ -132,7 +132,7 @@ a.stepper__title {
   font-weight: 600;
   letter-spacing: 0.04em;
   text-transform: uppercase;
-  border-radius: 100px;
+  border-radius: 0;
 }
 
 .stepper__badge--upcoming {

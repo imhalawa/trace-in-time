@@ -9,13 +9,6 @@ tags: [Reflections]
 tags_color: '#6B8C9A'
 ---
 
-> **Key Takeaways**
->
-> - Most behavior isn't chosen — it's cued. The basal ganglia fires the same sequence whenever it detects a similar input, not an identical one.
-> - Patterns synchronize socially: the people around you contribute to your environment, reinforcing the same loops you're trying to break.
-> - You can't eliminate a pattern's trigger — the world will always produce them. You can only interrupt the sequence between cue and response.
-> - The fault line is the gap between the trigger and the automatic action. Awareness is what creates that gap.
-
 ## When Life Becomes a Loop
 
 Most behavior isn't chosen in any meaningful sense. It's triggered. You walk into a familiar situation, and a familiar response fires — not because you decided it was the right call, but because your brain recognized the shape of the moment and ran the sequence it has run before. The outcome feels like a choice. The mechanism is closer to a reflex.

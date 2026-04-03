@@ -10,14 +10,6 @@ permalink: /posts/p50-p95-p99-average-latency/
 math: true
 ---
 
-> **Key Takeaways**
->
-> - The average smooths over slow outliers, making a system look healthier than it is.
-> - Percentiles rank your measurements - P50 is the middle, P95 and P99 are the slow end.
-> - P50 tells you what the typical user experiences. P99 tells you what the unlucky ones wait for.
-> - A wide gap between P50 and P99 usually means something is causing unpredictable slowdowns - not consistently slow, but randomly slow.
-> - Optimizing for the average often leaves the worst experiences untouched. P99 is the more honest target.
-
 For most of computing history, the answer to "how fast is our system?" was a single number: the average response time. It was easy to calculate, easy to put on a dashboard, and easy to report to stakeholders. There was just one problem - it kept lying.
 
 Teams would look at a perfectly healthy average and miss the fact that a meaningful slice of their users were waiting ten times longer than everyone else. The average didn't hide this maliciously. It just wasn't designed for the question being asked.

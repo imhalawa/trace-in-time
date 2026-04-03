@@ -36,7 +36,7 @@
       font-family: $heading-font-family;
       font-size: 12px;
       line-height: 1.3;
-      border-radius: 3px;
+      border-radius: 0;
       color: var(--white);
       background: rgba(0, 0, 0, 0.25);
 
@@ -79,7 +79,7 @@
       padding: 6px 16px;
       font-family: $heading-font-family;
       font-size: 16px;
-      border-radius: 4px;
+      border-radius: 0;
       text-decoration: none;
       border: 1px solid var(--border-color);
       transition: none;
@@ -165,26 +165,30 @@
 
 .form__input {
   width: 100%;
-  padding: 16px 20px;
+  padding: 12px 0;
   font-size: 16px;
-  border: 1.4px solid var(--border-alt-color);
-  border-radius: 4px;
+  font-family: $post-body-font-family;
+  border: none;
+  border-bottom: 1px solid var(--border-alt-color);
+  border-radius: 0;
   outline: none;
   resize: vertical;
   color: var(--heading-font-color);
-  background: var(--background-alt-color-2);
+  background: transparent;
+  transition: border-color 0.2s ease;
 
   &::placeholder {
     color: var(--text-alt-color);
+    font-family: $base-font-family;
   }
 
   &:focus {
-    outline: 2px solid var(--primary-color);
-    outline-offset: 4px;
+    outline: none;
+    border-bottom-color: var(--primary-color);
     background: transparent;
 
     &::placeholder {
-      color: var(--heading-font-color);
+      color: color-mix(in srgb, var(--text-alt-color) 50%, transparent);
     }
   }
 }

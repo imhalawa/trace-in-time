@@ -10,14 +10,6 @@ tags_color: "#4122aa"
 permalink: /series/async-await/async-vs-parallel-csharp/
 ---
 
-> **Key Takeaways**
->
-> - I/O-bound operations (network, disk, database) call for `async`/`await` - they wait on external signals, not CPU cycles.
-> - CPU-bound operations (image processing, encryption, heavy computation) call for parallelism - they need actual compute time on multiple cores.
-> - `Task.Run` moves CPU-bound work to a thread-pool thread, keeping the UI or request thread responsive.
-> - Don't wrap true async I/O in `Task.Run` - use the async I/O API directly, or you waste a thread during the wait.
-> - `Task.WhenAll` composes concurrent async I/O without creating extra threads.
-
 ## Two Different Answers to Two Different Problems
 
 In the [previous part](/series/async-await/async-await-throughput-responsiveness/), we saw how `async`/`await` turns thread-blocking into thread-freeing during I/O. But async programming is only part of the picture. Sometimes the bottleneck isn't waiting - it's the work itself: heavy computation that keeps the CPU genuinely occupied.

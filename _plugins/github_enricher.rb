@@ -70,11 +70,8 @@ module GitHubEnricher
 
         project["description"] ||= data["description"]
 
-        # Download OG image once, serve locally — no browser rate-limiting
-        unless project["image"]
-          local_path = download_og_image(repo, project["slug"] || repo.split("/").last, site.source)
-          project["image"] = local_path if local_path
-        end
+        # OG image auto-download removed — project cards use the
+        # styled placeholder instead of the GitHub social card screenshot.
       end
 
       save_cache(cache) if changed

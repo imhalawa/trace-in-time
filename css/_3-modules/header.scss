@@ -417,7 +417,8 @@
     font-size: 15px;
     line-height: 1.2;
     letter-spacing: normal;
-    border: 1px solid var(--border-alt-color);
+    border: none;
+    border-bottom: 1px solid var(--border-alt-color);
     border-radius: 0;
     color: var(--text-alt-color);
     background: transparent;
@@ -426,9 +427,9 @@
     cursor: pointer;
 
     &:hover {
-      border-color: var(--heading-font-color);
+      border-bottom-color: var(--heading-font-color);
       color: var(--heading-font-color);
-      background: color-mix(in srgb, currentColor 10%, transparent);
+      background: transparent;
     }
 
     .search-button__icon {
@@ -468,7 +469,6 @@
 
 /* Toggle Theme */
 .color-scheme-button {
-  border-right: 1px solid var(--border-alt-color);
   margin-right: 24px;
   padding-right: 15px;
 
@@ -492,16 +492,15 @@
   align-items: center;
   width: 36px;
   height: 36px;
-  border: 1px solid var(--border-alt-color);
+  border: none;
   border-radius: 0;
   transition: $global-transition;
   background: transparent;
-  color: var(--dark-gray);
+  color: var(--text-alt-color);
 
   &:hover {
     color: var(--heading-font-color);
-    border-color: var(--heading-font-color);
-    background: color-mix(in srgb, currentColor 10%, transparent);
+    background: transparent;
   }
 
   @media (max-width: $desktop) {
