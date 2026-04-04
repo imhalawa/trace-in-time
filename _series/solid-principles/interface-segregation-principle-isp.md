@@ -35,6 +35,8 @@ Meaning — don't force a class to know about methods it will never call.
 
 The word *client* here doesn't mean an end user. A **client** is anything that consumes a service through an interface — a class, a module in a separate assembly, or an entirely different application. What makes something a client is its role: it depends on the contract rather than implementing it. The principle applies at any level of granularity, and the problem it solves is the same at all of them.
 
+That cost is concrete. It shows up in build times, test overhead, and adapter code before most teams notice where it's coming from.
+
 ## What Makes a Fat Interface Expensive?
 
 {: .info }
@@ -116,9 +118,9 @@ ProfileModule --> IUserService
 @enduml
 ```
 
-## Segregating the Interface
-
 That's the problem. The fix is to break the contract apart.
+
+## Segregating the Interface
 
 Break `IUserService` into interfaces that match what each client actually needs:
 
@@ -249,6 +251,8 @@ IP --> P
 ```
 
 The isolation holds as long as the interfaces and their clients live in separate assemblies. If all three clients are compiled together in a single project, the boundary doesn't exist at the build level regardless of how the interfaces are split.
+
+The three-client split is one application of the rule. The principle itself goes further.
 
 ## One Interface Per Group of Clients
 
@@ -409,6 +413,8 @@ note bottom of UserService
 end note
 @enduml
 ```
+
+The versioning tradeoff is manageable. The harder issue is recognizing when a fat interface is the source of the problem in the first place.
 
 ## Where Fat Interfaces Break Down
 
