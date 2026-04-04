@@ -118,6 +118,8 @@ ProfileModule --> IUserService
 
 ## Segregating the Interface
 
+That's the problem. The fix is to break the contract apart.
+
 Break `IUserService` into interfaces that match what each client actually needs:
 
 ```csharp
@@ -214,6 +216,38 @@ void ExportToCsv(Stream output, ExportFormat format);
 
 **After segregation**, `AuthModule` references `IAuthService`. `ExportToCsv` is on `IAdminUserService`, which `AuthModule` never imported. The build system checks whether `AuthModule` references the changed interface, and it doesn't. `AuthModule` doesn't recompile, its tests don't re-run, and its deployed artifact stays untouched.
 
+```plantuml
+@startuml
+title Before segregation — one change, three rebuilds
+
+rectangle "IUserService\n(changed)" as I #ffdddd
+rectangle "AuthModule\n⚠ rebuilds" as A #ffdddd
+rectangle "AdminDashboard\n⚠ rebuilds" as AD #ffdddd
+rectangle "ProfileModule\n⚠ rebuilds" as P #ffdddd
+
+I --> A
+I --> AD
+I --> P
+@enduml
+```
+
+```plantuml
+@startuml
+title After segregation — one change, one rebuild
+
+rectangle "IAdminUserService\n(changed)" as I #ffdddd
+rectangle "AdminDashboard\n⚠ rebuilds" as AD #ffdddd
+rectangle "IAuthService\n(unchanged)" as IA #ddffdd
+rectangle "AuthModule\n✓ untouched" as A #ddffdd
+rectangle "IProfileService\n(unchanged)" as IP #ddffdd
+rectangle "ProfileModule\n✓ untouched" as P #ddffdd
+
+I --> AD
+IA --> A
+IP --> P
+@enduml
+```
+
 The isolation holds as long as the interfaces and their clients live in separate assemblies. If all three clients are compiled together in a single project, the boundary doesn't exist at the build level regardless of how the interfaces are split.
 
 ## One Interface Per Group of Clients
@@ -277,6 +311,8 @@ Segregate by **client type**, not by individual client. One interface per logica
 
 ## What Happens When an Interface Needs to Change?
 
+Client-type grouping handles the breadth problem. But interfaces also grow over time, and adding to an existing one isn't always safe.
+
 When an interface needs a new capability, the easy move is to add the method directly, forcing every client to recompile. The safer approach is to **add a new interface** rather than modify the existing one.
 
 If a new OAuth flow needs `RefreshToken`, don't add it to `IAuthService`. Introduce `ITokenService`:
@@ -337,6 +373,8 @@ end note
 
 ### The Tradeoff
 
+Additive interfaces solve one problem and introduce another.
+
 A class that accumulates interfaces across features and versions can end up with dozens. At some point `IAuthServiceV2`, `ITokenServiceV2`, and `IAdminUserServiceV2` add more confusion than value, and updating all callers is the cleaner path. Use additive interfaces when backward compatibility is genuinely required: public APIs and shared libraries. For internal code where you control all callers, modifying the interface directly is usually right.
 
 ```plantuml
@@ -380,7 +418,7 @@ The visible symptom is a recompilation cascade. You change one method and a list
 
 The less visible symptom shows up in tests. When you mock `IUserService` for an `AuthModule` unit test, you're dealing with a ten-method interface when only three of those methods matter to the module under test. With a strict mock, you must set up all ten or it throws. With a loose mock, the other seven silently return defaults — and nothing stops you from asserting on them by mistake. After segregation, mocking `IAuthService` gives you exactly three methods. The interface tells you what `AuthModule` depends on without reading a single line of its code.
 
-The worst case is when clients start implementing stub methods. Take `ExternalAuthAdapter`, a third-party integration that only handles authentication. It implements `IUserService` because that's the only contract available, but most of it doesn't apply:
+The worst case is when clients start implementing stub methods to satisfy a contract they can't fully honour. Take `ExternalAuthAdapter`, a third-party integration that only handles authentication. It implements `IUserService` because that's the only contract available:
 
 ```csharp
 class ExternalAuthAdapter : IUserService
@@ -402,41 +440,6 @@ class ExternalAuthAdapter : IUserService
 ```
 
 The compiler is satisfied. The contract is hollow. Any caller that passes an `ExternalAuthAdapter` where a full `IUserService` is expected will hit a `NotImplementedException` the moment it calls a method the adapter doesn't support, which is the exact failure mode that [LSP](/series/solid-principles/liskov-substitution-principle/) describes. The LSP fix in that post, splitting `IChargeable` and `IRefundable`, was ISP in action. ISP would have prevented the bad hierarchy from forming in the first place.
-
-```plantuml
-@startuml
-
-interface IUserService {
-  +GetById(id) : User
-  +ValidateCredentials(email, password) : bool
-  +UpdateLastLogin(userId) : void
-  +GetAll() : IEnumerable~User~
-  +Deactivate(userId) : void
-  +AssignRole(userId, role) : void
-  +ExportToCsv(output) : void
-  +UpdateProfile(userId, dto) : void
-  +UploadAvatar(userId, data) : void
-  +UpdateNotificationPreferences(userId, settings) : void
-}
-
-class ExternalAuthAdapter {
-  .. implemented ..
-  +GetById(id) : User
-  +ValidateCredentials(email, password) : bool
-  +UpdateLastLogin(userId) : void
-  .. not implemented ..
-  +GetAll() : IEnumerable~User~
-  +Deactivate(userId) : void
-  +AssignRole(userId, role) : void
-  +ExportToCsv(output) : void
-  +UpdateProfile(userId, dto) : void
-  +UploadAvatar(userId, data) : void
-  +UpdateNotificationPreferences(userId, settings) : void
-}
-
-IUserService <|.. ExternalAuthAdapter
-@enduml
-```
 
 Fat interfaces also undermine the abstractions that [DIP](/series/solid-principles/dependency-inversion-principle/) depends on. A wide interface carries too many concerns to stay stable. Every new client need is a potential change to the contract, and every contract change ripples to every client. Narrow interfaces hold their shape.
 
