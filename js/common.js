@@ -638,6 +638,24 @@ document.addEventListener("DOMContentLoaded", function() {
 
     var fsSizes = { small: '17px', normal: '19px', large: '22px' };
 
+    // -- Position controls next to content column --
+    var readingControlsEl = document.getElementById('reading-controls');
+    var articleEl = document.querySelector('article.post');
+
+    function positionReadingControls() {
+      if (!readingControlsEl || !articleEl) return;
+      if (window.innerWidth <= 1024) {
+        readingControlsEl.style.right = '';
+        return;
+      }
+      var rect = articleEl.getBoundingClientRect();
+      var gapFromRight = window.innerWidth - rect.right;
+      readingControlsEl.style.right = Math.max(12, gapFromRight + 12) + 'px';
+    }
+
+    positionReadingControls();
+    window.addEventListener('resize', positionReadingControls, { passive: true });
+
     // -- Progress bar --
     var progressBar = document.createElement('div');
     progressBar.className = 'reading-progress-bar';
