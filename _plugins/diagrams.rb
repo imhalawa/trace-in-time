@@ -61,119 +61,14 @@ module Jekyll
       doc.output = parsed.to_html if changed
     end
 
-    SKINPARAM_THEME = <<~PUML
-      skinparam backgroundColor transparent
-      skinparam defaultFontName "JetBrains Mono"
-      skinparam defaultFontSize 12
-      skinparam defaultFontColor #1e1b4b
-      skinparam ArrowColor #6b7280
-      skinparam ArrowFontColor #6b7280
-
-      skinparam class {
-        BackgroundColor #f5f5ff
-        BorderColor #c7d2fe
-        HeaderBackgroundColor #e0e7ff
-        FontColor #1e1b4b
-        AttributeFontColor #374151
-        StereotypeFontColor #4338ca
-        BorderThickness 1
-      }
-
-      skinparam note {
-        BackgroundColor #fffbeb
-        BorderColor #fcd34d
-        FontColor #78350f
-      }
-
-      skinparam rectangle {
-        BackgroundColor #f5f5ff
-        BorderColor #c7d2fe
-        FontColor #1e1b4b
-      }
-
-      skinparam sequence {
-        LifeLineBorderColor #c7d2fe
-        LifeLineBackgroundColor #e0e7ff
-        ParticipantBackgroundColor #f5f5ff
-        ParticipantBorderColor #c7d2fe
-        ParticipantFontColor #1e1b4b
-        ArrowColor #6b7280
-        ActorBackgroundColor #f5f5ff
-        ActorBorderColor #c7d2fe
-        DividerBackgroundColor #e0e7ff
-        DividerBorderColor #c7d2fe
-        GroupBackgroundColor #f5f5ff
-        GroupBorderColor #c7d2fe
-      }
-
-      skinparam activity {
-        BackgroundColor #f5f5ff
-        BorderColor #c7d2fe
-        FontColor #1e1b4b
-        BarColor #6b7280
-        StartColor #1e1b4b
-        EndColor #1e1b4b
-        DiamondBackgroundColor #e0e7ff
-        DiamondBorderColor #c7d2fe
-        DiamondFontColor #4338ca
-      }
-
-      skinparam swimlane {
-        BorderColor #c7d2fe
-        TitleFontColor #4338ca
-        TitleBackgroundColor #e0e7ff
-      }
-
-      skinparam partition {
-        BackgroundColor #f5f5ff
-        BorderColor #c7d2fe
-        FontColor #4338ca
-      }
-
-      skinparam component {
-        BackgroundColor #f5f5ff
-        BorderColor #c7d2fe
-        FontColor #1e1b4b
-      }
-
-      skinparam interface {
-        BackgroundColor #e0e7ff
-        BorderColor #c7d2fe
-        FontColor #4338ca
-      }
-
-      skinparam state {
-        BackgroundColor #f5f5ff
-        BorderColor #c7d2fe
-        FontColor #1e1b4b
-        StartColor #1e1b4b
-        EndColor #1e1b4b
-      }
-
-      skinparam shadowing false
-      skinparam roundcorner 0
-    PUML
-
-    def self.inject_theme(source)
-      # Inject after @startuml (with optional diagram type / title on same line)
-      source.sub(/(@start\w+[^\n]*)/) do |match|
-        "#{match}\n#{SKINPARAM_THEME}"
-      end
-    end
-
     def self.render_plantuml(source)
       unless File.exist?(JAR_PATH)
         warn "[diagrams] plantuml.jar not found at #{JAR_PATH}. Run: make plantuml-jar"
         return nil
       end
 
-      # Inject transparent background unless the diagram already sets one
-      unless source.include?("backgroundColor")
-        source = source.sub(/@startuml/, "@startuml\nskinparam backgroundColor transparent")
-      end
-
       cmd = ["java", "-jar", JAR_PATH, "-tsvg", "-pipe", "-charset", "UTF-8", "-nometadata"]
-      stdout, stderr, status = Open3.capture3(*cmd, stdin_data: inject_theme(source))
+      stdout, stderr, status = Open3.capture3(*cmd, stdin_data: source)
 
       unless status.success?
         warn "[diagrams] PlantUML render failed: #{stderr.strip}"
@@ -195,10 +90,18 @@ module Jekyll
 
       svg = parsed.at_xpath('//*[name()="svg"]')
       if svg
-        # Strip only the redundant inline style — keep natural width/height attrs
-        # so CSS max-width: 100% scales down large diagrams without distorting small ones
+        # Extract natural dimensions before stripping style
+        w = svg["width"].to_s.gsub("px", "").to_i
+        h = svg["height"].to_s.gsub("px", "").to_i
+
         svg.remove_attribute("style")
         svg["preserveAspectRatio"] = "xMidYMid meet"
+
+        # Add viewBox so the SVG scales correctly when CSS max-width shrinks it.
+        # Without viewBox, scaling the element clips content instead of scaling it.
+        if svg["viewBox"].nil? || svg["viewBox"].empty?
+          svg["viewBox"] = "0 0 #{w} #{h}" if w > 0 && h > 0
+        end
       end
 
       parsed.to_xml

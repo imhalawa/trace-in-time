@@ -6,25 +6,18 @@ body {
 .diagram-figure {
   margin: 2rem 0;
   counter-increment: figure;
-  border: 1px solid var(--border-color);
-  border-radius: 0;
-  background: transparent;
   overflow-x: auto;
 
   > svg,
   > * > svg {
     display: block;
+    width: 100%;
     max-width: 100%;
     height: auto;
-    margin: 0 auto;
-    padding: 24px;
-    box-sizing: content-box;
   }
 
   .mermaid {
-    padding: 28px 16px 16px;
     display: flex;
-    justify-content: center;
 
     svg {
       max-width: 100%;
@@ -34,12 +27,11 @@ body {
 
   .diagram-caption {
     display: block;
-    padding: 0 20px 14px;
+    padding: 8px 0 0;
     font-family: $heading-font-family;
     font-size: 12px;
     font-weight: 400;
     color: var(--diagram-caption-color, var(--text-alt-color));
-    text-align: center;
     font-style: italic;
 
     &::before {
