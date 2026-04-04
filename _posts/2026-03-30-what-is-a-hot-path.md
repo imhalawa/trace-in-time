@@ -72,17 +72,20 @@ end note
 
 G0 -> G1 : survivors promoted\n(allocation rate too high to collect fast enough)
 note right of G1
-  objects lived longer\n  than expected
+  objects lived longer
+  than expected
 end note
 
 G1 -> G2 : survivors promoted again
 note right of G2
-  stop-the-world\n  collection triggered
+  stop-the-world
+  collection triggered
 end note
 
 G2 -> P99 : pause 10–50ms
 note right of P99
-  invisible in average,\n  visible as P99 spike
+  invisible in average,
+  visible as P99 spike
 end note
 
 @enduml
