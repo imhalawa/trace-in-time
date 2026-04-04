@@ -522,10 +522,15 @@
     // Pinned sections (prerequisites, objectives) — collapse top margin when
     // they follow an hr or are the very first element in the content area.
     hr + .prerequisites,
-    hr + .objectives,
+    hr + .objectives {
+      margin-top: 0;
+    }
+
+    // When a pinned section opens the post, eat the post-head's margin-bottom (32px)
+    // so the box sits flush against the header separator line.
     > .prerequisites:first-child,
     > .objectives:first-child {
-      margin-top: 0;
+      margin-top: -32px;
     }
 
     // KaTeX math — inherit theme text color
