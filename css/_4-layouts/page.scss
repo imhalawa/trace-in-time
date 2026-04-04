@@ -10,6 +10,12 @@
     height: 1px;
     background: linear-gradient(90deg, var(--border-color) 60%, transparent);
   }
+
+  // Topics widget placed inline inside the post header
+  > .widget-tags {
+    margin-top: 24px;
+    margin-bottom: 0;
+  }
 }
 
 @media (min-width: 1025px) {
