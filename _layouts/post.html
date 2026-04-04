@@ -30,7 +30,7 @@ layout: default
 <!-- begin post -->
 <div class="container">
 
-  <div class="row{% if content_direction == 'rtl' %} row--rtl-layout{% endif %}">
+  <div class="row row--centered{% if content_direction == 'rtl' %} row--rtl-layout{% endif %}">
     <div class="col col-8 col-d-12">
 
       <div class="post-head" lang="{{ content_language }}" dir="{{ content_direction }}">
@@ -108,6 +108,8 @@ layout: default
 
       </div>
 
+      {% include sidebar-widgets/widget-tags.html %}
+
       <article class="post" lang="{{ content_language }}" dir="{{ content_direction }}">
         <div class="post__content">
           {% if page.toc == true %}
@@ -129,13 +131,5 @@ layout: default
       {% include related-posts.html %}
     </div>
 
-    <div class="col col-4 col-d-12">
-      <aside class="sidebar">
-        {% include sidebar-widgets/widget-subscribe.html %}
-        {% include sidebar-widgets/widget-featured-posts.html %}
-        {% include sidebar-widgets/widget-tags.html %}
-        {% include sidebar-widgets/widget-recent-posts.html %}
-      </aside>
-    </div>
   </div>
 </div>{% include reading-controls.html %}<!-- end post -->

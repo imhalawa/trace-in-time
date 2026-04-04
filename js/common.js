@@ -636,7 +636,7 @@ document.addEventListener("DOMContentLoaded", function() {
     var LS_THEME  = 'readingTheme';
     var LS_COL    = 'readingColumnWidth';
 
-    var fsSizes = { small: '15px', normal: '17px', large: '20px' };
+    var fsSizes = { small: '17px', normal: '19px', large: '22px' };
 
     // -- Progress bar --
     var progressBar = document.createElement('div');
