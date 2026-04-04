@@ -2,7 +2,7 @@
 layout: post
 title: "Interface Segregation Principle (ISP): Narrow the Contract"
 description: "A shared contract that grows to serve everyone ends up serving no one well. Learn how ISP keeps each interface honest about what its client actually needs."
-date: 2026-03-27
+date: 2026-04-04 20:00:00
 series: solid-principles
 part: 3
 tags: [design-principles, oop, series]
