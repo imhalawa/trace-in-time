@@ -645,15 +645,22 @@ document.addEventListener("DOMContentLoaded", function() {
     function positionReadingControls() {
       if (!readingControlsEl || !articleEl) return;
       if (window.innerWidth <= 1024) {
+        readingControlsEl.style.left = '';
         readingControlsEl.style.right = '';
         return;
       }
       var rect = articleEl.getBoundingClientRect();
-      var gapFromRight = window.innerWidth - rect.right;
-      readingControlsEl.style.right = Math.max(12, gapFromRight + 12) + 'px';
+      var newLeft = rect.right + 12;
+      if (newLeft + 60 <= window.innerWidth) {
+        readingControlsEl.style.left = newLeft + 'px';
+        readingControlsEl.style.right = 'auto';
+      } else {
+        readingControlsEl.style.left = '';
+        readingControlsEl.style.right = '12px';
+      }
     }
 
-    positionReadingControls();
+    window.addEventListener('load', positionReadingControls);
     window.addEventListener('resize', positionReadingControls, { passive: true });
 
     // -- Progress bar --
