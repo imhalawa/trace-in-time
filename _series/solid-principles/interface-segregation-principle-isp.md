@@ -1,7 +1,7 @@
 ---
 layout: post
-title: "Interface Segregation Principle (ISP): Don't Force What Isn't Needed"
-description: "Fat interfaces couple unrelated clients together. Learn how ISP eliminates recompilation cascades, how to segregate by client type, and when to add interfaces instead of changing them."
+title: "Interface Segregation Principle (ISP): Narrow the Contract"
+description: "A fat interface with 10 methods forces every client to recompile when one method changes. Learn how ISP keeps each contract focused and build coupling low."
 date: 2026-03-27
 series: solid-principles
 part: 3
@@ -14,24 +14,26 @@ permalink: /series/solid-principles/interface-segregation-principle/
 {: .prerequisites }
 > Before reading, make sure you're comfortable with:
 >
-> - **Interfaces** — defining a contract that a class must fulfill. You should know what it means to declare an interface and implement it.
-> - **Coupling** — the degree to which one module depends on another. Tight coupling means a change in one place forces changes elsewhere.
-> - **Multiple interface implementation** — a single class implementing more than one interface at once. You should know this is valid and common.
+> - **Interfaces**: defining a contract that a class must fulfill. You should know what it means to declare an interface and implement it.
+> - **Coupling**: the degree to which one module depends on another. Tight coupling means a change in one place forces changes elsewhere.
+> - **Multiple interface implementation**: a single class implementing more than one interface at once. You should know this is valid and common.
 
-ISP is the **I** in [SOLID](/series/solid-principles/) — one of five design principles for writing maintainable object-oriented software.
+ISP is the **I** in [SOLID](/series/solid-principles/), one of five design principles for writing maintainable object-oriented software.
 
 ## The Interface Segregation Principle
 
-Robert C. Martin introduced ISP in his 1996 paper *The Interface Segregation Principle* and developed it in *Agile Software Development: Principles, Patterns, and Practices* (2002):
+Robert C. Martin was consulting at Xerox on a new printer system. The software had grown around a single `Job` class that handled everything: printing, stapling, faxing, scheduling. Every subsystem depended on it. A stapling job knew about all the print methods. A print job knew about all the stapling methods. None of them needed that knowledge, but the single shared class made it unavoidable.
+
+The consequence: any change, no matter how small, triggered a full redeployment of the entire system, a cycle that took an hour. A one-line fix in the stapling logic meant an hour of waiting before you could verify anything worked. Development had nearly ground to a halt.
+
+The root cause was that each subsystem was forced to depend on a contract far larger than what it actually needed. Martin published his analysis in [*The Interface Segregation Principle*](https://en.wikipedia.org/wiki/Interface_segregation_principle) (1996) and later in *Agile Software Development: Principles, Patterns, and Practices* (2002):
 
 > "Clients should not be forced to depend upon interfaces that they do not use."
 > <cite>Robert C. Martin</cite>
 
-The word *client* here doesn't mean an end user. A **client** is any class that depends on a service through its interface — it holds a reference and calls methods on it. The service *implements* the interface; the client *uses* it. In the example below, `AuthModule` is a client of `IUserService`. It receives the interface via constructor injection and calls methods on it. It never implements `IUserService`.
+The word *client* here doesn't mean an end user. A **client** is anything that consumes a service through an interface: a class, a module in a separate assembly, or an entirely different application. What makes something a client is its role: it depends on the contract rather than implementing it. The principle applies at any level of granularity, and the problem it solves is the same at all of them.
 
-The principle came from a real problem. Martin was consulting at Xerox on a printer system where a single `Job` class handled everything — printing, stapling, status reporting, scheduling. Every client depended on it through one shared interface. Whenever any method changed, every client had to be rebuilt — including those that never called the changed method.
-
-## When a Fat Interface Gets Expensive
+## What Makes a Fat Interface Expensive?
 
 Imagine a `IUserService` that has accumulated responsibilities over time. Authentication, admin management, and profile editing all ended up in the same interface:
 
@@ -78,7 +80,7 @@ class AuthModule
 }
 ```
 
-`AuthModule` calls three methods, but depends on all ten. When `ExportToCsv` changes its signature, `AuthModule` must be recompiled and redeployed — even though it never called that method. In C#, every assembly that references a changed interface must be rebuilt regardless of which methods it uses. The more clients share a fat interface, the wider the blast radius of any change.
+`AuthModule` calls three methods, but depends on all ten. When `ExportToCsv` changes its signature, `AuthModule` must be recompiled and redeployed, even though it never called that method. In C#, every assembly that references a changed interface must be rebuilt regardless of which methods it uses. The more clients share a fat interface, the more assemblies get dragged into every rebuild.
 
 ```plantuml
 @startuml
@@ -137,7 +139,7 @@ interface IProfileService
 }
 ```
 
-`UserService` implements all three — nothing in the implementation changes. What changes is the contract each client sees:
+`UserService` implements all three. The implementation doesn't change. What changes is the contract each client sees:
 
 ```csharp
 class UserService : IAuthService, IAdminUserService, IProfileService
@@ -192,21 +194,28 @@ ProfileModule --> IProfileService
 @enduml
 ```
 
-`ExportToCsv` can now change freely — `AuthModule` doesn't reference `IAdminUserService` and has no reason to recompile.
+`ExportToCsv` can now change freely. `AuthModule` doesn't reference `IAdminUserService` and has no reason to recompile.
 
-### Is the Isolation Complete?
+### Why This Stops the Recompilation Cascade
 
-ISP gives you **interface-level isolation**: a client that doesn't reference an interface is unaffected by changes to it. But it's not unconditional.
+Take the `ExportToCsv` change from earlier, where the signature needs a new `ExportFormat` parameter:
 
-If `UserService` changes a method that *is* in `IAuthService`, `AuthModule` is still affected — correctly, because it depends on that method. If `UserService` and all three clients live in the same compiled assembly, they'll all recompile together regardless of interface boundaries.
+```csharp
+// IAdminUserService — signature changed
+void ExportToCsv(Stream output, ExportFormat format);
+```
 
-The isolation ISP provides is an isolation of *contract*, not *implementation*. The full payoff comes when the interfaces and their clients live in separate assemblies — which is where ISP naturally leads.
+**Before segregation**, all three projects reference `IUserService`. The build system sees `IUserService` changed and flags every assembly that depends on it: `AuthModule`, `AdminDashboard`, and `ProfileModule` all recompile. In a CI/CD pipeline with independently deployable services, all three ship a new build for a change only one of them cares about.
 
-## Segregate by Type, Not by Class
+**After segregation**, `AuthModule` references `IAuthService`. `ExportToCsv` is on `IAdminUserService`, which `AuthModule` never imported. The build system checks whether `AuthModule` references the changed interface, and it doesn't. `AuthModule` doesn't recompile, its tests don't re-run, and its deployed artifact stays untouched.
 
-ISP does not say *one interface per class that uses the service*. That would make `UserService` inherit from every individual caller — a dependency graph that runs backwards.
+The isolation holds as long as the interfaces and their clients live in separate assemblies. If all three clients are compiled together in a single project, the boundary doesn't exist at the build level regardless of how the interfaces are split.
 
-Group clients by **type**, and create one interface per type. Desktop clients get one interface. Web clients get another. If two client types need the same method, it appears in both — that's fine.
+## One Interface Per Group of Clients
+
+ISP does not say *one interface per class that uses the service*. That would make `UserService` inherit from every individual caller, producing a dependency graph that runs backwards.
+
+Group clients by **type**, and create one interface per type. Desktop clients get one interface. Web clients get another. If two client types need the same method, it appears in both. That's fine.
 
 ```csharp
 interface IDesktopUserService
@@ -229,9 +238,9 @@ interface IWebUserService
 {: .important }
 Segregate by **client type**, not by individual client. One interface per logical group, not one interface per class.
 
-## When Interfaces Need to Change
+## What Happens When an Interface Needs to Change?
 
-When an interface needs a new capability, the tempting path is to add the method directly — forcing every client to recompile. The safer approach is to **add a new interface** rather than modify the existing one.
+When an interface needs a new capability, the easy move is to add the method directly, forcing every client to recompile. The safer approach is to **add a new interface** rather than modify the existing one.
 
 If a new OAuth flow needs `RefreshToken`, don't add it to `IAuthService`. Introduce `ITokenService`:
 
@@ -254,89 +263,89 @@ class OAuthClient
 }
 ```
 
-`AuthModule`, `AdminDashboard`, and `ProfileModule` are untouched — they don't reference `ITokenService`.
+`AuthModule`, `AdminDashboard`, and `ProfileModule` are untouched: they don't reference `ITokenService`.
 
-The diagram below contrasts the two approaches. Modifying `IAuthService` directly propagates the change to every client. Adding `ITokenService` leaves existing clients untouched.
+The diagram below shows the result: `UserService` gains `ITokenService` without `IAuthService` changing. `AuthModule` has no path to `ITokenService`. From its perspective, the interface doesn't exist.
 
 ```plantuml
 @startuml
 left to right direction
 
-package "Modify existing (ripples to all clients)" {
-  interface IAuthService_modified as "IAuthService" {
-    +GetById(id) : User
-    +ValidateCredentials(email, password) : bool
-    +UpdateLastLogin(userId) : void
-    +RefreshToken(expiredToken) : string
-  }
-  class AuthModule_bad as "AuthModule"
-  class AdminDashboard_bad as "AdminDashboard"
-  AuthModule_bad --> IAuthService_modified : forced recompile
-  AdminDashboard_bad --> IAuthService_modified : forced recompile
+interface IAuthService {
+  +GetById(id) : User
+  +ValidateCredentials(email, password) : bool
+  +UpdateLastLogin(userId) : void
 }
 
-package "Add new interface (existing clients unaffected)" {
-  interface IAuthService_safe as "IAuthService" {
-    +GetById(id) : User
-    +ValidateCredentials(email, password) : bool
-    +UpdateLastLogin(userId) : void
-  }
-  interface ITokenService {
-    +RefreshToken(expiredToken) : string
-  }
-  class AuthModule_good as "AuthModule"
-  class AdminDashboard_good as "AdminDashboard"
-  class OAuthClient
-  AuthModule_good --> IAuthService_safe : unchanged
-  AdminDashboard_good --> IAuthService_safe : unchanged
-  OAuthClient --> ITokenService : new dependency only
+interface ITokenService {
+  +RefreshToken(expiredToken) : string
 }
+
+class UserService
+class AuthModule
+class OAuthClient
+
+IAuthService <|.. UserService
+ITokenService <|.. UserService
+
+AuthModule --> IAuthService : unchanged
+OAuthClient --> ITokenService : new
+
+note top of ITokenService
+  added to UserService without
+  touching IAuthService
+end note
 @enduml
 ```
 
 ### The Tradeoff
 
-A class that accumulates interfaces across features and versions can end up with dozens. At some point `IUserServiceV4` adds more confusion than value, and updating all callers is the cleaner path. Use additive interfaces when backward compatibility is genuinely required — public APIs, shared libraries. For internal code where you control all callers, modifying the interface directly is usually right.
+A class that accumulates interfaces across features and versions can end up with dozens. At some point `IUserServiceV4` adds more confusion than value, and updating all callers is the cleaner path. Use additive interfaces when backward compatibility is genuinely required: public APIs and shared libraries. For internal code where you control all callers, modifying the interface directly is usually right.
 
 ```plantuml
 @startuml
 
-class UserService << (S,#AddE1D7) service >>
+class UserService
 
-interface IAuthService
-interface IAuthServiceV2
-interface ITokenService
-interface ITokenServiceV2
-interface IAdminUserService
-interface IAdminUserServiceV2
-interface IProfileService
+package "segregated by client type" {
+  interface IAuthService
+  interface IAdminUserService
+  interface IProfileService
+}
+
+package "accumulated across versions" {
+  interface IAuthServiceV2
+  interface ITokenService
+  interface ITokenServiceV2
+  interface IAdminUserServiceV2
+}
 
 IAuthService <|.. UserService
+IAdminUserService <|.. UserService
+IProfileService <|.. UserService
 IAuthServiceV2 <|.. UserService
 ITokenService <|.. UserService
 ITokenServiceV2 <|.. UserService
-IAdminUserService <|.. UserService
 IAdminUserServiceV2 <|.. UserService
-IProfileService <|.. UserService
 
-note right of UserService
-  7 interfaces and growing —
-  versioned + client-segregated
-  the inventory becomes
-  the maintenance burden
+note bottom of UserService
+  client segregation is intentional
+  version accumulation is the tradeoff
 end note
 @enduml
 ```
 
-## The Cost of Getting It Wrong
+## Where Fat Interfaces Break Down
 
-ISP violations don't announce themselves. They accumulate quietly as interfaces grow, and the cost surfaces in indirect ways.
+ISP violations don't show up as compiler errors. They build up as interfaces grow, and the effects aren't always obvious.
 
-The visible symptom is a recompilation cascade. You change one method and a list of unrelated assemblies needs to be rebuilt. You trace back why `AuthModule` is flagged — it references `IUserService`. You only changed `ExportToCsv`. `AuthModule` doesn't use `ExportToCsv`. But it can't avoid knowing about it.
+The visible symptom is a recompilation cascade. You change one method and a list of unrelated assemblies needs to be rebuilt. You trace back why `AuthModule` is flagged: it references `IUserService`. You only changed `ExportToCsv`. `AuthModule` doesn't use `ExportToCsv`. But it can't avoid knowing about it.
 
-The less visible symptom shows up in tests. A unit test for `AuthModule` needs a mock of `IUserService` — all ten methods, even though the test only exercises three. Test setup grows. The mock becomes a maintenance burden. Nobody remembers which methods actually matter for a given test, because the interface itself doesn't tell you.
+The less visible symptom shows up in tests. When you substitute `IUserService` in a test for `AuthModule`, the interface gives you no signal about which methods actually matter. You could implement three methods or all ten. Nothing in the type tells you which is correct. You have to read the implementation to know.
 
-The most dangerous form is when clients start implementing stub methods. Imagine an `ExternalAuthAdapter` — a third-party integration that only handles authentication. It implements `IUserService` because that's the only contract available, but most of it doesn't apply:
+After segregation, `IAuthService` has exactly three methods. Any substitute must implement those three and can't implement more. The interface is the specification: it tells you exactly what `AuthModule` depends on without reading a single line of its code.
+
+The worst case is when clients start implementing stub methods. Take `ExternalAuthAdapter`, a third-party integration that only handles authentication. It implements `IUserService` because that's the only contract available, but most of it doesn't apply:
 
 ```csharp
 class ExternalAuthAdapter : IUserService
@@ -357,7 +366,7 @@ class ExternalAuthAdapter : IUserService
 }
 ```
 
-The compiler is satisfied. The contract is hollow. Any caller that passes an `ExternalAuthAdapter` where a full `IUserService` is expected will hit a `NotImplementedException` the moment it calls a method the adapter doesn't support — the exact failure mode that [LSP](/series/solid-principles/liskov-substitution-principle/) describes. The LSP fix in that post — splitting `IChargeable` and `IRefundable` — was ISP in action. ISP would have prevented the bad hierarchy from forming in the first place.
+The compiler is satisfied. The contract is hollow. Any caller that passes an `ExternalAuthAdapter` where a full `IUserService` is expected will hit a `NotImplementedException` the moment it calls a method the adapter doesn't support, which is the exact failure mode that [LSP](/series/solid-principles/liskov-substitution-principle/) describes. The LSP fix in that post, splitting `IChargeable` and `IRefundable`, was ISP in action. ISP would have prevented the bad hierarchy from forming in the first place.
 
 ```plantuml
 @startuml
@@ -394,11 +403,9 @@ IUserService <|.. ExternalAuthAdapter
 @enduml
 ```
 
-This is the same failure mode as [LSP](/series/solid-principles/liskov-substitution-principle/) violations — in fact, the `GiftCardProcessor` fix from LSP was ISP in action. Splitting `IChargeable` and `IRefundable` meant `GiftCardProcessor` only had to implement what it could genuinely honor. ISP would have prevented the bad hierarchy from forming in the first place.
+Fat interfaces also undermine the abstractions that [DIP](/series/solid-principles/dependency-inversion-principle/) depends on. A wide interface carries too many concerns to stay stable. Every new client need is a potential change to the contract, and every contract change ripples to every client. Narrow interfaces hold their shape.
 
-Fat interfaces are also a problem for the abstractions that [DIP](/series/solid-principles/dependency-inversion-principle/) depends on. A wide interface is a fragile abstraction — it carries too many concerns to stay stable. Every new client need is a potential change to the contract, and every contract change ripples to every client. ISP keeps abstractions narrow enough that they can be stable.
-
-Design interfaces around what clients need, not around what the service can do. An interface sized to its client has one reason to change — the same reason the client has to change.[^1][^2]
+Design interfaces around what clients need, not around what the service can do. An interface sized to its client has one reason to change: the same reason the client has.[^1][^2]
 
 [^1]: Robert C. Martin, [The Interface Segregation Principle](https://web.archive.org/web/20150905081111/http://www.objectmentor.com/resources/articles/isp.pdf), *The C++ Report* (1996)
 [^2]: Robert C. Martin, *Agile Software Development: Principles, Patterns, and Practices* (2002), Ch. 12
