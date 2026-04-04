@@ -116,6 +116,21 @@ ProfileModule --> IUserService
 @enduml
 ```
 
+```plantuml
+@startuml
+title Before segregation — one change, three rebuilds
+
+rectangle "IUserService\n(changed)" as I #ffdddd
+rectangle "AuthModule\n⚠ rebuilds" as A #ffdddd
+rectangle "AdminDashboard\n⚠ rebuilds" as AD #ffdddd
+rectangle "ProfileModule\n⚠ rebuilds" as P #ffdddd
+
+I --> A
+I --> AD
+I --> P
+@enduml
+```
+
 ## Segregating the Interface
 
 That's the problem. The fix is to break the contract apart.
@@ -215,21 +230,6 @@ void ExportToCsv(Stream output, ExportFormat format);
 **Before segregation**, all three projects reference `IUserService`. The build system sees `IUserService` changed and flags every assembly that depends on it: `AuthModule`, `AdminDashboard`, and `ProfileModule` all recompile. In a CI/CD pipeline with independently deployable services, all three ship a new build for a change only one of them cares about.
 
 **After segregation**, `AuthModule` references `IAuthService`. `ExportToCsv` is on `IAdminUserService`, which `AuthModule` never imported. The build system checks whether `AuthModule` references the changed interface, and it doesn't. `AuthModule` doesn't recompile, its tests don't re-run, and its deployed artifact stays untouched.
-
-```plantuml
-@startuml
-title Before segregation — one change, three rebuilds
-
-rectangle "IUserService\n(changed)" as I #ffdddd
-rectangle "AuthModule\n⚠ rebuilds" as A #ffdddd
-rectangle "AdminDashboard\n⚠ rebuilds" as AD #ffdddd
-rectangle "ProfileModule\n⚠ rebuilds" as P #ffdddd
-
-I --> A
-I --> AD
-I --> P
-@enduml
-```
 
 ```plantuml
 @startuml
