@@ -14,11 +14,11 @@ permalink: /series/solid-principles/interface-segregation-principle/
 {: .prerequisites }
 > Before reading, make sure you're comfortable with:
 >
-> - **Interfaces**: defining a contract that a class must fulfill. You should know what it means to declare an interface and implement it.
-> - **Coupling**: the degree to which one module depends on another. Tight coupling means a change in one place forces changes elsewhere.
-> - **Multiple interface implementation**: a single class implementing more than one interface at once. You should know this is valid and common.
+> - **Interfaces** — defining a contract that a class must fulfill. You should know what it means to declare an interface and implement it.
+> - **Coupling** — the degree to which one module depends on another. Tight coupling means a change in one place forces changes elsewhere.
+> - **Multiple interface implementation** — a single class implementing more than one interface at once. You should know this is valid and common.
 
-ISP is the **I** in [SOLID](/series/solid-principles/), one of five design principles for writing maintainable object-oriented software.
+ISP is the **I** in [SOLID](/series/solid-principles/) — one of five design principles for writing maintainable object-oriented software.
 
 ## The Interface Segregation Principle
 
@@ -31,7 +31,9 @@ The root cause was that each subsystem was forced to depend on a contract far la
 > "Clients should not be forced to depend upon interfaces that they do not use."
 > <cite>Robert C. Martin</cite>
 
-The word *client* here doesn't mean an end user. A **client** is anything that consumes a service through an interface: a class, a module in a separate assembly, or an entirely different application. What makes something a client is its role: it depends on the contract rather than implementing it. The principle applies at any level of granularity, and the problem it solves is the same at all of them.
+Meaning — don't force a class to know about methods it will never call.
+
+The word *client* here doesn't mean an end user. A **client** is anything that consumes a service through an interface — a class, a module in a separate assembly, or an entirely different application. What makes something a client is its role: it depends on the contract rather than implementing it. The principle applies at any level of granularity, and the problem it solves is the same at all of them.
 
 ## What Makes a Fat Interface Expensive?
 
@@ -213,6 +215,8 @@ The isolation holds as long as the interfaces and their clients live in separate
 
 ## One Interface Per Group of Clients
 
+The split so far was driven by the three existing clients: auth, admin, and profile. But the principle generalizes. It's not about how many files use the service. It's about grouping clients by what they *need*.
+
 ISP does not say *one interface per class that uses the service*. That would make `UserService` inherit from every individual caller, producing a dependency graph that runs backwards.
 
 Group clients by **type**, and create one interface per type. Desktop clients get one interface. Web clients get another. If two client types need the same method, it appears in both. That's fine.
@@ -233,7 +237,37 @@ interface IWebUserService
 }
 ```
 
-`GetById` and `UpdateProfile` appear in both. Each interface is still a minimal contract for its client type.
+`GetById` and `UpdateProfile` appear in both. Each interface is still a minimal contract for its client type. `UploadAvatar` only exists where it's actually called.
+
+```plantuml
+@startuml
+left to right direction
+
+interface IDesktopUserService {
+  +GetById(id) : User
+  +UpdateProfile(userId, dto) : void
+  +UploadAvatar(userId, data) : void
+}
+
+interface IWebUserService {
+  +GetById(id) : User
+  +UpdateProfile(userId, dto) : void
+}
+
+class UserService
+
+class DesktopApp
+class WebApp
+
+IDesktopUserService <|.. UserService
+IWebUserService <|.. UserService
+
+DesktopApp --> IDesktopUserService
+WebApp --> IWebUserService
+@enduml
+```
+
+Shared methods aren't a problem. Each interface expresses only what its client actually needs.
 
 {: .important }
 Segregate by **client type**, not by individual client. One interface per logical group, not one interface per class.
