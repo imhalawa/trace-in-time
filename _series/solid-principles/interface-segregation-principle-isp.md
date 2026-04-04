@@ -378,9 +378,7 @@ ISP violations don't show up as compiler errors. They build up as interfaces gro
 
 The visible symptom is a recompilation cascade. You change one method and a list of unrelated assemblies needs to be rebuilt. You trace back why `AuthModule` is flagged: it references `IUserService`. You only changed `ExportToCsv`. `AuthModule` doesn't use `ExportToCsv`. But it can't avoid knowing about it.
 
-The less visible symptom shows up in tests. When you substitute `IUserService` in a test for `AuthModule`, the interface gives you no signal about which methods actually matter. You could implement three methods or all ten. Nothing in the type tells you which is correct. You have to read the implementation to know.
-
-After segregation, `IAuthService` has exactly three methods. Any substitute must implement those three and can't implement more. The interface is the specification: it tells you exactly what `AuthModule` depends on without reading a single line of its code.
+The less visible symptom shows up in tests. When you mock `IUserService` for an `AuthModule` unit test, the mock framework will ask you to set up ten methods. Nothing in the interface signals which three actually matter. You set them all up, or you guess, or you read the implementation to figure it out. After segregation, mocking `IAuthService` gives you exactly three methods to set up. The interface tells you what `AuthModule` depends on without reading a single line of its code.
 
 The worst case is when clients start implementing stub methods. Take `ExternalAuthAdapter`, a third-party integration that only handles authentication. It implements `IUserService` because that's the only contract available, but most of it doesn't apply:
 
