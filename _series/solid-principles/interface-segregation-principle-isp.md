@@ -26,7 +26,7 @@ Robert C. Martin was consulting at Xerox on a new printer system. The software h
 
 The consequence: any change, no matter how small, triggered a full redeployment of the entire system, a cycle that took an hour. A one-line fix in the stapling logic meant an hour of waiting before you could verify anything worked. Development had nearly ground to a halt.
 
-The root cause was that each subsystem was forced to depend on a contract far larger than what it actually needed. Martin published his analysis in [*The Interface Segregation Principle*](https://en.wikipedia.org/wiki/Interface_segregation_principle) (1996) and later in *Agile Software Development: Principles, Patterns, and Practices* (2002):
+The root cause was that each subsystem was forced to depend on a contract far larger than what it actually needed. Martin published his analysis in [*The Interface Segregation Principle*](https://en.wikipedia.org/wiki/Interface_segregation_principle) (1996) and later in *Agile Software Development: Principles, Patterns, and Practices* (2002):[^1]
 
 > "Clients should not be forced to depend upon interfaces that they do not use."
 > <cite>Robert C. Martin</cite>
@@ -85,7 +85,7 @@ class AuthModule
 }
 ```
 
-`AuthModule` calls three methods, but depends on all ten. When `ExportToCsv` changes its signature, `AuthModule` must be recompiled and redeployed, even though it never called that method. In C#, every assembly that references a changed interface must be rebuilt regardless of which methods it uses. The more clients share a fat interface, the more assemblies get dragged into every rebuild.
+`AuthModule` calls three methods, but depends on all ten. When `ExportToCsv` changes its signature, `AuthModule` must be recompiled and redeployed, even though it never called that method. In C#, every assembly that references a changed interface must be rebuilt regardless of which methods it uses.[^3] The more clients share a fat interface, the more assemblies get dragged into every rebuild.
 
 ```plantuml
 @startuml
@@ -161,6 +161,8 @@ class AuthModule
 }
 ```
 
+`ExportToCsv` can now change freely. `AuthModule` doesn't reference `IAdminUserService` and has no reason to recompile.
+
 ```plantuml
 @startuml
 
@@ -198,8 +200,6 @@ AdminDashboard --> IAdminUserService
 ProfileModule --> IProfileService
 @enduml
 ```
-
-`ExportToCsv` can now change freely. `AuthModule` doesn't reference `IAdminUserService` and has no reason to recompile.
 
 ### Why This Stops the Recompilation Cascade
 
@@ -337,7 +337,7 @@ end note
 
 ### The Tradeoff
 
-A class that accumulates interfaces across features and versions can end up with dozens. At some point `IUserServiceV4` adds more confusion than value, and updating all callers is the cleaner path. Use additive interfaces when backward compatibility is genuinely required: public APIs and shared libraries. For internal code where you control all callers, modifying the interface directly is usually right.
+A class that accumulates interfaces across features and versions can end up with dozens. At some point `IAuthServiceV2`, `ITokenServiceV2`, and `IAdminUserServiceV2` add more confusion than value, and updating all callers is the cleaner path. Use additive interfaces when backward compatibility is genuinely required: public APIs and shared libraries. For internal code where you control all callers, modifying the interface directly is usually right.
 
 ```plantuml
 @startuml
@@ -378,7 +378,7 @@ ISP violations don't show up as compiler errors. They build up as interfaces gro
 
 The visible symptom is a recompilation cascade. You change one method and a list of unrelated assemblies needs to be rebuilt. You trace back why `AuthModule` is flagged: it references `IUserService`. You only changed `ExportToCsv`. `AuthModule` doesn't use `ExportToCsv`. But it can't avoid knowing about it.
 
-The less visible symptom shows up in tests. When you mock `IUserService` for an `AuthModule` unit test, the mock framework will ask you to set up ten methods. Nothing in the interface signals which three actually matter. You set them all up, or you guess, or you read the implementation to figure it out. After segregation, mocking `IAuthService` gives you exactly three methods to set up. The interface tells you what `AuthModule` depends on without reading a single line of its code.
+The less visible symptom shows up in tests. When you mock `IUserService` for an `AuthModule` unit test, you're dealing with a ten-method interface when only three of those methods matter to the module under test. With a strict mock, you must set up all ten or it throws. With a loose mock, the other seven silently return defaults — and nothing stops you from asserting on them by mistake. After segregation, mocking `IAuthService` gives you exactly three methods. The interface tells you what `AuthModule` depends on without reading a single line of its code.
 
 The worst case is when clients start implementing stub methods. Take `ExternalAuthAdapter`, a third-party integration that only handles authentication. It implements `IUserService` because that's the only contract available, but most of it doesn't apply:
 
@@ -440,7 +440,8 @@ IUserService <|.. ExternalAuthAdapter
 
 Fat interfaces also undermine the abstractions that [DIP](/series/solid-principles/dependency-inversion-principle/) depends on. A wide interface carries too many concerns to stay stable. Every new client need is a potential change to the contract, and every contract change ripples to every client. Narrow interfaces hold their shape.
 
-Design interfaces around what clients need, not around what the service can do. An interface sized to its client has one reason to change: the same reason the client has.[^1][^2]
+Design interfaces around what clients need, not around what the service can do. An interface sized to its client has one reason to change: the same reason the client has.[^2]
 
 [^1]: Robert C. Martin, [The Interface Segregation Principle](https://web.archive.org/web/20150905081111/http://www.objectmentor.com/resources/articles/isp.pdf), *The C++ Report* (1996)
 [^2]: Robert C. Martin, *Agile Software Development: Principles, Patterns, and Practices* (2002), Ch. 12
+[^3]: C# language specification: a referencing assembly must be recompiled whenever a referenced assembly's public surface changes, including interface method signatures. See [Microsoft docs: assemblies and the compilation model](https://learn.microsoft.com/en-us/dotnet/standard/assembly/)
