@@ -2,7 +2,7 @@
 layout: post
 title: "Dependency Inversion Principle (DIP): Depend on Abstractions"
 description: "When business logic knows which database it's talking to, the database owns the business logic. Learn how DIP breaks that grip by making policy depend on what it needs, not on how it's delivered."
-date: 2026-04-04
+date: 2026-03-27
 series: solid-principles
 part: 4
 tags: [design-principles, oop, series]
