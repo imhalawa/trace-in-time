@@ -519,10 +519,12 @@
       }
     }
 
-    // Pinned sections (prerequisites, objectives) immediately after an hr
-    // inherit the hr's spacing — no double gap.
+    // Pinned sections (prerequisites, objectives) — collapse top margin when
+    // they follow an hr or are the very first element in the content area.
     hr + .prerequisites,
-    hr + .objectives {
+    hr + .objectives,
+    > .prerequisites:first-child,
+    > .objectives:first-child {
       margin-top: 0;
     }
 
