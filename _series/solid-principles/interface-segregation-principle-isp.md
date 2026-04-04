@@ -20,6 +20,9 @@ permalink: /series/solid-principles/interface-segregation-principle/
 
 ISP is the **I** in [SOLID](/series/solid-principles/) — one of five design principles for writing maintainable object-oriented software.
 
+{: .info }
+A **fat interface** is an interface that has grown to include methods not all of its clients need. Every class that implements it must account for the full contract, and every class that depends on it recompiles whenever any part of it changes — even the parts it never uses.
+
 ## The Interface Segregation Principle
 
 Robert C. Martin was consulting at Xerox on a new printer system. The software had grown around a single `Job` class that handled everything: printing, stapling, faxing, scheduling. Every subsystem depended on it. A stapling job knew about all the print methods. A print job knew about all the stapling methods. None of them needed that knowledge, but the single shared class made it unavoidable.
