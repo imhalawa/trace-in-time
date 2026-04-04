@@ -35,8 +35,6 @@ Meaning — don't force a class to know about methods it will never call.
 
 The word *client* here doesn't mean an end user. A **client** is anything that consumes a service through an interface — a class, a module in a separate assembly, or an entirely different application. What makes something a client is its role: it depends on the contract rather than implementing it. The principle applies at any level of granularity, and the problem it solves is the same at all of them.
 
-That cost is concrete. It shows up in build times, test overhead, and adapter code before most teams notice where it's coming from.
-
 ## What Makes a Fat Interface Expensive?
 
 {: .info }
@@ -117,8 +115,6 @@ AdminDashboard --> IUserService
 ProfileModule --> IUserService
 @enduml
 ```
-
-That's the problem. The fix is to break the contract apart.
 
 ## Segregating the Interface
 
@@ -252,8 +248,6 @@ IP --> P
 
 The isolation holds as long as the interfaces and their clients live in separate assemblies. If all three clients are compiled together in a single project, the boundary doesn't exist at the build level regardless of how the interfaces are split.
 
-The three-client split is one application of the rule. The principle itself goes further.
-
 ## One Interface Per Group of Clients
 
 The split so far was driven by the three existing clients: auth, admin, and profile. But the principle generalizes. It's not about how many files use the service. It's about grouping clients by what they *need*.
@@ -315,7 +309,7 @@ Segregate by **client type**, not by individual client. One interface per logica
 
 ## What Happens When an Interface Needs to Change?
 
-Client-type grouping handles the breadth problem. But interfaces also grow over time, and adding to an existing one isn't always safe.
+Splitting by client type keeps interfaces focused. But what if `UserService` itself needs a new capability — without forcing existing clients to recompile?
 
 When an interface needs a new capability, the easy move is to add the method directly, forcing every client to recompile. The safer approach is to **add a new interface** rather than modify the existing one.
 
@@ -342,7 +336,7 @@ class OAuthClient
 
 `AuthModule`, `AdminDashboard`, and `ProfileModule` are untouched: they don't reference `ITokenService`.
 
-The diagram below shows the result: `UserService` gains `ITokenService` without `IAuthService` changing. `AuthModule` has no path to `ITokenService`. From its perspective, the interface doesn't exist.
+`UserService` gains `ITokenService` without `IAuthService` changing. `AuthModule` has no path to `ITokenService` — from its perspective, the capability doesn't exist.
 
 ```plantuml
 @startuml
@@ -376,8 +370,6 @@ end note
 ```
 
 ### The Tradeoff
-
-Additive interfaces solve one problem and introduce another.
 
 A class that accumulates interfaces across features and versions can end up with dozens. At some point `IAuthServiceV2`, `ITokenServiceV2`, and `IAdminUserServiceV2` add more confusion than value, and updating all callers is the cleaner path. Use additive interfaces when backward compatibility is genuinely required: public APIs and shared libraries. For internal code where you control all callers, modifying the interface directly is usually right.
 
@@ -413,8 +405,6 @@ note bottom of UserService
 end note
 @enduml
 ```
-
-The versioning tradeoff is manageable. The harder issue is recognizing when a fat interface is the source of the problem in the first place.
 
 ## Where Fat Interfaces Break Down
 
