@@ -10,6 +10,9 @@ tags_color: "#4122aa"
 permalink: /series/async-await/what-is-async-await-csharp/
 ---
 
+* TOC
+{:toc}
+
 ## What Are We Actually Solving?
 
 Imagine three workers in a kitchen. One is washing dishes, another is chopping vegetables, and the third is standing at the stove, watching a pot that hasn't started boiling yet. None of them are idle in the traditional sense - but that third worker is frozen in place, waiting on something entirely outside their control. The other two can't get a clean pan. Orders are backing up. The kitchen is staffed, but the work is stalled.

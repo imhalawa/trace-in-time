@@ -39,6 +39,9 @@ Ser --> C : Response
 
 Hot paths aren't limited to the handler itself. Any code that runs on every request - serialization, response formatting, authentication middleware - qualifies if it's doing more work than it needs to.
 
+* TOC
+{:toc}
+
 ## Why Small Inefficiencies on Hot Paths Add Up
 
 A single extra allocation per request at 1,000 RPS means 1,000 short-lived objects landing on the heap every second. The [garbage collector](https://learn.microsoft.com/dotnet/standard/garbage-collection/fundamentals) has to clean those up.[^1] At a high enough rate, GC pauses become frequent enough to start affecting response times - specifically the p95 and p99 [percentiles](/posts/p50-p95-p99-average-latency/), which represent the slowest 5% and 1% of requests.

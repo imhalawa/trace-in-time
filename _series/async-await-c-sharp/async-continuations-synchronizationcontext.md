@@ -10,6 +10,9 @@ tags_color: "#4122aa"
 permalink: /series/async-await/async-continuations-synchronizationcontext/
 ---
 
+* TOC
+{:toc}
+
 ## The Question That Only Matters When It Breaks
 
 In the [previous part](/series/async-await/async-vs-parallel-csharp/), we covered the difference between async I/O and parallel computation, and when to apply each. This part asks a subtler question: once an `await` completes and the method is ready to resume, *where* does it resume? On which thread? In which context?

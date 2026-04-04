@@ -11,6 +11,9 @@ tags_color: '#6B8C9A'
 
 Most of the tension in human relationships doesn’t come from conflict. It comes from the quiet stories people create when they don’t say what they really mean. We’re quick to interpret, slow to ask, and far too comfortable with the [narratives we invent](/posts/pattern-loop/). This piece looks at the subtle games people play — not out of malice, but out of fear, ego, and the mind’s need to feel certain. It’s a study in how imagination replaces reality, and how honesty, applied in the right place at the right time, keeps relationships clean.
 
+* TOC
+{:toc}
+
 ## The Moment a Light Relationship Starts to Tilt
 
 Simple relationships should be the lightest part of life. They depend on rhythm, sincerity, and the shared assumption that both sides want ease. Yet one unexamined doubt can distort everything. The mind can't sit with uncertainty — it treats an open question like a gap that must be filled immediately, and whatever it fills it with tends to favor the worst available explanation. A late reply, a subtle shift in tone, a moment that doesn't land — none of these carry meaning by themselves. But the mind assigns meaning anyway, and once it does, the relationship begins reacting to a story it didn't create.

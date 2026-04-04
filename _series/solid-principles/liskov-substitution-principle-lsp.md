@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Liskov Substitution Principle (LSP): Keep the Promise"
-description: "A subtype that breaks its parent's promise is an LSP violation. Learn Design by Contract, see a broken gift card hierarchy, and how to fix it with interfaces."
+description: "A subtype that can't fully honor its parent's contract doesn't announce itself — it waits. Learn how LSP ensures the contract you depend on is the contract you actually get."
 date: 2026-03-26
 series: solid-principles
 part: 2
@@ -19,6 +19,9 @@ permalink: /series/solid-principles/liskov-substitution-principle/
 > - **Polymorphism** — the ability to treat different types uniformly through a shared contract. Not just knowing the word, but understanding why it's useful.
 
 LSP is the **L** in [SOLID](/series/solid-principles/) — one of five design principles for writing maintainable object-oriented software.
+
+- TOC
+{:toc}
 
 ## The Liskov Substitution Principle
 

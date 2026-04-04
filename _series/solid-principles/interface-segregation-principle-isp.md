@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Interface Segregation Principle (ISP): Narrow the Contract"
-description: "A fat interface with 10 methods forces every client to recompile when one method changes. Learn how ISP keeps each contract focused and build coupling low."
+description: "A shared contract that grows to serve everyone ends up serving no one well. Learn how ISP keeps each interface honest about what its client actually needs."
 date: 2026-03-27
 series: solid-principles
 part: 3
@@ -20,6 +20,9 @@ permalink: /series/solid-principles/interface-segregation-principle/
 
 ISP is the **I** in [SOLID](/series/solid-principles/) — one of five design principles for writing maintainable object-oriented software.
 
+* TOC
+{:toc}
+
 ## The Interface Segregation Principle
 
 Robert C. Martin was consulting at Xerox on a new printer system. The software had grown around a single `Job` class that handled everything: printing, stapling, faxing, scheduling. Every subsystem depended on it. A stapling job knew about all the print methods. A print job knew about all the stapling methods. None of them needed that knowledge, but the single shared class made it unavoidable.
@@ -33,7 +36,7 @@ The root cause was that each subsystem was forced to depend on a contract far la
 
 Meaning — don't force a class to know about methods it will never call.
 
-The word *client* here doesn't mean an end user. A **client** is anything that consumes a service through an interface — a class, a module in a separate assembly, or an entirely different application. What makes something a client is its role: it depends on the contract rather than implementing it. The principle applies at any level of granularity, and the problem it solves is the same at all of them.
+The word *client* here doesn't mean an end user. A **client** is anything that consumes a service through an interface — a class, a module in a separate assembly, or an entirely different application. What makes something a client is its role: it depends on the contract rather than implementing it.
 
 ## What Makes a Fat Interface Expensive?
 
@@ -201,6 +204,9 @@ ProfileModule --> IProfileService
 @enduml
 ```
 
+{: .important }
+Design interfaces around what clients need, not around what the service can do. An interface sized to its client has one reason to change: the same reason the client has.[^2]
+
 ### Why This Stops the Recompilation Cascade
 
 Take the `ExportToCsv` change from earlier, where the signature needs a new `ExportFormat` parameter:
@@ -250,59 +256,11 @@ The isolation holds as long as the interfaces and their clients live in separate
 
 ## One Interface Per Group of Clients
 
-The split so far was driven by the three existing clients: auth, admin, and profile. But the principle generalizes. It's not about how many files use the service. It's about grouping clients by what they *need*.
+The split above was driven by three existing clients: auth, admin, and profile. That grouping wasn't arbitrary — each interface represents a distinct reason to call `UserService`. `IAuthService` exists because the auth module needs to verify identity. `IAdminUserService` exists because the dashboard needs to manage users. `IProfileService` exists because the profile module needs to edit personal data. Three different jobs, three different contracts.
 
-ISP does not say *one interface per class that uses the service*. That would make `UserService` inherit from every individual caller, producing a dependency graph that runs backwards.
+ISP does not say *one interface per class that uses the service*. If the admin dashboard were two separate classes — say, a `UserListPage` and a `RoleManagementPage` — they'd both depend on `IAdminUserService`. The grouping is by what clients need in common, not by how many files happen to consume the service. Splitting `IAdminUserService` into two because two classes use it would produce interfaces that always appear together, which isn't segregation — it just moves the fat one level down.
 
-Group clients by **type**, and create one interface per type. Desktop clients get one interface. Web clients get another. If two client types need the same method, it appears in both. That's fine.
-
-```csharp
-interface IDesktopUserService
-{
-    User GetById(int id);
-    void UpdateProfile(int userId, ProfileDto dto);
-    void UploadAvatar(int userId, byte[] imageData);
-}
-
-interface IWebUserService
-{
-    User GetById(int id);
-    void UpdateProfile(int userId, ProfileDto dto);
-    // no direct avatar upload — handled via a separate upload endpoint
-}
-```
-
-`GetById` and `UpdateProfile` appear in both. Each interface is still a minimal contract for its client type. `UploadAvatar` only exists where it's actually called.
-
-```plantuml
-@startuml
-left to right direction
-
-interface IDesktopUserService {
-  +GetById(id) : User
-  +UpdateProfile(userId, dto) : void
-  +UploadAvatar(userId, data) : void
-}
-
-interface IWebUserService {
-  +GetById(id) : User
-  +UpdateProfile(userId, dto) : void
-}
-
-class UserService
-
-class DesktopApp
-class WebApp
-
-IDesktopUserService <|.. UserService
-IWebUserService <|.. UserService
-
-DesktopApp --> IDesktopUserService
-WebApp --> IWebUserService
-@enduml
-```
-
-Shared methods aren't a problem. Each interface expresses only what its client actually needs.
+The same logic covers shared methods. If `GetById` were needed by both auth and profile, it would appear in both `IAuthService` and `IProfileService`. That's fine. The repetition is honest — both clients actually need it, and neither should be forced to go through the other's interface to get it.
 
 {: .important }
 Segregate by **client type**, not by individual client. One interface per logical group, not one interface per class.
@@ -439,8 +397,19 @@ The compiler is satisfied. The contract is hollow. Any caller that passes an `Ex
 
 Fat interfaces also undermine the abstractions that [DIP](/series/solid-principles/dependency-inversion-principle/) depends on. A wide interface carries too many concerns to stay stable. Every new client need is a potential change to the contract, and every contract change ripples to every client. Narrow interfaces hold their shape.
 
-{: .important }
-Design interfaces around what clients need, not around what the service can do. An interface sized to its client has one reason to change: the same reason the client has.[^2]
+## When Should You Actually Segregate?
+
+ISP doesn't mean every interface should have exactly one method, or that a shared contract is wrong. The question is always the same: do all of the clients of this interface actually need all of its methods?
+
+When the answer is yes — every client calls every method — there's nothing to segregate. The interface is already a natural fit for its consumers. Splitting it adds indirection without a meaningful boundary.
+
+When the answer is no, ISP applies. The visible signal is usually one of the failure modes from above: a recompilation cascade when a change touches modules that don't care about it, bloated mock setup in tests where only a fraction of the interface matters, or stub methods that throw `NotImplementedException` to satisfy a contract the class can't fully honour.
+
+The risk on the other side is mechanical splitting — dividing interfaces at the method level regardless of whether the boundaries reflect real differences between clients. Two methods that every caller always uses together aren't a fat interface. They're a cohesive unit. Splitting them produces interfaces that always appear side by side, which isn't segregation — it's fragmentation.
+
+The useful question isn't "how many methods does this interface have?" A large interface isn't automatically a fat one. It's "does every client of this interface need every method on it?" When a client must depend on methods it will never call, the interface has grown past what that client's relationship to the service actually requires. That's the line ISP asks you to draw.
+
+Apply ISP where clients need different subsets of a service's capabilities. Skip it where splitting would produce interfaces that always travel together.
 
 [^1]: Robert C. Martin, [The Interface Segregation Principle](https://web.archive.org/web/20150905081111/http://www.objectmentor.com/resources/articles/isp.pdf), *The C++ Report* (1996)
 [^2]: Robert C. Martin, *Agile Software Development: Principles, Patterns, and Practices* (2002), Ch. 12

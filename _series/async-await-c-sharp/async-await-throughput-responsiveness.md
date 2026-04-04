@@ -10,6 +10,9 @@ tags_color: "#4122aa"
 permalink: /series/async-await/async-await-throughput-responsiveness/
 ---
 
+* TOC
+{:toc}
+
 ## The Real Bottleneck in Most Apps Isn't the CPU
 
 In the [previous part](/series/async-await/how-async-await-works-csharp/), we explored how `async`/`await` lets a method pause and resume without losing its place. This part answers why that matters in practice: because the thread waiting on I/O is a thread that can't help with anything else.

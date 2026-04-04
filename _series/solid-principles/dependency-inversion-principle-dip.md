@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Dependency Inversion Principle (DIP): Depend on Abstractions"
-description: "DIP is the mechanism behind OCP. Learn why policy shouldn't depend on details, see a broken report generator, and how inverting dependencies fixes it."
+description: "When business logic knows which database it's talking to, the database owns the business logic. Learn how DIP breaks that grip by making policy depend on what it needs, not on how it's delivered."
 date: 2026-04-04
 series: solid-principles
 part: 4
@@ -19,6 +19,9 @@ permalink: /series/solid-principles/dependency-inversion-principle/
 > - **Polymorphism** — the ability to treat different types uniformly through a shared contract. Not just knowing the word, but understanding why it's useful.
 
 DIP is the **D** in [SOLID](/series/solid-principles/) — one of five design principles for writing maintainable object-oriented software.
+
+* TOC
+{:toc}
 
 ## The Dependency Inversion Principle
 

@@ -10,6 +10,9 @@ tags_color: "#4122aa"
 permalink: /series/async-await/async-exception-handling-csharp/
 ---
 
+* TOC
+{:toc}
+
 ## Exceptions Don't Stay Where They Started
 
 In the [previous part](/series/async-await/async-continuations-synchronizationcontext/), we learned how continuations carry the method forward after an `await`. This part deals with what happens when something inside that chain goes wrong. The short answer: exceptions still propagate, but they travel *through the task* and arrive *at the await point* - not at the throw site.

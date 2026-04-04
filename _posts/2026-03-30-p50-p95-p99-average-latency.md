@@ -17,6 +17,9 @@ Teams would look at a perfectly healthy average and miss the fact that a meaning
 
 Percentiles were the answer. They were borrowed from statistics - where they'd been used for decades in medicine, education, and economics to describe how individuals rank within a group - and applied to system performance monitoring as web-scale software made the limits of the average impossible to ignore.[^1]
 
+* TOC
+{:toc}
+
 ## Where the Average Breaks Down
 
 Before getting into percentiles, it helps to understand exactly why the average fails - because the failure isn't obvious until you see it spelled out.

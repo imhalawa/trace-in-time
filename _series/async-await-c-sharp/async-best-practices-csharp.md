@@ -10,6 +10,9 @@ tags_color: "#4122aa"
 permalink: /series/async-await/async-best-practices-csharp/
 ---
 
+* TOC
+{:toc}
+
 ## The Conventions That Keep Async Code From Surprising You
 
 In the [previous part](/series/async-await/designing-reliable-async-methods-csharp/), we covered how to design individual async methods that callers can depend on. This final part is about what happens when you apply those decisions consistently — across a codebase, across a team, across time.

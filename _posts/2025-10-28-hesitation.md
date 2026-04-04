@@ -9,6 +9,9 @@ tags: [Reflections]
 tags_color: '#6B8C9A'
 ---
 
+* TOC
+{:toc}
+
 ## Before You Move
 
 Hesitation has a way of catching you at the exact moment you need to act. I've stepped back when I should've leaned in, and stayed quiet when a clean no would've saved time. Looking back, the real cost wasn't the wrong choices — it was the time lost in the space between knowing and doing. Silence doesn't stay neutral. It fills. Others read it, assign meaning to it, and respond to whatever they decided it meant. You end up living with the consequences of a decision you never consciously made, authored by a pause you thought was invisible.

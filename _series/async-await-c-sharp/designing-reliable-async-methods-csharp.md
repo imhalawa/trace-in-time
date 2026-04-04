@@ -10,6 +10,9 @@ tags_color: "#4122aa"
 permalink: /series/async-await/designing-reliable-async-methods-csharp/
 ---
 
+* TOC
+{:toc}
+
 ## What Makes an Async Method Trustworthy?
 
 In the [previous part](/series/async-await/async-exception-handling-csharp/), we learned how exceptions travel through tasks and where to catch them. But preventing problems is better than recovering from them. Designing reliable async methods starts one step earlier: making the method predictable in how it runs, how it finishes, and how it reports problems - before any caller ever awaits it.

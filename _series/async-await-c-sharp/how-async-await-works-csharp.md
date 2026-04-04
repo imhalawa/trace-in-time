@@ -10,6 +10,9 @@ tags_color: "#4122aa"
 permalink: /series/async-await/how-async-await-works-csharp/
 ---
 
+* TOC
+{:toc}
+
 ## What the Compiler Does Before Your Code Runs
 
 In the [previous part](/series/async-await/what-is-async-await-csharp/), we established the core problem - threads standing idle during I/O - and introduced `async`/`await` as the mechanism that fixes it. But knowing what async does isn't the same as understanding how. The "how" starts with a transformation you never see.

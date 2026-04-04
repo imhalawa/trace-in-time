@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Open Closed Principle (OCP): Extend Without Breaking"
-description: "Learn how the Open Closed Principle (OCP) lets you add new features without touching existing code. Includes C# examples of dynamic and static polymorphism."
+description: "Code that has to be opened every time requirements change is code you will eventually break. Learn how OCP lets new behavior arrive as new files, not as edits to existing ones."
 date: 2026-03-24
 series: solid-principles
 part: 1
@@ -19,6 +19,9 @@ permalink: /series/solid-principles/open-closed-principle/
 > - **Polymorphism** — the ability to treat different types uniformly through a shared contract. Not just knowing the word, but understanding why it's useful.
 
 OCP is the **O** in [SOLID](/series/solid-principles/) — one of five design principles for writing maintainable object-oriented software.
+
+* TOC
+{:toc}
 
 ## The Open-Closed Principle
 

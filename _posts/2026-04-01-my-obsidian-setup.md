@@ -17,6 +17,9 @@ After months of switching back and forth, Obsidian finally stuck — not because
 
 This is how I set it up, and more importantly, why.
 
+* TOC
+{:toc}
+
 ## What Personal Knowledge Management Actually Is
 
 I forget things quickly. Unless something is organized in a way my brain can retrieve it, it disappears — as if I never encountered it at all. Writing a note in my own words, or doing my own research while connecting pieces together, is what makes things stick.[^1] The act of linking is the point: our brains don't hold scattered pieces well. Without connections, information is likely forgotten, or worse, it never fully makes sense to begin with.

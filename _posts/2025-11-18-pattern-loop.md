@@ -9,6 +9,9 @@ tags: [Reflections]
 tags_color: '#6B8C9A'
 ---
 
+* TOC
+{:toc}
+
 ## When Life Becomes a Loop
 
 Most behavior isn't chosen in any meaningful sense. It's triggered. You walk into a familiar situation, and a familiar response fires — not because you decided it was the right call, but because your brain recognized the shape of the moment and ran the sequence it has run before. The outcome feels like a choice. The mechanism is closer to a reflex.

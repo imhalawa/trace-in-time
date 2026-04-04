@@ -10,6 +10,9 @@ tags_color: "#4122aa"
 permalink: /series/async-await/async-vs-parallel-csharp/
 ---
 
+* TOC
+{:toc}
+
 ## Two Different Answers to Two Different Problems
 
 In the [previous part](/series/async-await/async-await-throughput-responsiveness/), we saw how `async`/`await` turns thread-blocking into thread-freeing during I/O. But async programming is only part of the picture. Sometimes the bottleneck isn't waiting - it's the work itself: heavy computation that keeps the CPU genuinely occupied.

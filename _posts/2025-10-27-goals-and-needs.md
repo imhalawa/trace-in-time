@@ -9,6 +9,9 @@ tags: [Reflections]
 tags_color: '#6B8C9A'
 ---
 
+* TOC
+{:toc}
+
 ## When Ambition Outruns Reality
 
 There’s a familiar pattern: you write a goal, feel a spark, and picture a better version of yourself. For a moment, the future feels close and the excitement is real, even if nothing has changed yet. Then the rush thins out, the work shows up, and the goal that felt inspiring last week becomes a dead weight on your list. Most people blame motivation or discipline, but the issue is usually simpler: the goal wasn’t connected to anything you honestly needed. It came from imitation, pressure, or habit—a performance of ambition rather than a response to your life. We confuse momentum with meaning, and we confuse excitement with alignment. Before adding another goal to the pile, pause long enough to ask:  
