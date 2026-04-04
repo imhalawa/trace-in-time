@@ -2,9 +2,9 @@
 layout: post
 title: "Dependency Inversion Principle (DIP): Depend on Abstractions"
 description: "DIP is the mechanism behind OCP. Learn why policy shouldn't depend on details, see a broken report generator, and how inverting dependencies fixes it."
-date: 2026-03-28
+date: 2026-04-04
 series: solid-principles
-part: 3
+part: 4
 tags: [design-principles, oop, series]
 tags_color: "#7C3AED"
 permalink: /series/solid-principles/dependency-inversion-principle/

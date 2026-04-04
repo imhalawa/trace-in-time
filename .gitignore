@@ -9,10 +9,4 @@ _site
 _data/.youtube_cache.json
 CLAUDE.md
 
-# PlantUML JAR (downloaded at build time)
 vendor/
-
-# Vega JS libraries (downloaded at build time)
-js/vega.min.js
-js/vega-lite.min.js
-js/vega-embed.min.js
