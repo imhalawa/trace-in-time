@@ -519,6 +519,13 @@
       }
     }
 
+    // Pinned sections (prerequisites, objectives) immediately after an hr
+    // inherit the hr's spacing — no double gap.
+    hr + .prerequisites,
+    hr + .objectives {
+      margin-top: 0;
+    }
+
     // KaTeX math — inherit theme text color
     .katex {
       color: inherit;
