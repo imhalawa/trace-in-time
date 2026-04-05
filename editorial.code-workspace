@@ -1,0 +1,32 @@
+{
+	"folders": [
+		{
+			"path": "_books"
+		},
+		{
+			"path": "_data"
+		},
+		{
+			"path": "_lists"
+		},
+		{
+			"path": "_pages"
+		},
+		{
+			"path": "_podcasts"
+		},
+		{
+			"path": "_posts"
+		},
+		{
+			"path": "_projects"
+		},
+		{
+			"path": "_series"
+		},
+		{
+			"path": "images"
+		}
+	],
+	"settings": {}
+}
