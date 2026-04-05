@@ -591,6 +591,13 @@
     border-radius: 0;
     overflow: hidden;
     background: var(--background-color);
+    border: 1.5px solid var(--primary-color);
+    filter: grayscale(12%) contrast(1.06);
+    transition: filter 0.25s ease;
+
+    &:hover {
+      filter: grayscale(0%) contrast(1);
+    }
 
     img {
       position: absolute;

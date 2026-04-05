@@ -211,9 +211,13 @@
     margin-right: 12px;
     background: var(--background-alt-color);
     will-change: transform;
+    border: 1.5px solid var(--primary-color);
+    filter: grayscale(12%) contrast(1.06);
+    transition: filter 0.25s ease, transform 0.2s ease;
 
     &:hover {
       transform: translateY(-2px);
+      filter: grayscale(0%) contrast(1);
     }
 
     img {
