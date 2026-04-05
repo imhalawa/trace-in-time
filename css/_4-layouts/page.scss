@@ -29,6 +29,10 @@
 
   > .col-8 {
     flex: 0 0 calc(8 / 12 * 100%);
+
+    @media (max-width: $desktop) {
+      flex: 0 0 100%;
+    }
   }
 }
 

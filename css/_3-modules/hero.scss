@@ -8,7 +8,7 @@
 
   .widget-home-author {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 20px;
     max-width: none;
     margin: 0 0 28px;
@@ -78,8 +78,8 @@
       gap: 14px;
 
       .widget-home-author__avatar {
-        width: 48px;
-        height: 48px;
+        width: 72px;
+        height: 72px;
       }
 
       .widget-home-author__title {
