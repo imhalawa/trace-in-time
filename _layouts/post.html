@@ -27,6 +27,9 @@ layout: default
   {% assign formatted_post_date = page.date | date: date_format %}
 {% endif %}
 
+{% assign _post_words = page.content | number_of_words %}
+{% if _post_words < 550 %}{% assign _reading_minutes = 1 %}{% else %}{% assign _reading_minutes = _post_words | divided_by: 275 %}{% endif %}
+
 <!-- begin post -->
 <div class="container">
 
@@ -110,7 +113,7 @@ layout: default
 
       </div>
 
-      <article class="post" lang="{{ content_language }}" dir="{{ content_direction }}">
+      <article class="post" lang="{{ content_language }}" dir="{{ content_direction }}" data-reading-minutes="{{ _reading_minutes }}">
         <div class="post__content">
           {% if page.toc == true %}
           <div class="post__toc">
@@ -128,8 +131,13 @@ layout: default
       {% if site.data.settings.disqus.enable == true and site.data.settings.disqus.disqus_identifier %}
         {% include disqus-comments.html %}
       {% endif %}
+      {% if site.data.settings.giscus.enable == true %}
+        {% include giscus-comments.html %}
+      {% endif %}
       {% include related-posts.html %}
     </div>
 
   </div>
-</div>{% include reading-controls.html %}<!-- end post -->
+</div><!-- end post -->
+
+{% include staring-alert.html %}

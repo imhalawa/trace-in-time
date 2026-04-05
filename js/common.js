@@ -636,32 +636,7 @@ document.addEventListener("DOMContentLoaded", function() {
     var LS_THEME  = 'readingTheme';
     var LS_COL    = 'readingColumnWidth';
 
-    var fsSizes = { small: '17px', normal: '19px', large: '22px' };
-
-    // -- Position controls next to content column --
-    var readingControlsEl = document.getElementById('reading-controls');
-    var articleEl = document.querySelector('article.post');
-
-    function positionReadingControls() {
-      if (!readingControlsEl || !articleEl) return;
-      if (window.innerWidth <= 1024) {
-        readingControlsEl.style.left = '';
-        readingControlsEl.style.right = '';
-        return;
-      }
-      var rect = articleEl.getBoundingClientRect();
-      var newLeft = rect.right + 12;
-      if (newLeft + 60 <= window.innerWidth) {
-        readingControlsEl.style.left = newLeft + 'px';
-        readingControlsEl.style.right = 'auto';
-      } else {
-        readingControlsEl.style.left = '';
-        readingControlsEl.style.right = '12px';
-      }
-    }
-
-    window.addEventListener('load', positionReadingControls);
-    window.addEventListener('resize', positionReadingControls, { passive: true });
+    var fsSizes = { small: '0.875', normal: '1', large: '1.125' };
 
     // -- Progress bar --
     var progressBar = document.createElement('div');
@@ -682,6 +657,19 @@ document.addEventListener("DOMContentLoaded", function() {
       window.addEventListener('resize', updateProgress, { passive: true });
       window.addEventListener('load', updateProgress);
     }
+
+    // -- Hide post-only controls when not on a post or on mobile --
+    var isPostPage = !!document.querySelector('article.post');
+    var isMobile   = window.innerWidth <= 1024;
+    var postOnlyEls = document.querySelectorAll('.rc-post-only');
+    function updatePostOnlyVisibility() {
+      var hide = !isPostPage || window.innerWidth <= 1024;
+      postOnlyEls.forEach(function (el) {
+        el.style.display = hide ? 'none' : '';
+      });
+    }
+    updatePostOnlyVisibility();
+    window.addEventListener('resize', updatePostOnlyVisibility, { passive: true });
 
     // -- FAB panel toggle --
     var fab   = document.querySelector('.reading-controls__fab');
@@ -715,8 +703,8 @@ document.addEventListener("DOMContentLoaded", function() {
     var fsBtns = document.querySelectorAll('.reading-fs-btn');
 
     function applyFontSize(size) {
-      var px = fsSizes[size] || fsSizes.normal;
-      document.documentElement.style.setProperty('--post-font-size', px);
+      var scale = fsSizes[size] || fsSizes.normal;
+      document.documentElement.style.zoom = scale;
       setAllActive(fsBtns, size, 'fs');
     }
 
@@ -769,6 +757,19 @@ document.addEventListener("DOMContentLoaded", function() {
         localStorage.setItem(LS_COL, col);
       });
     });
+
+    // -- Reset --
+    var resetBtn = document.querySelector('.reading-reset-btn');
+    if (resetBtn) {
+      resetBtn.addEventListener('click', function () {
+        localStorage.removeItem(LS_FS);
+        localStorage.removeItem(LS_THEME);
+        localStorage.removeItem(LS_COL);
+        applyFontSize('normal');
+        applyReadingTheme('default');
+        applyColumnWidth('normal');
+      });
+    }
 
     // -- Restore preferences on load --
     var savedFs    = localStorage.getItem(LS_FS);

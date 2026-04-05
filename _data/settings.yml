@@ -184,6 +184,26 @@ disqus:
 
 
 #-------------------------------
+# Comment Section (Giscus — GitHub Discussions)
+# Setup: https://giscus.app
+# 1. Enable Discussions on your GitHub repo (Settings → Features → Discussions)
+# 2. Install the Giscus GitHub App: https://github.com/apps/giscus
+# 3. Visit https://giscus.app, configure your repo, then copy repo_id, category, and category_id below.
+giscus:
+  enable: true
+  repo: imhalawa/trace-in-time
+  repo_id: "R_kgDOQIupdQ"
+  category: Announcements
+  category_id: "DIC_kwDOQIupdc4C6Hld"
+  mapping: pathname
+  strict: "0"
+  reactions_enabled: "1"
+  emit_metadata: "1"
+  input_position: top
+  lang: en
+
+
+#-------------------------------
 # Google Analytics
 google_analytics: G-1YC6XZCNZP # Add your GA Tracking Id
 

@@ -36,7 +36,13 @@
     "status_read": "Read",
     "status_reading": "Currently Reading",
     "status_to_read": "To Read",
-    "chapters_label": "chapters"
+    "chapters_label": "chapters",
+    "staring_alert_title": "Hey, take a breather!",
+    "staring_alert_body": "You've been here a while. Step away, grab some water, stretch a little — then come back fresh. Your brain will thank you. 🧠",
+    "staring_alert_hint": "If something in this post is hard to follow,",
+    "staring_alert_contact": "reach out via the contact form",
+    "staring_alert_hint_suffix": "and I'll do my best to simplify it.",
+    "staring_alert_dismiss": "Got it, taking a break ✓"
   },
   "ar": {
     "min_read": "دقائق قراءة",
@@ -75,6 +81,12 @@
     "status_read": "مقروء",
     "status_reading": "أقرأ الآن",
     "status_to_read": "للقراءة",
-    "chapters_label": "فصول"
+    "chapters_label": "فصول",
+    "staring_alert_title": "خذ استراحة!",
+    "staring_alert_body": "لقد مضى وقت طويل هنا. ابتعد قليلاً، اشرب ماءً، تمدد — ثم عد منتعشاً. دماغك سيشكرك. 🧠",
+    "staring_alert_hint": "إذا كان شيء ما في هذا المقال صعب الفهم،",
+    "staring_alert_contact": "تواصل عبر نموذج التواصل",
+    "staring_alert_hint_suffix": "وسأبذل قصارى جهدي لتبسيطه.",
+    "staring_alert_dismiss": "حسناً، سآخذ استراحة ✓"
   }
 }

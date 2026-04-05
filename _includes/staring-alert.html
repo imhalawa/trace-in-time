@@ -1,0 +1,160 @@
+{% assign _sa_lang = page.lang | default: site.lang | default: 'en' %}
+{% assign _sa_base = _sa_lang | split: '-' | first | downcase %}
+{% assign _t = site.data.translations[_sa_base] | default: site.data.translations.en %}
+{% assign _sa_dir = 'ltr' %}
+{% assign _sa_rtl = "ar,arc,ckb,dv,fa,he,khw,ks,ku,ps,sd,ug,ur,yi" | split: "," %}
+{% if _sa_rtl contains _sa_base %}{% assign _sa_dir = 'rtl' %}{% endif %}
+
+<!-- Staring Alert: flashing indicator + modal. Fires at 3× estimated reading time while idle. -->
+<div class="staring-alert" id="staring-alert" aria-live="polite">
+  <button
+    class="staring-alert__trigger"
+    id="staring-alert-trigger"
+    type="button"
+    aria-label="{{ _t.staring_alert_title | default: 'Hey, take a breather!' }}"
+    aria-haspopup="dialog">
+    <svg class="staring-alert__icon" width="20" height="20" viewBox="0 0 24 24" fill="none"
+         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+         aria-hidden="true">
+      <path d="M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20z"/>
+      <path d="M12 6v6l4 2"/>
+    </svg>
+    <span class="staring-alert__badge" aria-hidden="true">1</span>
+  </button>
+</div>
+
+<div class="staring-modal" id="staring-modal" role="dialog" aria-modal="true"
+     aria-labelledby="staring-modal-title" lang="{{ _sa_lang }}" dir="{{ _sa_dir }}">
+  <div class="staring-modal__backdrop" id="staring-modal-backdrop"></div>
+  <div class="staring-modal__box">
+    <button class="staring-modal__close" id="staring-modal-close" type="button"
+            aria-label="Close">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+           stroke-width="2.5" stroke-linecap="round" aria-hidden="true">
+        <line x1="18" y1="6" x2="6" y2="18"/>
+        <line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+    </button>
+
+    <div class="staring-modal__emoji" aria-hidden="true">☕</div>
+
+    <h3 class="staring-modal__title" id="staring-modal-title">
+      {{ _t.staring_alert_title | default: "Hey, take a breather!" }}
+    </h3>
+
+    <p class="staring-modal__body">
+      {{ _t.staring_alert_body | default: "You've been here a while. Step away, grab some water, stretch a little — then come back fresh. Your brain will thank you. 🧠" }}
+    </p>
+
+    <p class="staring-modal__hint">
+      {{ _t.staring_alert_hint | default: "If something in this post is hard to follow," }}
+      <a href="{{ '/contact/' | relative_url }}" class="staring-modal__contact-link">{{ _t.staring_alert_contact | default: "reach out via the contact form" }}</a>
+      {{ _t.staring_alert_hint_suffix | default: "and I'll do my best to simplify it." }}
+    </p>
+
+    <button class="staring-modal__dismiss button button--primary"
+            id="staring-modal-dismiss" type="button">
+      {{ _t.staring_alert_dismiss | default: "Got it, taking a break ✓" }}
+    </button>
+  </div>
+</div>
+
+<script>
+(function () {
+  var postEl = document.querySelector('.post[data-reading-minutes]');
+  if (!postEl) return;
+
+  var readingMinutes = parseInt(postEl.getAttribute('data-reading-minutes'), 10) || 5;
+  // Threshold: 3× estimated reading time (in ms), accumulated only during active reading
+  var THRESHOLD_MS     = readingMinutes * 3 * 60 * 1000;
+  // A tick only counts if user was active within the last 30 seconds
+  var ACTIVE_WINDOW_MS = 30 * 1000;
+
+  var alertEl    = document.getElementById('staring-alert');
+  var trigger    = document.getElementById('staring-alert-trigger');
+  var modal      = document.getElementById('staring-modal');
+  var backdrop   = document.getElementById('staring-modal-backdrop');
+  var closeBtn   = document.getElementById('staring-modal-close');
+  var dismissBtn = document.getElementById('staring-modal-dismiss');
+
+  if (!alertEl || !trigger || !modal) return;
+
+  // Move both elements to <body> so position:fixed works correctly on all
+  // mobile browsers regardless of any overflow:hidden on parent containers
+  document.body.appendChild(alertEl);
+  document.body.appendChild(modal);
+
+  var totalActiveMs = 0;
+  var lastTick      = Date.now();
+  var lastActivity  = Date.now();
+  var fired         = false;
+  var tickInterval;
+
+  // Record any user interaction — resets idle gate
+  function onActivity() { lastActivity = Date.now(); }
+  ['mousemove', 'scroll', 'keydown', 'touchmove', 'click'].forEach(function (ev) {
+    document.addEventListener(ev, onActivity, { passive: true });
+  });
+
+  function tick() {
+    if (fired) return;
+    if (document.visibilityState !== 'visible') {
+      lastTick = Date.now(); // don't count hidden time
+      return;
+    }
+    var now = Date.now();
+    // Only count time toward the threshold when the user is actively reading
+    // (i.e. had mouse/scroll/touch/key activity within the last ACTIVE_WINDOW_MS)
+    if ((now - lastActivity) <= ACTIVE_WINDOW_MS) {
+      totalActiveMs += now - lastTick;
+    }
+    lastTick = now;
+
+    if (totalActiveMs >= THRESHOLD_MS) {
+      fired = true;
+      clearInterval(tickInterval);
+      showIndicator();
+    }
+  }
+
+  document.addEventListener('visibilitychange', function () {
+    lastTick = Date.now();
+  });
+
+  tickInterval = setInterval(tick, 1000);
+
+  // ── Indicator ──────────────────────────────────────────
+  function showIndicator() {
+    alertEl.style.display = 'flex'; // inline style beats all CSS specificity battles
+    alertEl.classList.add('is-pulsing');
+  }
+
+  // ── Modal open / close ─────────────────────────────────
+  function openModal() {
+    modal.style.display = 'flex';
+    document.body.classList.add('staring-modal-open');
+    alertEl.classList.remove('is-pulsing');
+    alertEl.classList.add('is-seen');
+    dismissBtn.focus();
+  }
+
+  function closeModal() {
+    modal.style.display = '';
+    document.body.classList.remove('staring-modal-open');
+  }
+
+  function dismissModal() {
+    closeModal();
+    alertEl.style.display = '';
+  }
+
+  trigger.addEventListener('click', openModal);
+  backdrop.addEventListener('click', closeModal);
+  closeBtn.addEventListener('click', closeModal);
+  dismissBtn.addEventListener('click', dismissModal);
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && modal.style.display === 'flex') closeModal();
+  });
+})();
+</script>

@@ -1,0 +1,246 @@
+/* ============================================================
+   Staring Alert — fixed indicator + modal
+   Fires at 3× estimated reading time when reader is idle.
+   ============================================================ */
+
+/* ----------------------------------------------------------
+   Fixed indicator button (bottom-right corner)
+   ---------------------------------------------------------- */
+.staring-alert {
+  position: fixed;
+  bottom: 72px; // above the scroll-to-top button
+  right: 24px;
+  z-index: 9990;
+  display: none; // hidden by default; shown via .is-active
+  align-items: center;
+  justify-content: center;
+
+  &.is-active {
+    display: flex;
+  }
+
+  @media (max-width: $mobile) {
+    bottom: 68px;
+    right: 16px;
+  }
+}
+
+.staring-alert__trigger {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: none;
+  background: var(--primary-color);
+  color: #fff;
+  cursor: pointer;
+  box-shadow:
+    0 4px 16px rgba(0, 0, 0, 0.18),
+    0 1px 4px  rgba(0, 0, 0, 0.10);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover {
+    transform: scale(1.08);
+    box-shadow:
+      0 6px 20px rgba(0, 0, 0, 0.22),
+      0 2px 6px  rgba(0, 0, 0, 0.12);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 3px;
+  }
+}
+
+.staring-alert__icon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+.staring-alert__badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 4px;
+  border-radius: 999px;
+  background: #ef4444;
+  color: #fff;
+  font-family: $base-font-family;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1;
+  border: 2px solid var(--background-color);
+  pointer-events: none;
+}
+
+/* Pulsing glow animation when alert fires */
+@keyframes staring-pulse {
+  0%   { box-shadow: 0 0 0 0 rgba(var(--primary-color-rgb, 99, 102, 241), 0.5); }
+  70%  { box-shadow: 0 0 0 12px rgba(var(--primary-color-rgb, 99, 102, 241), 0); }
+  100% { box-shadow: 0 0 0 0 rgba(var(--primary-color-rgb, 99, 102, 241), 0); }
+}
+
+.staring-alert.is-pulsing .staring-alert__trigger {
+  animation: staring-pulse 1.6s ease-out infinite;
+}
+
+/* After modal is opened — stop pulsing, keep visible */
+.staring-alert.is-seen .staring-alert__trigger {
+  animation: none;
+  opacity: 0.7;
+}
+
+/* ----------------------------------------------------------
+   Modal backdrop
+   ---------------------------------------------------------- */
+.staring-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 9995;
+  display: none; // hidden by default; shown via .is-open
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+
+  &.is-open {
+    display: flex;
+  }
+
+  @media (max-width: $mobile) {
+    align-items: flex-end;
+    padding: 0;
+  }
+}
+
+.staring-modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  cursor: pointer;
+}
+
+/* ----------------------------------------------------------
+   Modal box
+   ---------------------------------------------------------- */
+.staring-modal__box {
+  position: relative;
+  z-index: 1;
+  max-width: 440px;
+  width: 100%;
+  padding: 40px 36px 32px;
+  border-radius: 0;
+  background: var(--background-color);
+  border: 1px solid var(--border-color);
+  box-shadow:
+    0 24px 64px rgba(0, 0, 0, 0.18),
+    0 6px  16px rgba(0, 0, 0, 0.10);
+  text-align: center;
+
+  @media (max-width: $mobile) {
+    max-width: 100%;
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+    border-bottom: none;
+    padding: 32px 24px 28px;
+  }
+}
+
+.staring-modal__close {
+  position: absolute;
+  top: 12px;
+  right: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  color: var(--text-alt-color);
+  cursor: pointer;
+  transition: color 0.15s, background 0.15s;
+
+  [dir="rtl"] & {
+    right: auto;
+    left: 14px;
+  }
+
+  &:hover {
+    color: var(--heading-font-color);
+    background: color-mix(in srgb, var(--primary-color) 8%, transparent);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+  }
+}
+
+.staring-modal__emoji {
+  font-size: 40px;
+  line-height: 1;
+  margin-bottom: 16px;
+}
+
+.staring-modal__title {
+  font-family: $heading-font-family;
+  font-size: $font-size-h4;
+  font-weight: 700;
+  color: var(--heading-font-color);
+  margin-bottom: 12px;
+  line-height: 1.3;
+}
+
+.staring-modal__body {
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--text-color);
+  margin-bottom: 14px;
+}
+
+.staring-modal__hint {
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--text-alt-color);
+  margin-bottom: 28px;
+}
+
+.staring-modal__contact-link {
+  color: var(--primary-color);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+.staring-modal__dismiss {
+  width: 100%;
+  justify-content: center;
+}
+
+/* Prevent body scroll when modal is open */
+body.staring-modal-open {
+  overflow: hidden;
+}
+
+/* Respect reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .staring-alert.is-pulsing .staring-alert__trigger {
+    animation: none;
+  }
+}

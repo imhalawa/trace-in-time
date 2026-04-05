@@ -192,6 +192,15 @@
       height: 100%;
       object-fit: cover;
       user-select: none;
+      -webkit-user-drag: none;
+      pointer-events: none;
+    }
+
+    // Transparent overlay intercepts right-click on the image
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
     }
   }
 
@@ -607,6 +616,15 @@
       height: 100%;
       object-fit: cover;
       user-select: none;
+      -webkit-user-drag: none;
+      pointer-events: none;
+    }
+
+    // Transparent overlay intercepts right-click on the image
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
     }
   }
 

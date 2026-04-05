@@ -1,7 +1,6 @@
 /* ============================================================
-   Reading Controls — FAB + vertical popover
-   Fixed bottom-right. FAB toggles vertical panel above it.
-   Only included in post.html so renders on post pages only.
+   Reading Controls — header button + dropdown panel
+   Lives in the nav-button area, opens downward.
    ============================================================ */
 
 /* ----------------------------------------------------------
@@ -21,86 +20,81 @@
 }
 
 /* ----------------------------------------------------------
-   FAB wrapper — anchors panel + button together
+   Wrapper — sits inline in the header nav-button
    ---------------------------------------------------------- */
 .reading-controls {
-  position: fixed;
-  right: 12px;
-  bottom: 68px; // sits above the scroll-to-top button (bottom: 12px + 44px + 12px gap)
-  z-index: 40;
+  position: relative;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: 8px;
-  pointer-events: none; // children re-enable pointer-events individually
+  margin-right: 12px;
+
+  @media (max-width: $desktop) {
+    margin-right: 8px;
+  }
 }
 
 /* ----------------------------------------------------------
-   FAB toggle button
+   Header toggle button — matches color-scheme-button style
    ---------------------------------------------------------- */
 .reading-controls__fab {
-  pointer-events: auto;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
+  width: 26px;
+  height: 26px;
   border-radius: 0;
-  border: 1px solid var(--border-color);
-  background: var(--background-color);
+  border: none;
+  background: transparent;
   color: var(--text-color);
   font-family: $post-heading-font-family;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 700;
   letter-spacing: -0.3px;
   cursor: pointer;
   opacity: 0.75;
-  transition: opacity 0.2s ease, border-color 0.2s ease;
+  transition: opacity 0.2s ease, color 0.2s ease;
 
   &:hover {
     opacity: 1;
-    border-color: var(--primary-color);
   }
 
   &[aria-expanded="true"] {
     opacity: 1;
     color: var(--primary-color);
-    border-color: var(--primary-color);
   }
 }
 
 /* ----------------------------------------------------------
-   Expandable vertical panel
+   Dropdown panel — opens below the button
    ---------------------------------------------------------- */
 .reading-controls__panel {
-  pointer-events: auto;
-  display: flex; // overrides [hidden] below via animation trick
-  flex-direction: column;
+  pointer-events: none;
+  position: absolute;
+  top: calc(100% + 12px);
+  right: 0;
+  display: flex;
+  flex-direction: row;
   align-items: center;
   gap: 8px;
-  padding: 14px 10px;
+  padding: 10px 14px;
+  white-space: nowrap;
 
-  // Frosted glass card
-  background: color-mix(in srgb, var(--background-color) 88%, transparent);
+  background: color-mix(in srgb, var(--background-color) 92%, transparent);
   border: 1px solid var(--border-color);
   border-radius: 0;
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   box-shadow:
     0 8px 32px rgba(0, 0, 0, 0.10),
-    0 2px 6px  rgba(0, 0, 0, 0.06),
-    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    0 2px 6px  rgba(0, 0, 0, 0.06);
 
-  // Closed state
   opacity: 0;
-  transform: translateY(8px) scale(0.97);
-  transform-origin: bottom center;
-  pointer-events: none;
+  transform: translateY(-6px) scale(0.98);
+  transform-origin: top right;
   transition:
     opacity 0.2s ease,
     transform 0.2s ease;
 
-  // Note: [hidden] sets display:none — we override via JS (remove hidden, add is-open)
   &.is-open {
     opacity: 1;
     transform: translateY(0) scale(1);
@@ -109,32 +103,32 @@
 }
 
 /* ----------------------------------------------------------
-   Button groups & dividers
+   Button groups & dividers — horizontal layout
    ---------------------------------------------------------- */
 .rc-group {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
-  gap: 4px;
+  gap: 2px;
 }
 
 .rc-divider {
-  width: 24px;
-  height: 1px;
+  width: 1px;
+  height: 20px;
   background: var(--border-color);
   flex-shrink: 0;
-  margin: 2px 0;
+  margin: 0 4px;
 }
 
 /* ----------------------------------------------------------
-   Font size buttons — "A" progressively scaled
+   Font size buttons
    ---------------------------------------------------------- */
 .reading-fs-btn {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  height: 30px;
+  width: 30px;
+  height: 28px;
   border: 1px solid transparent;
   border-radius: 0;
   background: transparent;
@@ -145,7 +139,6 @@
   cursor: pointer;
   transition: background 0.15s, color 0.15s, border-color 0.15s;
 
-  // Visually show the three sizes via font-size
   &[data-fs="small"]  { font-size: 11px; }
   &[data-fs="normal"] { font-size: 14px; }
   &[data-fs="large"]  { font-size: 18px; }
@@ -163,33 +156,28 @@
 }
 
 /* ----------------------------------------------------------
-   Theme swatch buttons — colored circles
-   Each swatch shows both light (top) and dark (bottom) variant
-   so the user understands the theme adapts to the global toggle.
+   Theme swatch buttons
    ---------------------------------------------------------- */
 .reading-theme-btn {
-  width: 22px;
-  height: 22px;
+  width: 20px;
+  height: 20px;
   border-radius: 0;
   border: 2px solid transparent;
   padding: 0;
   cursor: pointer;
-  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+  transition: transform 0.15s ease, border-color 0.15s ease;
   outline-offset: 3px;
 
-  // Default — site brand gradient (no overlay active)
   &[data-theme="default"] {
     background: conic-gradient(#ffffff 0deg 180deg, #0f172a 180deg 360deg);
     box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.12);
   }
 
-  // Sepia — cream top (light) / warm dark brown bottom (dark)
   &[data-theme="sepia"] {
     background: conic-gradient(#f4ecd8 0deg 180deg, #2a1f14 180deg 360deg);
     box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.1);
   }
 
-  // Gruvebox — warm paper top (light) / dark groove bottom (dark)
   &[data-theme="gruvebox"] {
     background: conic-gradient(#fbf1c7 0deg 180deg, #282828 180deg 360deg);
     box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.12);
@@ -201,22 +189,41 @@
 
   &.is-active {
     border-color: var(--primary-color);
-    box-shadow:
-      0 0 0 2px color-mix(in srgb, var(--primary-color) 30%, transparent),
-      inset 0 0 0 1px rgba(0, 0, 0, 0.1);
     transform: scale(1.08);
   }
 }
 
 /* ----------------------------------------------------------
-   Column width buttons — SVG icon buttons
+   Reset button
+   ---------------------------------------------------------- */
+.reading-reset-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: 1px solid transparent;
+  border-radius: 0;
+  background: transparent;
+  color: var(--text-alt-color);
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+
+  &:hover {
+    background: color-mix(in srgb, var(--primary-color) 10%, transparent);
+    color: var(--heading-font-color);
+  }
+}
+
+/* ----------------------------------------------------------
+   Column width buttons
    ---------------------------------------------------------- */
 .reading-col-btn {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  height: 30px;
+  width: 30px;
+  height: 28px;
   border: 1px solid transparent;
   border-radius: 0;
   background: transparent;
@@ -237,8 +244,7 @@
 }
 
 /* ----------------------------------------------------------
-   Mobile — hide panel (keep FAB + progress bar)
-   Column width is a no-op on small screens (no sidebar).
+   Mobile — hide column width (no sidebar on mobile)
    ---------------------------------------------------------- */
 @media (max-width: $tablet) {
   .reading-col-btn {
@@ -247,11 +253,5 @@
 
   .rc-divider:last-of-type {
     display: none;
-  }
-}
-
-@media (max-width: $mobile) {
-  .reading-controls {
-    bottom: 16px; // match scroll button bottom on mobile
   }
 }

@@ -469,12 +469,12 @@
 
 /* Toggle Theme */
 .color-scheme-button {
-  margin-right: 24px;
-  padding-right: 15px;
+  margin-right: 12px;
+  padding-right: 0;
 
   @media (max-width: $desktop) {
     margin-right: 8px;
-    padding-right: 8px;
+    padding-right: 0;
   }
 }
 

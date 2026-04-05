@@ -19,10 +19,9 @@
       <button class="reading-theme-btn"           data-theme="gruvebox" title="Gruvebox" type="button"></button>
     </div>
 
-    <div class="rc-divider" aria-hidden="true"></div>
-
-    <!-- Column width -->
-    <div class="rc-group" role="group" aria-label="Reading width">
+    <!-- Column width — only shown on post pages on desktop (toggled via JS) -->
+    <div class="rc-divider rc-post-only" aria-hidden="true"></div>
+    <div class="rc-group rc-post-only" role="group" aria-label="Reading width">
       <button class="reading-col-btn is-active" data-col="normal" title="Normal width" type="button">
         <svg width="15" height="13" viewBox="0 0 15 13" fill="none" aria-hidden="true">
           <rect x="0"   y="0"    width="15" height="2.2" rx="1.1" fill="currentColor"/>
@@ -39,9 +38,19 @@
       </button>
     </div>
 
+    <div class="rc-divider" aria-hidden="true"></div>
+
+    <!-- Reset all reading preferences (not light/dark mode) -->
+    <button class="reading-reset-btn" title="Reset reading preferences" type="button">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
+        <path d="M3 3v5h5"/>
+      </svg>
+    </button>
+
   </div>
 
-  <!-- FAB toggle -->
+  <!-- Header toggle button -->
   <button class="reading-controls__fab"
           type="button"
           aria-label="Reading preferences"

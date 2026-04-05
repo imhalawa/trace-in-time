@@ -1,4 +1,94 @@
 /* Post + Page */
+
+/* About Page — magazine author feature */
+.about-hero {
+  display: flex;
+  align-items: flex-start;
+  gap: 32px;
+  padding: 40px 0 36px;
+  margin-bottom: 36px;
+  border-bottom: 2px solid var(--primary-color);
+
+  &__photo {
+    flex-shrink: 0;
+    width: 150px;
+    height: 150px;
+    overflow: hidden;
+    border: 1.5px solid var(--primary-color);
+    filter: grayscale(15%) contrast(1.1);
+    transition: filter 0.3s ease;
+
+    &:hover {
+      filter: grayscale(0%) contrast(1);
+    }
+
+    picture {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+    img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      user-select: none;
+      -webkit-user-drag: none;
+      pointer-events: none;
+    }
+
+    // Transparent overlay intercepts right-click on the image
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+    }
+  }
+
+  &__meta {
+    flex: 1;
+    padding-top: 8px;
+  }
+
+  &__name {
+    font-family: $heading-font-family;
+    font-size: 44px;
+    font-weight: 800;
+    letter-spacing: -1px;
+    line-height: 1.05;
+    margin: 0 0 10px;
+    color: var(--heading-font-color);
+  }
+
+  &__tagline {
+    margin: 0;
+    font-family: $base-font-family;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-alt-color);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  @media (max-width: $mobile) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 28px 0 24px;
+
+    &__photo {
+      width: 110px;
+      height: 110px;
+    }
+
+    &__name {
+      font-size: 30px;
+    }
+  }
+}
+
 .post-head {
   margin-bottom: 32px;
 
@@ -1595,6 +1685,22 @@
     &.is-open {
       margin-bottom: 40px;
     }
+  }
+}
+
+/* Giscus */
+.giscus-section {
+  padding: 48px 0 0;
+  margin-top: 48px;
+  border-top: 1px solid var(--border-color);
+
+  .giscus {
+    min-height: 60px; // reserve space before iframe loads
+  }
+
+  @media (max-width: $mobile) {
+    padding: 40px 0 0;
+    margin-top: 40px;
   }
 }
 

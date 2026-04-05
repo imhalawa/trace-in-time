@@ -1,17 +1,17 @@
 ---
-layout: page
+layout: about
 title: "Mohamed Halawa"
+tagline: "Backend Engineer (.NET) · Rotterdam"
 permalink: /about/
-description: "Backend engineer at Coolblue in Rotterdam. Writing about distributed systems, payment infrastructure, and the reasoning that documentation tends to omit."
-icon: 'fi fi-person'
+description: "Backend engineer living in Rotterdam. Writing about the things I've had to understand thoroughly before I could trust them."
 ---
 
-Backend engineer at [Coolblue](https://www.coolblue.nl) in Rotterdam. I work in payments — specifically on the data infrastructure that keeps transaction correctness possible at scale: synchronization services across 103M+ records, event-driven pipelines, systems that have to be right when money is involved.
+Hey, glad you're here.
 
-The interesting problems in this domain are rarely hard to describe. They're hard to notice — until they've already caused damage. That gap between what a system *reports* and what's actually *true* is where most of the real work lives.
+I'm Mohamed — a backend engineer living in Rotterdam, working at [Coolblue](https://www.coolblue.nl) in payments. Most of my day involves systems where correctness really matters, and most of my thinking ends up here.
 
----
+**Trace in Time** is where I write about the things I've had to understand deeply before I could trust them — distributed systems, architectural trade-offs, the reasoning that tends to get left out of documentation. But also things further out: goals, how people think under pressure, patterns that show up in both code and life. I find those two domains less separate than they appear.
 
-**Trace in Time** is a record of what I've had to understand thoroughly before I could trust it. System behavior, architectural trade-offs, the reasoning behind decisions that documentation tends to skip. Some writing sits outside engineering entirely — goals, cognitive patterns, how people think under pressure. I find those two domains less separate than they appear.
+If any of that sounds interesting, [the posts are a good place to start](/posts/). There's no single topic — just whatever I've been thinking through lately.
 
-Outside of systems: street photography and competitive gaming.
+Outside of work: street photography — [photos on Instagram](https://instagram.com/im.halawa).

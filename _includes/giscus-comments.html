@@ -1,0 +1,68 @@
+{% assign _g = site.data.settings.giscus %}
+{% assign _gc_lang = page.lang | default: 'en' | split: '-' | first | downcase %}
+
+<section class="giscus-section" aria-label="Comments">
+  <div class="giscus" id="giscus-container"></div>
+</section>
+
+<script>
+(function () {
+  var container = document.getElementById('giscus-container');
+  if (!container) return;
+
+  var loaded = false;
+
+  function getTheme() {
+    return document.documentElement.classList.contains('dark-mode') ? 'dark' : 'light';
+  }
+
+  function loadGiscus() {
+    if (loaded) return;
+    loaded = true;
+
+    var script = document.createElement('script');
+    script.src = 'https://giscus.app/client.js';
+    script.setAttribute('data-repo', '{{ _g.repo }}');
+    script.setAttribute('data-repo-id', '{{ _g.repo_id }}');
+    script.setAttribute('data-category', '{{ _g.category }}');
+    script.setAttribute('data-category-id', '{{ _g.category_id }}');
+    script.setAttribute('data-mapping', '{{ _g.mapping | default: "pathname" }}');
+    script.setAttribute('data-strict', '{{ _g.strict | default: "0" }}');
+    script.setAttribute('data-reactions-enabled', '{{ _g.reactions_enabled | default: "1" }}');
+    script.setAttribute('data-emit-metadata', '{{ _g.emit_metadata | default: "1" }}');
+    script.setAttribute('data-input-position', '{{ _g.input_position | default: "top" }}');
+    script.setAttribute('data-theme', getTheme());
+    script.setAttribute('data-lang', '{{ _gc_lang }}');
+    script.setAttribute('data-loading', 'lazy');
+    script.crossOrigin = 'anonymous';
+    script.async = true;
+    container.appendChild(script);
+  }
+
+  // Lazy-load when container scrolls into view
+  if ('IntersectionObserver' in window) {
+    var observer = new IntersectionObserver(function (entries) {
+      if (entries[0].isIntersecting) {
+        loadGiscus();
+        observer.disconnect();
+      }
+    }, { rootMargin: '200px' });
+    observer.observe(container);
+  } else {
+    // Fallback: load immediately
+    loadGiscus();
+  }
+
+  // Sync theme with site light/dark toggle
+  document.addEventListener('site:themechange', function (e) {
+    var theme = (e.detail && e.detail.theme === 'dark') ? 'dark' : 'light';
+    var iframe = document.querySelector('iframe.giscus-frame');
+    if (iframe) {
+      iframe.contentWindow.postMessage(
+        { giscus: { setConfig: { theme: theme } } },
+        'https://giscus.app'
+      );
+    }
+  });
+})();
+</script>
