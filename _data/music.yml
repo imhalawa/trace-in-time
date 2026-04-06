@@ -19,6 +19,16 @@
 #   note        - a personal note shown on the card
 # ──────────────────────────────────────────────────────────
 
+- youtube_id: "q96Tw2gfKjQ"
+  title: "Yellow"
+  artist: "Wes Nelson"
+  genre: "Pop"
+
+- youtube_id: "Jg3sEE18WsE"
+  title: "Beethoven: Ode to Joy"
+  artist: "André Rieu"
+  genre: "Classical"
+
 - youtube_id: "s-MZs6WB_AI"
   title: "Myself"
   artist: "Earth Sine"
