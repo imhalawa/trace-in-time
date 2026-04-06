@@ -10,18 +10,22 @@ tags_color: "#E8374B"
 permalink: /books/grokking-algorithms/chapter-2-selection-sort/
 ---
 
-{: .objectives }
-> - Learn about Arrays and Linked Lists
-> - Highlight the Pros and Cons of both Arrays and Linked Lists
-> - Learn about Selection Sort Algorithm
+## Arrays
 
-## Arrays & Linked Lists
+- Elements stored contiguously in memory
+- Fixed size — needs reallocation + full copy when full
+- Zero-based indexed
+- Reading: $O(1)$ — address of any element is mathematically derivable
+- Insertion/deletion: $O(N)$ — shifting or reallocation required
 
-There are two basic ways to store elements in memory: arrays and linked lists. Every slot in memory has an address, and the structure you choose determines how those addresses are organized and accessed.
+## Linked Lists
 
-Arrays store elements **contiguously** — each element occupies a slot directly adjacent to the next. This makes them fixed in size; when you need more room, you have to allocate a new larger array and move everything over. Random access is instant, though: because elements are laid out in sequence, the address of any element can be derived mathematically. If the first element is at address 0, the fifth is at address 4. **Arrays are zero-based indexed**, so an array of 545 items has its last element at index 544. This predictability makes arrays optimal for reading patterns where you need to jump directly to a known position.
+- Elements live anywhere in memory, connected via pointers (A → B → C)
+- Reading: $O(N)$ — no random access, must traverse from head
+- Insertion/deletion: $O(1)$ — only pointer updates needed
+- Caveat: $O(1)$ insert/delete only if you already hold a reference to that node
 
-Linked lists take a different approach. Elements can live anywhere in memory — what connects them is a pointer stored in each item, pointing to where the next one lives. Think of it like a treasure hunt: each item only tells you where to find the next one (A → B → C → …). This structure makes insertion straightforward: to insert between two elements you update the surrounding pointers, with no shifting required. Traversal costs more, though. In a singly-linked list you can't jump to any element directly; you have to start at the head and follow pointers one by one, resulting in $O(N)$ read time in the worst case.
+## Arrays vs. Linked Lists in Practice
 
 |               | Arrays | Linked Lists |
 | ------------- | ------ | ------------ |
@@ -29,36 +33,16 @@ Linked lists take a different approach. Elements can live anywhere in memory —
 | **Insertion** | $O(N)$ | $O(1)$       |
 | **Deletions** | $O(N)$ | $O(1)$       |
 
-There are two cases that force this. With **dynamic expansion**, if the array is already full when an insertion is needed, a new larger array must be allocated and every existing element copied over — an $O(N)$ operation on its own. With **insert at beginning**, every existing element must shift one position to the right to free up the first slot, which again touches every element in the array.
-
-> **Linked Lists — Insertions & Deletions caveat**
-> It's worth mentioning that insertions and deletions are O(1) time only if you can instantly access the element to be deleted.
-
-### Exercises
-
-- 2.1 Use linked lists for heavy writes.
-
-## Arrays vs. Linked Lists in Practice
-
-Arrays are used more often in practice, and the reason comes down to access patterns. There are two types of access: **Sequential Access** — traversing a data structure element by element to reach the target — and **Random Access**, where you jump directly to a known position. Arrays support both. Because elements are stored contiguously, the address of any element can be calculated directly, making random access instant. Even sequential access is faster with arrays since there's no pointer-chasing involved. Linked lists can only offer sequential access; every traversal must start at the head and follow the chain.
-
-One subtler trade-off is memory overhead. When elements are small, storing a `next` pointer in every linked list node becomes costly relative to the data itself. When elements are large, that overhead becomes marginal. Neither structure is universally better — the right choice depends on the dominant operation in your use case.
-
-### Exercises
-
-- 2.2. Since we're registering the orders in a queue like fashion, I'd prefer a linked lists, insertion to the end of the list can be instant as long as we have a reference to the tail. also reading and removing from the top can be instant with a pointer to head in place.
-- 2.3. The problem leans more towards read-heavy pattern, with binary search in place random access is not negotiable for a basic data structure. so array is the best fit.
-- 2.4. The array will get resized more often.
-- 2.5.
-
-|        | Arrays  | Linked Lists | Hybrid |
-| ------ | ------- | ------------ | ------ |
-| search | fastest | slowest      | slow   |
-| insert | slowest | fastest      | fast   |
+- Arrays support both sequential and random access; linked lists support sequential only
+- Arrays dominate in practice due to random access and no pointer overhead
+- Pointer overhead in linked lists is costly when elements are small
 
 ## Selection Sort
 
-Selection sort has a growth rate of $O(N^2)$. As the name suggests, it works by repeatedly selecting the smallest element from the remaining unsorted portion of the array and appending it to a new result array. It relies on two operations: a helper `FindSmallest(arr)` that locates the index of the minimum element, and `SelectionSort(arr)` that calls it repeatedly until the source is exhausted.
+- Growth rate: $O(N^2)$
+- Repeatedly finds the smallest element in the unsorted portion and appends it to a result list
+- Two operations: `FindSmallest(arr)` finds the min index, `SelectionSort(arr)` calls it repeatedly
+- Intuitive but expensive — Quick sort solves the same in $O(n \log n)$
 
 ```cs
 static int FindSmallest(List<int> arr)
@@ -94,4 +78,15 @@ static List<int> SelectionSort(List<int> arr)
 }
 ```
 
-Selection sort is intuitive but expensive at scale. Quick sort solves the same problem in $O(n \log n)$ — a meaningful improvement once the input grows large.
+## Exercises
+
+- **2.1.** Heavy writes → linked list
+- **2.2.** Order queue → linked list; tail pointer = $O(1)$ insert, head pointer = $O(1)$ read/remove
+- **2.3.** Read-heavy with binary search → array (random access required)
+- **2.4.** The array will get resized more often
+- **2.5.**
+
+|        | Arrays  | Linked Lists | Hybrid |
+| ------ | ------- | ------------ | ------ |
+| search | fastest | slowest      | slow   |
+| insert | slowest | fastest      | fast   |
