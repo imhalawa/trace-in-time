@@ -56,7 +56,7 @@ menu_settings:
 author:
   author_name: Mohamed Halawa
   author_name_ar: محمد حلاوة
-  author_avatar: /images/author/profile.png
+  author_avatar: /images/author/profile.jpg
 
 
 #-------------------------------
@@ -69,7 +69,7 @@ github:
 # Hero Settings
 hero:
   enable: true
-  hero_avatar: /images/author/profile.png
+  hero_avatar: /images/author/profile.jpg
   hero_title: Hi! I’m Mohamed
   hero_subtitle: Software engineer, hobbyist photographer, and explorer of meaning and systems
   hero_description: |
