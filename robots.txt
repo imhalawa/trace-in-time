@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://traceintime.com/sitemap-index.xml

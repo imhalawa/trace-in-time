@@ -1,0 +1,420 @@
+<!DOCTYPE html><html lang="en" data-space="professional"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Hot Path: How to Identify and Optimize It in .NET</title><meta name="description" content="A hot path is code that runs on every request — small inefficiencies there compound into P99 spikes users actually feel. How to find hot paths with profilers and fix them in .NET."><link rel="canonical" href="https://traceintime.com/posts/hot-path/"><meta property="og:type" content="website"><meta property="og:site_name" content="Trace in Time"><meta property="og:title" content="Hot Path: How to Identify and Optimize It in .NET"><meta property="og:description" content="A hot path is code that runs on every request — small inefficiencies there compound into P99 spikes users actually feel. How to find hot paths with profilers and fix them in .NET."><meta property="og:url" content="https://traceintime.com/posts/hot-path/"><meta property="og:image" content="https://traceintime.com/images/site_identity/hero.png"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Hot Path: How to Identify and Optimize It in .NET"><meta name="twitter:description" content="A hot path is code that runs on every request — small inefficiencies there compound into P99 spikes users actually feel. How to find hot paths with profilers and fix them in .NET."><meta name="twitter:image" content="https://traceintime.com/images/site_identity/hero.png"><script async src="https://www.googletagmanager.com/gtag/js?id=G-1YC6XZCNZP"></script><script>(function(){const gaId = "G-1YC6XZCNZP";
+
+          window.dataLayer = window.dataLayer || [];
+          function gtag() { dataLayer.push(arguments); }
+          gtag('js', new Date());
+          gtag('config', gaId);
+          document.addEventListener('astro:after-swap', function () {
+            gtag('config', gaId, { page_path: location.pathname + location.search });
+          });
+        })();</script><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png"><link rel="icon" href="/favicon.ico" sizes="32x32"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><script>
+      (function () {
+        function applyTheme() {
+          try {
+            var theme = localStorage.getItem('theme');
+            if (!theme) theme = 'light';
+            if (theme === 'dark') {
+              document.documentElement.setAttribute('dark', '');
+              document.documentElement.classList.add('dark-mode');
+            } else {
+              document.documentElement.removeAttribute('dark');
+              document.documentElement.classList.remove('dark-mode');
+            }
+          } catch (error) {}
+        }
+
+        // Server-value-wins: Astro's `ClientRouter` does NOT reliably copy
+        // the incoming page's <html data-space="..."> attribute onto the
+        // live `document.documentElement` before `astro:after-swap` fires,
+        // so reading the live DOM at that point is not trustworthy. Instead
+        // we grab the incoming page's value straight from the transitions
+        // API: `astro:before-swap` exposes `event.newDocument`, a full
+        // Document for the page about to be swapped in, whose <html>
+        // already carries whatever `data-space` the server rendered for
+        // THAT page. We stash it there and apply it on `astro:after-swap`.
+        // On the very first load no swap has happened yet, so `incomingSpace`
+        // is still undefined — in that case we fall back to reading the
+        // live DOM directly, which IS reliable on first paint since it's
+        // literally what the browser just parsed.
+        var incomingSpace;
+
+        function readIncomingSpace(event) {
+          incomingSpace = event.newDocument.documentElement.getAttribute('data-space');
+        }
+
+        function applySpace() {
+          try {
+            var current = incomingSpace !== undefined
+              ? incomingSpace
+              : document.documentElement.getAttribute('data-space');
+            if (current === 'professional' || current === 'personal') {
+              document.documentElement.setAttribute('data-space', current);
+              localStorage.setItem('space', current);
+            } else {
+              var storedSpace = localStorage.getItem('space');
+              if (storedSpace !== 'personal' && storedSpace !== 'professional') storedSpace = 'professional';
+              document.documentElement.setAttribute('data-space', storedSpace);
+            }
+          } catch (error) {
+            if (!document.documentElement.hasAttribute('data-space')) {
+              document.documentElement.setAttribute('data-space', 'professional');
+            }
+          } finally {
+            incomingSpace = undefined;
+          }
+        }
+
+        function applyReadingState() {
+          applyTheme();
+          applySpace();
+        }
+
+        applyReadingState();
+        document.addEventListener('astro:before-swap', readIncomingSpace);
+        document.addEventListener('astro:after-swap', applyReadingState);
+      })();
+    </script><meta name="astro-view-transitions-enabled" content="true"><meta name="astro-view-transitions-fallback" content="animate"><script type="module" src="/_astro/ClientRouter.astro_astro_type_script_index_0_lang.CYDbzu1r.js"></script><link rel="stylesheet" href="/_astro/BaseLayout.a_o7jIgj.css"></head><body><div class="global-wrap"><div class="header-curtain header-curtain--reading" aria-hidden="true"></div><div class="spine spine--read"><div data-astro-transition-persist="header-sentinel" id="header-top-sentinel" aria-hidden="true"></div><header data-astro-transition-persist="site-header" class="header"><div class="header__inner sys-measure"><div class="logo"><a class="logo__link" href="/"><svg width="1em" height="1em" class="logo__mark" data-content-space="professional" aria-hidden="true" data-icon="trace"><symbol id="ai:local:trace" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75"><path d="M3.5 6v11.5A2.5 2.5 0 0 0 6 20h11.5"/><path d="m6.5 16 4.5-2.5 4-4L20.5 4"/></g></symbol><use href="#ai:local:trace"></use></svg><svg width="1em" height="1em" class="logo__mark" data-content-space="personal" aria-hidden="true" data-icon="trace-life"><symbol id="ai:local:trace-life" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75"><path d="M3.5 6v11.5A2.5 2.5 0 0 0 6 20h11.5"/><path d="M6.5 16 11 9.5l4 4L20.5 4"/></g></symbol><use href="#ai:local:trace-life"></use></svg><span class="logo__word">Trace in Time</span></a></div><nav class="main-nav" aria-label="Main menu"><div class="main-nav__box"><ul class="nav__list list-reset"><li class="nav__item" data-content-space="professional"><a href="/articles/" class="nav__link"><svg width="1em" height="1em" class="nav__icon" aria-hidden="true" data-icon="post"><symbol id="ai:local:post" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75"><path d="M13.5 4h-5A2.5 2.5 0 0 0 6 6.5v11A2.5 2.5 0 0 0 8.5 20h7a2.5 2.5 0 0 0 2.5-2.5v-9Z"/><path d="M13.5 4v4.5H18M9.5 13h5m-5 3.5h3"/></g></symbol><use href="#ai:local:post"></use></svg><span class="nav__name">Articles</span><span class="nav__count">4</span></a></li><li class="nav__item" data-content-space="professional"><a href="/series/" class="nav__link"><svg width="1em" height="1em" class="nav__icon" aria-hidden="true" data-icon="layers"><symbol id="ai:local:layers" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75"><rect width="11.5" height="11.5" x="8" y="8" rx="2.5"/><path d="M16.5 8V7A2.5 2.5 0 0 0 14 4.5H7A2.5 2.5 0 0 0 4.5 7v7A2.5 2.5 0 0 0 7 16.5h1"/></g></symbol><use href="#ai:local:layers"></use></svg><span class="nav__name">Series</span><span class="nav__count">2</span></a></li><li class="nav__item" data-content-space="professional"><a href="/graph/" class="nav__link"><svg width="1em" height="1em" class="nav__icon" aria-hidden="true" data-icon="network"><symbol id="ai:local:network" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75"><circle cx="12" cy="5" r="2.25"/><circle cx="5.5" cy="18.5" r="2.25"/><circle cx="18.5" cy="18.5" r="2.25"/><path d="m10.9 7-4.3 9.5M13.1 7l4.3 9.5m-9.65 2h8.5"/></g></symbol><use href="#ai:local:network"></use></svg><span class="nav__name">Graph</span></a></li><li class="nav__item" data-content-space="personal"><a href="/reflections/" class="nav__link"><svg width="1em" height="1em" viewBox="0 0 24 24" class="nav__icon" aria-hidden="true" data-icon="post"><use href="#ai:local:post"></use></svg><span class="nav__name">Reflections</span><span class="nav__count">0</span></a></li><li class="nav__item" data-content-space="personal"><a href="/journal/" class="nav__link"><svg width="1em" height="1em" class="nav__icon" aria-hidden="true" data-icon="zap"><symbol id="ai:local:zap" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M13 3 5.5 13.25H11L10 21l8.5-10.5H13Z"/></symbol><use href="#ai:local:zap"></use></svg><span class="nav__name">Journal</span><span class="nav__count">4</span></a></li><li class="nav__item" data-content-space="personal"><a href="/gallery/" class="nav__link"><svg width="1em" height="1em" class="nav__icon" aria-hidden="true" data-icon="image"><symbol id="ai:local:image" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"><rect width="18" height="16" x="3" y="4" rx="2"/><circle cx="8.5" cy="9" r="1.5"/><path d="m4 18 5.5-5.5a2 2 0 0 1 2.8 0L15 15l1.5-1.5a2 2 0 0 1 2.8 0l1.7 1.7"/></g></symbol><use href="#ai:local:image"></use></svg><span class="nav__name">Gallery</span><span class="nav__count">0</span></a></li><li class="nav__item"><a href="/about/" class="nav__link"><svg width="1em" height="1em" class="nav__icon" aria-hidden="true" data-icon="user"><symbol id="ai:local:user" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75"><circle cx="12" cy="8.5" r="3.5"/><path d="M5.5 19.5a6.5 6.5 0 0 1 13 0"/></g></symbol><use href="#ai:local:user"></use></svg><span class="nav__name">About</span></a></li></ul></div></nav><div class="nav-button"><div class="space-switch" role="group" aria-label="Space"><button type="button" class="space-switch__btn" data-space-btn="professional" aria-pressed="false">Work</button><button type="button" class="space-switch__btn" data-space-btn="personal" aria-pressed="false">Life</button></div><script type="module">function e(){let e=document.documentElement.getAttribute(`data-space`);document.querySelectorAll(`.space-switch [data-space-btn]`).forEach(t=>{t.setAttribute(`aria-pressed`,String(t.dataset.spaceBtn===e))})}function t(){document.querySelectorAll(`.space-switch [data-space-btn]`).forEach(e=>{e.dataset.spaceWired||(e.dataset.spaceWired=`1`,e.addEventListener(`click`,()=>{let t=e.dataset.spaceBtn;if((t===`professional`||t===`personal`)&&document.documentElement.getAttribute(`data-space`)!==t){try{localStorage.setItem(`space`,t)}catch{}window.location.assign(`/`)}}))}),e()}t(),document.addEventListener(`astro:page-load`,t);</script><div class="nav-button__tools"><button class="search-button sys-control" aria-label="Search posts"><svg width="1em" height="1em" class="search-button__icon" aria-hidden="true" data-icon="search"><symbol id="ai:local:search" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75"><circle cx="10.75" cy="10.75" r="6.25"/><path d="M15.2 15.2 20 20"/></g></symbol><use href="#ai:local:search"></use></svg><span class="search-button__text">Search posts...</span></button><div class="color-scheme-button"><div class="toggle-theme sys-control"><div class="toggle-moon" title="Enable dark mode" aria-hidden="true"><svg width="1em" height="1em" aria-hidden="true" data-icon="moon"><symbol id="ai:local:moon" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M12 3.5a6.25 6.25 0 0 0 8.5 8.5A8.5 8.5 0 1 1 12 3.5"/></symbol><use href="#ai:local:moon"></use></svg></div><div class="toggle-sun" title="Enable light mode" aria-hidden="true"><svg width="1em" height="1em" aria-hidden="true" data-icon="sun"><symbol id="ai:local:sun" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75"><circle cx="12" cy="12" r="4"/><path d="M18.6 12h2.6m-4.53 4.67 1.84 1.84M12 18.6v2.6m-4.67-4.53-1.84 1.84M5.4 12H2.8m4.53-4.67L5.49 5.49M12 5.4V2.8m4.67 4.53 1.84-1.84"/></g></symbol><use href="#ai:local:sun"></use></svg></div></div></div></div><div class="hamburger"><div></div></div></div></div></header><script type="module">function e(){}document.addEventListener(`astro:page-load`,e);</script><script>
+  (function () {
+    function markActive() {
+      var path = location.pathname.replace(/\/+$/, '') || '/';
+      document.querySelectorAll('.header .nav__link').forEach(function (anchor) {
+        var raw = anchor.getAttribute('href') || '';
+        var normalizedHref = raw.replace(/\/+$/, '') || '/';
+        var isActive = normalizedHref !== '/' && (path === normalizedHref || path.indexOf(normalizedHref + '/') === 0);
+        anchor.classList.toggle('active-link', isActive);
+      });
+    }
+    markActive();
+    document.addEventListener('astro:page-load', markActive);
+  })();
+</script><div class="content"><div class="reading-progress-bar" aria-hidden="true"></div><article class="post reading"><header class="reading__head"><h1 class="reading__title">Hot Path: How to Identify and Optimize It in .NET</h1><p class="reading__meta"><span>30 Mar 2026</span><span class="reading__meta-dot" aria-hidden="true">·</span><span>9 min read</span><span class="reading__meta-dot" aria-hidden="true">·</span><span>updated 30 Mar 2026</span></p><ul class="taglist reading__tags"><li><a class="sys-pill taglist__tag" href="/tags/?tag=dotnet">dotnet</a></li><li><a class="sys-pill taglist__tag" href="/tags/?tag=performance">performance</a></li></ul><span class="post-views" data-slug="/posts/hot-path/" hidden></span></header><div class="reading__body"><div class="reading__prose"><div class="post__content" data-pagefind-body dir="auto"><p dir="ltr">Performance problems rarely come from a single operation doing too much. They come from code running frequently enough that any small inefficiency compounds into something users actually feel. A <strong>hot path</strong> is any sequence of code that either runs very often - thousands of times per second under normal load - or sits directly on the critical execution path of a request, where its latency becomes your latency. In both cases, the same principle applies: costs that look harmless in isolation become visible when repeated at scale.</p>
+<p dir="ltr">A method called once per minute can afford to be slow. A method called on every incoming request at 1,000 RPS (requests per second) cannot. The math is unforgiving, and so is the latency distribution.</p>
+<aside class="kt native-callout" dir="ltr">
+<div class="callout-title" dir="ltr">Key takeaways</div>
+<ul dir="ltr">
+<li dir="ltr">A hot path is code that runs on every request or very often — small costs there compound into P99 spikes.</li>
+<li dir="ltr">Find it with measurement (profilers, flame graphs), not intuition.</li>
+<li dir="ltr">Fix the specific inefficiency the measurement points to, then measure again.</li>
+</ul>
+</aside>
+<p dir="ltr">The request lifecycle below shows where hot paths typically live - request handlers, shared middleware, and serialization loops that execute on every request without exception:</p>
+<p dir="ltr"><strong>Where hot paths appear in a typical request lifecycle:</strong></p>
+<p dir="ltr"><img src="/media/diagrams/2026-03-30-what-is-a-hot-path-01.excalidraw.svg" alt="Diagram" class="excalidraw-image" loading="lazy"></p>
+<p dir="ltr">Hot paths aren’t limited to the handler itself. Any code that runs on every request - serialization, response formatting, authentication middleware - qualifies if it’s doing more work than it needs to.</p>
+<h2 dir="ltr" id="why-small-inefficiencies-on-hot-paths-add-up">Why Small Inefficiencies on Hot Paths Add Up</h2>
+<p dir="ltr">A single extra allocation per request at 1,000 RPS means 1,000 short-lived objects landing on the heap every second. The <a href="https://learn.microsoft.com/dotnet/standard/garbage-collection/fundamentals">garbage collector</a> has to clean those up.<sup><a href="#user-content-fn-1" id="user-content-fnref-1" data-footnote-ref="" aria-describedby="footnote-label">1</a></sup> At a high enough rate, GC pauses become frequent enough to start affecting response times - specifically the p95 and p99 <a href="/posts/p50-p95-p99-average-latency/" class="wikilink" data-preview="Average response time hides the worst user experiences. P99 can run 100× slower than P50 on the same dataset. What P50, P95, and P99 mean, why they matter, and how to read them together." title="P50, P95, P99, and the Average: What Latency Numbers Actually Tell You">percentiles</a>, which represent the slowest 5% and 1% of requests.</p>
+<p dir="ltr">Those slow-tail responses are what users at the unlucky end actually experience. Cutting the median response time from 20ms to 15ms often goes unnoticed. Cutting the p99 from 400ms to 50ms almost always doesn’t. Hot paths drive three categories of cost that grow with traffic:</p>
+<div class="scroll-region" data-scroll-surface="table">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table dir="ltr"><thead><tr dir="ltr"><th align="left" dir="ltr">Cost category</th><th align="left" dir="ltr">What causes it</th><th align="left" dir="ltr">What you observe</th></tr></thead><tbody><tr dir="ltr"><td align="left" dir="ltr"><strong>Allocation pressure</strong></td><td align="left" dir="ltr">Short-lived objects created per-call</td><td align="left" dir="ltr">Rising GC/sec, allocation rate in MB/s</td></tr><tr dir="ltr"><td align="left" dir="ltr"><strong>CPU overhead</strong></td><td align="left" dir="ltr">Repeated work that could be cached or skipped</td><td align="left" dir="ltr">High CPU utilization, slow throughput</td></tr><tr dir="ltr"><td align="left" dir="ltr"><strong>Thread pool strain</strong></td><td align="left" dir="ltr">Blocking calls disguised as async</td><td align="left" dir="ltr">Thread pool starvation, climbing queue depth</td></tr></tbody></table></div>
+<p dir="ltr">Gen 2 garbage collections in .NET involve stop-the-world pauses. On a path called ten thousand times per second, even a few unnecessary allocations per call show up as milliseconds of wall-clock impact at the system level.</p>
+<p dir="ltr"><strong>How per-request allocations travel up the GC generations and surface as P99 spikes:</strong></p>
+<p dir="ltr"><img src="/media/diagrams/2026-03-30-what-is-a-hot-path-02.excalidraw.svg" alt="Diagram" class="excalidraw-image" loading="lazy"></p>
+<h2 dir="ltr" id="how-do-you-find-a-hot-path">How Do You Find a Hot Path?</h2>
+<p dir="ltr">The starting position is always the same: measure before you touch anything. An optimization based on intuition that isn’t confirmed by measurement is indistinguishable from noise - and often increases code complexity without improving the performance profile. In the majority of cases where a team was convinced they knew the hot path before profiling, the profiler pointed somewhere else.</p>
+<p dir="ltr"><strong>The cycle that turns profiling sessions into real improvements:</strong></p>
+<p dir="ltr"><img src="/media/diagrams/2026-03-30-what-is-a-hot-path-03.excalidraw.svg" alt="Diagram" class="excalidraw-image" loading="lazy"></p>
+<p dir="ltr">Each pass should be narrow - one change, one validation. Making several optimizations at once makes it impossible to know which one moved the needle.</p>
+<h3 dir="ltr" id="profilers-seeing-where-time-goes">Profilers: Seeing Where Time Goes</h3>
+<p dir="ltr">Three tools cover most .NET profiling scenarios:</p>
+<div class="scroll-region" data-scroll-surface="table">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table dir="ltr"><thead><tr dir="ltr"><th align="left" dir="ltr">Tool</th><th align="left" dir="ltr">Best for</th><th align="left" dir="ltr">Output</th></tr></thead><tbody><tr dir="ltr"><td align="left" dir="ltr"><a href="https://learn.microsoft.com/dotnet/core/diagnostics/dotnet-trace">dotnet-trace</a></td><td align="left" dir="ltr">Production-safe CPU sampling, allocation tracking</td><td align="left" dir="ltr"><code>.nettrace</code> file, viewable in PerfView or VS</td></tr><tr dir="ltr"><td align="left" dir="ltr"><a href="https://github.com/microsoft/perfview">PerfView</a></td><td align="left" dir="ltr">Deep GC analysis, flame graphs, event traces</td><td align="left" dir="ltr">Flame graphs, GC heap views, allocation stacks</td></tr><tr dir="ltr"><td align="left" dir="ltr"><a href="https://learn.microsoft.com/visualstudio/profiling/?view=vs-2022">Visual Studio Profiler</a></td><td align="left" dir="ltr">Integrated development-time profiling</td><td align="left" dir="ltr">CPU Usage, .NET Object Allocation, Instrumentation</td></tr></tbody></table></div>
+<p dir="ltr"><a href="http://www.brendangregg.com/flamegraphs.html">Flame graphs</a> are the most effective visualization for spotting hot paths quickly.<sup><a href="#user-content-fn-2" id="user-content-fnref-2" data-footnote-ref="" aria-describedby="footnote-label">2</a></sup> Width represents CPU time: a wide bar near the top of the call stack means that function, or something it calls, is consuming a large fraction of total CPU. Those are the candidates worth investigating.</p>
+<p dir="ltr"><strong>Schematic flame graph — the wide bar is where the time actually goes:</strong></p>
+<p dir="ltr"><img src="/media/diagrams/2026-03-30-what-is-a-hot-path-flame-graph.excalidraw.svg" alt="Diagram" class="excalidraw-image" loading="lazy"></p>
+<p dir="ltr">For isolated functions where you want precise nanosecond measurements without system noise, <a href="https://benchmarkdotnet.org/">BenchmarkDotNet</a> is the right tool.<sup><a href="#user-content-fn-3" id="user-content-fnref-3" data-footnote-ref="" aria-describedby="footnote-label">3</a></sup> It handles warmup iterations, multiple runs, and statistical analysis automatically.</p>
+<h3 dir="ltr" id="counters-watching-live-behavior">Counters: Watching Live Behavior</h3>
+<p dir="ltr">Profilers tell you where time went in a recorded session. Counters tell you what the system is doing <em>right now</em>, while it’s under real load. The two tools complement each other: counters surface the signal, profilers explain it.</p>
+<p dir="ltr">The .NET runtime exports live performance counters you can stream to the terminal with a single command:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#B392F0">dotnet-counters</span><span style="color:#9ECBFF"> monitor</span><span style="color:#79B8FF"> --process-id</span><span style="color:#F97583"> &#x3C;</span><span style="color:#9ECBFF">pi</span><span style="color:#E1E4E8">d</span><span style="color:#F97583">></span><span style="color:#79B8FF"> --counters</span><span style="color:#9ECBFF"> System.Runtime</span></span></code></pre>
+<p dir="ltr">You don’t need to restart the app, attach a debugger, or change any code. Run this while sending load, then watch four numbers:</p>
+<div class="scroll-region" data-scroll-surface="table">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table dir="ltr"><thead><tr dir="ltr"><th align="left" dir="ltr">Counter</th><th align="left" dir="ltr">What it measures</th><th align="left" dir="ltr">Healthy</th><th align="left" dir="ltr">Alarming</th></tr></thead><tbody><tr dir="ltr"><td align="left" dir="ltr"><code>gen-2-gc-count</code></td><td align="left" dir="ltr">How often the GC runs a full (stop-the-world) collection</td><td align="left" dir="ltr">Near 0 per minute</td><td align="left" dir="ltr">Rising steadily under load — means short-lived objects are surviving long enough to promote to Gen 2</td></tr><tr dir="ltr"><td align="left" dir="ltr"><code>alloc-rate</code></td><td align="left" dir="ltr">Heap allocation in MB/sec</td><td align="left" dir="ltr">Stable or low</td><td align="left" dir="ltr">Sharp climb under load — a hot path is creating objects faster than the GC can clear them</td></tr><tr dir="ltr"><td align="left" dir="ltr"><code>threadpool-queue-length</code></td><td align="left" dir="ltr">Tasks waiting for a thread-pool thread</td><td align="left" dir="ltr">Near 0</td><td align="left" dir="ltr">Growing queue — a blocking call somewhere is tying up threads that should be free</td></tr><tr dir="ltr"><td align="left" dir="ltr"><code>exception-count</code></td><td align="left" dir="ltr">Exceptions thrown per second</td><td align="left" dir="ltr">Near 0</td><td align="left" dir="ltr">Any sustained rate — exceptions on a hot path are expensive; each one captures a stack trace</td></tr></tbody></table></div>
+<p dir="ltr">What you’re looking for isn’t a single bad value — it’s a value that <em>moves when load increases</em>. A <code>gen-2-gc-count</code> of 2 while idle is fine. A <code>gen-2-gc-count</code> that climbs from 2 to 40 as you ramp traffic is the hot path telling you it’s creating too much garbage.</p>
+<aside class="note native-callout" dir="ltr">
+<div class="callout-title" dir="ltr">Note</div>
+<p dir="ltr"><code>p95</code> / <code>p99</code> latency don’t appear in <code>dotnet-counters</code> — they’re computed by your monitoring tool (Prometheus, Datadog, Azure Monitor) from histogram data. A climbing P99 while your counters look stable usually means the problem is external: a slow downstream service, a database query, or a network timeout.</p>
+</aside>
+<p dir="ltr">As a practical starting point: if a single method accounts for roughly 10% or more of CPU time or heap allocations in a flame graph, treat it as a hot path candidate worth investigating. The exact threshold matters less than the habit — the goal is to focus attention on code that will actually move the meter, not code that feels suspicious.</p>
+<aside class="important native-callout" dir="ltr">
+<div class="callout-title" dir="ltr">Important</div>
+<p dir="ltr">If you haven’t measured it, it isn’t a hot path. It’s a guess.</p>
+</aside>
+<h2 dir="ltr" id="what-to-fix-the-three-most-common-patterns">What to Fix: The Three Most Common Patterns</h2>
+<h3 dir="ltr" id="reuse-what-doesnt-change-between-calls">Reuse What Doesn’t Change Between Calls</h3>
+<p dir="ltr">The quickest wins usually come from objects being recreated on every request for no real reason. Many classes in .NET are designed to be created once and shared - but end up constructed fresh per call out of habit.</p>
+<p dir="ltr">The two most common culprits in ASP.NET Core:</p>
+<p dir="ltr"><strong><code>HttpClient</code></strong>: Creating a new <code>HttpClient</code> per request wastes sockets and can exhaust the connection pool under load. Use <a href="https://learn.microsoft.com/aspnet/core/fundamentals/http-requests?view=aspnetcore-8.0"><code>IHttpClientFactory</code></a> instead, which manages pooled <code>HttpMessageHandler</code> instances with proper lifetime management.</p>
+<p dir="ltr"><strong><code>JsonSerializerOptions</code></strong>: Constructing a new <code>JsonSerializerOptions</code> on every serialization call pays a reflection cost each time. Create a single static instance and reuse it:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="csharp"><code><span class="line"><span style="color:#6A737D">// Creates and configures JsonSerializerOptions on every request</span></span>
+<span class="line"><span style="color:#F97583">public</span><span style="color:#B392F0"> IActionResult</span><span style="color:#B392F0"> Get</span><span style="color:#E1E4E8">()</span></span>
+<span class="line"><span style="color:#E1E4E8">{</span></span>
+<span class="line"><span style="color:#F97583">    var</span><span style="color:#B392F0"> options</span><span style="color:#F97583"> =</span><span style="color:#F97583"> new</span><span style="color:#B392F0"> JsonSerializerOptions</span><span style="color:#E1E4E8"> { PropertyNamingPolicy </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> JsonNamingPolicy.CamelCase };</span></span>
+<span class="line"><span style="color:#F97583">    return</span><span style="color:#E1E4E8"> Results.</span><span style="color:#B392F0">Json</span><span style="color:#E1E4E8">(</span><span style="color:#B392F0">GetData</span><span style="color:#E1E4E8">(), options);</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">// Pays the configuration cost once, reuses the instance on every request</span></span>
+<span class="line"><span style="color:#F97583">private</span><span style="color:#F97583"> static</span><span style="color:#F97583"> readonly</span><span style="color:#B392F0"> JsonSerializerOptions</span><span style="color:#B392F0"> JsonOpts</span><span style="color:#F97583"> =</span><span style="color:#F97583"> new</span><span style="color:#E1E4E8">()</span></span>
+<span class="line"><span style="color:#E1E4E8">{</span></span>
+<span class="line"><span style="color:#E1E4E8">    PropertyNamingPolicy </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> JsonNamingPolicy.CamelCase</span></span>
+<span class="line"><span style="color:#E1E4E8">};</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">public</span><span style="color:#B392F0"> IActionResult</span><span style="color:#B392F0"> Get</span><span style="color:#E1E4E8">() </span><span style="color:#F97583">=></span><span style="color:#E1E4E8"> Results.</span><span style="color:#B392F0">Json</span><span style="color:#E1E4E8">(</span><span style="color:#B392F0">GetData</span><span style="color:#E1E4E8">(), JsonOpts);</span></span></code></pre>
+<p dir="ltr">The same principle applies to compiled <code>Regex</code> instances (use <code>[GeneratedRegex]</code> in .NET 7+ or a static cached instance), <code>StringBuilder</code> pools available via <code>ArrayPool&#x3C;T></code>, and any configuration object that’s expensive to construct but cheap to read.</p>
+<h3 dir="ltr" id="run-io-concurrently-not-sequentially">Run I/O Concurrently, Not Sequentially</h3>
+<p dir="ltr">Sequential I/O is one of the most damaging patterns on a hot path because its cost is strictly additive. Waiting 100ms for service A and then 80ms for service B produces 180ms total when both could have completed in 100ms.</p>
+<p dir="ltr"><strong>Sequential vs. concurrent service calls - the time difference:</strong></p>
+<p dir="ltr"><img src="/media/diagrams/2026-03-30-what-is-a-hot-path-04.excalidraw.svg" alt="Diagram" class="excalidraw-image" loading="lazy"></p>
+<p dir="ltr">The fix is to start all tasks before awaiting any of them:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="csharp"><code><span class="line"><span style="color:#6A737D">// Sequential: each await blocks the next call from starting</span></span>
+<span class="line"><span style="color:#F97583">var</span><span style="color:#B392F0"> json1</span><span style="color:#F97583"> =</span><span style="color:#F97583"> await</span><span style="color:#E1E4E8"> http.</span><span style="color:#B392F0">GetStringAsync</span><span style="color:#E1E4E8">(Svc1);</span></span>
+<span class="line"><span style="color:#F97583">var</span><span style="color:#B392F0"> json2</span><span style="color:#F97583"> =</span><span style="color:#F97583"> await</span><span style="color:#E1E4E8"> http.</span><span style="color:#B392F0">GetStringAsync</span><span style="color:#E1E4E8">(Svc2);</span></span>
+<span class="line"><span style="color:#6A737D">// Total wait: ~180ms</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">// Concurrent: both calls start immediately, we await both together</span></span>
+<span class="line"><span style="color:#F97583">var</span><span style="color:#B392F0"> t1</span><span style="color:#F97583"> =</span><span style="color:#E1E4E8"> http.</span><span style="color:#B392F0">GetStringAsync</span><span style="color:#E1E4E8">(Svc1);</span></span>
+<span class="line"><span style="color:#F97583">var</span><span style="color:#B392F0"> t2</span><span style="color:#F97583"> =</span><span style="color:#E1E4E8"> http.</span><span style="color:#B392F0">GetStringAsync</span><span style="color:#E1E4E8">(Svc2);</span></span>
+<span class="line"><span style="color:#F97583">var</span><span style="color:#E1E4E8"> (</span><span style="color:#B392F0">json1</span><span style="color:#E1E4E8">, </span><span style="color:#B392F0">json2</span><span style="color:#E1E4E8">) </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> (</span><span style="color:#F97583">await</span><span style="color:#E1E4E8"> t1, </span><span style="color:#F97583">await</span><span style="color:#E1E4E8"> t2);</span></span>
+<span class="line"><span style="color:#6A737D">// Total wait: ~100ms</span></span></code></pre>
+<p dir="ltr"><code>Task.WhenAll</code> is the natural choice when composing a variable number of tasks or when you want to be explicit about concurrent intent:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="csharp"><code><span class="line"><span style="color:#6A737D">// Inject http via IHttpClientFactory - never instantiate HttpClient directly</span></span>
+<span class="line"><span style="color:#F97583">public</span><span style="color:#F97583"> async</span><span style="color:#B392F0"> Task</span><span style="color:#E1E4E8">&#x3C;</span><span style="color:#B392F0">IActionResult</span><span style="color:#E1E4E8">> </span><span style="color:#B392F0">Get</span><span style="color:#E1E4E8">(</span><span style="color:#B392F0">HttpClient</span><span style="color:#B392F0"> http</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8">{</span></span>
+<span class="line"><span style="color:#F97583">    var</span><span style="color:#B392F0"> t1</span><span style="color:#F97583"> =</span><span style="color:#E1E4E8"> http.</span><span style="color:#B392F0">GetStringAsync</span><span style="color:#E1E4E8">(Svc1);</span></span>
+<span class="line"><span style="color:#F97583">    var</span><span style="color:#B392F0"> t2</span><span style="color:#F97583"> =</span><span style="color:#E1E4E8"> http.</span><span style="color:#B392F0">GetStringAsync</span><span style="color:#E1E4E8">(Svc2);</span></span>
+<span class="line"><span style="color:#F97583">    var</span><span style="color:#B392F0"> results</span><span style="color:#F97583"> =</span><span style="color:#F97583"> await</span><span style="color:#E1E4E8"> Task.</span><span style="color:#B392F0">WhenAll</span><span style="color:#E1E4E8">(t1, t2);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">    var</span><span style="color:#B392F0"> a</span><span style="color:#F97583"> =</span><span style="color:#E1E4E8"> JsonSerializer.</span><span style="color:#B392F0">Deserialize</span><span style="color:#E1E4E8">&#x3C;</span><span style="color:#B392F0">A</span><span style="color:#E1E4E8">>(results[</span><span style="color:#79B8FF">0</span><span style="color:#E1E4E8">], JsonOpts);</span></span>
+<span class="line"><span style="color:#F97583">    var</span><span style="color:#B392F0"> b</span><span style="color:#F97583"> =</span><span style="color:#E1E4E8"> JsonSerializer.</span><span style="color:#B392F0">Deserialize</span><span style="color:#E1E4E8">&#x3C;</span><span style="color:#B392F0">B</span><span style="color:#E1E4E8">>(results[</span><span style="color:#79B8FF">1</span><span style="color:#E1E4E8">], JsonOpts);</span></span>
+<span class="line"><span style="color:#F97583">    return</span><span style="color:#E1E4E8"> Results.</span><span style="color:#B392F0">Json</span><span style="color:#E1E4E8">(</span><span style="color:#B392F0">Combine</span><span style="color:#E1E4E8">(a, b), JsonOpts);</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span></code></pre>
+<aside class="tip native-callout" dir="ltr">
+<div class="callout-title" dir="ltr">Tip</div>
+<p dir="ltr"><code>Task.Run</code> is for CPU-bound work that needs to move off the UI or request thread. Don’t wrap true async I/O inside <code>Task.Run</code> - you’ll hold a thread-pool thread idle while the kernel handles the I/O. See <a href="/series/async-await/async-vs-parallel-csharp/" class="wikilink" data-preview="Async frees threads during I/O waits. Parallel divides CPU work across cores. They solve different problems and should not be swapped. This part explains when to use each and when to combine both." title="Async vs Parallel in C#: I/O-Bound vs CPU-Bound Work">Async vs. Parallel in C#</a> for when each tool applies.</p>
+</aside>
+<h3 dir="ltr" id="reduce-allocations-with-valuetask-on-synchronous-dominant-paths">Reduce Allocations With <code>ValueTask</code> on Synchronous-Dominant Paths</h3>
+<p dir="ltr"><code>Task&#x3C;T></code> is the right default for async methods. It’s straightforward, composes cleanly with the rest of the async ecosystem, and carries no usage restrictions. But on hot paths where a method frequently completes synchronously - cache lookups are the canonical example, where the answer is already in memory on a hit - every <code>Task&#x3C;T></code> return allocates an object on the heap.</p>
+<h4 dir="ltr" id="why-taskt-allocates-at-all">Why <code>Task&#x3C;T></code> Allocates at All</h4>
+<p dir="ltr">When you <code>return Task.FromResult(user)</code>, the runtime constructs a <code>Task&#x3C;User></code> object on the heap even though no actual asynchronous work happened. The calling code awaits it, the scheduler sees it’s already completed, and the object gets discarded. At 1,000 RPS with a 90% cache hit rate, that’s 900 <code>Task&#x3C;User></code> objects per second created solely to be immediately collected. Each one is small — around 56 bytes — but the GC still has to discover and reclaim them. Over time, that pressure contributes to Gen 0 collection frequency and, at high enough rates, starts surfacing in your P99.</p>
+<h4 dir="ltr" id="how-valuetaskt-fixes-it">How <code>ValueTask&#x3C;T></code> Fixes It</h4>
+<p dir="ltr"><code>ValueTask&#x3C;T></code> is a struct, not a class. When a method returns <code>new ValueTask&#x3C;User>(user)</code> on the synchronous path, the result lives on the stack — no heap allocation, no GC involvement.<sup><a href="#user-content-fn-4" id="user-content-fnref-4" data-footnote-ref="" aria-describedby="footnote-label">4</a></sup> Only when the method genuinely suspends (a cache miss that goes to the database) does it behave like a regular <code>Task&#x3C;T></code>:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="csharp"><code><span class="line"><span style="color:#6A737D">// Task&#x3C;T>: allocates a Task object on every call, including cache hits</span></span>
+<span class="line"><span style="color:#F97583">public</span><span style="color:#B392F0"> Task</span><span style="color:#E1E4E8">&#x3C;</span><span style="color:#B392F0">User</span><span style="color:#E1E4E8">> </span><span style="color:#B392F0">GetUserAsync</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">string</span><span style="color:#B392F0"> id</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#F97583">    =></span><span style="color:#E1E4E8"> cache.</span><span style="color:#B392F0">TryGet</span><span style="color:#E1E4E8">(id, </span><span style="color:#F97583">out</span><span style="color:#F97583"> var</span><span style="color:#B392F0"> user</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#F97583">       ?</span><span style="color:#E1E4E8"> Task.</span><span style="color:#B392F0">FromResult</span><span style="color:#E1E4E8">(user)       </span><span style="color:#6A737D">// heap allocation even though we have the answer</span></span>
+<span class="line"><span style="color:#F97583">       :</span><span style="color:#B392F0"> FetchFromDbAsync</span><span style="color:#E1E4E8">(id);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">// ValueTask&#x3C;T>: no heap allocation when the result is immediately available</span></span>
+<span class="line"><span style="color:#F97583">public</span><span style="color:#B392F0"> ValueTask</span><span style="color:#E1E4E8">&#x3C;</span><span style="color:#B392F0">User</span><span style="color:#E1E4E8">> </span><span style="color:#B392F0">GetUserAsync</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">string</span><span style="color:#B392F0"> id</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#F97583">    =></span><span style="color:#E1E4E8"> cache.</span><span style="color:#B392F0">TryGet</span><span style="color:#E1E4E8">(id, </span><span style="color:#F97583">out</span><span style="color:#F97583"> var</span><span style="color:#B392F0"> user</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#F97583">       ?</span><span style="color:#F97583"> new</span><span style="color:#B392F0"> ValueTask</span><span style="color:#E1E4E8">&#x3C;</span><span style="color:#B392F0">User</span><span style="color:#E1E4E8">>(user)              </span><span style="color:#6A737D">// struct on the stack, zero allocation</span></span>
+<span class="line"><span style="color:#F97583">       :</span><span style="color:#F97583"> new</span><span style="color:#B392F0"> ValueTask</span><span style="color:#E1E4E8">&#x3C;</span><span style="color:#B392F0">User</span><span style="color:#E1E4E8">>(</span><span style="color:#B392F0">FetchFromDbAsync</span><span style="color:#E1E4E8">(id)); </span><span style="color:#6A737D">// wraps the Task on the async path</span></span></code></pre>
+<p dir="ltr">The caller’s code doesn’t change — <code>await GetUserAsync(id)</code> works identically either way. The difference is entirely in what happens at the memory level on the hot path.</p>
+<h4 dir="ltr" id="when-the-numbers-actually-move">When the Numbers Actually Move</h4>
+<p dir="ltr">The allocation savings only compound when two conditions are both true:</p>
+<ol dir="ltr">
+<li dir="ltr"><strong>The synchronous path runs far more often</strong> — if the cache miss rate is 50%, you’re allocating half the time anyway. <code>ValueTask</code> only eliminates the cost on the synchronous half, so the improvement is proportional to how often you actually take that path.</li>
+<li dir="ltr"><strong>The method is called at high frequency</strong> — a rare operation called a few times a second won’t show in a profiler regardless of which type you use. The payoff is real only at thousands of calls per second.</li>
+</ol>
+<p dir="ltr"><img src="/media/diagrams/2026-03-30-what-is-a-hot-path-05.excalidraw.svg" alt="Diagram" class="excalidraw-image" loading="lazy"></p>
+<p dir="ltr">At a 90% hit rate and 5,000 RPS, switching from <code>Task.FromResult</code> to <code>ValueTask</code> eliminates roughly 4,500 short-lived heap objects per second. Whether that has a measurable effect on your P99 depends on your baseline GC pressure — which is exactly why you measure first.</p>
+<h4 dir="ltr" id="the-constraints-you-cannot-ignore">The Constraints You Cannot Ignore</h4>
+<p dir="ltr"><code>ValueTask&#x3C;T></code> has rules that <code>Task&#x3C;T></code> doesn’t. Violating them produces silent data corruption or deadlocks, not compiler errors:</p>
+<div class="scroll-region" data-scroll-surface="table">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table dir="ltr"><thead><tr dir="ltr"><th align="left" dir="ltr">Rule</th><th align="left" dir="ltr">Why it exists</th></tr></thead><tbody><tr dir="ltr"><td align="left" dir="ltr"><strong>Await only once</strong></td><td align="left" dir="ltr">A <code>ValueTask</code> may be backed by a pooled object that gets recycled after the first await. Awaiting again reads recycled memory.</td></tr><tr dir="ltr"><td align="left" dir="ltr"><strong>Don’t <code>.Result</code> or <code>.GetAwaiter().GetResult()</code> block on it</strong></td><td align="left" dir="ltr">Blocking on a <code>ValueTask</code> that wraps a pooled <code>IValueTaskSource</code> can deadlock if the source requires the current thread to complete.</td></tr><tr dir="ltr"><td align="left" dir="ltr"><strong>Don’t store it in a field for later</strong></td><td align="left" dir="ltr">The backing object may already be returned to the pool by the time you come back to it.</td></tr><tr dir="ltr"><td align="left" dir="ltr"><strong>Don’t convert to <code>Task</code> via <code>.AsTask()</code> and then also await the original</strong></td><td align="left" dir="ltr"><code>.AsTask()</code> allocates a new <code>Task</code> wrapping the source. If you then also await the original <code>ValueTask</code>, you’ve awaited the same source twice.</td></tr></tbody></table></div>
+<p dir="ltr">These restrictions are why <code>Task&#x3C;T></code> is the right default. You only take on the <code>ValueTask&#x3C;T></code> constraints when the allocation reduction is confirmed to matter by a profiler.</p>
+<aside class="note native-callout" dir="ltr">
+<div class="callout-title" dir="ltr">Note</div>
+<p dir="ltr">The full usage constraints are documented in the <a href="https://learn.microsoft.com/dotnet/api/system.threading.tasks.valuetask-1">ValueTask&#x3C;T> API reference</a>. When in doubt, keep <code>Task&#x3C;T></code>. See <a href="/series/async-await/how-async-await-works-csharp/" class="wikilink" data-preview="The compiler transforms every async method into a state machine that suspends at each await and resumes with local variables intact. This part shows what that transformation looks like and what it cos" title="How async/await Works: The C# State Machine Explained">How async/await Works</a> for context on why <code>ValueTask</code> exists and what the fast path looks like at the state machine level.</p>
+</aside>
+<h2 dir="ltr" id="other-inefficiencies-worth-eliminating">Other Inefficiencies Worth Eliminating</h2>
+<p dir="ltr">Beyond the three patterns above, two problems show up often enough that they deserve their own mention:</p>
+<p dir="ltr"><strong>Don’t repeat work within a single request.</strong> If the same query, parse, or transformation runs multiple times during one request’s lifecycle, cache the result in a local variable or a request-scoped service rather than recomputing it on every call site.</p>
+<p dir="ltr"><strong>Avoid shared mutable state under concurrent access.</strong> A single shared counter, dictionary, or buffer that many requests write to simultaneously becomes a bottleneck that scales inversely with traffic. Make the state immutable, partition it by a key that doesn’t serialize requests against each other, or move the update off the hot path entirely.</p>
+<h2 dir="ltr" id="the-guiding-principle">The Guiding Principle</h2>
+<ul dir="ltr">
+<li dir="ltr">Find the hot path with measurement.</li>
+<li dir="ltr">Fix the specific inefficiency the measurement points to.</li>
+<li dir="ltr">Measure again — check whether <a href="/posts/p50-p95-p99-average-latency/" class="wikilink" data-preview="Average response time hides the worst user experiences. P99 can run 100× slower than P50 on the same dataset. What P50, P95, and P99 mean, why they matter, and how to read them together." title="P50, P95, P99, and the Average: What Latency Numbers Actually Tell You">P99 moved</a> — to confirm the change made a real difference.</li>
+<li dir="ltr">Repeat.</li>
+</ul>
+<aside class="tip native-callout" dir="ltr">
+<div class="callout-title" dir="ltr">Tip</div>
+<p dir="ltr">Anything that skips the measurement step is speculation dressed as optimization - and speculation on a hot path is expensive.</p>
+</aside>
+<section data-footnotes="" class="footnotes"><h2 class="sr-only" id="footnote-label">Footnotes</h2>
+<ol>
+<li id="user-content-fn-1">
+<p dir="ltr">Microsoft — Garbage collection fundamentals in .NET. <a href="https://learn.microsoft.com/dotnet/standard/garbage-collection/fundamentals">https://learn.microsoft.com/dotnet/standard/garbage-collection/fundamentals</a> <a href="#user-content-fnref-1" data-footnote-backref="" aria-label="Back to reference 1" class="data-footnote-backref">↩</a></p>
+</li>
+<li id="user-content-fn-2">
+<p dir="ltr">Gregg, B. (2016). The flame graph. <em>Communications of the ACM</em>, 59(6), 48–57. <a href="https://cacm.acm.org/magazines/2016/6/202665-the-flame-graph/fulltext">https://cacm.acm.org/magazines/2016/6/202665-the-flame-graph/fulltext</a> — see also <a href="http://www.brendangregg.com/flamegraphs.html">http://www.brendangregg.com/flamegraphs.html</a> <a href="#user-content-fnref-2" data-footnote-backref="" aria-label="Back to reference 2" class="data-footnote-backref">↩</a></p>
+</li>
+<li id="user-content-fn-3">
+<p dir="ltr">Akinshin, A. (2019). <em>Pro .NET Benchmarking: The Art of Performance Measurement</em>. Apress. BenchmarkDotNet documentation: <a href="https://benchmarkdotnet.org/articles/guides/getting-started.html">https://benchmarkdotnet.org/articles/guides/getting-started.html</a> <a href="#user-content-fnref-3" data-footnote-backref="" aria-label="Back to reference 3" class="data-footnote-backref">↩</a></p>
+</li>
+<li id="user-content-fn-4">
+<p dir="ltr">Toub, S. (2018). Understanding the Whys, Whats, and Whens of ValueTask. Microsoft .NET Blog. <a href="https://devblogs.microsoft.com/dotnet/understanding-the-whys-whats-and-whens-of-valuetask/">https://devblogs.microsoft.com/dotnet/understanding-the-whys-whats-and-whens-of-valuetask/</a> <a href="#user-content-fnref-4" data-footnote-backref="" aria-label="Back to reference 4" class="data-footnote-backref">↩</a></p>
+</li>
+</ol>
+</section></div></div><aside class="reading__rail"><div class="post__toc"><h2 class="post__toc__title">Contents</h2><ul class="post__toc__list toc-tree"><li class="toc-tree__item toc-tree__item--depth-2"><a href="#why-small-inefficiencies-on-hot-paths-add-up">Why Small Inefficiencies on Hot Paths Add Up</a></li><li class="toc-tree__item toc-tree__item--depth-2"><a href="#how-do-you-find-a-hot-path">How Do You Find a Hot Path?</a><ul><li class="toc-tree__item toc-tree__item--depth-3"><a href="#profilers-seeing-where-time-goes">Profilers: Seeing Where Time Goes</a></li><li class="toc-tree__item toc-tree__item--depth-3"><a href="#counters-watching-live-behavior">Counters: Watching Live Behavior</a></li></ul></li><li class="toc-tree__item toc-tree__item--depth-2"><a href="#what-to-fix-the-three-most-common-patterns">What to Fix: The Three Most Common Patterns</a><ul><li class="toc-tree__item toc-tree__item--depth-3"><a href="#reuse-what-doesnt-change-between-calls">Reuse What Doesn’t Change Between Calls</a></li><li class="toc-tree__item toc-tree__item--depth-3"><a href="#run-io-concurrently-not-sequentially">Run I/O Concurrently, Not Sequentially</a></li><li class="toc-tree__item toc-tree__item--depth-3"><a href="#reduce-allocations-with-valuetask-on-synchronous-dominant-paths">Reduce Allocations With ValueTask on Synchronous-Dominant Paths</a><ul><li class="toc-tree__item toc-tree__item--depth-4"><a href="#why-taskt-allocates-at-all">Why Task&lt;T&gt; Allocates at All</a></li><li class="toc-tree__item toc-tree__item--depth-4"><a href="#how-valuetaskt-fixes-it">How ValueTask&lt;T&gt; Fixes It</a></li><li class="toc-tree__item toc-tree__item--depth-4"><a href="#when-the-numbers-actually-move">When the Numbers Actually Move</a></li><li class="toc-tree__item toc-tree__item--depth-4"><a href="#the-constraints-you-cannot-ignore">The Constraints You Cannot Ignore</a></li></ul></li></ul></li><li class="toc-tree__item toc-tree__item--depth-2"><a href="#other-inefficiencies-worth-eliminating">Other Inefficiencies Worth Eliminating</a></li><li class="toc-tree__item toc-tree__item--depth-2"><a href="#the-guiding-principle">The Guiding Principle</a></li><li class="toc-tree__item toc-tree__item--depth-2"><a href="#footnote-label">Footnotes</a></li></ul></div></aside></div><div class="reading-toc-float" data-retracted="true"><button type="button" class="reading-toc-float__toggle" aria-expanded="false" aria-controls="reading-toc-panel"><svg width="1em" height="1em" aria-hidden="true" data-icon="list"><symbol id="ai:local:list" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75"><circle cx="5.25" cy="7" r="1.35" fill="currentColor" stroke="none"/><circle cx="5.25" cy="12" r="1.35" fill="currentColor" stroke="none"/><circle cx="5.25" cy="17" r="1.35" fill="currentColor" stroke="none"/><path d="M9.5 7h10m-10 5h10m-10 5h10"/></g></symbol><use href="#ai:local:list"></use></svg><span>Contents</span></button><div class="reading-toc-float__panel" id="reading-toc-panel" hidden><div class="post__toc"><h2 class="post__toc__title">Contents</h2><ul class="post__toc__list toc-tree"><li class="toc-tree__item toc-tree__item--depth-2"><a href="#why-small-inefficiencies-on-hot-paths-add-up">Why Small Inefficiencies on Hot Paths Add Up</a></li><li class="toc-tree__item toc-tree__item--depth-2"><a href="#how-do-you-find-a-hot-path">How Do You Find a Hot Path?</a><ul><li class="toc-tree__item toc-tree__item--depth-3"><a href="#profilers-seeing-where-time-goes">Profilers: Seeing Where Time Goes</a></li><li class="toc-tree__item toc-tree__item--depth-3"><a href="#counters-watching-live-behavior">Counters: Watching Live Behavior</a></li></ul></li><li class="toc-tree__item toc-tree__item--depth-2"><a href="#what-to-fix-the-three-most-common-patterns">What to Fix: The Three Most Common Patterns</a><ul><li class="toc-tree__item toc-tree__item--depth-3"><a href="#reuse-what-doesnt-change-between-calls">Reuse What Doesn’t Change Between Calls</a></li><li class="toc-tree__item toc-tree__item--depth-3"><a href="#run-io-concurrently-not-sequentially">Run I/O Concurrently, Not Sequentially</a></li><li class="toc-tree__item toc-tree__item--depth-3"><a href="#reduce-allocations-with-valuetask-on-synchronous-dominant-paths">Reduce Allocations With ValueTask on Synchronous-Dominant Paths</a><ul><li class="toc-tree__item toc-tree__item--depth-4"><a href="#why-taskt-allocates-at-all">Why Task&lt;T&gt; Allocates at All</a></li><li class="toc-tree__item toc-tree__item--depth-4"><a href="#how-valuetaskt-fixes-it">How ValueTask&lt;T&gt; Fixes It</a></li><li class="toc-tree__item toc-tree__item--depth-4"><a href="#when-the-numbers-actually-move">When the Numbers Actually Move</a></li><li class="toc-tree__item toc-tree__item--depth-4"><a href="#the-constraints-you-cannot-ignore">The Constraints You Cannot Ignore</a></li></ul></li></ul></li><li class="toc-tree__item toc-tree__item--depth-2"><a href="#other-inefficiencies-worth-eliminating">Other Inefficiencies Worth Eliminating</a></li><li class="toc-tree__item toc-tree__item--depth-2"><a href="#the-guiding-principle">The Guiding Principle</a></li><li class="toc-tree__item toc-tree__item--depth-2"><a href="#footnote-label">Footnotes</a></li></ul></div></div></div><noscript><style>
+          .reading__rail > .post__toc { display: block; }
+          .reading-toc-float { display: none; }
+        </style></noscript><div class="reading__endmatter"><div class="sharerow"><span class="sharerow__kicker">Share</span><div class="sharerow__chips"><a class="sys-pill sharerow__chip" href="https://twitter.com/intent/tweet?url=https%3A%2F%2Ftraceintime.com%2Fposts%2Fhot-path%2F&amp;text=Hot%20Path%3A%20How%20to%20Identify%20and%20Optimize%20It%20in%20.NET" target="_blank" rel="noopener" aria-label="Share on X"><svg width="1em" height="1em" aria-hidden="true" data-icon="simple-icons:x"><symbol id="ai:simple-icons:x" viewBox="0 0 24 24"><path fill="currentColor" d="M14.234 10.162L22.977 0h-2.072l-7.591 8.824L7.251 0H.258l9.168 13.343L.258 24H2.33l8.016-9.318L16.749 24h6.993zm-2.837 3.299l-.929-1.329L3.076 1.56h3.182l5.965 8.532l.929 1.329l7.754 11.09h-3.182z"/></symbol><use href="#ai:simple-icons:x"></use></svg><span>X</span></a><a class="sys-pill sharerow__chip" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Ftraceintime.com%2Fposts%2Fhot-path%2F" target="_blank" rel="noopener" aria-label="Share on LinkedIn"><svg width="1em" height="1em" aria-hidden="true" data-icon="simple-icons:linkedin"><symbol id="ai:simple-icons:linkedin" viewBox="0 0 24 24"><path fill="currentColor" d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037c-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85c3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.06 2.06 0 0 1-2.063-2.065a2.064 2.064 0 1 1 2.063 2.065m1.782 13.019H3.555V9h3.564zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0z"/></symbol><use href="#ai:simple-icons:linkedin"></use></svg><span>LinkedIn</span></a><button class="sys-pill sharerow__chip" type="button" data-copy="https://traceintime.com/posts/hot-path/" data-copied="Copied" aria-label="Copy link"><svg width="1em" height="1em" aria-hidden="true" data-icon="link"><symbol id="ai:local:link" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M13.2 7.3 15 5.5a3.6 3.6 0 0 1 5 5l-1.8 1.8m-7.4 4.4L9 18.5a3.6 3.6 0 0 1-5-5l1.8-1.8m3.9 2.6 4.6-4.6"/></symbol><use href="#ai:local:link"></use></svg><span class="sharerow__copy-label">Copy link</span></button></div></div><script type="module">document.querySelectorAll(`.sharerow__chip[data-copy]`).forEach(e=>{let t=e.querySelector(`.sharerow__copy-label`),n=t?.textContent??``;e.addEventListener(`click`,async()=>{try{await navigator.clipboard.writeText(e.dataset.copy??``),t&&(t.textContent=e.dataset.copied??n),e.classList.add(`is-copied`),setTimeout(()=>{t&&(t.textContent=n),e.classList.remove(`is-copied`)},1600)}catch{}})});</script><nav class="prevnext" aria-label="Post navigation"><a class="prevnext__cell prevnext__cell--prev" href="/posts/p50-p95-p99-average-latency/" rel="prev"><span class="prevnext__label">Previous</span><span class="prevnext__title">P50, P95, P99, and the Average: What Latency Numbers Actually Tell You</span></a><a class="prevnext__cell prevnext__cell--next" href="/posts/my-obsidian-setup/" rel="next"><span class="prevnext__label">Next</span><span class="prevnext__title">How I Use Obsidian as a Thinking Studio</span></a></nav><section class="wiki-footer"><figure class="fg fg--mini wiki-graph" data-force-graph data-variant="mini"><canvas class="fg__canvas" role="img" aria-label="Knowledge graph — drag nodes to explore"></canvas><button type="button" class="fg__mreset" data-fg-mreset aria-label="Reset view and filters" title="Reset view and filters" hidden><svg width="1em" height="1em" aria-hidden="true" data-icon="reset"><symbol id="ai:local:reset" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75"><path d="M4 5v5h5"/><path d="M4 10a8 8 0 1 0 2.6-3.4"/></g></symbol><use href="#ai:local:reset"></use></svg></button><script type="application/json" data-fg-data>{"nodes":[{"id":"posts:2026-03-30-what-is-a-hot-path","title":"Hot Path: How to Identify and Optimize It in .NET","url":"/posts/hot-path/","collection":"posts","kind":"content","tags":["dotnet","performance"],"excerpt":"A hot path is code that runs on every request — small inefficiencies there compound into P99 spikes users actually feel. How to find hot paths with profilers and fix them in .NET."},{"id":"posts:2026-03-30-p50-p95-p99-average-latency","title":"P50, P95, P99, and the Average: What Latency Numbers Actually Tell You","url":"/posts/p50-p95-p99-average-latency/","collection":"posts","kind":"content","tags":["performance","observability"],"excerpt":"Average response time hides the worst user experiences. P99 can run 100× slower than P50 on the same dataset. What P50, P95, and P99 mean, why they matter, and how to read them together."},{"id":"series:async-await-c-sharp/async-vs-parallel-csharp","title":"Async vs Parallel in C#: I/O-Bound vs CPU-Bound Work","url":"/series/async-await/async-vs-parallel-csharp/","collection":"series","kind":"content","tags":["dotnet","async-await","series"],"excerpt":"Async frees threads during I/O waits. Parallel divides CPU work across cores. They solve different problems and should not be swapped. This part explains when to use each and when to combine both."},{"id":"series:async-await-c-sharp/how-async-await-works-csharp","title":"How async/await Works: The C# State Machine Explained","url":"/series/async-await/how-async-await-works-csharp/","collection":"series","kind":"content","tags":["dotnet","async-await","series"],"excerpt":"The compiler transforms every async method into a state machine that suspends at each await and resumes with local variables intact. This part shows what that transformation looks like and what it cos"},{"id":"series:async-await-c-sharp/designing-reliable-async-methods-csharp","title":"How to Design Reliable Async Methods in C#","url":"/series/async-await/designing-reliable-async-methods-csharp/","collection":"series","kind":"content","tags":["dotnet","async-await","series"],"excerpt":"Reliable async methods return Task, accept CancellationToken, and surface failures clearly. This part covers the structural decisions that make async methods composable and predictable for callers."},{"id":"series:async-await-c-sharp/async-await-throughput-responsiveness","title":"How Async/Await Improves Throughput and Responsiveness in C#","url":"/series/async-await/async-await-throughput-responsiveness/","collection":"series","kind":"content","tags":["dotnet","async-await","series"],"excerpt":"Blocking threads during I/O wastes capacity. Async handlers free threads while waiting, so a web API serves more concurrent requests and a desktop app stays responsive during data loads."},{"id":"series:async-await-c-sharp/async-best-practices-csharp","title":"Async Best Practices in C#","url":"/series/async-await/async-best-practices-csharp/","collection":"series","kind":"content","tags":["dotnet","async-await","series"],"excerpt":"A checklist of async habits that prevent the most common bugs: keeping the async chain intact, avoiding .Result, using ConfigureAwait correctly, forwarding CancellationToken, and handling fire-and-for"},{"id":"series:async-await-c-sharp/async-continuations-synchronizationcontext","title":"Continuations and SynchronizationContext in C#","url":"/series/async-await/async-continuations-synchronizationcontext/","collection":"series","kind":"content","tags":["dotnet","async-await","series"],"excerpt":"After an await completes, the method resumes on a thread determined by the captured SynchronizationContext. In UI apps that means the UI thread; in ASP.NET Core it means a thread-pool thread. This is "},{"id":"series:async-await-c-sharp/async-exception-handling-csharp","title":"Exception Handling in Async C# Methods","url":"/series/async-await/async-exception-handling-csharp/","collection":"series","kind":"content","tags":["dotnet","async-await","series"],"excerpt":"Exceptions in async code are captured by the Task and re-thrown at the await point - not where they were thrown. This part covers where to catch them, why async void makes them disappear, and how to h"}],"links":[{"source":"posts:2026-03-30-what-is-a-hot-path","target":"posts:2026-03-30-p50-p95-p99-average-latency","kind":"link"},{"source":"posts:2026-03-30-what-is-a-hot-path","target":"series:async-await-c-sharp/async-vs-parallel-csharp","kind":"link"},{"source":"posts:2026-03-30-what-is-a-hot-path","target":"series:async-await-c-sharp/how-async-await-works-csharp","kind":"link"},{"source":"posts:2026-03-30-what-is-a-hot-path","target":"series:async-await-c-sharp/designing-reliable-async-methods-csharp","kind":"link"},{"source":"posts:2026-03-30-what-is-a-hot-path","target":"series:async-await-c-sharp/async-await-throughput-responsiveness","kind":"link"},{"source":"posts:2026-03-30-what-is-a-hot-path","target":"series:async-await-c-sharp/async-best-practices-csharp","kind":"link"},{"source":"posts:2026-03-30-what-is-a-hot-path","target":"series:async-await-c-sharp/async-continuations-synchronizationcontext","kind":"link"},{"source":"posts:2026-03-30-what-is-a-hot-path","target":"series:async-await-c-sharp/async-exception-handling-csharp","kind":"link"}]}</script></figure><div class="wiki-lists"><div class="wiki-backlinks"><p class="wiki-backlinks__title sys-head">Linked from</p><ul><li><a href="/posts/p50-p95-p99-average-latency/">P50, P95, P99, and the Average: What Latency Numbers Actually Tell You</a></li><li><a href="/series/async-await/designing-reliable-async-methods-csharp/">How to Design Reliable Async Methods in C#</a></li><li><a href="/series/async-await/how-async-await-works-csharp/">How async/await Works: The C# State Machine Explained</a></li></ul></div><div class="wiki-backlinks"><p class="wiki-backlinks__title sys-head">Related</p><ul><li><a href="/posts/p50-p95-p99-average-latency/">P50, P95, P99, and the Average: What Latency Numbers Actually Tell You</a></li><li><a href="/series/async-await/async-await-throughput-responsiveness/">How Async/Await Improves Throughput and Responsiveness in C#</a></li><li><a href="/series/async-await/async-best-practices-csharp/">Async Best Practices in C#</a></li><li><a href="/series/async-await/async-continuations-synchronizationcontext/">Continuations and SynchronizationContext in C#</a></li><li><a href="/series/async-await/async-exception-handling-csharp/">Exception Handling in Async C# Methods</a></li><li><a href="/series/async-await/async-vs-parallel-csharp/">Async vs Parallel in C#: I/O-Bound vs CPU-Bound Work</a></li></ul></div></div></section><script type="module" src="/_astro/WikiFooter.astro_astro_type_script_index_0_lang.CdwahBl2.js"></script><section class="giscus-section" aria-label="Comments"><script>(function(){const g = {"enabled":true,"repo":"imhalawa/trace-in-time","repoId":"R_kgDOThfojQ","category":"General","categoryId":"DIC_kwDOThfojc4DFeEB","mapping":"pathname","strict":"0","reactionsEnabled":"1","emitMetadata":"1","inputPosition":"top","lang":"en"};
+const mapping = undefined;
+const term = undefined;
+
+      (function () {
+        var host = document.currentScript.parentElement;
+        function themeId() {
+          var dark = document.documentElement.hasAttribute('dark');
+          if (dark) return g.theme_dark || 'noborder_dark';
+          return g.theme_light || 'noborder_light';
+        }
+
+        var script = document.createElement('script');
+        script.src = 'https://giscus.app/client.js';
+        script.setAttribute('data-repo', g.repo);
+        script.setAttribute('data-repo-id', g.repoId);
+        script.setAttribute('data-category', g.category);
+        script.setAttribute('data-category-id', g.categoryId);
+        script.setAttribute('data-mapping', mapping || g.mapping || 'pathname');
+        if (term) script.setAttribute('data-term', term);
+        script.setAttribute('data-strict', String(g.strict != null ? g.strict : '0'));
+        script.setAttribute('data-reactions-enabled', String(g.reactionsEnabled != null ? g.reactionsEnabled : '1'));
+        script.setAttribute('data-emit-metadata', String(g.emitMetadata != null ? g.emitMetadata : '0'));
+        script.setAttribute('data-input-position', g.inputPosition || 'top');
+        script.setAttribute('data-theme', themeId());
+        script.setAttribute('data-lang', g.lang || 'en');
+        script.crossOrigin = 'anonymous';
+        script.async = true;
+        host.appendChild(script);
+
+        function sync() {
+          var frame = document.querySelector('iframe.giscus-frame');
+          if (frame && frame.contentWindow) {
+            frame.contentWindow.postMessage(
+              { giscus: { setConfig: { theme: themeId() } } },
+              'https://giscus.app'
+            );
+          }
+        }
+        document.addEventListener('site:themechange', sync);
+        document.addEventListener('site:spacechange', sync);
+        new MutationObserver(sync).observe(document.documentElement, {
+          attributes: true, attributeFilter: ['dark', 'data-space'],
+        });
+      })();
+    })();</script></section></div></article><script type="module">var e=[],t=[],n=[];function r(){if(!n.length)return;let r=window.scrollY+100,i=null;for(let e=n.length-1;e>=0;e--)if(n[e].offsetTop<=r){i=t[e];break}e.forEach(e=>{let t=!!i&&e.getAttribute(`href`)===`#`+i;e.classList.toggle(`toc-active`,t)})}function i(){e=Array.from(document.querySelectorAll(`.post__toc__list a`)),t=[],n=[];for(let r of e){let e=r.getAttribute(`href`)?.replace(`#`,``),i=e?document.getElementById(e):null;e&&i&&i.getClientRects().length>0&&(t.push(e),n.push(i))}r()}var a=null;function o(){a?.disconnect(),a=null;let e=document.querySelector(`.post__content`);e&&(a=new ResizeObserver(()=>r()),a.observe(e))}function s(){return document.querySelector(`.reading-toc-float`)}function c(){return document.querySelector(`.reading-toc-float__toggle`)}function l(){return document.querySelector(`.reading-toc-float__panel`)}function u(e){let t=c(),n=l();t&&n&&(t.setAttribute(`aria-expanded`,e?`true`:`false`),n.hidden=!e)}function d(e=!1){let t=c();t&&t.getAttribute(`aria-expanded`)===`true`&&(u(!1),e&&t.focus())}var f=!1;function p(){f||(f=!0,document.addEventListener(`click`,e=>{let t=e.target,n=t?.closest(`.reading-toc-float__toggle`);if(n){u(n.getAttribute(`aria-expanded`)!==`true`);return}if(t?.closest(`.reading-toc-float__panel a`)){d();return}t?.closest(`.reading-toc-float`)||d()}),document.addEventListener(`keydown`,e=>{e.key===`Escape`&&d(!0)}))}var m=null;function h(){m?.disconnect(),m=null;let e=s(),t=document.querySelector(`.footer`);e&&t&&(m=new IntersectionObserver(t=>{for(let n of t){let t=n.isIntersecting;e.dataset.retracted=t?`true`:`false`,t&&d()}},{rootMargin:`0px 0px 32px 0px`}),m.observe(t))}document.addEventListener(`astro:page-load`,()=>{i(),p(),h(),o(),window.addEventListener(`scroll`,r,{passive:!0})});</script><script type="module">var e=null,t=null;function n(){if(!e&&!t)return;let n=window.pageYOffset,r=document.documentElement.scrollHeight-window.innerHeight,i=r>0?Math.min(100,n/r*100):0;e&&(e.style.width=i+`%`),t&&t.style.setProperty(`--toc-progress`,i.toFixed(1)+`%`)}function r(){if(!document.querySelector(`.post__content`)){e=null,t=null;return}e=document.querySelector(`.reading-progress-bar`),e||(e=document.createElement(`div`),e.className=`reading-progress-bar`,e.setAttribute(`aria-hidden`,`true`),document.body.prepend(e)),t=document.querySelector(`.reading-toc-float`),n()}var i=!1;document.addEventListener(`astro:page-load`,()=>{r(),i||=(window.addEventListener(`scroll`,n,{passive:!0}),window.addEventListener(`resize`,n,{passive:!0}),!0)});</script><script type="module" src="/_astro/_...path_.astro_astro_type_script_index_2_lang.C7ecfZWa.js"></script><script type="module" src="/_astro/_...path_.astro_astro_type_script_index_3_lang.C7ecfZWa.js"></script></div><footer data-astro-transition-persist="site-footer" class="footer"><div class="ft sys-measure"><div class="ft__grid"><div class="ft__identity"><p class="ft__name">Trace in Time</p><p class="ft__blurb" data-content-space="professional">Notes on backend engineering, systems, and the decisions behind them.</p><p class="ft__blurb" data-content-space="personal">Thoughts, photographs, and things worth remembering.</p><ul class="ft__links ft__links--inline"><li data-content-space="professional"><a href="https://linkedin.com/in/imhalawa" target="_blank" rel="noopener">LinkedIn</a></li><li data-content-space="professional"><a href="https://github.com/imhalawa" target="_blank" rel="noopener">Github</a></li><li data-content-space="professional"><a href="/feed.xml">Rss</a></li></ul></div><div class="ft__groups"><div class="ft__group"><p class="ft__label">Menu</p><ul class="ft__links"><li data-content-space="professional"><a href="/articles/">Articles</a></li><li data-content-space="professional"><a href="/series/">Series</a></li><li data-content-space="professional"><a href="/graph/">Graph</a></li><li data-content-space="personal"><a href="/reflections/">Reflections</a></li><li data-content-space="personal"><a href="/journal/">Journal</a></li><li data-content-space="personal"><a href="/gallery/">Gallery</a></li><li><a href="/about/">About</a></li></ul></div><div class="ft__group"><p class="ft__label">Elsewhere</p><ul class="ft__links"><li><a href="/contact/">Contact</a></li><li><a href="/now/">Now</a></li><li><a href="/lists/">Lists</a></li><li><a href="/colophon/">Colophon</a></li></ul></div></div></div><p class="ft__stamp"><span>&copy; 2026 <a href="/">Trace in Time</a></span></p></div></footer></div></div><div data-astro-transition-persist="search-overlay" class="search" inert><div class="search__overlay"></div><div class="search__box" role="dialog" aria-modal="true" aria-label="Search"><div class="search__field"><svg width="1em" height="1em" viewBox="0 0 24 24" class="search__glyph" aria-hidden="true" data-icon="search"><use href="#ai:local:search"></use></svg><label for="js-search-input" class="screen-reader-text">Search the site</label><input type="text" id="js-search-input" class="search__text" autocomplete="off" autocapitalize="off" spellcheck="false" role="combobox" aria-controls="js-search-listbox" aria-expanded="false" aria-autocomplete="list" aria-describedby="js-search-help" placeholder="Search the site"><button type="button" class="search__close sys-pill" aria-label="Close search (Escape)">Esc</button></div><p id="js-search-help" class="screen-reader-text">Type to search. Use the up and down arrow keys to move through results. Press Enter to open the selected result, or Escape to close search.</p><div class="search-results-list" id="js-results-container"></div><div class="search__empty" id="js-search-empty" hidden><div class="empty-state"><h3 class="empty-state__title">No matches</h3><p class="empty-state__message">Nothing matched that query.</p></div></div><p class="search__status screen-reader-text" role="status" aria-live="polite" aria-atomic="true"></p></div></div><script>
+      document.addEventListener('contextmenu', function (event) {
+        if (event.target.closest('img, picture, canvas, .diagram-figure')) event.preventDefault();
+      });
+      document.addEventListener('dragstart', function (event) {
+        if (event.target.closest('img, picture, canvas, .diagram-figure')) event.preventDefault();
+      });
+    </script><script type="module" src="/_astro/BaseLayout.astro_astro_type_script_index_0_lang.CtZYLQan.js"></script><script type="module" src="/_astro/BaseLayout.astro_astro_type_script_index_1_lang.Cet7hlq7.js"></script><script type="module">var e=null,t,n=()=>e?.isConnected?e:(e=document.createElement(`div`),e.className=`wiki-pop`,e.setAttribute(`role`,`tooltip`),document.body.appendChild(e),e),r=e=>{let t=e.getAttribute(`data-preview`);if(!t)return;let r=n();r.textContent=``;let i=document.createElement(`p`);i.className=`wiki-pop__eyebrow`,i.textContent=`// ${e.getAttribute(`title`)??`note`}`;let a=document.createElement(`p`);a.className=`wiki-pop__body`,a.textContent=t,r.append(i,a);let o=e.getBoundingClientRect();r.style.left=`${Math.min(o.left+window.scrollX,window.scrollX+window.innerWidth-320)}px`,r.style.top=`${o.bottom+window.scrollY+8}px`,r.classList.add(`is-open`)},i=()=>{e?.classList.remove(`is-open`)};window.addEventListener(`scroll`,i,{passive:!0});var a=e=>{e.addEventListener(`mouseenter`,()=>{t=window.setTimeout(()=>r(e),250)}),e.addEventListener(`mouseleave`,()=>{window.clearTimeout(t),i()}),e.addEventListener(`focus`,()=>r(e)),e.addEventListener(`blur`,i)};function o(){document.querySelectorAll(`a.wikilink[data-preview]`).forEach(a)}document.addEventListener(`astro:page-load`,o);</script></body></html>

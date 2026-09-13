@@ -1,0 +1,139 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Projects</title><meta name="description" content="Things I’ve built and things I’m still working on."><link rel="canonical" href="https://traceintime.com/lists/projects/"><meta property="og:type" content="website"><meta property="og:site_name" content="Trace in Time"><meta property="og:title" content="Projects"><meta property="og:description" content="Things I’ve built and things I’m still working on."><meta property="og:url" content="https://traceintime.com/lists/projects/"><meta property="og:image" content="https://traceintime.com/images/site_identity/hero.png"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Projects"><meta name="twitter:description" content="Things I’ve built and things I’m still working on."><meta name="twitter:image" content="https://traceintime.com/images/site_identity/hero.png"><script async src="https://www.googletagmanager.com/gtag/js?id=G-1YC6XZCNZP"></script><script>(function(){const gaId = "G-1YC6XZCNZP";
+
+          window.dataLayer = window.dataLayer || [];
+          function gtag() { dataLayer.push(arguments); }
+          gtag('js', new Date());
+          gtag('config', gaId);
+          document.addEventListener('astro:after-swap', function () {
+            gtag('config', gaId, { page_path: location.pathname + location.search });
+          });
+        })();</script><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png"><link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png"><link rel="icon" href="/favicon.ico" sizes="32x32"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><script>
+      (function () {
+        function applyTheme() {
+          try {
+            var theme = localStorage.getItem('theme');
+            if (!theme) theme = 'light';
+            if (theme === 'dark') {
+              document.documentElement.setAttribute('dark', '');
+              document.documentElement.classList.add('dark-mode');
+            } else {
+              document.documentElement.removeAttribute('dark');
+              document.documentElement.classList.remove('dark-mode');
+            }
+          } catch (error) {}
+        }
+
+        // Server-value-wins: Astro's `ClientRouter` does NOT reliably copy
+        // the incoming page's <html data-space="..."> attribute onto the
+        // live `document.documentElement` before `astro:after-swap` fires,
+        // so reading the live DOM at that point is not trustworthy. Instead
+        // we grab the incoming page's value straight from the transitions
+        // API: `astro:before-swap` exposes `event.newDocument`, a full
+        // Document for the page about to be swapped in, whose <html>
+        // already carries whatever `data-space` the server rendered for
+        // THAT page. We stash it there and apply it on `astro:after-swap`.
+        // On the very first load no swap has happened yet, so `incomingSpace`
+        // is still undefined — in that case we fall back to reading the
+        // live DOM directly, which IS reliable on first paint since it's
+        // literally what the browser just parsed.
+        var incomingSpace;
+
+        function readIncomingSpace(event) {
+          incomingSpace = event.newDocument.documentElement.getAttribute('data-space');
+        }
+
+        function applySpace() {
+          try {
+            var current = incomingSpace !== undefined
+              ? incomingSpace
+              : document.documentElement.getAttribute('data-space');
+            if (current === 'professional' || current === 'personal') {
+              document.documentElement.setAttribute('data-space', current);
+              localStorage.setItem('space', current);
+            } else {
+              var storedSpace = localStorage.getItem('space');
+              if (storedSpace !== 'personal' && storedSpace !== 'professional') storedSpace = 'professional';
+              document.documentElement.setAttribute('data-space', storedSpace);
+            }
+          } catch (error) {
+            if (!document.documentElement.hasAttribute('data-space')) {
+              document.documentElement.setAttribute('data-space', 'professional');
+            }
+          } finally {
+            incomingSpace = undefined;
+          }
+        }
+
+        function applyReadingState() {
+          applyTheme();
+          applySpace();
+        }
+
+        applyReadingState();
+        document.addEventListener('astro:before-swap', readIncomingSpace);
+        document.addEventListener('astro:after-swap', applyReadingState);
+      })();
+    </script><meta name="astro-view-transitions-enabled" content="true"><meta name="astro-view-transitions-fallback" content="animate"><script type="module" src="/_astro/ClientRouter.astro_astro_type_script_index_0_lang.CYDbzu1r.js"></script><link rel="stylesheet" href="/_astro/BaseLayout.a_o7jIgj.css"></head><body><div class="global-wrap"><div class="header-curtain" aria-hidden="true"></div><div class="spine"><div data-astro-transition-persist="header-sentinel" id="header-top-sentinel" aria-hidden="true"></div><header data-astro-transition-persist="site-header" class="header"><div class="header__inner sys-measure"><div class="logo"><a class="logo__link" href="/"><svg width="1em" height="1em" class="logo__mark" data-content-space="professional" aria-hidden="true" data-icon="trace"><symbol id="ai:local:trace" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75"><path d="M3.5 6v11.5A2.5 2.5 0 0 0 6 20h11.5"/><path d="m6.5 16 4.5-2.5 4-4L20.5 4"/></g></symbol><use href="#ai:local:trace"></use></svg><svg width="1em" height="1em" class="logo__mark" data-content-space="personal" aria-hidden="true" data-icon="trace-life"><symbol id="ai:local:trace-life" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75"><path d="M3.5 6v11.5A2.5 2.5 0 0 0 6 20h11.5"/><path d="M6.5 16 11 9.5l4 4L20.5 4"/></g></symbol><use href="#ai:local:trace-life"></use></svg><span class="logo__word">Trace in Time</span></a></div><nav class="main-nav" aria-label="Main menu"><div class="main-nav__box"><ul class="nav__list list-reset"><li class="nav__item" data-content-space="professional"><a href="/articles/" class="nav__link"><svg width="1em" height="1em" class="nav__icon" aria-hidden="true" data-icon="post"><symbol id="ai:local:post" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75"><path d="M13.5 4h-5A2.5 2.5 0 0 0 6 6.5v11A2.5 2.5 0 0 0 8.5 20h7a2.5 2.5 0 0 0 2.5-2.5v-9Z"/><path d="M13.5 4v4.5H18M9.5 13h5m-5 3.5h3"/></g></symbol><use href="#ai:local:post"></use></svg><span class="nav__name">Articles</span><span class="nav__count">4</span></a></li><li class="nav__item" data-content-space="professional"><a href="/series/" class="nav__link"><svg width="1em" height="1em" class="nav__icon" aria-hidden="true" data-icon="layers"><symbol id="ai:local:layers" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75"><rect width="11.5" height="11.5" x="8" y="8" rx="2.5"/><path d="M16.5 8V7A2.5 2.5 0 0 0 14 4.5H7A2.5 2.5 0 0 0 4.5 7v7A2.5 2.5 0 0 0 7 16.5h1"/></g></symbol><use href="#ai:local:layers"></use></svg><span class="nav__name">Series</span><span class="nav__count">2</span></a></li><li class="nav__item" data-content-space="professional"><a href="/graph/" class="nav__link"><svg width="1em" height="1em" class="nav__icon" aria-hidden="true" data-icon="network"><symbol id="ai:local:network" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75"><circle cx="12" cy="5" r="2.25"/><circle cx="5.5" cy="18.5" r="2.25"/><circle cx="18.5" cy="18.5" r="2.25"/><path d="m10.9 7-4.3 9.5M13.1 7l4.3 9.5m-9.65 2h8.5"/></g></symbol><use href="#ai:local:network"></use></svg><span class="nav__name">Graph</span></a></li><li class="nav__item" data-content-space="personal"><a href="/reflections/" class="nav__link"><svg width="1em" height="1em" viewBox="0 0 24 24" class="nav__icon" aria-hidden="true" data-icon="post"><use href="#ai:local:post"></use></svg><span class="nav__name">Reflections</span><span class="nav__count">0</span></a></li><li class="nav__item" data-content-space="personal"><a href="/journal/" class="nav__link"><svg width="1em" height="1em" class="nav__icon" aria-hidden="true" data-icon="zap"><symbol id="ai:local:zap" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M13 3 5.5 13.25H11L10 21l8.5-10.5H13Z"/></symbol><use href="#ai:local:zap"></use></svg><span class="nav__name">Journal</span><span class="nav__count">4</span></a></li><li class="nav__item" data-content-space="personal"><a href="/gallery/" class="nav__link"><svg width="1em" height="1em" class="nav__icon" aria-hidden="true" data-icon="image"><symbol id="ai:local:image" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"><rect width="18" height="16" x="3" y="4" rx="2"/><circle cx="8.5" cy="9" r="1.5"/><path d="m4 18 5.5-5.5a2 2 0 0 1 2.8 0L15 15l1.5-1.5a2 2 0 0 1 2.8 0l1.7 1.7"/></g></symbol><use href="#ai:local:image"></use></svg><span class="nav__name">Gallery</span><span class="nav__count">0</span></a></li><li class="nav__item"><a href="/about/" class="nav__link"><svg width="1em" height="1em" class="nav__icon" aria-hidden="true" data-icon="user"><symbol id="ai:local:user" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75"><circle cx="12" cy="8.5" r="3.5"/><path d="M5.5 19.5a6.5 6.5 0 0 1 13 0"/></g></symbol><use href="#ai:local:user"></use></svg><span class="nav__name">About</span></a></li></ul></div></nav><div class="nav-button"><div class="space-switch" role="group" aria-label="Space"><button type="button" class="space-switch__btn" data-space-btn="professional" aria-pressed="false">Work</button><button type="button" class="space-switch__btn" data-space-btn="personal" aria-pressed="false">Life</button></div><script type="module">function e(){let e=document.documentElement.getAttribute(`data-space`);document.querySelectorAll(`.space-switch [data-space-btn]`).forEach(t=>{t.setAttribute(`aria-pressed`,String(t.dataset.spaceBtn===e))})}function t(){document.querySelectorAll(`.space-switch [data-space-btn]`).forEach(e=>{e.dataset.spaceWired||(e.dataset.spaceWired=`1`,e.addEventListener(`click`,()=>{let t=e.dataset.spaceBtn;if((t===`professional`||t===`personal`)&&document.documentElement.getAttribute(`data-space`)!==t){try{localStorage.setItem(`space`,t)}catch{}window.location.assign(`/`)}}))}),e()}t(),document.addEventListener(`astro:page-load`,t);</script><div class="nav-button__tools"><button class="search-button sys-control" aria-label="Search posts"><svg width="1em" height="1em" class="search-button__icon" aria-hidden="true" data-icon="search"><symbol id="ai:local:search" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75"><circle cx="10.75" cy="10.75" r="6.25"/><path d="M15.2 15.2 20 20"/></g></symbol><use href="#ai:local:search"></use></svg><span class="search-button__text">Search posts...</span></button><div class="color-scheme-button"><div class="toggle-theme sys-control"><div class="toggle-moon" title="Enable dark mode" aria-hidden="true"><svg width="1em" height="1em" aria-hidden="true" data-icon="moon"><symbol id="ai:local:moon" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M12 3.5a6.25 6.25 0 0 0 8.5 8.5A8.5 8.5 0 1 1 12 3.5"/></symbol><use href="#ai:local:moon"></use></svg></div><div class="toggle-sun" title="Enable light mode" aria-hidden="true"><svg width="1em" height="1em" aria-hidden="true" data-icon="sun"><symbol id="ai:local:sun" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75"><circle cx="12" cy="12" r="4"/><path d="M18.6 12h2.6m-4.53 4.67 1.84 1.84M12 18.6v2.6m-4.67-4.53-1.84 1.84M5.4 12H2.8m4.53-4.67L5.49 5.49M12 5.4V2.8m4.67 4.53 1.84-1.84"/></g></symbol><use href="#ai:local:sun"></use></svg></div></div></div></div><div class="hamburger"><div></div></div></div></div></header><script type="module">function e(){}document.addEventListener(`astro:page-load`,e);</script><script>
+  (function () {
+    function markActive() {
+      var path = location.pathname.replace(/\/+$/, '') || '/';
+      document.querySelectorAll('.header .nav__link').forEach(function (anchor) {
+        var raw = anchor.getAttribute('href') || '';
+        var normalizedHref = raw.replace(/\/+$/, '') || '/';
+        var isActive = normalizedHref !== '/' && (path === normalizedHref || path.indexOf(normalizedHref + '/') === 0);
+        anchor.classList.toggle('active-link', isActive);
+      });
+    }
+    markActive();
+    document.addEventListener('astro:page-load', markActive);
+  })();
+</script><div class="content"><div class="projects-index"><div class="sys-measure projects-index__inner"><header class="page-header"><div class="page-header__row"><h1 class="page-header__title">Projects<span class="page-header__count" data-content-space="professional">1</span></h1></div><p class="page-header__lead">Things I’ve built and things I’m still working on.</p></header><aside class="sys-card projects-index__hire" data-content-space="professional"><div class="projects-index__hire-text"><p class="projects-index__hire-title">Open to the right opportunity.</p><p class="projects-index__hire-sub">If you're building something interesting and think I'd be a good fit, I'd love to hear about it.</p></div><div class="projects-index__hire-actions"><a class="sys-pill" href="mailto:imhalawa@outlook.com">Let's talk</a><a class="sys-pill" href="https://linkedin.com/in/imhalawa" target="_blank" rel="noopener noreferrer">LinkedIn</a></div></aside><div class="projects-toolbar"><p class="projects-toolbar__count" data-content-space="professional"><span data-projects-count="professional">1</span> project<span data-projects-plural="professional"></span></p><p class="projects-toolbar__count" data-content-space="personal"><span data-projects-count="personal">0</span> project<span data-projects-plural="personal">s</span></p></div><section class="projects-index__group" data-content-space="professional"><ul class="post-list projects-index__list"><li class="projects-index__item" data-projects-item data-topic="web" data-space="professional"><div class="post-card" data-content-space="professional"><span class="post-card__body"><a class="post-card__title" href="/projects/trace-in-time/">trace-in-time</a><span class="post-card__foot"><span class="post-card__state"><span class="sys-pill badge badge--solid" style="--bdg:var(--sys-ink-soft);--bdg-line:var(--sys-rule);">active</span></span><span class="post-card__tags"><a class="post-card__tag" href="/tags/?tag=astro">Astro</a><a class="post-card__tag" href="/tags/?tag=typescript">TypeScript</a><a class="post-card__tag" href="/tags/?tag=scss">SCSS</a></span></span></span></div></li></ul></section><div data-projects-filter-empty="professional" data-content-space="professional" hidden aria-live="polite"><div class="empty-state"><svg width="1em" height="1em" class="empty-state__icon" aria-hidden="true" data-icon="project"><symbol id="ai:local:project" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M4.5 17.5v-10A2.5 2.5 0 0 1 7 5h3.5l2 2.5H17a2.5 2.5 0 0 1 2.5 2.5v7.5A2.5 2.5 0 0 1 17 20H7a2.5 2.5 0 0 1-2.5-2.5"/></symbol><use href="#ai:local:project"></use></svg><h3 class="empty-state__title">Nothing matches this filter</h3><p class="empty-state__message">No project here is filed under that topic. Choose All to see them again.</p></div></div><div data-content-space="personal"><div class="empty-state"><svg width="1em" height="1em" viewBox="0 0 24 24" class="empty-state__icon" aria-hidden="true" data-icon="project"><use href="#ai:local:project"></use></svg><h3 class="empty-state__title">Nothing built here yet</h3><p class="empty-state__message">Projects appear here as they get shipped or written up. Until then, the newest of everything is on the home page.</p><div class="empty-state__action"><a href="/">Back to the home page</a></div></div></div></div></div><script>
+    (function () {
+      'use strict';
+
+      var items    = document.querySelectorAll('[data-projects-item]');
+      var buttons  = document.querySelectorAll('.projects-toolbar__btn');
+      var counters = document.querySelectorAll('[data-projects-count]');
+      var plurals  = document.querySelectorAll('[data-projects-plural]');
+      var empties  = document.querySelectorAll('[data-projects-filter-empty]');
+      var filter   = 'all';
+
+      function apply() {
+        var visible = { professional: 0, personal: 0 };
+
+        items.forEach(function (item) {
+          var match = filter === 'all' || item.dataset.topic === filter;
+          item.classList.toggle('projects-index__item--hidden', !match);
+          if (match && visible.hasOwnProperty(item.dataset.space)) visible[item.dataset.space]++;
+        });
+
+        counters.forEach(function (countEl) {
+          countEl.textContent = visible[countEl.dataset.projectsCount];
+        });
+        plurals.forEach(function (pluralEl) {
+          pluralEl.textContent = visible[pluralEl.dataset.projectsPlural] === 1 ? '' : 's';
+        });
+        empties.forEach(function (emptyEl) {
+          emptyEl.hidden = visible[emptyEl.dataset.projectsFilterEmpty] !== 0;
+        });
+      }
+
+      buttons.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          buttons.forEach(function (otherBtn) { otherBtn.setAttribute('aria-pressed', 'false'); });
+          btn.setAttribute('aria-pressed', 'true');
+          filter = btn.dataset.filter;
+          apply();
+        });
+      });
+
+      apply();
+    }());
+  </script></div><footer data-astro-transition-persist="site-footer" class="footer"><div class="ft sys-measure"><div class="ft__grid"><div class="ft__identity"><p class="ft__name">Trace in Time</p><p class="ft__blurb" data-content-space="professional">Notes on backend engineering, systems, and the decisions behind them.</p><p class="ft__blurb" data-content-space="personal">Thoughts, photographs, and things worth remembering.</p><ul class="ft__links ft__links--inline"><li data-content-space="professional"><a href="https://linkedin.com/in/imhalawa" target="_blank" rel="noopener">LinkedIn</a></li><li data-content-space="professional"><a href="https://github.com/imhalawa" target="_blank" rel="noopener">Github</a></li><li data-content-space="professional"><a href="/feed.xml">Rss</a></li></ul></div><div class="ft__groups"><div class="ft__group"><p class="ft__label">Menu</p><ul class="ft__links"><li data-content-space="professional"><a href="/articles/">Articles</a></li><li data-content-space="professional"><a href="/series/">Series</a></li><li data-content-space="professional"><a href="/graph/">Graph</a></li><li data-content-space="personal"><a href="/reflections/">Reflections</a></li><li data-content-space="personal"><a href="/journal/">Journal</a></li><li data-content-space="personal"><a href="/gallery/">Gallery</a></li><li><a href="/about/">About</a></li></ul></div><div class="ft__group"><p class="ft__label">Elsewhere</p><ul class="ft__links"><li><a href="/contact/">Contact</a></li><li><a href="/now/">Now</a></li><li><a href="/lists/">Lists</a></li><li><a href="/colophon/">Colophon</a></li></ul></div></div></div><p class="ft__stamp"><span>&copy; 2026 <a href="/">Trace in Time</a></span></p></div></footer></div></div><div data-astro-transition-persist="search-overlay" class="search" inert><div class="search__overlay"></div><div class="search__box" role="dialog" aria-modal="true" aria-label="Search"><div class="search__field"><svg width="1em" height="1em" viewBox="0 0 24 24" class="search__glyph" aria-hidden="true" data-icon="search"><use href="#ai:local:search"></use></svg><label for="js-search-input" class="screen-reader-text">Search the site</label><input type="text" id="js-search-input" class="search__text" autocomplete="off" autocapitalize="off" spellcheck="false" role="combobox" aria-controls="js-search-listbox" aria-expanded="false" aria-autocomplete="list" aria-describedby="js-search-help" placeholder="Search the site"><button type="button" class="search__close sys-pill" aria-label="Close search (Escape)">Esc</button></div><p id="js-search-help" class="screen-reader-text">Type to search. Use the up and down arrow keys to move through results. Press Enter to open the selected result, or Escape to close search.</p><div class="search-results-list" id="js-results-container"></div><div class="search__empty" id="js-search-empty" hidden><div class="empty-state"><h3 class="empty-state__title">No matches</h3><p class="empty-state__message">Nothing matched that query.</p></div></div><p class="search__status screen-reader-text" role="status" aria-live="polite" aria-atomic="true"></p></div></div><script>
+      document.addEventListener('contextmenu', function (event) {
+        if (event.target.closest('img, picture, canvas, .diagram-figure')) event.preventDefault();
+      });
+      document.addEventListener('dragstart', function (event) {
+        if (event.target.closest('img, picture, canvas, .diagram-figure')) event.preventDefault();
+      });
+    </script><script type="module" src="/_astro/BaseLayout.astro_astro_type_script_index_0_lang.CtZYLQan.js"></script><script type="module" src="/_astro/BaseLayout.astro_astro_type_script_index_1_lang.Cet7hlq7.js"></script><script type="module">var e=null,t,n=()=>e?.isConnected?e:(e=document.createElement(`div`),e.className=`wiki-pop`,e.setAttribute(`role`,`tooltip`),document.body.appendChild(e),e),r=e=>{let t=e.getAttribute(`data-preview`);if(!t)return;let r=n();r.textContent=``;let i=document.createElement(`p`);i.className=`wiki-pop__eyebrow`,i.textContent=`// ${e.getAttribute(`title`)??`note`}`;let a=document.createElement(`p`);a.className=`wiki-pop__body`,a.textContent=t,r.append(i,a);let o=e.getBoundingClientRect();r.style.left=`${Math.min(o.left+window.scrollX,window.scrollX+window.innerWidth-320)}px`,r.style.top=`${o.bottom+window.scrollY+8}px`,r.classList.add(`is-open`)},i=()=>{e?.classList.remove(`is-open`)};window.addEventListener(`scroll`,i,{passive:!0});var a=e=>{e.addEventListener(`mouseenter`,()=>{t=window.setTimeout(()=>r(e),250)}),e.addEventListener(`mouseleave`,()=>{window.clearTimeout(t),i()}),e.addEventListener(`focus`,()=>r(e)),e.addEventListener(`blur`,i)};function o(){document.querySelectorAll(`a.wikilink[data-preview]`).forEach(a)}document.addEventListener(`astro:page-load`,o);</script></body></html>
