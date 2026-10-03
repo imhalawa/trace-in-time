@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
+  <!--
+    The Work mark (src/icons/trace.svg), in the favicon's small-size variant.
+    See docs/identity/icons.md, "Site mark".
+
+    Two departures from src/icons/trace.svg, both because this renders at
+    16-32px in browser chrome rather than 26px in the page:
+      - stroke 2.2, not 1.75 — a hairline disappears in a tab strip.
+      - explicit colours, not currentColor — chrome gives an SVG favicon no
+        inheritable colour, so the theme is resolved here via
+        prefers-color-scheme. Ink #0d0d0d on light chrome, paper #ececec on
+        dark. These are the design system's own ink and paper; the previous
+        #16335f / #e8eef7 pair belonged to the RETIRED identity.
+
+    Only this SVG adapts to the theme. favicon-32.png, favicon-16.png,
+    favicon.ico and apple-touch-icon.png are still the OLD zigzag mark in the
+    old ink and need regenerating — see the open item in docs/identity/icons.md.
+  -->
+  <style>
+    :root { --c: #0d0d0d; }
+    @media (prefers-color-scheme: dark) { :root { --c: #ececec; } }
+    path { stroke: var(--c); }
+  </style>
+  <g stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3.5 6v11.5A2.5 2.5 0 0 0 6 20h11.5"/>
+    <path d="M6.5 16 11 13.5 15 9.5 20.5 4"/>
+  </g>
+</svg>
