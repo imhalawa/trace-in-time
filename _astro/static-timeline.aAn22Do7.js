@@ -1,0 +1,1 @@
+var e=`0px 0px 600px`;function t(e,t,n){let r=t&&Object.hasOwn(n,t)?n[t]:void 0;return e.draft&&!r?.draft||Object.hasOwn(n,e.id)&&n[e.id].permalink?!1:t?r?.ids.includes(e.id)??!1:e.type!==`query`&&e.type!==`page`}export{t as n,e as t};

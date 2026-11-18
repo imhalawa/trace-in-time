@@ -1,0 +1,1 @@
+import{t as e}from"./react.B54jxNxs.js";import{n as t,r as n}from"./analytics.QGmoyXRX.js";var r=e();function i({projectId:e,measurementId:i}){return(0,r.useEffect)(()=>{e&&t(e),i&&n(i)},[e,i]),null}export{i as AnalyticsLoader};
